@@ -1,7 +1,10 @@
 param([ValidateSet('syn','phy')][string]$Stage='syn',[string]$Tag='candidate',[switch]$GenerateBitstream,
-      [ValidateSet('on','off','high')][string]$LutStructure='off')
+      [ValidateSet('on','off','high')][string]$LutStructure='off',[string]$SynthesisTag='')
 $ErrorActionPreference='Stop'
 if ($Tag -notmatch '^[a-zA-Z][a-zA-Z0-9_]*$') { throw 'Invalid tag' }
+if ($SynthesisTag -and $SynthesisTag -notmatch '^[a-zA-Z][a-zA-Z0-9_]*$') { throw 'Invalid synthesis tag' }
+if ($SynthesisTag -and $Stage -ne 'phy') { throw 'SynthesisTag is only valid for the phy stage' }
+if (!$SynthesisTag) { $SynthesisTag=$Tag }
 if ($GenerateBitstream -and $Stage -ne 'phy') { throw 'Bitstream generation requires the phy stage' }
 $project=Split-Path $PSScriptRoot -Parent
 $baseline=Join-Path (Split-Path $project -Parent) 'music_screen_area_opt'
@@ -12,9 +15,9 @@ if (Test-Path $run) {throw "Preserve existing build: $run"}
 New-Item -ItemType Directory -Path $run -Force | Out-Null
 $utf8=New-Object System.Text.UTF8Encoding($false)
 $manifest=[System.Collections.Generic.List[object]]::new()
-$prj=Get-Content (Join-Path $template 'skeleton.prj') -Raw
+$prj=Get-Content (Join-Path $template 'skeleton.prj') -Raw -Encoding UTF8
 $order=80
-foreach($name in @('fetch_line_scene','scene_fade','scene_blend','px_arb5')) {
+foreach($name in @('fetch_line_scene','scene_raster','fetch_writer4','scene_fade','scene_blend','px_arb5')) {
     $prj=$prj.Replace('</Verilog>',"<File Path=`"../../../rtl/gfx/$name.v`"><FileInfo><Attr Name=`"UsedInSyn`" Val=`"true`"/><Attr Name=`"UsedInP&R`" Val=`"true`"/><Attr Name=`"BelongTo`" Val=`"design_1`"/><Attr Name=`"CompileOrder`" Val=`"$order`"/></FileInfo></File></Verilog>")
     $order++
 }
@@ -26,30 +29,36 @@ $prj=[regex]::Replace($prj,'<File Path="([^"]+)"',{
     '<File Path="'+$path.Replace('\','/')+'"'
 })
 [IO.File]::WriteAllText((Join-Path $run 'skeleton.prj'),$prj,$utf8)
-$cfg=Get-Content (Join-Path $template 'settings.cfg') -Raw
+$cfg=Get-Content (Join-Path $template 'settings.cfg') -Raw -Encoding UTF8
 $cfg=$cfg.Replace('../../../constraints/',$project.Replace('\','/')+'/constraints/')
 $cfg=$cfg.Replace('add_map_lut_struct high',"add_map_lut_struct $LutStructure")
 if ($Stage -eq 'phy') {
-    $syn=Join-Path $project "prj/td_build/${Tag}_syn"
-    $inputs=Get-Content (Join-Path $syn 'inputs.json') -Raw | ConvertFrom-Json
+    $syn=Join-Path $project "prj/td_build/${SynthesisTag}_syn"
+    $inputs=Get-Content (Join-Path $syn 'inputs.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     # Implementation must use the mapping configuration recorded at synthesis.
     if ($inputs.PSObject.Properties.Name -contains 'lut_structure') {
         $LutStructure=$inputs.lut_structure
         $cfg=[regex]::Replace($cfg,'add_map_lut_struct (on|off|high)',"add_map_lut_struct $LutStructure")
     }
     foreach($item in $inputs.sources) {if ((Get-FileHash $item.path).Hash -ne $item.sha256) {throw "Changed since synthesis: $($item.path)"}}
-    $cfg=$cfg.Replace('set parent ../timing_repair_v3_syn',"set parent ../${Tag}_syn")
+    $cfg=$cfg.Replace('set parent ../timing_repair_v3_syn',"set parent ../${SynthesisTag}_syn")
     if (!$GenerateBitstream) {$cfg=$cfg.Replace('set end_step bitgen','set end_step opt_route')}
 }
 [IO.File]::WriteAllText((Join-Path $run 'settings.cfg'),$cfg,$utf8)
-$tcl=Get-Content (Join-Path $template 'skeleton.tcl') -Raw
+$tcl=Get-Content (Join-Path $template 'skeleton.tcl') -Raw -Encoding UTF8
 if ($Stage -eq 'phy') {$tcl=$tcl.Replace('update_timing -mode final',"update_timing -mode final`n report_qor -step route -file route.qor`n report_timing_summary -file final_timing.rpt")}
 [IO.File]::WriteAllText((Join-Path $run 'skeleton.tcl'),$tcl,$utf8)
 $buildFiles=@('skeleton.prj','settings.cfg','skeleton.tcl') | ForEach-Object {
     $path=Join-Path $run $_
     @{path=$path;sha256=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash}
 }
-[IO.File]::WriteAllText((Join-Path $run 'inputs.json'),(@{time=(Get-Date).ToString('o');stage=$Stage;seed=3;lut_structure=$LutStructure;generate_bitstream=[bool]$GenerateBitstream;sources=$manifest;build_files=$buildFiles;script_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash}|ConvertTo-Json -Depth 6),$utf8)
+$inputRecord=@{time=(Get-Date).ToString('o');stage=$Stage;seed=3;lut_structure=$LutStructure;generate_bitstream=[bool]$GenerateBitstream;sources=$manifest;build_files=$buildFiles;script_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash}
+if ($Stage -eq 'phy') {
+    $inputRecord.synthesis_tag=$SynthesisTag
+    $inputRecord.synthesis_inputs=@{path=(Join-Path $syn 'inputs.json');sha256=(Get-FileHash -LiteralPath (Join-Path $syn 'inputs.json') -Algorithm SHA256).Hash}
+    $inputRecord.synthesis_netlist=@{path=(Join-Path $syn 'skeleton_gate.db');sha256=(Get-FileHash -LiteralPath (Join-Path $syn 'skeleton_gate.db') -Algorithm SHA256).Hash}
+}
+[IO.File]::WriteAllText((Join-Path $run 'inputs.json'),($inputRecord|ConvertTo-Json -Depth 6),$utf8)
 Push-Location $run
 $previousSeed=$env:PL_SEED
 try {

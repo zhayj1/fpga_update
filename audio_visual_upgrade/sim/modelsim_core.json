@@ -128,6 +128,14 @@
           "language": "verilog"
         },
         {
+          "path": "rtl/gfx/scene_raster.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/fetch_writer4.v",
+          "language": "verilog"
+        },
+        {
           "path": "rtl/gfx/layer_bg.v",
           "language": "verilog"
         },

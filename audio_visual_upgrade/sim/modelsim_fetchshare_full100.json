@@ -1,0 +1,81 @@
+{
+  "dut_top": "work.layer_bg",
+  "tb_top": "work.tb_display_fetchshare",
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [
+        "ip/sdram",
+        "rtl/video"
+      ],
+      "defines": [
+        "SIM_DEVICE_MODEL"
+      ],
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/IS42s32200.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdr_as_ram.enc.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdr_wrrd.enc.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdr_init_ref.enc.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdram_top.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/mem/sdram_arb.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/video/color_bar.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/fetch_line_scene.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/scene_raster.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/fetch_writer4.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_bg.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/px_arb5.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/tb_display_fetchshare.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ],
+  "tb_parameters": {
+    "PHYSICAL": 0,
+    "LINES": 480,
+    "COVER_LINES": 240,
+    "SDR_HALF": 5,
+    "SDR_SHIFT": 5
+  }
+}

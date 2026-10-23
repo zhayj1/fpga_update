@@ -1,0 +1,108 @@
+# Model Technology ModelSim SE-64 vmap 10.6e Lib Mapping Utility 2018.06 Jun 23 2018
+# vmap -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/work 
+# Modifying D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 13:09:22 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/load_writeback.v 
+# -- Compiling module load_writeback
+# 
+# Top level modules:
+# 	load_writeback
+# End time: 13:09:22 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 13:09:22 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_1024.v 
+# -- Compiling module afifo_8i_32o_1024
+# -- Compiling module fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# -- Compiling module ram_infer_afifo_8i_32o_1024
+# 
+# Top level modules:
+# 	afifo_8i_32o_1024
+# End time: 13:09:22 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 13:09:22 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_bram.v 
+# -- Compiling module afifo_8i_32o_bram
+# 
+# Top level modules:
+# 	afifo_8i_32o_bram
+# End time: 13:09:22 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 13:09:22 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v 
+# 
+# Top level modules:
+# End time: 13:09:22 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 13:09:22 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/font_load.v 
+# -- Compiling module font_load
+# 
+# Top level modules:
+# 	font_load
+# End time: 13:09:22 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 13:09:22 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v 
+# -- Compiling module tb_font_load
+# 
+# Top level modules:
+# 	tb_font_load
+# End time: 13:09:23 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# reading D:/modeltech64_10.6e/win64/../modelsim.ini
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.font_load 
+# Start time: 13:09:23 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/work.font_load
+# Loading work.font_load
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/work.load_writeback
+# Loading work.load_writeback
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/work.afifo_8i_32o_bram
+# Loading work.afifo_8i_32o_bram
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# Loading work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# End time: 13:09:25 on Oct 23,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_font_load 
+# Start time: 13:09:25 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/work.tb_font_load
+# Loading work.tb_font_load
+# Loading work.font_load
+# Loading work.load_writeback
+# Loading work.afifo_8i_32o_bram
+# Loading work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Too few port connections. Expected 42, found 29.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_font_load/u_dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/font_load.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_full_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'backend_done_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'slot_words'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_flush_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_we_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_di_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_valid_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_first_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_words_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_wpr_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_down_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_valid_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_words_ext'.

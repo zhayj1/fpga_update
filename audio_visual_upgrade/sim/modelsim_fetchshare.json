@@ -1,0 +1,7 @@
+{"dut_top":"work.fetch_writer4","tb_top":"work.tb_fetch_writer4","libraries":[{"name":"work","sources":[
+ {"path":"sim/vendor/eg4/eg_logic_bram.v","language":"verilog"},
+ {"path":"rtl/gfx/fetch_line_scene.v","language":"verilog"},
+ {"path":"rtl/gfx/fetch_writer4.v","language":"verilog"},
+ {"path":"rtl/gfx/px_arb5.v","language":"verilog"},
+ {"path":"tb/tb_fetch_writer4.v","language":"verilog"}
+]}]}

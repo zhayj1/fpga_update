@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792736495.203831,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.fetch_line_scene",
+    "tb_top": "work.tb_fetch_recovery",
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/fetch_line_scene.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_fetch_recovery.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "valid_row",
+    "late_row_discard_and_recovery",
+    "truncated_burst_rejected",
+    "old_frame_discard",
+    "disable_and_reset_recovery"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line_scene.v": "6b14a00788f61596e99f772c82e4f7623982a853563c1144a2c5c7b8d6556cd9",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_recovery.json": "384d1aff6ef61fbe3751cd62d402b8cb3509a3456a0080026b6390cd89ff5cb9",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_recovery.json": "9d9b1213fab2bab4b889c3155bc6ae0bbe1cc2aae808e13a8d9ed06b8b27d267",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v": "40ae7abc4ae7670f7f4b94883a46594e26ea6872d8b8c2201653b2dea396df6b"
+  },
+  "command": [
+    "D:/modeltech64_10.6e/win64/vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/bb89ab426ddb4c0cb19d065f82e1d10b/run.do\""
+  ],
+  "script": "sim/modelsim/bb89ab426ddb4c0cb19d065f82e1d10b/run.do",
+  "compile_log": "sim/area_fetchshare_recovery_compile.log",
+  "sim_log": "sim/area_fetchshare_recovery_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Too few port connections. Expected 39, found 31.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_take'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_active'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_done'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_error'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_we'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_good'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_addr'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'next_bank'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Too few port connections. Expected 39, found 31.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_take'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_active'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_done'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_error'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_we'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_good'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_addr'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'next_bank'."
+  ],
+  "finished_at": 1792736500.2864692
+}

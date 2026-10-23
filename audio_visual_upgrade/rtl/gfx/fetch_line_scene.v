@@ -2,7 +2,7 @@
 // One completed row mailbox; two banks. Completed metadata stays stable until
 // pixel retirement returns through two flops. Tags reject late/old-frame rows.
 // Both domains reset together. The RAM itself is deliberately not reset.
-module fetch_line_scene #(parameter integer MAX_W=640)(
+module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
     input wire clk_sdr,rst_sdr_n,fetch_start,
     input wire [20:0] row_base,
     input wire [15:0] words_per_row,
@@ -23,7 +23,10 @@ module fetch_line_scene #(parameter integer MAX_W=640)(
     output reg [23:0] px_out,
     output reg px_out_vld,px_line_done,
     output reg [31:0] underrun_cnt,go_cnt,
-    output wire [31:0] stall_cnt
+    output wire [31:0] stall_cnt,
+    input wire shared_take,shared_active,shared_done,shared_error,shared_we,shared_good,
+    input wire [9:0] shared_addr,
+    output wire next_bank
 );
     function integer clog2f;
         input integer n;
@@ -41,9 +44,11 @@ module fetch_line_scene #(parameter integer MAX_W=640)(
     reg [23:0] tag_l,rdy_tag;
     reg row_good,rdy_good;
     wire param_ok=words_per_row!=0 && words_per_row<=WORDS;
-    assign fetch_ready=(fst==F_IDLE) && !fetch_busy && !rdy_valid;
-    wire mem_we=(fst==F_RUN) && px_valid && wr_idx<nw_l;
-    wire [AW-1:0] mem_addra=wr_base+wr_idx;
+    assign fetch_ready=SHARED_WRITER ? (!shared_active && !rdy_valid) :
+                                      ((fst==F_IDLE) && !fetch_busy && !rdy_valid);
+    assign next_bank=~cur_rd_buf;
+    wire mem_we=SHARED_WRITER ? shared_we : ((fst==F_RUN) && px_valid && wr_idx<nw_l);
+    wire [AW-1:0] mem_addra=SHARED_WRITER ? shared_addr : wr_base+wr_idx;
     wire [AW-1:0] mem_addrb;
     wire [31:0] mem_dob;
     EG_LOGIC_BRAM #(
@@ -58,6 +63,29 @@ module fetch_line_scene #(parameter integer MAX_W=640)(
         .wea(mem_we),.rsta(1'b0),.bea(1'b0),.doa(),
         .dib(32'd0),.addrb(mem_addrb),.ceb(1'b1),.oceb(1'b1),.clkb(clk_pix),
         .web(1'b0),.rstb(1'b0),.beb(1'b0),.dob(mem_dob));
+    generate if(SHARED_WRITER) begin: g_shared
+        always @* begin
+            fetch_busy=shared_active; fetch_err=shared_error;
+            px_req=0; px_addr=0; px_len=0;
+        end
+        always @(posedge clk_sdr) begin
+            if(!rst_sdr_n) begin
+                wr_buf_l<=0; cur_rd_buf<=0; rdy_buf<=0; rdy_valid<=0; rdy_tgl<=0;
+                cons_seen<=0; cons_s<=0; rdy_tag<=0; rdy_good<=0;
+            end else begin
+                cons_s<={cons_s[0],cons_tgl};
+                if(cons_s[1]!=cons_seen) begin
+                    cons_seen<=cons_s[1]; rdy_valid<=0; cur_rd_buf<=~cur_rd_buf;
+                end
+                if(shared_take) begin
+                    wr_buf_l<=~cur_rd_buf; rdy_buf<=~cur_rd_buf; rdy_tag<=fetch_tag;
+                end
+                if(shared_done) begin
+                    rdy_good<=shared_good; rdy_tgl<=~rdy_tgl; rdy_valid<=1;
+                end
+            end
+        end
+    end else begin: g_local
     always @(posedge clk_sdr) begin
         if(!rst_sdr_n) begin
             fst<=F_IDLE; wr_idx<=0; nw_l<=0; wr_base<=0; wr_buf_l<=0; cur_rd_buf<=0;
@@ -95,6 +123,7 @@ module fetch_line_scene #(parameter integer MAX_W=640)(
             endcase
         end
     end
+    end endgenerate
     // RGB888 byte lanes repeat 0,3,2,1. Read word indices repeat 0,1,2,2,
     // 3,4,5,5,... . At lanes 3/2 the preceding word supplies the low bytes;
     // lanes 0/1 fit within the current BRAM output. No FIFO or barrel shifter.

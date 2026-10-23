@@ -3,7 +3,10 @@
 // Interface-level checks: all 128 required-file subsets at each of 16 song
 // numbers, every start byte, first-entry precedence and selection cancellation.
 // Expected results come from the file list supplied by the test, not DUT flags.
-module tb_catalog_matrix;
+module tb_catalog_matrix #(
+    parameter integer EXPECTED_SELECT_CYCLES = 16
+);
+    localparam integer SELECT_TIMEOUT_CYCLES = 160;
     reg clk = 1'b0;
     always #5 clk = ~clk;
     reg rst_n = 1'b0, clear = 1'b0, wr_en = 1'b0;
@@ -18,6 +21,7 @@ module tb_catalog_matrix;
     wire [7:0] song_total, song_cur, nx_song, pl_err, song_max;
     wire lrc_vld, nx_lrc_vld;
     integer number, mask, field, first, expected_cur, expected_next;
+    integer phase, cycles, probe_song;
     reg [7:0] expected_err;
 
     resource_catalog dut (
@@ -94,10 +98,10 @@ module tb_catalog_matrix;
             @(negedge clk); start_from = from; select_start = 1'b1;
             @(negedge clk); select_start = 1'b0;
             cycles = 0;
-            while (select_done !== 1'b1 && cycles < 20) begin
+            while (select_done !== 1'b1 && cycles < SELECT_TIMEOUT_CYCLES) begin
                 @(negedge clk); cycles = cycles + 1;
             end
-            if (cycles == 20 || select_busy !== 1'b0) fail("selection timeout");
+            if (cycles == SELECT_TIMEOUT_CYCLES || select_busy !== 1'b0) fail("selection timeout");
         end
     endtask
 
@@ -116,7 +120,7 @@ module tb_catalog_matrix;
     endtask
 
     initial begin
-        #2000000;
+        #6000000;
         fail("test watchdog");
     end
 
@@ -203,6 +207,80 @@ module tb_catalog_matrix;
             fail("clear did not cancel");
         choose(8'd0); check_selection(0, 0, 0, 8'h71);
         $display("SCENARIO_PASS catalog-clear-cancels-selection");
+
+        // Non-contiguous playlists exercise holes and wrap at the last song.
+        reset_catalog;
+        fill_song(1); fill_song(7); fill_song(16);
+        for (first = 0; first < 256; first = first + 1) begin
+            expected_cur = (first <= 1 || first > 16) ? 1 :
+                           (first <= 7) ? 7 : 16;
+            expected_next = expected_cur == 1 ? 7 : expected_cur == 7 ? 16 : 1;
+            choose(first[7:0]);
+            check_selection(3, expected_cur, expected_next, 8'd0);
+        end
+        $display("SCENARIO_PASS catalog-sparse-all-start-indices");
+
+        // Three independent valid ports and the synchronous descriptor port
+        // remain usable during selection. Extra start pulses must not restart it.
+        @(negedge clk); start_from = 8'd7; select_start = 1'b1;
+        @(negedge clk); select_start = 1'b0;
+        cycles = 0;
+        while (select_done !== 1'b1 && cycles < SELECT_TIMEOUT_CYCLES) begin
+            rd_index = cycles;
+            lo_index = 8 + cycles % 7;
+            hi_index = 16 + cycles % 7;
+            select_start = (cycles == 11 || cycles == 31 || cycles == 71);
+            #1;
+            probe_song = rd_index >> 3;
+            if (rd_valid !== (((probe_song == 1) || (probe_song == 7) ||
+                              (probe_song == 16)) && rd_index[2:0] < 7) ||
+                lo_valid !== 1'b1 || hi_valid !== 1'b0)
+                fail("concurrent valid ports mismatch");
+            @(negedge clk);
+            if (rd_valid && (rd_size !== (32'd128 + rd_index[2:0]) ||
+                rd_cluster !== (probe_song * 100 + rd_index[2:0])))
+                fail("concurrent descriptor mismatch");
+            cycles = cycles + 1;
+        end
+        select_start = 1'b0;
+        if (cycles != EXPECTED_SELECT_CYCLES || select_busy !== 1'b0)
+            fail("selection restarted or wrong bounded latency");
+        check_selection(3, 7, 16, 8'd0);
+        $display("SCENARIO_PASS catalog-concurrent-ports-and-busy-start");
+
+        // Cancel at every phase, including the retirement phase. No delayed
+        // completion may escape, and a fresh empty selection must still work.
+        for (phase = 0; phase < 8; phase = phase + 1) begin
+            reset_catalog;
+            fill_song(1);
+            @(negedge clk); select_start = 1'b1;
+            @(negedge clk); select_start = 1'b0;
+            repeat (phase) @(negedge clk);
+            clear = 1'b1;
+            @(negedge clk); clear = 1'b0;
+            repeat (SELECT_TIMEOUT_CYCLES) begin
+                @(negedge clk);
+                if (select_busy !== 1'b0 || select_done !== 1'b0 ||
+                    song_total !== 8'd0 || song_cur !== 8'd0 || nx_song !== 8'd0)
+                    fail("phase clear did not cancel cleanly");
+            end
+            choose(8'd0); check_selection(0, 0, 0, 8'h71);
+
+            fill_song(1);
+            @(negedge clk); select_start = 1'b1;
+            @(negedge clk); select_start = 1'b0;
+            repeat (phase) @(negedge clk);
+            rst_n = 1'b0;
+            @(negedge clk); rst_n = 1'b1;
+            repeat (SELECT_TIMEOUT_CYCLES) begin
+                @(negedge clk);
+                if (select_busy !== 1'b0 || select_done !== 1'b0 ||
+                    song_total !== 8'd0 || song_cur !== 8'd0 || nx_song !== 8'd0)
+                    fail("phase reset did not cancel cleanly");
+            end
+            choose(8'd0); check_selection(0, 0, 0, 8'h71);
+        end
+        $display("SCENARIO_PASS catalog-all-phase-cancellation");
         $display("TEST_PASS");
         $finish;
     end

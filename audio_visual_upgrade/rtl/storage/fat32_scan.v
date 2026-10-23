@@ -78,14 +78,19 @@ module fat32_scan #(
     //-------------------------------------------------------------------------
     // 状态
     //-------------------------------------------------------------------------
-    localparam [2:0] S_IDLE    = 3'd0,
-                     S_REQ_SEC = 3'd1,
-                     S_SEC     = 3'd2,
-                     S_CHAIN   = 3'd3,
-                     S_CHAIN_W = 3'd4,
-                     S_FIN     = 3'd5;
+    localparam [3:0] S_IDLE    = 4'd0,
+                     S_REQ_SEC = 4'd1,
+                     S_SEC     = 4'd2,
+                     S_CHAIN   = 4'd3,
+                     S_CHAIN_W = 4'd4,
+                     S_FIN     = 4'd5,
+                     S_SHIFT   = 4'd6,
+                     S_BASE    = 4'd7,
+                     S_OFFSET  = 4'd8,
+                     S_SEND    = 4'd9;
 
-    reg [2:0]  state;
+    reg [3:0]  state;
+    reg [3:0]  shift_left;
     reg [3:0]  err_r;
     reg [31:0] cur_clus;
     reg [6:0]  sec_idx;
@@ -131,8 +136,14 @@ module fat32_scan #(
     //-------------------------------------------------------------------------
     // 地址换算
     //-------------------------------------------------------------------------
-    wire [31:0] clus_off  = (cur_clus - 32'd2) << spc_shift;
-    wire [31:0] sec_lba_c = data_lba + clus_off + {25'd0, sec_idx};
+    // sec_lba is private scratch until S_SEND raises sec_req. Reuse one
+    // full-width adder and single-bit shifts; no variable barrel shifter.
+    // The request is delayed by spc_shift+4 clocks; its address, directory
+    // stream, error handling and progress watchdog otherwise keep their contract.
+    wire [31:0] address_a = (state == S_REQ_SEC) ? cur_clus : sec_lba;
+    wire [31:0] address_b = (state == S_REQ_SEC) ? 32'hfffffffe :
+                            (state == S_BASE) ? data_lba : {25'd0, sec_idx};
+    wire [31:0] address_sum = address_a + address_b;
 
     // SecPerClus-1 = (1 << spc_shift) - 1
     function [6:0] spc_shift_to_mask;
@@ -181,6 +192,7 @@ module fat32_scan #(
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state         <= S_IDLE;
+            shift_left    <= 4'd0;
             busy          <= 1'b0;
             done          <= 1'b0;
             err           <= E_NONE;
@@ -238,8 +250,26 @@ module fat32_scan #(
                 end
                 //---------------------------------------------------------
                 S_REQ_SEC: begin
+                    sec_lba <= address_sum;
+                    shift_left <= spc_shift;
+                    state <= S_SHIFT;
+                end
+                S_SHIFT: begin
+                    if (shift_left != 4'd0) begin
+                        sec_lba <= {sec_lba[30:0], 1'b0};
+                        shift_left <= shift_left - 4'd1;
+                    end else state <= S_BASE;
+                end
+                S_BASE: begin
+                    sec_lba <= address_sum;
+                    state <= S_OFFSET;
+                end
+                S_OFFSET: begin
+                    sec_lba <= address_sum;
+                    state <= S_SEND;
+                end
+                S_SEND: begin
                     sec_req <= 1'b1;
-                    sec_lba <= sec_lba_c;
                     state   <= S_SEC;
                 end
                 //---------------------------------------------------------

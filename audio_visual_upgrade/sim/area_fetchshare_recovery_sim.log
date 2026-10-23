@@ -1,0 +1,29 @@
+# End time: 14:21:39 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 10
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/bb89ab426ddb4c0cb19d065f82e1d10b/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_fetch_recovery 
+# Start time: 14:21:39 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_fetch_recovery
+# Loading work.fetch_line_scene
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Too few port connections. Expected 39, found 31.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_fetch_recovery/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line_scene.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_take'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_active'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_done'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_error'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_we'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_good'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'shared_addr'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(15): [TFMPC] - Missing connection for port 'next_bank'.
+# SCENARIO_PASS valid_row
+# SCENARIO_PASS late_row_discard_and_recovery
+# SCENARIO_PASS truncated_burst_rejected
+# SCENARIO_PASS old_frame_discard
+# SCENARIO_PASS disable_and_reset_recovery
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v(84)
+#    Time: 28640 ns  Iteration: 1  Instance: /tb_fetch_recovery
+# Break in Module tb_fetch_recovery at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v line 84
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v line 84
+# End time: 14:21:39 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 10

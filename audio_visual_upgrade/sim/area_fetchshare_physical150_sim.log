@@ -1,0 +1,37 @@
+# End time: 14:27:11 on Oct 23,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/7c4f1b3832a34f43aa0f562f4f368294/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_fetchshare -gCOVER_LINES=8 -gPHYSICAL=1 -gSDR_SHIFT=1.667 -gSDR_HALF=3.333 -gLINES=16 
+# Start time: 14:27:11 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_fetchshare
+# Loading work.color_bar
+# Loading work.scene_raster
+# Loading work.fetch_writer4
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# Loading work.sdram_top
+# Loading work.sdr_as_ram
+# Loading work.sdr_init_ref
+# Loading work.IS42s32200
+# PIXEL_ERROR layer=0 frame=1 x=4 y=0 v=1 got=zzzzzz exp=000c04
+# PIXEL_ERROR layer=1 frame=1 x=4 y=0 v=1 got=zzzzzz exp=2b0c15
+# PIXEL_ERROR layer=0 frame=1 x=5 y=0 v=1 got=zz0f05 exp=000f05
+# PIXEL_ERROR layer=1 frame=1 x=5 y=0 v=1 got=zz0f16 exp=2b0f16
+# PIXEL_ERROR layer=0 frame=1 x=9 y=0 v=1 got=00zzzz exp=001b09
+# PIXEL_ERROR layer=1 frame=1 x=9 y=0 v=1 got=2bzzzz exp=2b1b1a
+# PIXEL_ERROR layer=2 frame=1 x=104 y=3 v=1 got=zzzzzz exp=560c26
+# PIXEL_ERROR layer=3 frame=1 x=104 y=3 v=1 got=zzzzzz exp=810c37
+# PIXEL_ERROR layer=2 frame=1 x=105 y=3 v=1 got=zz0f27 exp=560f27
+# PIXEL_ERROR layer=3 frame=1 x=105 y=3 v=1 got=zz0f38 exp=810f38
+# PIXEL_ERROR layer=2 frame=1 x=109 y=3 v=1 got=56zzzz exp=561b2b
+# PIXEL_ERROR layer=3 frame=1 x=109 y=3 v=1 got=81zzzz exp=811b3c
+# IMAGE_RESULT layer=0 pixels=20480 errors=7680 und=0 stall=0 ferr=0 gap=0 collisions=0
+# TEST_FAIL image content or ownership
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v(210)
+#    Time: 7350064920 ps  Iteration: 1  Instance: /tb_display_fetchshare
+# Break in Module tb_display_fetchshare at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v line 210
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v line 210
+# End time: 14:27:20 on Oct 23,2026, Elapsed time: 0:00:09
+# Errors: 0, Warnings: 1

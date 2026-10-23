@@ -1,6 +1,6 @@
 {
   "updated_on": "2026-10-23",
-  "stage": "resource_optimization_area_bmp_r1_board_confirmed",
+  "stage": "resource_optimization_area_fetchshare_r2_board_pass_stop_after_git_upload",
   "upgrade_complete": false,
   "board_verified": true,
   "current_board_configuration_functionally_verified": true,
@@ -9,21 +9,30 @@
     "user_authorized": true,
     "clock_and_phase": "Retain the existing 100 MHz PLL and nominal +5 ns shift for the first board trial.",
     "sdram_simulation_difference_blocks_initial_trial": false,
-    "scope": "The user confirmed normal board behavior for the retained area_bmp_r1 version on 2026-10-23: 上板没有问题. This is a user-reported board result, not a claim of complete upgrade coverage, long-duration stability, or timing closure. The agent has not downloaded hardware or written the physical SD card."
+    "scope": "The user confirmed normal area_fetchshare_r2 board behavior on 2026-10-23: 上板没问题. Shared-writer, full-frame application-port, physical150 and core regression passed. Timing is not fully closed. Retain area_scanaddr_r1 as fallback. The agent has not downloaded hardware or written the physical SD card. Upload this checkpoint and stop as requested."
   },
   "board_trial": {
     "current_version_confirmation": {
+      "tag": "area_fetchshare_r2",
       "reported_on": "2026-10-23",
-      "tag": "area_bmp_r1",
-      "user_report": "上板没有问题",
+      "user_report": "上板没问题",
       "status": "USER_CONFIRMED_BOARD_PASS",
-      "bitstream": "prj/td_build/area_bmp_r1_phy/skeleton.bit",
-      "sha256": "9FA408F7A6E8BB41EB34F0D5A79C12E5DF34D46EDE18C5631002C4DA999EF567",
+      "board_tested": true,
+      "bitstream": "prj/td_build/area_fetchshare_r2_utf8_phy/skeleton.bit",
+      "sha256": "CFE4D5FE69D3AA9AAF0A2E3570F47418F0B562B623EB9B8060301F12BC801BDB"
+    },
+    "last_confirmed_version": {
+      "reported_on": "2026-10-23",
+      "tag": "area_fetchshare_r2",
+      "user_report": "上板没问题",
+      "status": "USER_CONFIRMED_BOARD_PASS",
+      "bitstream": "prj/td_build/area_fetchshare_r2_utf8_phy/skeleton.bit",
+      "sha256": "CFE4D5FE69D3AA9AAF0A2E3570F47418F0B562B623EB9B8060301F12BC801BDB",
       "scope_limit": "User-reported normal board behavior. Does not establish complete upgrade coverage, long-duration stability, or timing closure."
     },
     "user_report": "User confirms the display problem is resolved after switching to the prepared card assets: 换素材后没问题了。",
     "cover_visible_with_prepared_assets": true,
-    "other_display_and_audio_behavior": "Not yet confirmed by the user.",
+    "other_display_and_audio_behavior": "The user reported normal board behavior for area_fetchshare_r2 on 2026-10-23: 上板没问题.",
     "confirmed_code_issue": {
       "source": "rtl/top/skeleton_core.v:1267",
       "window_condition": "rtl/gfx/layer_bg.v:32",
@@ -34,7 +43,7 @@
       "new_cover_origin": [140, 45],
       "assessment": "The legacy-size geometry bug explained the absent cover. The user subsequently confirmed normal display after replacing the assets; no RTL or PLL change was needed."
     },
-    "next_action": "Save the user-confirmed area_bmp_r1 version to the requested remote Git repository. Continue resource reduction and remaining upgrade work separately."
+    "next_action": "Upload the user-confirmed area_fetchshare_r2 checkpoint to https://github.com/zhayj1/fpga_update.git, then stop. Resume resource reduction or remaining upgrade work only when the user requests it. Keep area_scanaddr_r1 as fallback."
   },
   "production_changes": {
     "bmp_watchdog": "Reverted to the compact implementation; the timingfix implementation was not retained.",
@@ -49,20 +58,26 @@
     "resource_optimization": {
       "mapping": "LUT structure off, now the build script default; other official area mapping and placement settings retained.",
       "fat32_mount": "Reuse one-bit right shifts over up to seven cycles instead of a variable barrel shifter.",
-      "fat32_scan": "Keep only directory fields consumed by the scanner; preserve entry commit timing and capacity.",
+      "fat32_scan": "Keep only directory fields consumed by the scanner. Serialize sector address arithmetic with one full-width adder and single-bit shifts, adding 4 to 11 clocks before each request while preserving address values, directory capacity, commit timing, fragmented chains and error behavior.",
       "bmp_load": "Bound row, padding and write counters by configuration; keep full-width invalid-header checks and error priority.",
-      "rejected_trials": ["area_catalog_r1", "area_control_r1"],
+      "image_path": "One shared raster and one round-robin SDRAM writer serve old/new background and cover. Keep each layer's double-bank cache, metadata CDC and error checks. Register the owner one cycle before command validation/ACK to remove the new internal timing violation.",
+      "rejected_trials": ["area_catalog_r1", "area_control_r1", "area_catalog_serial_r1", "area_fontshare_r1"],
       "rejected_trial_rtl_reverted": true,
+      "superseded_timing_trial": "area_fetchshare_r1: 8276 Slices, but new internal sdr_clk setup -1.507 ns. Repaired in r2 rather than accepted under the unrelated -5.565 ns waiver.",
+      "legacy_spectrum_modified": false,
       "feature_removal": false,
       "details": "sim/area_optimization.json"
     }
   },
   "verification": {
     "current_core_integration": {
-      "result": "sim/area_bmp_integration_sim_result.json",
+      "result": "sim/area_fetchshare_integration_r2_sim_result.json",
       "status": "PASS",
-      "recorded_input_hashes_checked": 84,
+      "recorded_input_hashes_checked": 92,
       "mismatches": 0,
+      "mismatched_inputs": [],
+      "current_inputs_match_result": true,
+      "warning_set_changed_from_previous_completed_run": false,
       "scenarios_passed": 4,
       "frames": 21,
       "pixels_checked": 348160,
@@ -71,6 +86,86 @@
       "sdram_pin_checks": 15121513,
       "sdram_mhz": 150,
       "scope_limit": "Real SPI/FAT/SDRAM models and an HDMI transmitter stub. Does not validate the 100 MHz board clock/phase configuration or HDMI transmission."
+    },
+    "current_shared_writer_unit": {
+      "result": "sim/area_fetchshare_unit_r2_sim_result.json",
+      "status": "PASS",
+      "scenarios_passed": 7,
+      "recorded_inputs": 9,
+      "input_hash_mismatches": 0,
+      "coverage": "Four full-width streams and text fairness; short/overlong/illegal bursts; late and old-frame discard; disabled cache; double-bank overlap; reset during burst and recovery."
+    },
+    "current_shared_full_frame100": {
+      "result": "sim/area_fetchshare_full100_r2_sim_result.json",
+      "status": "PASS",
+      "recorded_inputs": 24,
+      "input_hash_mismatches": 0,
+      "pixels_checked": 1536000,
+      "pixel_errors": 0,
+      "all_layer_error_and_collision_counters": 0,
+      "text_jobs": 19776,
+      "preload_jobs": 21552,
+      "scope_limit": "100 MHz application-port memory model; 480 background and 240 cover rows in two scenes. Does not test physical SDRAM, board PLL phase or HDMI."
+    },
+    "current_shared_physical150": {
+      "result": "sim/area_fetchshare_physical150_r2_sim_result.json",
+      "status": "PASS",
+      "recorded_inputs": 24,
+      "input_hash_mismatches": 0,
+      "pixels_checked": 51200,
+      "pixel_errors": 0,
+      "all_layer_error_and_collision_counters": 0,
+      "text_jobs": 4944,
+      "preload_jobs": 4758,
+      "sdram_mhz": 150,
+      "SDR_SHIFT_ns": -1.666,
+      "scope_limit": "Real encrypted SDRAM controller and vendor models; 16 background and 8 cover rows across two scenes. Not the 100 MHz board clock/phase or a full-frame physical test."
+    },
+    "legacy_writer_recovery": {
+      "result": "sim/area_fetchshare_recovery_sim_result.json",
+      "status": "PASS",
+      "scenarios_passed": 5,
+      "recorded_inputs": 7,
+      "input_hash_mismatches": 0,
+      "scope_limit": "Unchanged independent-writer branch; unconnected added ports in the old TB do not affect its default parameters."
+    },
+    "shared_physical150_configuration_failure": {
+      "failed_result": "sim/area_fetchshare_physical150_sim_result.json",
+      "status": "FAIL",
+      "cause": "New test configuration used +1.667 ns instead of the existing physical150 reference -1.666 ns. First pixel mismatch expected 000c04, actual zzzzzz.",
+      "corrected_result": "sim/area_fetchshare_physical150_phasecorrect_sim_result.json",
+      "corrected_status": "PASS",
+      "scope_limit": "Only test phase corrected; no model, checker, expected pixel or production PLL changes. Original failure retained; r2 rerun also passed."
+    },
+    "current_scan_address_unit_tests": {
+      "results": ["sim/scan_addressshare_capacity_after_sim_result.json", "sim/scan_addressshare_legacy_after_sim_result.json"],
+      "status": "PASS",
+      "scenarios_passed": 8,
+      "recorded_inputs_per_test": 6,
+      "input_hash_mismatches": 0,
+      "coverage": "All eight legal FAT32 cluster sizes, high address wraparound, capacity and per-field directory checks, restart, reset cancellation, watchdog, fragmented chain and error cases."
+    },
+    "rejected_fontshare_core_integration": {
+      "result": "sim/area_fontshare_integration_sim_result.json",
+      "status": "PASS",
+      "scenarios_passed": 4,
+      "recorded_inputs": 89,
+      "input_hash_mismatches_at_completion": 0,
+      "scope_limit": "Historical evidence for the rejected candidate. Its physical Slice usage increased to 8575, so font_load.v was precisely reverted before area_scanaddr_r1."
+    },
+    "catalog_after_serial_revert": {
+      "results": ["sim/catalog_matrix_retained_after_serial_sim_result.json", "sim/catalog_legacy_retained_after_serial_sim_result.json"],
+      "status": "PASS",
+      "scenarios_passed": 11,
+      "recorded_inputs_per_test": 6,
+      "input_hash_mismatches": 0,
+      "retained_source_hash_mismatches": 0
+    },
+    "rejected_serial_core_integration": {
+      "result": "sim/area_catalog_serial_integration_sim_result.json",
+      "status": "FAIL",
+      "reason": "Strict input consistency check failed because tb/tb_catalog_matrix.v changed during the run; all four functional scenario markers completed, but this run is not counted as PASS. Candidate RTL was rejected for increased physical Slice usage and reverted.",
+      "functional_scenario_markers": 4
     },
     "historical_core_integration": {
       "result": "sim/integration_r3_sim_result.json",
@@ -84,7 +179,9 @@
       "result": "sim/board_clock_compile_sim_result.json",
       "status": "COMPILE_PASS",
       "recorded_input_hash_mismatches": 0,
-      "scope_limit": "Compile and elaboration only; real PLL/ODDR models, HDMI transmitter stub."
+      "historical_result": true,
+      "current_inputs_match_result": false,
+      "scope_limit": "Historical compile and elaboration only; real PLL/ODDR models, HDMI transmitter stub. Current r2 board sources were separately synthesized and implemented with TD."
     },
     "physical100_existing_phase": {
       "result": "sim/physical100_trace_sim_result.json",
@@ -142,7 +239,8 @@
     "ram_32k": 4,
     "dsps": 13,
     "synthesis_recorded_sources": 64,
-    "current_source_mismatches": ["rtl/top/skeleton_top.v"],
+    "current_source_mismatches": ["rtl/gfx/layer_bg.v", "rtl/gfx/layer_cover.v", "rtl/load/bmp_load.v", "rtl/storage/fat32_mount.v", "rtl/storage/fat32_scan.v", "rtl/top/skeleton_core.v", "rtl/top/skeleton_top.v", "rtl/gfx/fetch_line_scene.v"],
+    "current_new_sources_not_in_reference": ["rtl/gfx/scene_raster.v", "rtl/gfx/fetch_writer4.v"],
     "scope_limit": "Reference from before the board-top parameter correction; not a measurement of the current board build."
   },
   "timing_reference": {
@@ -163,67 +261,96 @@
     "scope_limit": "User confirmation concerns the prepared-asset display; it does not validate the newer optimized bitstream, every feature or long-duration stability."
   },
   "current_build": {
-    "tag": "area_bmp_r1",
+    "tag": "area_fetchshare_r2",
     "status": "BUILD_COMPLETE",
-    "completed": "2026-10-23T11:23:07.7680470+08:00",
+    "completed": "2026-10-23T14:44:30.2542875+08:00",
     "tool": "Tang Dynasty v6.2.168116",
     "device": "EG4S20BG256",
     "place_seed": 3,
-    "synthesis_result": "prj/td_build/area_bmp_r1_syn/build_result.json",
-    "implementation_result": "prj/td_build/area_bmp_r1_phy/build_result.json",
-    "synthesis_inputs": "prj/td_build/area_bmp_r1_syn/inputs.json",
-    "implementation_inputs": "prj/td_build/area_bmp_r1_phy/inputs.json",
+    "synthesis_result": "prj/td_build/area_fetchshare_r2_syn/build_result.json",
+    "implementation_result": "prj/td_build/area_fetchshare_r2_utf8_phy/build_result.json",
+    "synthesis_inputs": "prj/td_build/area_fetchshare_r2_syn/inputs.json",
+    "implementation_inputs": "prj/td_build/area_fetchshare_r2_utf8_phy/inputs.json",
     "lut_structure": "off",
-    "recorded_sources_per_stage": 64,
+    "recorded_sources_per_stage": 66,
     "input_hash_mismatches": 0,
+    "recorded_build_files_per_stage": 3,
+    "build_file_hash_mismatches": 0,
+    "upstream_inputs_and_netlist_hash_mismatches": 0,
+    "script_encoding_repair": "Explicit UTF-8 input reads fix Windows PowerShell 5.1 template decoding. Failed area_fetchshare_r2_phy retained. area_fetchshare_r2_utf8_phy reuses the recorded r2 netlist with identical r1 Tcl, seed 3 and numeric settings. Separate synthesis/implementation script hashes are preserved in each inputs.json and sim/area_optimization.json.",
     "bitstream": {
-      "path": "prj/td_build/area_bmp_r1_phy/skeleton.bit",
+      "path": "prj/td_build/area_fetchshare_r2_utf8_phy/skeleton.bit",
       "bytes": 635453,
-      "sha256": "9FA408F7A6E8BB41EB34F0D5A79C12E5DF34D46EDE18C5631002C4DA999EF567"
+      "sha256": "CFE4D5FE69D3AA9AAF0A2E3570F47418F0B562B623EB9B8060301F12BC801BDB"
     },
-    "scope_limit": "Build and bitstream generation completed, and the user confirmed normal board behavior on 2026-10-23. Complete upgrade coverage, long-duration stability, and complete timing closure are not established."
+    "git_uploaded": false,
+    "scope_limit": "The user confirmed normal board behavior on 2026-10-23. Build and bitstream generation completed; shared-writer, stress and four whole-core scenarios passed. Existing shift-clock timing remains open; internal SDRAM setup passes with only 9 ps margin. Complete upgrade coverage, long-duration stability and independent verification of the board SDRAM phase are not established."
   },
   "current_resources": {
-    "qor_report": "prj/td_build/area_bmp_r1_phy/route.qor",
-    "area_report": "prj/td_build/area_bmp_r1_phy/skeleton_phy.area",
-    "physical_slices": 8474,
-    "physical_slice_utilization_percent": 86.47,
-    "free_slices": 1326,
-    "actual_luts": 15134,
-    "registers": 10854,
+    "qor_report": "prj/td_build/area_fetchshare_r2_utf8_phy/route.qor",
+    "area_report": "prj/td_build/area_fetchshare_r2_utf8_phy/skeleton_phy.area",
+    "physical_slices": 8181,
+    "physical_slice_utilization_percent": 83.48,
+    "free_slices": 1619,
+    "actual_luts": 14665,
+    "registers": 10633,
+    "synthesis_luts": 14208,
+    "synthesis_registers": 10613,
+    "lut_register_pair_percent": 62.31,
     "ram_9k": 43,
     "ram_32k": 4,
     "dsps": 13,
     "comparison_with_board_reference": {
-      "slices_recovered": 835,
-      "utilization_reduction_percentage_points": 8.52,
+      "slices_recovered": 1128,
+      "utilization_reduction_percentage_points": 11.51,
       "board_clock_and_pll_phase_unchanged": true,
-      "assessment": "Measured physical-area improvement with the retained mapping, storage and BMP changes. The later control-width trial increased Slice usage and was reverted."
+      "assessment": "Measured physical-area improvement from mapping, storage, BMP, scan-address arithmetic and shared image path. Control-width, catalog and font trials were reverted; shared-writer r1's new internal timing violation was repaired in r2. No features were removed."
+    },
+    "comparison_with_previous_board_confirmed_build": {
+      "tag": "area_scanaddr_r1",
+      "physical_slices": 8422,
+      "slices_recovered": 241,
+      "utilization_reduction_percentage_points": 2.46
     },
     "stage_target": {
       "slice_percent": 80,
       "reached": false,
-      "additional_slices_to_recover": 634,
+      "additional_slices_to_recover": 341,
       "all_remaining_features_fit_proven": false
     }
   },
   "current_timing": {
-    "report": "prj/td_build/area_bmp_r1_phy/final_timing.rpt",
+    "report": "prj/td_build/area_fetchshare_r2_utf8_phy/final_timing.rpt",
     "corner": "Both (Slow and Fast)",
-    "sta_coverage_percent": 96.09,
+    "sta_coverage_percent": 96.22,
     "setup_wns_ns": -5.565,
-    "setup_tns_ns": -198.617,
-    "setup_violated_endpoints": 65,
+    "setup_tns_ns": -194.412,
+    "setup_violated_endpoints": 64,
     "hold_wns_ns": 0.024,
     "hold_tns_ns": 0.0,
     "hold_violated_endpoints": 0,
     "setup_wns_by_capture_clock_ns": {
-      "clk": 0.204,
-      "video_clk": 2.632,
+      "clk": 0.720,
+      "video_clk": 2.819,
       "sdr_clk": -5.565,
-      "hdmi_5x_clk": 5.601,
-      "sdr_clk_sft": -1.166
+      "hdmi_5x_clk": 5.534,
+      "sdr_clk_sft": -0.872
     },
+    "setup_wns_by_path_group_ns": {
+      "clk -> clk": 0.720,
+      "video_clk -> video_clk": 5.034,
+      "sdr_clk -> sdr_clk": 0.009,
+      "sdr_clk -> video_clk": 2.819,
+      "video_clk -> sdr_clk": 0.562,
+      "hdmi_5x_clk -> hdmi_5x_clk": 5.534,
+      "sdr_clk -> sdr_clk_sft": -0.872,
+      "sdr_clk_sft -> sdr_clk": -5.565
+    },
+    "shared_writer_new_internal_violation_repaired": true,
+    "sdr_internal_setup_margin_ns": 0.009,
+    "sdr_internal_violated_endpoints": 0,
+    "sdr_internal_margin_limit": "Only 9 ps. Worst internal path now belongs to load_writeback; retain the exact routed bitstream and do not infer robust margin for future changes.",
+    "shift_clock_setup_improvement_from_last_board_confirmed_build_ns": 0.514,
     "user_accepted_inherent_setup_wns_ns": -5.565,
     "waiver_scope": "Only the inherent violation identified by the user; other violations remain reported. No timing exceptions were added.",
     "timing_closed": false
@@ -242,9 +369,10 @@
     "scope_limit": "Static background/cover layout only; not a screenshot of the FPGA output."
   },
   "remaining": [
-    "The user confirmed normal board behavior for area_bmp_r1 on 2026-10-23. Detailed feature coverage and long-duration stability checks remain separately scoped.",
+    "The user confirmed normal area_fetchshare_r2 board behavior on 2026-10-23. Upload this checkpoint and stop as requested; keep user-confirmed area_scanaddr_r1 as fallback.",
     "Preserve the SDRAM simulation difference and diagnostic PASS as separate evidence; the user-reported board pass does not change those simulation results.",
-    "Continue reducing physical Slice usage; area_bmp_r1 is 86.47%, above the 80% stage target. Address setup violations outside the user's limited waiver, including sdr_clk_sft at -1.166 ns.",
-    "Continue the remaining HTML/DOCX upgrade features after this bringup stage; the full upgrade is not complete."
+    "Deferred until the user requests further work: reduce physical Slice usage; area_fetchshare_r2 is 83.48%, above the 80% experiment target by 341 Slices. The target does not prove that all remaining upgrade features fit.",
+    "Address setup violations outside the user's limited waiver: existing sdr_clk -> sdr_clk_sft remains -0.872 ns despite a 0.514 ns improvement. New internal violations were removed, but internal setup margin is only 0.009 ns. No false-path or multicycle exceptions were added.",
+    "The remaining HTML/DOCX upgrade features are deferred until the user requests further work; the full upgrade is not complete."
   ]
 }

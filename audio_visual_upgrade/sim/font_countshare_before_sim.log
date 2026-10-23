@@ -1,0 +1,83 @@
+# End time: 13:09:26 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 15
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0013262326ef4a658268d4497e39a44a/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_font_load 
+# Start time: 13:09:26 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_font_load
+# Loading work.font_load
+# Loading work.load_writeback
+# Loading work.afifo_8i_32o_bram
+# Loading work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Too few port connections. Expected 42, found 29.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_font_load/u_dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/font_load.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_full_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'backend_done_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'slot_words'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_flush_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_we_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_di_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_valid_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_first_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_words_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_wpr_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_down_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_valid_ext'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_words_ext'.
+#   FF01_font_full: err=00 wr=261696 burst=2045/6135 bytes=1046784 mis=0
+# SCENARIO_PASS FF-01
+#   FF02_asc_full: err=00 wr=1536 burst=12/36 bytes=6144 mis=0
+# SCENARIO_PASS FF-02
+#   FF03_pad16: err=00 wr=104 burst=1/3 bytes=416 mis=0
+# SCENARIO_PASS FF-03
+#   FF04_short: err=03 wr=252 burst=2/6 bytes=1008 mis=0
+# SCENARIO_PASS FF-04
+#   FF05_loerr: err=04 wr=1252 burst=10/30 bytes=5008 mis=0
+# SCENARIO_PASS FF-05
+#   FF06_stuck: err=04 wr=252 burst=2/178394 bytes=1021 mis=0
+# SCENARIO_PASS FF-06
+# SCENARIO_PASS FF-07
+#   FF08_prefix_drain: err=00 wr=104 burst=1/76 bytes=416 mis=0
+# SCENARIO_PASS FF-08
+#   FF09_size_boundary: err=03 wr=104 burst=1/3 bytes=416 mis=0
+# SCENARIO_PASS FF-09
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=4 burst=1/3 bytes=16 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=8 burst=1/3 bytes=32 mis=0
+#   FF10_residue: err=00 wr=12 burst=1/3 bytes=48 mis=0
+# SCENARIO_PASS FF-10
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(744)
+#    Time: 22857540 ns  Iteration: 1  Instance: /tb_font_load
+# Break in Module tb_font_load at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v line 744
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v line 744
+# End time: 13:09:33 on Oct 23,2026, Elapsed time: 0:00:07
+# Errors: 0, Warnings: 15

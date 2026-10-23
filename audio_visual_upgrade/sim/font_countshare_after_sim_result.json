@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792732227.1838272,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.font_load",
+    "tb_top": "work.tb_font_load",
+    "data_files": [
+      "card/FONT.HZK",
+      "card/ASC.HZK",
+      "../music_screen_area_opt/sim/golden/FONT_slot.mem",
+      "../music_screen_area_opt/sim/golden/ASC_slot.mem"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/load/load_writeback.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/afifo_8i_32o_1024.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/afifo_8i_32o_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/font_load.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_font_load_area.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "FF-01",
+    "FF-02",
+    "FF-03",
+    "FF-04",
+    "FF-05",
+    "FF-06",
+    "FF-07",
+    "FF-08",
+    "FF-09",
+    "FF-10"
+  ],
+  "timeout_seconds": 240.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/card/ASC.HZK": "799c92e3edd3b73cab7dbc0f80b5885135cfdaa47a4a0000084ba79ea83e6e39",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/card/FONT.HZK": "e8cd2c6f0138232ca87ae695c595638e620588bda605495e6082a64362e81909",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_1024.v": "c4ef15e1aa769a779f4d1f464c10a71859dec68106f720fd92ed294e70360016",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_bram.v": "f129390f060dba643060794392888b79ce424f3deb9318697312c908e91a1701",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/font_load.v": "2e127214f48c172261adce3ea5204800847b138e9d76bd4daaff7223efd300e3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/load_writeback.v": "b66340cd977d1cfd857ecf19acd4314895deec194e8f18cfca282a0246e4c053",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_font_countshare.json": "41e2bc9bd386070ef928c63b3151622d9b3308484f1cf7af0c54adc348c2e458",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_font_countshare.json": "c81b084322a1214831a93b08f7894af3b7f2f37df33046793cbf843430680299",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v": "29532577ac28202b496771ce5bb2160b392911a29d834094ab9c0a172e95e896",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/ASC_slot.mem": "17344861ef3b38a93b44eb0bf873f3611addc322ff0f4ef55299dd500824b3ae",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/FONT_slot.mem": "98febd894d3c3206fc6344a548076a7f1aaec6aa6f3c77dc3206e70e9125d89c"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.EXE",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/d57adc2c941547dc8a2335d6cb07d3fb/run.do\""
+  ],
+  "script": "sim/modelsim/d57adc2c941547dc8a2335d6cb07d3fb/run.do",
+  "compile_log": "sim/font_countshare_after_compile.log",
+  "sim_log": "sim/font_countshare_after_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Too few port connections. Expected 42, found 29.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_full_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'backend_done_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'slot_words'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_flush_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_we_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_di_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_valid_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_first_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_words_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_wpr_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_down_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_valid_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_words_ext'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Too few port connections. Expected 42, found 29.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_full_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'backend_done_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'slot_words'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_flush_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_we_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_di_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_valid_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_first_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_words_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_wpr_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_down_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_valid_ext'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_words_ext'."
+  ],
+  "finished_at": 1792732240.936631
+}

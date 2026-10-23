@@ -1,0 +1,23 @@
+# End time: 14:21:39 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/316d82f202e545b09b06a6f6788d7048/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_fetch_writer4 
+# Start time: 14:21:39 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_fetch_writer4
+# Loading work.fetch_writer4
+# Loading work.px_arb5
+# Loading work.fetch_line_scene
+# SCENARIO_PASS fourway_fullwidth_and_text_fairness
+# SCENARIO_PASS short_and_overlong_bursts_rejected
+# SCENARIO_PASS zero_and_oversized_commands
+# SCENARIO_PASS late_row_discard_and_recovery
+# SCENARIO_PASS old_frame_and_disabled_cache_discard
+# SCENARIO_PASS double_bank_read_write_overlap
+# SCENARIO_PASS reset_during_burst_and_recovery
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_writer4.v(240)
+#    Time: 361544 ns  Iteration: 0  Instance: /tb_fetch_writer4
+# Break in Module tb_fetch_writer4 at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_writer4.v line 240
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_writer4.v line 240
+# End time: 14:21:40 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1

@@ -1,0 +1,18 @@
+# End time: 13:19:29 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/f1c993d68b424c0783939a37aad608e3/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_scan_capacity 
+# Start time: 13:19:29 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_scan_capacity
+# Loading work.fat32_scan
+# SCENARIO_PASS scan-capacity-all-cluster-sizes
+# SCENARIO_PASS scan-end-marker-after-restart
+# SCENARIO_PASS scan-no-progress-watchdog
+# SCENARIO_PASS scan-reset-cancels-wait
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scan_capacity.v(156)
+#    Time: 114711 ns  Iteration: 0  Instance: /tb_scan_capacity
+# Break in Module tb_scan_capacity at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scan_capacity.v line 156
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scan_capacity.v line 156
+# End time: 13:19:30 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1

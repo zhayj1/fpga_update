@@ -1,0 +1,31 @@
+# End time: 14:35:45 on Oct 23,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/a4320a04398942de96162bd65e74bf98/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_fetchshare -gCOVER_LINES=8 -gPHYSICAL=1 -gSDR_SHIFT=-1.666 -gSDR_HALF=3.333 -gLINES=16 
+# Start time: 14:35:45 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_fetchshare
+# Loading work.color_bar
+# Loading work.scene_raster
+# Loading work.fetch_writer4
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# Loading work.sdram_top
+# Loading work.sdr_as_ram
+# Loading work.sdr_init_ref
+# Loading work.IS42s32200
+# IMAGE_RESULT layer=0 pixels=20480 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=1 pixels=20480 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=2 pixels=5120 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=3 pixels=5120 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# PRESSURE text=4944 preload=4758
+# MEMORY_SCOPE physical=1 half_period_ns=3.333000
+# SCENARIO_PASS four_images_and_scene_change
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v(217)
+#    Time: 7350064920 ps  Iteration: 1  Instance: /tb_display_fetchshare
+# Break in Module tb_display_fetchshare at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v line 217
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v line 217
+# End time: 14:35:53 on Oct 23,2026, Elapsed time: 0:00:08
+# Errors: 0, Warnings: 1

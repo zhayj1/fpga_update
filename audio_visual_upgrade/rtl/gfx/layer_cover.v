@@ -23,7 +23,8 @@ module layer_cover #(
     parameter integer LAT       = 7,     // 透传 layer_bg（px_go 被采样那拍 → 首像素）
     parameter integer H_ACT_DLY = 144,   // 透传 layer_bg（行首 → 首个 de 的拍数）
     parameter integer V_ACT_DLY = 35,    // 透传 layer_bg（帧首 → 首个有效行的行数）
-    parameter integer V_ACT_LIN = 480    // 透传 layer_bg（一帧有效行数）
+    parameter integer V_ACT_LIN = 480,   // 透传 layer_bg（一帧有效行数）
+    parameter integer SHARED_RASTER=0,SHARED_WRITER=0
 )(
     // ---------------- 像素域（25MHz）----------------
     input  wire        clk_pix,
@@ -59,7 +60,13 @@ module layer_cover #(
     input  wire        px_ack,
     input  wire        px_done,
     input  wire [31:0] px_data,
-    input  wire        px_valid
+    input  wire        px_valid,
+    input wire [66:0] scan_state,
+    output wire cmd_valid,slot_free,next_bank,
+    output wire [20:0] cmd_addr,
+    output wire [15:0] cmd_words,
+    input wire cmd_ack,wr_take,wr_active,wr_done,wr_error,wr_en,wr_good,
+    input wire [9:0] wr_addr
 );
 
     wire [23:0] raw_px;
@@ -70,7 +77,7 @@ module layer_cover #(
         .LAT       (LAT),
         .H_ACT_DLY (H_ACT_DLY),
         .V_ACT_DLY (V_ACT_DLY),
-        .V_ACT_LIN (V_ACT_LIN)
+        .V_ACT_LIN (V_ACT_LIN),.SHARED_RASTER(SHARED_RASTER),.SHARED_WRITER(SHARED_WRITER)
     ) u_img (
         .clk_pix       (clk_pix),
         .rst_pix_n     (rst_pix_n),
@@ -101,7 +108,11 @@ module layer_cover #(
         .px_ack        (px_ack),
         .px_done       (px_done),
         .px_data       (px_data),
-        .px_valid      (px_valid)
+        .px_valid      (px_valid),
+        .scan_state(scan_state),.cmd_valid(cmd_valid),.slot_free(slot_free),.next_bank(next_bank),
+        .cmd_addr(cmd_addr),.cmd_words(cmd_words),.cmd_ack(cmd_ack),.wr_take(wr_take),
+        .wr_active(wr_active),.wr_done(wr_done),.wr_error(wr_error),.wr_en(wr_en),
+        .wr_good(wr_good),.wr_addr(wr_addr)
     );
 
     wire keyed = (raw_px == ch_key);

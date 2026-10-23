@@ -1,0 +1,27 @@
+# End time: 14:27:06 on Oct 23,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/abf0c0f07b31450bb2591510ba917f4a/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_fetchshare -gCOVER_LINES=240 -gPHYSICAL=0 -gSDR_SHIFT=5 -gSDR_HALF=5 -gLINES=480 
+# Start time: 14:27:06 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_fetchshare
+# Loading work.color_bar
+# Loading work.scene_raster
+# Loading work.fetch_writer4
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# IMAGE_RESULT layer=0 pixels=614400 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=1 pixels=614400 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=2 pixels=153600 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=3 pixels=153600 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# PRESSURE text=19776 preload=21552
+# MEMORY_SCOPE physical=0 half_period_ns=5.000000
+# SCENARIO_PASS four_images_and_scene_change
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v(217)
+#    Time: 65353470 ns  Iteration: 1  Instance: /tb_display_fetchshare
+# Break in Module tb_display_fetchshare at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v line 217
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/tb_display_fetchshare.v line 217
+# End time: 14:27:37 on Oct 23,2026, Elapsed time: 0:00:31
+# Errors: 0, Warnings: 1

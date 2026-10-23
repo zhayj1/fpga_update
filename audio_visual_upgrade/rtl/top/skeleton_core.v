@@ -172,9 +172,6 @@ module skeleton_core #(
     wire [20:0] obg_slot,ocv_slot;
     wire [23:0] obg_rgb,ocv_rgb;
     wire obg_vld,ocv_vld,obg_idle,ocv_idle;
-    wire c3_req,c3_ack,c3_done,c3_valid,c4_req,c4_ack,c4_done,c4_valid;
-    wire [20:0] c3_addr,c4_addr;
-    wire [15:0] c3_len,c4_len;
     localparam [23:0] ch_key = 24'hFF00FF;   // ★ 色键常量（2026-10-02：原为 reg+initial ⇒ TD 警告
                                              //   "Initial value omitted on non-DFF net" ⇒ 硬件里根本没有初值 ✗）
     wire [23:0] bg_rgb, cv_rgb;
@@ -182,15 +179,17 @@ module skeleton_core #(
     wire [31:0] bg_und, bg_stall, bg_ferr, bg_gap;
     wire [31:0] cv_und, cv_stall, cv_ferr, cv_gap, cv_keyed;
 
-    // px 二级仲裁：两个取数层 → 单个 px 客户（sdram_arb 只有一个 px 口）
+    // Four image caches share one SDRAM writer; text remains an independent client.
     wire        c0_req, c0_ack, c0_done, c0_valid;
     wire [20:0] c0_addr;
     wire [15:0] c0_len;
-    wire [31:0] c0_data;
-    wire        c1_req, c1_ack, c1_done, c1_valid;
-    wire [20:0] c1_addr;
-    wire [15:0] c1_len;
-    wire [31:0] c1_data;
+    wire [66:0] image_raster;
+    wire [3:0] img_cmd,img_free,img_bank,img_ack,img_take,img_active,img_done,img_err,img_we;
+    wire [83:0] img_addr;
+    wire [63:0] img_words;
+    wire [9:0] img_wr_addr;
+    wire img_good;
+    wire [4:0] clients_ack,clients_done,clients_valid;
     wire        arb_px_req, arb_px_ack, arb_px_done, arb_px_valid;
     wire [20:0] arb_px_addr;
     wire [15:0] arb_px_len;
@@ -229,19 +228,29 @@ module skeleton_core #(
         .arb_req (arb_px_req), .arb_addr (arb_px_addr), .arb_len (arb_px_len),
         .arb_ack (arb_px_ack), .arb_done (arb_px_done),
         .arb_valid (arb_px_valid),
-        .c_req ({c4_req,c3_req,c2_req,c1_req,c0_req}),
-        .c_addr ({c4_addr,c3_addr,c2_addr,c1_addr,c0_addr}),
-        .c_len ({c4_len,c3_len,c2_len,c1_len,c0_len}),
-        .c_ack ({c4_ack,c3_ack,c2_ack,c1_ack,c0_ack}),
-        .c_done ({c4_done,c3_done,c2_done,c1_done,c0_done}),
-        .c_valid ({c4_valid,c3_valid,c2_valid,c1_valid,c0_valid}),
+        .c_req ({2'd0,c2_req,1'b0,c0_req}),
+        .c_addr ({42'd0,c2_addr,21'd0,c0_addr}),
+        .c_len ({32'd0,c2_len,16'd0,c0_len}),
+        .c_ack (clients_ack),.c_done (clients_done),.c_valid (clients_valid),
         .grant_cnt (pxa_grant), .contend_cnt (pxa_contend)
     );
-    assign c0_data=arb_px_data;
-    assign c1_data=arb_px_data;
+    assign {c2_ack,c0_ack}={clients_ack[2],clients_ack[0]};
+    assign {c2_done,c0_done}={clients_done[2],clients_done[0]};
+    assign {c2_valid,c0_valid}={clients_valid[2],clients_valid[0]};
     assign c2_data=arb_px_data;
 
-    layer_bg #(.MAX_W(640), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480)) u_bg (
+    scene_raster u_image_raster(.clk_pix(clk_pix),.rst_pix_n(~rst_pix),
+        .hs(cb_hs),.vs(cb_vs),.de(cb_de),.state(image_raster));
+    fetch_writer4 u_image_writer(
+        .clk_sdr(clk_sdr),.rst_sdr_n(~rst_sdr),.cmd_valid(img_cmd),.slot_free(img_free),
+        .next_bank(img_bank),.cmd_addr(img_addr),.cmd_words(img_words),.cmd_ack(img_ack),
+        .wr_take(img_take),.wr_active(img_active),.wr_done(img_done),.wr_error(img_err),
+        .wr_en(img_we),.wr_addr(img_wr_addr),.wr_good(img_good),
+        .px_req(c0_req),.px_addr(c0_addr),.px_len(c0_len),
+        .px_ack(c0_ack),.px_done(c0_done),.px_valid(c0_valid));
+
+    layer_bg #(.MAX_W(640), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480),
+               .SHARED_RASTER(1),.SHARED_WRITER(1)) u_bg (
         .clk_pix (clk_pix), .rst_pix_n (~rst_pix), .hs (cb_hs), .vs (cb_vs), .de (cb_de),
         .en (bg_en),
         .win_x (bg_x), .win_y (bg_y), .win_w (bg_w), .win_h (bg_h),
@@ -249,11 +258,16 @@ module skeleton_core #(
         .dout (bg_rgb), .dout_vld (bg_vld),
         .underrun_cnt (bg_und), .stall_cnt (bg_stall), .ferr_cnt (bg_ferr), .gap_cnt (bg_gap), .idle(),
         .clk_sdr (clk_sdr), .rst_sdr_n (~rst_sdr),
-        .px_req (c0_req), .px_addr (c0_addr), .px_len (c0_len),
-        .px_ack (c0_ack), .px_done (c0_done), .px_data (c0_data), .px_valid (c0_valid)
+        .px_req (), .px_addr (), .px_len (),
+        .px_ack (1'b0), .px_done (1'b0), .px_data (arb_px_data), .px_valid (1'b0),
+        .scan_state(image_raster),.cmd_valid(img_cmd[0]),.slot_free(img_free[0]),.next_bank(img_bank[0]),
+        .cmd_addr(img_addr[0+:21]),.cmd_words(img_words[0+:16]),.cmd_ack(img_ack[0]),
+        .wr_take(img_take[0]),.wr_active(img_active[0]),.wr_done(img_done[0]),
+        .wr_error(img_err[0]),.wr_en(img_we[0]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
 
-    layer_cover #(.MAX_W(320), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480)) u_cv (
+    layer_cover #(.MAX_W(320), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480),
+                  .SHARED_RASTER(1),.SHARED_WRITER(1)) u_cv (
         .clk_pix (clk_pix), .rst_pix_n (~rst_pix), .hs (cb_hs), .vs (cb_vs), .de (cb_de),
         .en (cv_en), .ch_key (ch_key),
         .win_x (cv_x), .win_y (cv_y), .win_w (cv_w), .win_h (cv_h),
@@ -262,28 +276,40 @@ module skeleton_core #(
         .underrun_cnt (cv_und), .stall_cnt (cv_stall), .ferr_cnt (cv_ferr),
         .gap_cnt (cv_gap), .keyed_cnt (cv_keyed), .idle(),
         .clk_sdr (clk_sdr), .rst_sdr_n (~rst_sdr),
-        .px_req (c1_req), .px_addr (c1_addr), .px_len (c1_len),
-        .px_ack (c1_ack), .px_done (c1_done), .px_data (c1_data), .px_valid (c1_valid)
+        .px_req (), .px_addr (), .px_len (),
+        .px_ack (1'b0), .px_done (1'b0), .px_data (arb_px_data), .px_valid (1'b0),
+        .scan_state(image_raster),.cmd_valid(img_cmd[1]),.slot_free(img_free[1]),.next_bank(img_bank[1]),
+        .cmd_addr(img_addr[21+:21]),.cmd_words(img_words[16+:16]),.cmd_ack(img_ack[1]),
+        .wr_take(img_take[1]),.wr_active(img_active[1]),.wr_done(img_done[1]),
+        .wr_error(img_err[1]),.wr_en(img_we[1]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
 
-    layer_bg #(.MAX_W(640)) u_old_bg (
+    layer_bg #(.MAX_W(640),.SHARED_RASTER(1),.SHARED_WRITER(1)) u_old_bg (
         .clk_pix(clk_pix),.rst_pix_n(~rst_pix),.hs(cb_hs),.vs(cb_vs),.de(cb_de),
         .en(old_enable && obg_en),.win_x(obg_x),.win_y(obg_y),.win_w(obg_w),.win_h(obg_h),
         .img_w(obg_iw),.img_h(obg_ih),.words_per_row(obg_wpr),.slot_base(obg_slot),
         .dout(obg_rgb),.dout_vld(obg_vld),.underrun_cnt(),.stall_cnt(),.ferr_cnt(),.gap_cnt(),
         .idle(obg_idle),.clk_sdr(clk_sdr),.rst_sdr_n(~rst_sdr),
-        .px_req(c3_req),.px_addr(c3_addr),.px_len(c3_len),.px_ack(c3_ack),
-        .px_done(c3_done),.px_data(arb_px_data),.px_valid(c3_valid)
+        .px_req(),.px_addr(),.px_len(),.px_ack(1'b0),
+        .px_done(1'b0),.px_data(arb_px_data),.px_valid(1'b0),
+        .scan_state(image_raster),.cmd_valid(img_cmd[2]),.slot_free(img_free[2]),.next_bank(img_bank[2]),
+        .cmd_addr(img_addr[42+:21]),.cmd_words(img_words[32+:16]),.cmd_ack(img_ack[2]),
+        .wr_take(img_take[2]),.wr_active(img_active[2]),.wr_done(img_done[2]),
+        .wr_error(img_err[2]),.wr_en(img_we[2]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
-    layer_cover #(.MAX_W(320)) u_old_cv (
+    layer_cover #(.MAX_W(320),.SHARED_RASTER(1),.SHARED_WRITER(1)) u_old_cv (
         .clk_pix(clk_pix),.rst_pix_n(~rst_pix),.hs(cb_hs),.vs(cb_vs),.de(cb_de),
         .en(old_enable && ocv_en),.ch_key(ch_key),
         .win_x(ocv_x),.win_y(ocv_y),.win_w(ocv_w),.win_h(ocv_h),
         .img_w(ocv_iw),.img_h(ocv_ih),.words_per_row(ocv_wpr),.slot_base(ocv_slot),
         .dout(ocv_rgb),.dout_vld(ocv_vld),.underrun_cnt(),.stall_cnt(),.ferr_cnt(),.gap_cnt(),
         .keyed_cnt(),.idle(ocv_idle),.clk_sdr(clk_sdr),.rst_sdr_n(~rst_sdr),
-        .px_req(c4_req),.px_addr(c4_addr),.px_len(c4_len),.px_ack(c4_ack),
-        .px_done(c4_done),.px_data(arb_px_data),.px_valid(c4_valid)
+        .px_req(),.px_addr(),.px_len(),.px_ack(1'b0),
+        .px_done(1'b0),.px_data(arb_px_data),.px_valid(1'b0),
+        .scan_state(image_raster),.cmd_valid(img_cmd[3]),.slot_free(img_free[3]),.next_bank(img_bank[3]),
+        .cmd_addr(img_addr[63+:21]),.cmd_words(img_words[48+:16]),.cmd_ack(img_ack[3]),
+        .wr_take(img_take[3]),.wr_active(img_active[3]),.wr_done(img_done[3]),
+        .wr_error(img_err[3]),.wr_en(img_we[3]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
 
     localparam [23:0] base_rgb = 24'h0A140A; // ★ 底色常量（同上；与 PC golden 的 base 对齐）
