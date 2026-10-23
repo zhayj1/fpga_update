@@ -1,0 +1,19 @@
+# End time: 22:35:51 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9f4759d8c6c8418ba022e5cd9b569e3e/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_scene 
+# Start time: 22:35:51 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_scene
+# Loading work.scene_fade
+# Loading work.scene_blend
+# SCENARIO_PASS first_scene_frame_boundary
+# SCENARIO_PASS fade_and_reader_retirement
+# SCENARIO_PASS reset_during_fade
+# SCENARIO_PASS blend_all_weights_and_sync
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scene.v(88)
+#    Time: 125840 ns  Iteration: 1  Instance: /tb_scene
+# Break in Module tb_scene at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scene.v line 88
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scene.v line 88
+# End time: 22:35:52 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1

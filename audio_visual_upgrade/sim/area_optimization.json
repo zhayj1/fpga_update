@@ -1,0 +1,155 @@
+{
+  "objective": "Recover Slice capacity for the complete HTML/DOCX upgrade without removing features.",
+  "target_slice_percent": 80,
+  "target_is_proven": false,
+  "current_retained_tag": "area_bmp_r1",
+  "current_slices": 8474,
+  "current_slice_percent": 86.47,
+  "free_slices": 1326,
+  "additional_slices_to_recover_to_reach_80_percent": 634,
+  "current_sources_match_retained_build": true,
+  "current_board_confirmation": {
+    "reported_on": "2026-10-23",
+    "tag": "area_bmp_r1",
+    "user_report": "上板没有问题",
+    "status": "USER_CONFIRMED_BOARD_PASS",
+    "scope_limit": "User-reported normal board behavior; full upgrade coverage, long-duration stability and timing closure are not established."
+  },
+  "current_synthesis_source_hash_mismatches": 0,
+  "current_implementation_source_hash_mismatches": 0,
+  "current_integration_input_hashes_checked": 84,
+  "current_integration_input_hash_mismatches": 0,
+  "integration_scope_limit": "Core regression at 150 MHz with the real SPI/FAT/SDRAM models and an HDMI transmitter stub; not validation of the 100 MHz board clock/phase or the HDMI transmitter.",
+  "mapping_default": "LUT structure off; no additional mapping or placement options were introduced.",
+  "device": "EG4S20BG256",
+  "board_reference": {
+    "tag": "bringup100",
+    "slices": 9309,
+    "slice_percent": 94.99,
+    "user_confirmed_prepared_asset_display": true
+  },
+  "experiments": [
+    {
+      "tag": "area_mapoff_r1",
+      "change": "Disable LUT structure mapping; retain identical RTL and board clocks.",
+      "slices": 8729,
+      "slice_percent": 89.07,
+      "slices_recovered_from_board_reference": 580,
+      "ram9k": 43,
+      "ram32k": 4,
+      "dsp": 13,
+      "setup_wns_ns": -5.565,
+      "shift_clock_setup_wns_ns": -1.535,
+      "hold_wns_ns": 0.024,
+      "timing_closed": false,
+      "status": "retained_area_reference_not_board_tested",
+      "build_result": "prj/td_build/area_mapoff_r1_phy/build_result.json"
+    },
+    {
+      "tag": "area_catalog_r1",
+      "change": "Reduce fixed song validity groups before dynamic song selection.",
+      "slices": 8763,
+      "slice_percent": 89.42,
+      "slice_increase_from_area_reference": 34,
+      "catalog_unit_tests": [
+        "catalog_legacy_after_sim_result.json",
+        "catalog_matrix_after_sim_result.json"
+      ],
+      "integration_test": "area_catalog_integration_sim_result.json",
+      "integration_test_status": "PASS",
+      "setup_wns_ns": -5.565,
+      "shift_clock_setup_wns_ns": -1.582,
+      "hold_wns_ns": 0.030,
+      "timing_closed": false,
+      "status": "rejected_for_physical_slice_regression_rtl_reverted",
+      "build_result": "prj/td_build/area_catalog_r1_phy/build_result.json"
+    },
+    {
+      "tag": "area_storage_r1",
+      "change": "Replace the mount barrel shifter with up to seven single-bit shift cycles; retain only the 152 directory-entry bits consumed by the scanner.",
+      "slices": 8589,
+      "slice_percent": 87.64,
+      "slices_recovered_from_previous_retained": 140,
+      "slices_recovered_from_board_reference": 720,
+      "ram9k": 43,
+      "ram32k": 4,
+      "dsp": 13,
+      "unit_tests": [
+        "mount_area_before_sim_result.json",
+        "mount_area_after_sim_result.json",
+        "scan_capacity_after_sim_result.json"
+      ],
+      "integration_test": "area_storage_integration_sim_result.json",
+      "integration_test_status": "PASS",
+      "setup_wns_ns": -5.565,
+      "shift_clock_setup_wns_ns": -1.836,
+      "hold_wns_ns": 0.024,
+      "timing_closed": false,
+      "status": "retained_not_board_tested",
+      "build_result": "prj/td_build/area_storage_r1_phy/build_result.json",
+      "bitstream": {
+        "path": "prj/td_build/area_storage_r1_phy/skeleton.bit",
+        "sha256": "6D9F3789EED8A7DC88E048BF3CC512944223B7800A7F0CA3509CD298080C1CF7"
+      }
+    },
+    {
+      "tag": "area_bmp_r1",
+      "change": "Bound BMP row, padding and write counters by configured limits while retaining full-width header validation and error priority.",
+      "slices": 8474,
+      "slice_percent": 86.47,
+      "slices_recovered_from_previous_retained": 115,
+      "slices_recovered_from_board_reference": 835,
+      "ram9k": 43,
+      "ram32k": 4,
+      "dsp": 13,
+      "unit_tests": [
+        "bmp_capacity_before_sim_result.json",
+        "bmp_capacity_after_sim_result.json"
+      ],
+      "integration_test": "area_bmp_integration_sim_result.json",
+      "integration_test_status": "PASS",
+      "setup_wns_ns": -5.565,
+      "shift_clock_setup_wns_ns": -1.166,
+      "hold_wns_ns": 0.024,
+      "timing_closed": false,
+      "status": "retained_user_confirmed_board_pass",
+      "build_result": "prj/td_build/area_bmp_r1_phy/build_result.json",
+      "bitstream": {
+        "path": "prj/td_build/area_bmp_r1_phy/skeleton.bit",
+        "sha256": "9FA408F7A6E8BB41EB34F0D5A79C12E5DF34D46EDE18C5631002C4DA999EF567"
+      }
+    },
+    {
+      "tag": "area_control_r1",
+      "change": "Bound saturating watchdogs in lyric_pick, lyric_row, fat32_sessions and fat32_scan; bound the lyric scroll accumulator including its pre-subtraction sum.",
+      "slices": 8539,
+      "slice_percent": 87.13,
+      "slice_increase_from_previous_retained": 65,
+      "ram9k": 43,
+      "ram32k": 4,
+      "dsp": 13,
+      "unit_tests": [
+        "lyric_pick_before_sim_result.json",
+        "lyric_pick_after_sim_result.json",
+        "lyric_row_before_sim_result.json",
+        "lyric_row_after_sim_result.json",
+        "sessions_before_sim_result.json",
+        "sessions_after_sim_result.json",
+        "scan_capacity_wd_after_sim_result.json",
+        "lyric_bounds_reference_sim_result.json",
+        "lyric_bounds_after_sim_result.json"
+      ],
+      "integration_test": "area_control_integration_sim_result.json",
+      "integration_test_status": "PASS",
+      "setup_wns_ns": -5.565,
+      "shift_clock_setup_wns_ns": -1.132,
+      "hold_wns_ns": 0.030,
+      "timing_closed": false,
+      "status": "rejected_for_physical_slice_regression_rtl_reverted",
+      "revert_verified_against_retained_build_source_hashes": true,
+      "build_result": "prj/td_build/area_control_r1_phy/build_result.json"
+    }
+  ],
+  "full_upgrade_complete": false,
+  "board_download_performed_by_agent": false
+}

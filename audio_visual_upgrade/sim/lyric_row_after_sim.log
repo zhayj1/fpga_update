@@ -1,0 +1,31 @@
+# End time: 11:34:36 on Oct 23,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/a19c19e6362f49769c3f7764d93b0f16/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_lyric_row 
+# Start time: 11:34:36 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_lyric_row
+# Loading work.lyric_row
+#   LR-01 golden line0 grow16 mixed-highlight OK
+# SCENARIO_PASS LR-01
+# SCENARIO_PASS LR-02
+# SCENARIO_PASS LR-03
+#   LR-04 fc!=0 (char_off honored) + bank1 OK
+# SCENARIO_PASS LR-04
+#   LR-05 last-line grow30 OK
+# SCENARIO_PASS LR-05
+# SCENARIO_PASS LR-06
+# SCENARIO_PASS LR-07
+# SCENARIO_PASS LR-08
+# SCENARIO_PASS LR-09
+# SCENARIO_PASS LR-10
+# SCENARIO_PASS LR-11
+#   LR-12 cnt 19/20 boundary (19 draws, 20 refuses) OK
+# SCENARIO_PASS LR-12
+# PROT_TXT_LEN bursts=246 all_len_ge4=1 all_aligned=1
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_row_area.v(434)
+#    Time: 4028650 ns  Iteration: 1  Instance: /tb_lyric_row
+# Break in Module tb_lyric_row at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_row_area.v line 434
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_row_area.v line 434
+# End time: 11:34:37 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1

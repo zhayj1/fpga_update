@@ -1,0 +1,11 @@
+{
+  "status": "ERROR",
+  "reason": "Source not found: ip/sdram/sdr_wrrd.v",
+  "backend": "modelsim",
+  "started_at": 1792680182.558508,
+  "compile_exit_code": null,
+  "sim_exit_code": null,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "finished_at": 1792680182.5645084
+}

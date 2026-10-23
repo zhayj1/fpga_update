@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792726483.8807447,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.fat32_scan",
+    "tb_top": "work.tb_scan_capacity",
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/storage/fat32_scan.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_scan_capacity.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "scan-capacity-all-cluster-sizes",
+    "scan-end-marker-after-restart",
+    "scan-no-progress-watchdog",
+    "scan-reset-cancels-wait"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_scan.v": "a604206cc39918eafae69f05295c2407f5dabdc2825702184fe4a7762cc002dd",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_scan_capacity.json": "9fc4634dd3c251dfa0f691e755672cca63f1aae7bb35f16f88f29e3f6407e0ac",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_scan_capacity.json": "7bb4674f7a42510399369394056712da99db51765d22cf6aa61a754336d57edd",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scan_capacity.v": "f877de8d400285248cea8cc29777ef971ab47f8a9735b24875910d34df13b409"
+  },
+  "command": [
+    "D:/modeltech64_10.6e/win64/vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/f590fb2b77cd491f8e2c661d25c2a38c/run.do\""
+  ],
+  "script": "sim/modelsim/f590fb2b77cd491f8e2c661d25c2a38c/run.do",
+  "compile_log": "sim/scan_capacity_wd_after_compile.log",
+  "sim_log": "sim/scan_capacity_wd_after_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1792726487.9931364
+}

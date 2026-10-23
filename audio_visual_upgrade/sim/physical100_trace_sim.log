@@ -1,0 +1,261 @@
+# End time: 07:24:29 on Oct 23,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/24e81115c5fd403c8a07c30ae95ba52c/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_memory_trace -gSDR_SHIFT=5.0 -gSDR_HALF=5.0 
+# Start time: 07:24:29 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_memory_trace
+# Loading work.tb_display_memory
+# Loading work.color_bar
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# Loading work.sdram_top
+# Loading work.sdr_as_ram
+# Loading work.sdr_init_ref
+# Loading work.IS42s32200
+# PHY_TRACE_SCOPE half_ns=5.000 shift_ns=5.000 diagnostic_only=1
+# PHY_CLOCK t=1841035.000 rd_req=1 addr=000000 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841040.000 cmd=111 bank=z addr=032 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841045.000 rd_req=1 addr=000001 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841050.000 cmd=111 bank=z addr=032 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841055.000 rd_req=1 addr=000002 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841060.000 cmd=111 bank=3 addr=7dc dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841065.000 rd_req=1 addr=000003 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841070.000 cmd=011 bank=0 addr=000 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841075.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841080.000 cmd=111 bank=0 addr=000 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841085.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841090.000 cmd=111 bank=0 addr=000 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841095.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841100.000 cmd=101 bank=0 addr=400 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841105.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841110.000 cmd=111 bank=0 addr=400 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841115.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841120.000 cmd=111 bank=0 addr=400 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841125.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_DQ t=1841125.500 dq=00000000
+# PHY_COMMAND t=1841130.000 cmd=111 bank=0 addr=400 dm=0 dq=00000000
+# PHY_CLOCK t=1841135.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=00000000
+# PHY_DQ t=1841135.500 dq=06000103
+# PHY_COMMAND t=1841140.000 cmd=111 bank=0 addr=400 dm=0 dq=06000103
+# PHY_CLOCK t=1841145.000 rd_req=0 addr=000004 rdv=1 rd=00000000 dq=06000103
+# PHY_RETURN t=1841145.000 index=0 addr=000000 got=00000000 exp=00000000
+# PHY_DQ t=1841145.500 dq=03090002
+# PHY_COMMAND t=1841150.000 cmd=111 bank=0 addr=400 dm=0 dq=03090002
+# PHY_CLOCK t=1841155.000 rd_req=0 addr=000004 rdv=1 rd=06000103 dq=03090002
+# PHY_RETURN t=1841155.000 index=1 addr=000001 got=06000103 exp=06000103
+# PHY_DQ t=1841155.500 dq=00040c00
+# PHY_COMMAND t=1841160.000 cmd=111 bank=0 addr=400 dm=0 dq=00040c00
+# PHY_DQ t=1841162.500 dq=zzzzzzzz
+# PHY_CLOCK t=1841165.000 rd_req=0 addr=000004 rdv=1 rd=03090002 dq=zzzzzzzz
+# PHY_RETURN t=1841165.000 index=2 addr=000002 got=03090002 exp=03090002
+# PHY_COMMAND t=1841170.000 cmd=111 bank=0 addr=400 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841175.000 rd_req=0 addr=000004 rdv=1 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_RETURN t=1841175.000 index=3 addr=000003 got=zzzzzzzz exp=00040c00
+# PHY_COMMAND t=1841180.000 cmd=111 bank=0 addr=400 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841185.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841190.000 cmd=111 bank=z addr=032 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841195.000 rd_req=0 addr=000004 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841200.000 cmd=111 bank=z addr=032 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841205.000 rd_req=0 addr=000000 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_COMMAND t=1841210.000 cmd=111 bank=z addr=032 dm=0 dq=zzzzzzzz
+# PHY_CLOCK t=1841215.000 rd_req=0 addr=0fff01 rdv=0 rd=zzzzzzzz dq=zzzzzzzz
+# PHY_DQ t=1841215.000 dq=626c9562
+# PHY_COMMAND t=1841220.000 cmd=111 bank=z addr=032 dm=0 dq=626c9562
+# PHY_CLOCK t=1841225.000 rd_req=0 addr=0fff02 rdv=0 rd=zzzzzzzz dq=626c9562
+# PHY_COMMAND t=1841230.000 cmd=111 bank=0 addr=400 dm=0 dq=626c9562
+# PHY_CLOCK t=1841235.000 rd_req=0 addr=0fff03 rdv=0 rd=626c9562 dq=626c9562
+# PHY_COMMAND t=1841240.000 cmd=011 bank=0 addr=3ff dm=0 dq=626c9562
+# PHY_CLOCK t=1841245.000 rd_req=0 addr=0fff04 rdv=0 rd=626c9562 dq=626c9562
+# PHY_COMMAND t=1841250.000 cmd=111 bank=0 addr=3ff dm=0 dq=626c9562
+# PHY_CLOCK t=1841255.000 rd_req=0 addr=0fff05 rdv=0 rd=626c9562 dq=626c9562
+# PHY_COMMAND t=1841260.000 cmd=111 bank=0 addr=3ff dm=0 dq=626c9562
+# PHY_CLOCK t=1841265.000 rd_req=0 addr=0fff06 rdv=0 rd=626c9562 dq=626c9562
+# PHY_COMMAND t=1841270.000 cmd=100 bank=0 addr=7c0 dm=0 dq=626c9562
+# PHY_CLOCK t=1841275.000 rd_req=0 addr=0fff07 rdv=0 rd=626c9562 dq=626c9562
+# PHY_DQ t=1841275.000 dq=9b626d98
+# PHY_COMMAND t=1841280.000 cmd=011 bank=1 addr=3ff dm=0 dq=9b626d98
+# PHY_CLOCK t=1841285.000 rd_req=0 addr=0fff08 rdv=0 rd=626c9562 dq=9b626d98
+# PHY_DQ t=1841285.000 dq=6f9e626e
+# PHY_COMMAND t=1841290.000 cmd=111 bank=1 addr=3ff dm=0 dq=6f9e626e
+# PHY_CLOCK t=1841295.000 rd_req=0 addr=0fff09 rdv=0 rd=9b626d98 dq=6f9e626e
+# PHY_DQ t=1841295.000 dq=6270a162
+# PHY_COMMAND t=1841300.000 cmd=111 bank=1 addr=3ff dm=0 dq=6270a162
+# PHY_CLOCK t=1841305.000 rd_req=0 addr=0fff0a rdv=0 rd=6f9e626e dq=6270a162
+# PHY_DQ t=1841305.000 dq=a76271a4
+# PHY_COMMAND t=1841310.000 cmd=100 bank=1 addr=7c0 dm=0 dq=a76271a4
+# PHY_CLOCK t=1841315.000 rd_req=0 addr=0fff0b rdv=0 rd=6270a162 dq=a76271a4
+# PHY_DQ t=1841315.000 dq=73aa6272
+# PHY_COMMAND t=1841320.000 cmd=011 bank=2 addr=3ff dm=0 dq=73aa6272
+# PHY_CLOCK t=1841325.000 rd_req=0 addr=0fff0c rdv=0 rd=a76271a4 dq=73aa6272
+# PHY_DQ t=1841325.000 dq=6274ad62
+# PHY_COMMAND t=1841330.000 cmd=111 bank=2 addr=3ff dm=0 dq=6274ad62
+# PHY_CLOCK t=1841335.000 rd_req=0 addr=0fff0d rdv=0 rd=73aa6272 dq=6274ad62
+# PHY_DQ t=1841335.000 dq=b36275b0
+# PHY_COMMAND t=1841340.000 cmd=111 bank=2 addr=3ff dm=0 dq=b36275b0
+# PHY_CLOCK t=1841345.000 rd_req=0 addr=0fff0e rdv=0 rd=6274ad62 dq=b36275b0
+# PHY_DQ t=1841345.000 dq=77b66276
+# PHY_COMMAND t=1841350.000 cmd=100 bank=2 addr=7c0 dm=0 dq=77b66276
+# PHY_CLOCK t=1841355.000 rd_req=0 addr=0fff0f rdv=0 rd=b36275b0 dq=77b66276
+# PHY_DQ t=1841355.000 dq=6278b962
+# PHY_COMMAND t=1841360.000 cmd=011 bank=3 addr=3ff dm=0 dq=6278b962
+# PHY_CLOCK t=1841365.000 rd_req=0 addr=0fff10 rdv=0 rd=77b66276 dq=6278b962
+# PHY_DQ t=1841365.000 dq=bf6279bc
+# PHY_COMMAND t=1841370.000 cmd=111 bank=3 addr=3ff dm=0 dq=bf6279bc
+# PHY_CLOCK t=1841375.000 rd_req=0 addr=0fff11 rdv=0 rd=6278b962 dq=bf6279bc
+# PHY_DQ t=1841375.000 dq=7bc2627a
+# PHY_COMMAND t=1841380.000 cmd=111 bank=3 addr=3ff dm=0 dq=7bc2627a
+# PHY_CLOCK t=1841385.000 rd_req=0 addr=0fff12 rdv=0 rd=bf6279bc dq=7bc2627a
+# PHY_DQ t=1841385.000 dq=627cc562
+# PHY_COMMAND t=1841390.000 cmd=100 bank=3 addr=7c0 dm=0 dq=627cc562
+# PHY_CLOCK t=1841395.000 rd_req=0 addr=0fff13 rdv=0 rd=7bc2627a dq=627cc562
+# PHY_DQ t=1841395.000 dq=cb627dc8
+# PHY_COMMAND t=1841400.000 cmd=011 bank=0 addr=3ff dm=0 dq=cb627dc8
+# PHY_CLOCK t=1841405.000 rd_req=0 addr=0fff14 rdv=0 rd=627cc562 dq=cb627dc8
+# PHY_DQ t=1841405.000 dq=7fce627e
+# PHY_COMMAND t=1841410.000 cmd=111 bank=0 addr=3ff dm=0 dq=7fce627e
+# PHY_CLOCK t=1841415.000 rd_req=0 addr=0fff15 rdv=0 rd=cb627dc8 dq=7fce627e
+# PHY_DQ t=1841415.000 dq=6280d162
+# PHY_COMMAND t=1841420.000 cmd=111 bank=0 addr=3ff dm=0 dq=6280d162
+# PHY_CLOCK t=1841425.000 rd_req=0 addr=0fff16 rdv=0 rd=7fce627e dq=6280d162
+# PHY_DQ t=1841425.000 dq=d76281d4
+# PHY_COMMAND t=1841430.000 cmd=100 bank=0 addr=7c4 dm=0 dq=d76281d4
+# PHY_CLOCK t=1841435.000 rd_req=0 addr=0fff17 rdv=0 rd=6280d162 dq=d76281d4
+# PHY_DQ t=1841435.000 dq=83da6282
+# PHY_COMMAND t=1841440.000 cmd=011 bank=1 addr=3ff dm=0 dq=83da6282
+# PHY_CLOCK t=1841445.000 rd_req=0 addr=0fff18 rdv=0 rd=d76281d4 dq=83da6282
+# PHY_DQ t=1841445.000 dq=6284dd62
+# PHY_COMMAND t=1841450.000 cmd=111 bank=1 addr=3ff dm=0 dq=6284dd62
+# PHY_CLOCK t=1841455.000 rd_req=0 addr=0fff19 rdv=0 rd=83da6282 dq=6284dd62
+# PHY_DQ t=1841455.000 dq=e36285e0
+# PHY_COMMAND t=1841460.000 cmd=111 bank=1 addr=3ff dm=0 dq=e36285e0
+# PHY_CLOCK t=1841465.000 rd_req=0 addr=0fff1a rdv=0 rd=6284dd62 dq=e36285e0
+# PHY_DQ t=1841465.000 dq=87e66286
+# PHY_COMMAND t=1841470.000 cmd=100 bank=1 addr=7c4 dm=0 dq=87e66286
+# PHY_CLOCK t=1841475.000 rd_req=0 addr=0fff1b rdv=0 rd=e36285e0 dq=87e66286
+# PHY_DQ t=1841475.000 dq=6288e962
+# PHY_COMMAND t=1841480.000 cmd=011 bank=2 addr=3ff dm=0 dq=6288e962
+# PHY_CLOCK t=1841485.000 rd_req=0 addr=0fff1c rdv=0 rd=87e66286 dq=6288e962
+# PHY_DQ t=1841485.000 dq=ef6289ec
+# PHY_COMMAND t=1841490.000 cmd=111 bank=2 addr=3ff dm=0 dq=ef6289ec
+# PHY_CLOCK t=1841495.000 rd_req=0 addr=0fff1d rdv=0 rd=6288e962 dq=ef6289ec
+# PHY_DQ t=1841495.000 dq=8bf2628a
+# PHY_COMMAND t=1841500.000 cmd=111 bank=2 addr=3ff dm=0 dq=8bf2628a
+# PHY_CLOCK t=1841505.000 rd_req=0 addr=0fff1e rdv=0 rd=ef6289ec dq=8bf2628a
+# PHY_DQ t=1841505.000 dq=628cf562
+# PHY_COMMAND t=1841510.000 cmd=100 bank=2 addr=7c4 dm=0 dq=628cf562
+# PHY_CLOCK t=1841515.000 rd_req=0 addr=0fff1f rdv=0 rd=8bf2628a dq=628cf562
+# PHY_DQ t=1841515.000 dq=fb628df8
+# PHY_COMMAND t=1841520.000 cmd=011 bank=3 addr=3ff dm=0 dq=fb628df8
+# PHY_CLOCK t=1841525.000 rd_req=0 addr=0fff20 rdv=0 rd=628cf562 dq=fb628df8
+# PHY_DQ t=1841525.000 dq=8ffe628e
+# PHY_COMMAND t=1841530.000 cmd=111 bank=3 addr=3ff dm=0 dq=8ffe628e
+# PHY_CLOCK t=1841535.000 rd_req=0 addr=0fff21 rdv=0 rd=fb628df8 dq=8ffe628e
+# PHY_DQ t=1841535.000 dq=62900162
+# PHY_COMMAND t=1841540.000 cmd=111 bank=3 addr=3ff dm=0 dq=62900162
+# PHY_CLOCK t=1841545.000 rd_req=0 addr=0fff22 rdv=0 rd=8ffe628e dq=62900162
+# PHY_DQ t=1841545.000 dq=07629104
+# PHY_COMMAND t=1841550.000 cmd=100 bank=3 addr=7c4 dm=0 dq=07629104
+# PHY_CLOCK t=1841555.000 rd_req=0 addr=0fff23 rdv=0 rd=62900162 dq=07629104
+# PHY_DQ t=1841555.000 dq=930a6292
+# PHY_COMMAND t=1841560.000 cmd=011 bank=0 addr=3ff dm=0 dq=930a6292
+# PHY_CLOCK t=1841565.000 rd_req=0 addr=0fff24 rdv=0 rd=07629104 dq=930a6292
+# PHY_DQ t=1841565.000 dq=62940d62
+# PHY_COMMAND t=1841570.000 cmd=111 bank=0 addr=3ff dm=0 dq=62940d62
+# PHY_CLOCK t=1841575.000 rd_req=0 addr=0fff25 rdv=0 rd=930a6292 dq=62940d62
+# PHY_DQ t=1841575.000 dq=13629510
+# PHY_COMMAND t=1841580.000 cmd=111 bank=0 addr=3ff dm=0 dq=13629510
+# PHY_CLOCK t=1841585.000 rd_req=0 addr=0fff26 rdv=0 rd=62940d62 dq=13629510
+# PHY_DQ t=1841585.000 dq=97166296
+# PHY_COMMAND t=1841590.000 cmd=100 bank=0 addr=7c8 dm=0 dq=97166296
+# PHY_CLOCK t=1841595.000 rd_req=0 addr=0fff27 rdv=0 rd=13629510 dq=97166296
+# PHY_DQ t=1841595.000 dq=62981962
+# PHY_COMMAND t=1841600.000 cmd=011 bank=1 addr=3ff dm=0 dq=62981962
+# PHY_CLOCK t=1841605.000 rd_req=0 addr=0fff28 rdv=0 rd=97166296 dq=62981962
+# PHY_DQ t=1841605.000 dq=1f62991c
+# PHY_COMMAND t=1841610.000 cmd=111 bank=1 addr=3ff dm=0 dq=1f62991c
+# PHY_CLOCK t=1841615.000 rd_req=0 addr=0fff29 rdv=0 rd=62981962 dq=1f62991c
+# PHY_DQ t=1841615.000 dq=9b22629a
+# PHY_COMMAND t=1841620.000 cmd=111 bank=1 addr=3ff dm=0 dq=9b22629a
+# PHY_CLOCK t=1841625.000 rd_req=0 addr=0fff2a rdv=0 rd=1f62991c dq=9b22629a
+# PHY_DQ t=1841625.000 dq=629c2562
+# PHY_COMMAND t=1841630.000 cmd=100 bank=1 addr=7c8 dm=0 dq=629c2562
+# PHY_CLOCK t=1841635.000 rd_req=0 addr=0fff2b rdv=0 rd=9b22629a dq=629c2562
+# PHY_DQ t=1841635.000 dq=2b629d28
+# PHY_COMMAND t=1841640.000 cmd=011 bank=2 addr=3ff dm=0 dq=2b629d28
+# PHY_CLOCK t=1841645.000 rd_req=0 addr=0fff2c rdv=0 rd=629c2562 dq=2b629d28
+# PHY_DQ t=1841645.000 dq=9f2e629e
+# PHY_COMMAND t=1841650.000 cmd=111 bank=2 addr=3ff dm=0 dq=9f2e629e
+# PHY_CLOCK t=1841655.000 rd_req=0 addr=0fff2d rdv=0 rd=2b629d28 dq=9f2e629e
+# PHY_DQ t=1841655.000 dq=62a03162
+# PHY_COMMAND t=1841660.000 cmd=111 bank=2 addr=3ff dm=0 dq=62a03162
+# PHY_CLOCK t=1841665.000 rd_req=0 addr=0fff2e rdv=0 rd=9f2e629e dq=62a03162
+# PHY_DQ t=1841665.000 dq=3762a134
+# PHY_COMMAND t=1841670.000 cmd=100 bank=2 addr=7c8 dm=0 dq=3762a134
+# PHY_CLOCK t=1841675.000 rd_req=0 addr=0fff2f rdv=0 rd=62a03162 dq=3762a134
+# PHY_DQ t=1841675.000 dq=a33a62a2
+# PHY_COMMAND t=1841680.000 cmd=011 bank=3 addr=3ff dm=0 dq=a33a62a2
+# PHY_CLOCK t=1841685.000 rd_req=0 addr=0fff30 rdv=0 rd=3762a134 dq=a33a62a2
+# PHY_DQ t=1841685.000 dq=62a43d62
+# PHY_COMMAND t=1841690.000 cmd=111 bank=3 addr=3ff dm=0 dq=62a43d62
+# PHY_CLOCK t=1841695.000 rd_req=0 addr=0fff31 rdv=0 rd=a33a62a2 dq=62a43d62
+# PHY_DQ t=1841695.000 dq=4362a540
+# PHY_COMMAND t=1841700.000 cmd=111 bank=3 addr=3ff dm=0 dq=4362a540
+# PHY_CLOCK t=1841705.000 rd_req=0 addr=0fff32 rdv=0 rd=62a43d62 dq=4362a540
+# PHY_DQ t=1841705.000 dq=a74662a6
+# PHY_COMMAND t=1841710.000 cmd=100 bank=3 addr=7c8 dm=0 dq=a74662a6
+# PHY_CLOCK t=1841715.000 rd_req=0 addr=0fff33 rdv=0 rd=4362a540 dq=a74662a6
+# PHY_DQ t=1841715.000 dq=62a84962
+# PHY_COMMAND t=1841720.000 cmd=011 bank=0 addr=3ff dm=0 dq=62a84962
+# PHY_CLOCK t=1841725.000 rd_req=0 addr=0fff34 rdv=0 rd=a74662a6 dq=62a84962
+# PHY_DQ t=1841725.000 dq=4f62a94c
+# PHY_COMMAND t=1841730.000 cmd=111 bank=0 addr=3ff dm=0 dq=4f62a94c
+# PHY_CLOCK t=1841735.000 rd_req=0 addr=0fff35 rdv=0 rd=62a84962 dq=4f62a94c
+# PHY_DQ t=1841735.000 dq=ab5262aa
+# PHY_COMMAND t=1841740.000 cmd=111 bank=0 addr=3ff dm=0 dq=ab5262aa
+# PHY_CLOCK t=1841745.000 rd_req=0 addr=0fff36 rdv=0 rd=4f62a94c dq=ab5262aa
+# PHY_DQ t=1841745.000 dq=62ac5562
+# PHY_COMMAND t=1841750.000 cmd=100 bank=0 addr=7cc dm=0 dq=62ac5562
+# PHY_CLOCK t=1841755.000 rd_req=0 addr=0fff37 rdv=0 rd=ab5262aa dq=62ac5562
+# PHY_DQ t=1841755.000 dq=5b62ad58
+# PHY_COMMAND t=1841760.000 cmd=011 bank=1 addr=3ff dm=0 dq=5b62ad58
+# PHY_CLOCK t=1841765.000 rd_req=0 addr=0fff38 rdv=0 rd=62ac5562 dq=5b62ad58
+# PHY_DQ t=1841765.000 dq=af5e62ae
+# PHY_COMMAND t=1841770.000 cmd=111 bank=1 addr=3ff dm=0 dq=af5e62ae
+# PHY_CLOCK t=1841775.000 rd_req=0 addr=0fff39 rdv=0 rd=5b62ad58 dq=af5e62ae
+# PHY_DQ t=1841775.000 dq=62b06162
+# PHY_COMMAND t=1841780.000 cmd=111 bank=1 addr=3ff dm=0 dq=62b06162
+# PHY_CLOCK t=1841785.000 rd_req=0 addr=0fff3a rdv=0 rd=af5e62ae dq=62b06162
+# PHY_DQ t=1841785.000 dq=6762b164
+# PHY_COMMAND t=1841790.000 cmd=100 bank=1 addr=7cc dm=0 dq=6762b164
+# PHY_CLOCK t=1841795.000 rd_req=0 addr=0fff3b rdv=0 rd=62b06162 dq=6762b164
+# PHY_DQ t=1841795.000 dq=b36a62b2
+# PHY_COMMAND t=1841800.000 cmd=011 bank=2 addr=3ff dm=0 dq=b36a62b2
+# PHY_CLOCK t=1841805.000 rd_req=0 addr=0fff3c rdv=0 rd=6762b164 dq=b36a62b2
+# PHY_DQ t=1841805.000 dq=62b46d62
+# PHY_COMMAND t=1841810.000 cmd=111 bank=2 addr=3ff dm=0 dq=62b46d62
+# PHY_CLOCK t=1841815.000 rd_req=0 addr=0fff3d rdv=0 rd=b36a62b2 dq=62b46d62
+# PHY_DQ t=1841815.000 dq=7362b570
+# PHY_COMMAND t=1841820.000 cmd=111 bank=2 addr=3ff dm=0 dq=7362b570
+# PHY_CLOCK t=1841825.000 rd_req=0 addr=0fff3e rdv=0 rd=62b46d62 dq=7362b570
+# PIXEL_ERROR layer=0 frame=1 x=4 y=0 v=1 got=zzzzzz exp=000c04
+# PIXEL_ERROR layer=1 frame=1 x=4 y=0 v=1 got=zzzzzz exp=2b0c15
+# PIXEL_ERROR layer=0 frame=1 x=5 y=0 v=1 got=zz0f05 exp=000f05
+# PIXEL_ERROR layer=1 frame=1 x=5 y=0 v=1 got=zz0f16 exp=2b0f16
+# PIXEL_ERROR layer=0 frame=1 x=9 y=0 v=1 got=00zzzz exp=001b09
+# PIXEL_ERROR layer=1 frame=1 x=9 y=0 v=1 got=2bzzzz exp=2b1b1a
+# PIXEL_ERROR layer=2 frame=1 x=104 y=3 v=1 got=zzzzzz exp=560c26
+# PIXEL_ERROR layer=3 frame=1 x=104 y=3 v=1 got=zzzzzz exp=810c37
+# PIXEL_ERROR layer=2 frame=1 x=105 y=3 v=1 got=zz0f27 exp=560f27
+# PIXEL_ERROR layer=3 frame=1 x=105 y=3 v=1 got=zz0f38 exp=810f38
+# PIXEL_ERROR layer=2 frame=1 x=109 y=3 v=1 got=56zzzz exp=561b2b
+# PIXEL_ERROR layer=3 frame=1 x=109 y=3 v=1 got=81zzzz exp=811b3c
+# IMAGE_RESULT layer=0 pixels=20480 errors=7680 und=0 stall=0 ferr=0 gap=0 collisions=0
+# TEST_FAIL image content or ownership
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v(190)
+#    Time: 7952870 ns  Iteration: 1  Instance: /tb_display_memory_trace/test
+# Break in Module tb_display_memory at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 190
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 190
+# End time: 07:24:35 on Oct 23,2026, Elapsed time: 0:00:06
+# Errors: 0, Warnings: 1

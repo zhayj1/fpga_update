@@ -1,0 +1,12 @@
+# Retain the exact bytes recorded in build and simulation input manifests.
+* -text
+*.BMP binary
+*.bmp binary
+*.bit binary
+*.WAV binary
+*.wav binary
+*.HZK binary
+*.hzk binary
+*.enc.v binary
+*.png binary
+*.docx binary

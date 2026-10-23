@@ -1,0 +1,48 @@
+# Model Technology ModelSim SE-64 vmap 10.6e Lib Mapping Utility 2018.06 Jun 23 2018
+# vmap -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/modelsim.ini work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/work 
+# Modifying D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/modelsim.ini
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 11:03:38 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/resource_catalog.v 
+# -- Compiling module resource_catalog
+# 
+# Top level modules:
+# 	resource_catalog
+# End time: 11:03:38 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 11:03:38 on Oct 23,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/modelsim.ini -work work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_catalog_matrix.v 
+# -- Compiling module tb_catalog_matrix
+# 
+# Top level modules:
+# 	tb_catalog_matrix
+# End time: 11:03:38 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# reading D:/modeltech64_10.6e/win64/../modelsim.ini
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.resource_catalog 
+# Start time: 11:03:38 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/work.resource_catalog
+# Loading work.resource_catalog
+# End time: 11:03:38 on Oct 23,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_catalog_matrix 
+# Start time: 11:03:38 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/56c0f6cae0074ea68506cefd3d1b2d4c/work.tb_catalog_matrix
+# Loading work.tb_catalog_matrix
+# Loading work.resource_catalog

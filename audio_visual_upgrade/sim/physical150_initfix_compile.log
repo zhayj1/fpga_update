@@ -1,0 +1,153 @@
+# Model Technology ModelSim SE-64 vmap 10.6e Lib Mapping Utility 2018.06 Jun 23 2018
+# vmap -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini work D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work 
+# Modifying D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:38 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v 
+# 
+# Top level modules:
+# End time: 23:01:38 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:38 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/IS42s32200.v 
+# -- Compiling module IS42s32200
+# 
+# Top level modules:
+# 	IS42s32200
+# End time: 23:01:38 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:38 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_as_ram.enc.v 
+# -- Compiling module sdr_as_ram
+# 
+# Top level modules:
+# 	sdr_as_ram
+# End time: 23:01:39 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:39 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_wrrd.enc.v 
+# ** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.
+# 
+# Top level modules:
+# End time: 23:01:39 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 2
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:39 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v 
+# -- Compiling module sdr_init_ref
+# ** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.
+# 
+# Top level modules:
+# 	sdr_init_ref
+# End time: 23:01:39 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:39 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdram_top.v 
+# -- Compiling module sdram_top
+# 
+# Top level modules:
+# 	sdram_top
+# End time: 23:01:40 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:40 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/mem/sdram_arb.v 
+# -- Compiling module sdram_arb
+# 
+# Top level modules:
+# 	sdram_arb
+# End time: 23:01:40 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:40 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/color_bar.v 
+# -- Compiling module color_bar
+# 
+# Top level modules:
+# 	color_bar
+# End time: 23:01:40 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:40 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line_scene.v 
+# -- Compiling module fetch_line_scene
+# 
+# Top level modules:
+# 	fetch_line_scene
+# End time: 23:01:40 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:40 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_bg.v 
+# -- Compiling module layer_bg
+# 
+# Top level modules:
+# 	layer_bg
+# End time: 23:01:40 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:40 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/px_arb5.v 
+# -- Compiling module px_arb5
+# 
+# Top level modules:
+# 	px_arb5
+# End time: 23:01:40 on Oct 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 23:01:40 on Oct 22,2026
+# vlog -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -work work "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram" "+incdir+D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video" "+define+SIM_DEVICE_MODEL" D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v 
+# -- Compiling module tb_display_memory
+# 
+# Top level modules:
+# 	tb_display_memory
+# End time: 23:01:41 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# reading D:/modeltech64_10.6e/win64/../modelsim.ini
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.layer_bg 
+# Start time: 23:01:41 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.layer_bg
+# Loading work.layer_bg
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.fetch_line_scene
+# Loading work.fetch_line_scene
+# End time: 23:01:42 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_memory -gPHYSICAL=1 -gSDR_SHIFT=-1.666 -gSDR_HALF=3.333 
+# Start time: 23:01:42 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.tb_display_memory
+# Loading work.tb_display_memory
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.color_bar
+# Loading work.color_bar
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.px_arb5
+# Loading work.px_arb5
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.sdram_arb
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.sdram_top
+# Loading work.sdram_top
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.sdr_as_ram
+# Loading work.sdr_as_ram
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.sdr_init_ref
+# Loading work.sdr_init_ref
+# Refreshing D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9d7e86e93ab44ed2b1d1938bf9000a3d/work.IS42s32200
+# Loading work.IS42s32200

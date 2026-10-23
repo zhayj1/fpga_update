@@ -1,0 +1,118 @@
+# End time: 22:43:37 on Oct 22,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/5884d623f2704d4aa93954e4fb20c588/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_memory 
+# Start time: 22:43:37 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_memory
+# Loading work.color_bar
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.sdram_top
+# Loading work.sdr_as_ram
+# Loading work.sdr_init_ref
+# Loading work.IS42s32200
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# tb_display_memory.phy.sdram : at time   15900.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time   31520.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time   47140.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time   62760.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time   78380.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time   94000.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  109620.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  125240.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  140860.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  156480.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  172100.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  187720.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  203340.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  218960.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  234580.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  250200.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  265820.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  281440.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  297060.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  312680.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  328300.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  343920.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  359540.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  375160.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  390780.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  406400.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  422020.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  437640.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  453260.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  468880.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  484500.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  500120.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  515740.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  531360.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  546980.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  562600.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  578220.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  593840.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  609460.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  625080.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  640700.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  656320.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  671940.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  687560.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  703180.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  718800.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  734420.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  750040.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  765660.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  781280.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  796900.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  812520.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  828140.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  843760.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  859380.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  875000.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  890620.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  906240.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  921860.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  937480.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  953100.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  968720.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  984340.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time  999960.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1015580.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1031200.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1046820.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1062440.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1078060.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1093680.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1109300.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1124920.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1140540.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1156160.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1171780.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1187400.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1203020.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1218640.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1234260.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1249880.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1265500.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1281120.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# tb_display_memory.phy.sdram : at time 1296740.0 ns ERROR: All banks must be Precharge before Auto Refresh
+# PIXEL_ERROR layer=0 frame=1 x=4 y=0 v=1 got=zzzzzz exp=000c04
+# PIXEL_ERROR layer=1 frame=1 x=4 y=0 v=1 got=zzzzzz exp=2b0c15
+# PIXEL_ERROR layer=0 frame=1 x=5 y=0 v=1 got=zz0f05 exp=000f05
+# PIXEL_ERROR layer=1 frame=1 x=5 y=0 v=1 got=zz0f16 exp=2b0f16
+# PIXEL_ERROR layer=0 frame=1 x=9 y=0 v=1 got=00zzzz exp=001b09
+# PIXEL_ERROR layer=1 frame=1 x=9 y=0 v=1 got=2bzzzz exp=2b1b1a
+# PIXEL_ERROR layer=2 frame=1 x=104 y=3 v=1 got=zzzzzz exp=560c26
+# PIXEL_ERROR layer=3 frame=1 x=104 y=3 v=1 got=zzzzzz exp=810c37
+# PIXEL_ERROR layer=2 frame=1 x=105 y=3 v=1 got=zz0f27 exp=560f27
+# PIXEL_ERROR layer=3 frame=1 x=105 y=3 v=1 got=zz0f38 exp=810f38
+# PIXEL_ERROR layer=2 frame=1 x=109 y=3 v=1 got=56zzzz exp=561b2b
+# PIXEL_ERROR layer=3 frame=1 x=109 y=3 v=1 got=81zzzz exp=811b3c
+# IMAGE_RESULT layer=0 pixels=20480 errors=7680 und=0 stall=0 ferr=0 gap=0 collisions=0
+# TEST_FAIL image content or ownership
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v(158)
+#    Time: 7952870 ns  Iteration: 1  Instance: /tb_display_memory
+# Break in Module tb_display_memory at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 158
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 158
+# End time: 22:43:42 on Oct 22,2026, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 1

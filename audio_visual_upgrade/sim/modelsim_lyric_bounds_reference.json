@@ -1,0 +1,8 @@
+{
+  "dut_top": "work.lyric_pick",
+  "tb_top": "work.tb_lyric_bounds",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "../music_screen_area_opt/rtl/gfx/lyric_pick.v", "language": "verilog"},
+    {"path": "tb/tb_lyric_bounds.v", "language": "verilog"}
+  ]}]
+}

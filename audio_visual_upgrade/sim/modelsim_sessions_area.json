@@ -1,0 +1,9 @@
+{
+  "dut_top": "work.fat32_sessions",
+  "tb_top": "work.tb_fat32_sessions",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+    {"path": "rtl/storage/fat32_sessions.v", "language": "verilog"},
+    {"path": "../music_screen_area_opt/tb/tb_fat32_sessions.v", "language": "verilog"}
+  ]}]
+}

@@ -1,0 +1,33 @@
+# End time: 11:34:35 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 8
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/c8499f8b5fb847958e444ada17b2947d/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_lyric_pick 
+# Start time: 11:34:35 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_lyric_pick
+# Loading work.lyric_pick
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Too few port connections. Expected 40, found 34.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_pick/u_dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_vld'.
+#   LP-01 bursts=9 words=1224 ttl_fc=461 ttl_cnt=22 sgr_fc=483 sgr_cnt=4
+# SCENARIO_PASS LP-01
+# SCENARIO_PASS LP-02
+# SCENARIO_PASS LP-03
+# SCENARIO_PASS LP-04
+# SCENARIO_PASS LP-05
+# SCENARIO_PASS LP-06
+# SCENARIO_PASS LP-07
+# SCENARIO_PASS LP-08
+# SCENARIO_PASS LP-09
+# SCENARIO_PASS LP-10
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(566)
+#    Time: 4328180 ns  Iteration: 1  Instance: /tb_lyric_pick
+# Break in Module tb_lyric_pick at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v line 566
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v line 566
+# End time: 11:34:36 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 8

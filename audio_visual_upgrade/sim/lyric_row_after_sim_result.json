@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792726471.667133,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.lyric_row",
+    "tb_top": "work.tb_lyric_row",
+    "data_files": [
+      "../music_screen_area_opt/sim/golden/S01_lrc_tab.mem",
+      "../music_screen_area_opt/sim/golden/FONT_slot.mem",
+      "../music_screen_area_opt/sim/golden/ASC_slot.mem",
+      "../music_screen_area_opt/sim/golden/LR_gold.mem"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/gfx/lyric_row.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_lyric_row_area.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "LR-01",
+    "LR-02",
+    "LR-03",
+    "LR-04",
+    "LR-05",
+    "LR-06",
+    "LR-07",
+    "LR-08",
+    "LR-09",
+    "LR-10",
+    "LR-11",
+    "LR-12"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_row.v": "ca7dfe48b6ddf0269f07a7c84d6463183b1346fbfe0300015e05b0f9c82b9bed",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_lyric_row_area.json": "f82530fcf4c0a80dedddc72605d2a4072a601952ac405799c10d62e8a1c7a0bd",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_lyric_row_area.json": "8d0eab3e07fcbf02ef80599a560e53cb6885acdcdb1492e63502a92272fb339e",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_row_area.v": "fd0f43b6b5b6a9a005f273db1e7dafce3c66be328e4a478fdfcaa8e38a2a9a41",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/ASC_slot.mem": "17344861ef3b38a93b44eb0bf873f3611addc322ff0f4ef55299dd500824b3ae",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/FONT_slot.mem": "98febd894d3c3206fc6344a548076a7f1aaec6aa6f3c77dc3206e70e9125d89c",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/LR_gold.mem": "cf6d057054f9d04a58e3964b15855744b4de47c118714ba0f38c7196766fb9e7",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/S01_lrc_tab.mem": "69fffb7827952d96aa79a1f2f0650eadc8a7b8e5a80a2a8d15dbe047ee33f592"
+  },
+  "command": [
+    "D:/modeltech64_10.6e/win64/vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/a19c19e6362f49769c3f7764d93b0f16/run.do\""
+  ],
+  "script": "sim/modelsim/a19c19e6362f49769c3f7764d93b0f16/run.do",
+  "compile_log": "sim/lyric_row_after_compile.log",
+  "sim_log": "sim/lyric_row_after_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1792726477.6620288
+}

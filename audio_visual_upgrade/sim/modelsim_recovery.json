@@ -1,0 +1,5 @@
+{"dut_top":"work.fetch_line_scene","tb_top":"work.tb_fetch_recovery","libraries":[{"name":"work","sources":[
+ {"path":"sim/vendor/eg4/eg_logic_bram.v","language":"verilog"},
+ {"path":"rtl/gfx/fetch_line_scene.v","language":"verilog"},
+ {"path":"tb/tb_fetch_recovery.v","language":"verilog"}
+]}]}

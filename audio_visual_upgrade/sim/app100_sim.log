@@ -1,0 +1,31 @@
+# End time: 22:46:09 on Oct 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/7ddb62796e974e2792370a80d1a8facd/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_memory -gPHYSICAL=0 
+# Start time: 22:46:09 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_memory
+# Loading work.color_bar
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# PIXEL_ERROR layer=0 frame=1 x=0 y=0 v=0 got=000000 exp=000000
+# PIXEL_ERROR layer=0 frame=1 x=1 y=0 v=0 got=000000 exp=000301
+# PIXEL_ERROR layer=0 frame=1 x=2 y=0 v=0 got=000000 exp=000602
+# PIXEL_ERROR layer=3 frame=1 x=100 y=3 v=0 got=000000 exp=810033
+# PIXEL_ERROR layer=3 frame=1 x=101 y=3 v=0 got=000000 exp=810334
+# PIXEL_ERROR layer=3 frame=1 x=102 y=3 v=0 got=000000 exp=810635
+# PIXEL_ERROR layer=1 frame=1 x=0 y=9 v=0 got=85b528 exp=8e3fbc
+# PIXEL_ERROR layer=1 frame=1 x=1 y=9 v=0 got=85b528 exp=8e42bd
+# PIXEL_ERROR layer=1 frame=1 x=2 y=9 v=0 got=85b528 exp=8e45be
+# PIXEL_ERROR layer=2 frame=2 x=100 y=6 v=0 got=b6e8b6 exp=c0328a
+# PIXEL_ERROR layer=2 frame=2 x=101 y=6 v=0 got=b6e8b6 exp=c0358b
+# PIXEL_ERROR layer=2 frame=2 x=102 y=6 v=0 got=b6e8b6 exp=c0388c
+# IMAGE_RESULT layer=0 pixels=20480 errors=2560 und=4 stall=0 ferr=4 gap=2560 collisions=0
+# TEST_FAIL image content or ownership
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v(190)
+#    Time: 6636110 ns  Iteration: 1  Instance: /tb_display_memory
+# Break in Module tb_display_memory at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 190
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 190
+# End time: 22:46:12 on Oct 22,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 1

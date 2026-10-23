@@ -1,0 +1,18 @@
+# End time: 10:54:25 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/d5e20c0981784ed4b854ddd95957adaf/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_fat32_scan 
+# Start time: 10:54:25 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_fat32_scan
+# Loading work.fat32_scan
+# SCENARIO_PASS scan_filter_fields
+# SCENARIO_PASS scan_fragmented_chain
+# SCENARIO_PASS scan_sector_error
+# SCENARIO_PASS scan_bad_chain
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_scan.v(234)
+#    Time: 29740 ns  Iteration: 1  Instance: /tb_fat32_scan
+# Break in Module tb_fat32_scan at D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_scan.v line 234
+# Stopped at D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_scan.v line 234
+# End time: 10:54:27 on Oct 23,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1

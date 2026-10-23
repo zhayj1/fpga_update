@@ -1,0 +1,19 @@
+# End time: 11:17:44 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/42e130715a824da4a1478efb43524159/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_bmp_capacity 
+# Start time: 11:17:44 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_bmp_capacity
+# Loading work.bmp_load
+# SCENARIO_PASS bmp-padding-and-orientation-matrix
+# SCENARIO_PASS bmp-maximum-image-and-backpressure
+# SCENARIO_PASS bmp-header-full-width-and-error-priority
+# SCENARIO_PASS bmp-truncated-stream-and-recovery
+# SCENARIO_PASS bmp-watchdog-and-reset
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_capacity.v(210)
+#    Time: 88370441 ns  Iteration: 0  Instance: /tb_bmp_capacity
+# Break in Module tb_bmp_capacity at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_capacity.v line 210
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_capacity.v line 210
+# End time: 11:17:49 on Oct 23,2026, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 1

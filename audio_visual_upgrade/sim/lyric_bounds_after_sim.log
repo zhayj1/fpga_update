@@ -1,0 +1,185 @@
+# End time: 11:34:43 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 162
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/c67dd38126ef4db9b55755672318001a/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_lyric_bounds 
+# Start time: 11:34:43 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_lyric_bounds
+# Loading work.lyric_bounds_case
+# Loading work.lyric_pick
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c0/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c1/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c2/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c3/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c4/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c5/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Too few port connections. Expected 40, found 18.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_lyric_bounds/c6/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n_lines'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_idx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_s'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'cur_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'nxt_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'n3_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_fc'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_cnt'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'ttl_vld'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(21): [TFMPC] - Missing connection for port 'sgr_vld'.
+# SCENARIO_PASS lyric-scroll-parameter-boundaries
+# SCENARIO_PASS lyric-watchdog-power-of-two-and-recovery
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v(127)
+#    Time: 335326 ns  Iteration: 1  Instance: /tb_lyric_bounds
+# Break in Module tb_lyric_bounds at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v line 127
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v line 127
+# End time: 11:34:44 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 162

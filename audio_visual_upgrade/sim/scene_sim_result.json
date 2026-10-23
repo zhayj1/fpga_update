@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792679748.6969028,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.scene_fade",
+    "tb_top": "work.tb_scene",
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/gfx/scene_fade.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/scene_blend.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_scene.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "first_scene_frame_boundary",
+    "fade_and_reader_retirement",
+    "reset_during_fade",
+    "blend_all_weights_and_sync"
+  ],
+  "timeout_seconds": 120.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/scene_blend.v": "9f6dc7caa0f905f413353ff8b10fda8b44d77b9ef62f85aba3fa4900855394a1",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/scene_fade.v": "80b8cfaa35c8752eff70dc29b4dc955635c5a1c4a669a8f764a74c3e87b08831",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_scene.json": "38c3877462ac5471b8d99f9b55dce8510f0ce6fc495654e0deb217ea1406bbff",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "9bf65512424ddf2f7e2646d157b26266352b96d95fb520b0a4d4d5199428913b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_scene.json": "2776198eaff55d05b59453781abb472cdedeae127906bc1768a1037369530391",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scene.v": "a725a821f75f189af360618fa195dfc9fa17d636b4007582bbdf883808d92f0f"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/9f4759d8c6c8418ba022e5cd9b569e3e/run.do\""
+  ],
+  "script": "sim/modelsim/9f4759d8c6c8418ba022e5cd9b569e3e/run.do",
+  "compile_log": "sim/scene_compile.log",
+  "sim_log": "sim/scene_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1792679752.9480798
+}

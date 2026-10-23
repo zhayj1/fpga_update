@@ -1,0 +1,25 @@
+# End time: 22:58:09 on Oct 22,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/bb03cf64b92646f6aeb26704b7635bd5/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_display_memory -gPHYSICAL=0 -gCOVER_LINES=320 -gLINES=480 
+# Start time: 22:58:09 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_display_memory
+# Loading work.color_bar
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# IMAGE_RESULT layer=0 pixels=614400 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=1 pixels=614400 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=2 pixels=204800 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# IMAGE_RESULT layer=3 pixels=204800 errors=0 und=0 stall=0 ferr=0 gap=0 collisions=0
+# PRESSURE text=19167 preload=21119
+# MEMORY_SCOPE physical=0 half_period_ns=5.000000
+# SCENARIO_PASS four_images_and_scene_change
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v(197)
+#    Time: 66330830 ns  Iteration: 1  Instance: /tb_display_memory
+# Break in Module tb_display_memory at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 197
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v line 197
+# End time: 22:58:34 on Oct 22,2026, Elapsed time: 0:00:25
+# Errors: 0, Warnings: 1

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.db
+*.vcd
+*.wlf
+*.logw
+**/sim/modelsim/
+**/work/
+**/transcript
+**/*_Runs/
+**/.tmp/

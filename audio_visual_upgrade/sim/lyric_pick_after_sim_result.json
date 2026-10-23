@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792726471.687857,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.lyric_pick",
+    "tb_top": "work.tb_lyric_pick",
+    "data_files": [
+      "../music_screen_area_opt/sim/golden/S01_lrc_tab.mem"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/gfx/lyric_pick.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_lyric_pick_area.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "LP-01",
+    "LP-02",
+    "LP-03",
+    "LP-04",
+    "LP-05",
+    "LP-06",
+    "LP-07",
+    "LP-08",
+    "LP-09",
+    "LP-10"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v": "c7e641f107977d3f98db0997f6c54f9c37c5019859ce255e1c61f53af11f0ff8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_lyric_pick_area.json": "4ce14be92ed9d9ceb928ce718d7e1cfa7454d724008a7e53cf121611cfac2ce0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_lyric_pick_area.json": "3fb22cfda4467d683bff0ee44f57b3a3850592f6f904a68d69b5e72ca9d52e79",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v": "8d5494bcbd041922ebcfe2b3e8f869293507d243139a87a15d6842b8a997e5c6",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/sim/golden/S01_lrc_tab.mem": "69fffb7827952d96aa79a1f2f0650eadc8a7b8e5a80a2a8d15dbe047ee33f592"
+  },
+  "command": [
+    "D:/modeltech64_10.6e/win64/vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/c8499f8b5fb847958e444ada17b2947d/run.do\""
+  ],
+  "script": "sim/modelsim/c8499f8b5fb847958e444ada17b2947d/run.do",
+  "compile_log": "sim/lyric_pick_after_compile.log",
+  "sim_log": "sim/lyric_pick_after_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Too few port connections. Expected 40, found 34.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_fc'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_cnt'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_fc'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_cnt'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_vld'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_vld'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Too few port connections. Expected 40, found 34.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_fc'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_cnt'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_fc'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_cnt'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'ttl_vld'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v(55): [TFMPC] - Missing connection for port 'sgr_vld'."
+  ],
+  "finished_at": 1792726477.0232377
+}

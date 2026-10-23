@@ -1,0 +1,250 @@
+{
+  "updated_on": "2026-10-23",
+  "stage": "resource_optimization_area_bmp_r1_board_confirmed",
+  "upgrade_complete": false,
+  "board_verified": true,
+  "current_board_configuration_functionally_verified": true,
+  "current_sources_reimplemented": true,
+  "bringup_decision": {
+    "user_authorized": true,
+    "clock_and_phase": "Retain the existing 100 MHz PLL and nominal +5 ns shift for the first board trial.",
+    "sdram_simulation_difference_blocks_initial_trial": false,
+    "scope": "The user confirmed normal board behavior for the retained area_bmp_r1 version on 2026-10-23: 上板没有问题. This is a user-reported board result, not a claim of complete upgrade coverage, long-duration stability, or timing closure. The agent has not downloaded hardware or written the physical SD card."
+  },
+  "board_trial": {
+    "current_version_confirmation": {
+      "reported_on": "2026-10-23",
+      "tag": "area_bmp_r1",
+      "user_report": "上板没有问题",
+      "status": "USER_CONFIRMED_BOARD_PASS",
+      "bitstream": "prj/td_build/area_bmp_r1_phy/skeleton.bit",
+      "sha256": "9FA408F7A6E8BB41EB34F0D5A79C12E5DF34D46EDE18C5631002C4DA999EF567",
+      "scope_limit": "User-reported normal board behavior. Does not establish complete upgrade coverage, long-duration stability, or timing closure."
+    },
+    "user_report": "User confirms the display problem is resolved after switching to the prepared card assets: 换素材后没问题了。",
+    "cover_visible_with_prepared_assets": true,
+    "other_display_and_audio_behavior": "Not yet confirmed by the user.",
+    "confirmed_code_issue": {
+      "source": "rtl/top/skeleton_core.v:1267",
+      "window_condition": "rtl/gfx/layer_bg.v:32",
+      "legacy_cover_files_checked": ["S01CV1.BMP", "S01CV2.BMP", "S01CV3.BMP"],
+      "legacy_cover_size": [320, 400],
+      "calculation": "165 - (400 >> 1) = -35, stored as unsigned 16-bit 65501; visible rows 0..479 never satisfy y >= win_y.",
+      "new_cover_size": [240, 240],
+      "new_cover_origin": [140, 45],
+      "assessment": "The legacy-size geometry bug explained the absent cover. The user subsequently confirmed normal display after replacing the assets; no RTL or PLL change was needed."
+    },
+    "next_action": "Save the user-confirmed area_bmp_r1 version to the requested remote Git repository. Continue resource reduction and remaining upgrade work separately."
+  },
+  "production_changes": {
+    "bmp_watchdog": "Reverted to the compact implementation; the timingfix implementation was not retained.",
+    "board_top": {
+      "path": "rtl/top/skeleton_top.v",
+      "SDR_CLK_MHZ": 100,
+      "BW_NUM": 2,
+      "BW_DEN": 1,
+      "reason": "Match the existing physical PLL and retain integer bandwidth scaling without a divider."
+    },
+    "pll_phase": "Unchanged: nominal +5 ns at 100 MHz. The diagnostic phase has not been applied to the board.",
+    "resource_optimization": {
+      "mapping": "LUT structure off, now the build script default; other official area mapping and placement settings retained.",
+      "fat32_mount": "Reuse one-bit right shifts over up to seven cycles instead of a variable barrel shifter.",
+      "fat32_scan": "Keep only directory fields consumed by the scanner; preserve entry commit timing and capacity.",
+      "bmp_load": "Bound row, padding and write counters by configuration; keep full-width invalid-header checks and error priority.",
+      "rejected_trials": ["area_catalog_r1", "area_control_r1"],
+      "rejected_trial_rtl_reverted": true,
+      "feature_removal": false,
+      "details": "sim/area_optimization.json"
+    }
+  },
+  "verification": {
+    "current_core_integration": {
+      "result": "sim/area_bmp_integration_sim_result.json",
+      "status": "PASS",
+      "recorded_input_hashes_checked": 84,
+      "mismatches": 0,
+      "scenarios_passed": 4,
+      "frames": 21,
+      "pixels_checked": 348160,
+      "intermediate_alpha_pixels_checked": 61440,
+      "pcm_samples_checked": 13832,
+      "sdram_pin_checks": 15121513,
+      "sdram_mhz": 150,
+      "scope_limit": "Real SPI/FAT/SDRAM models and an HDMI transmitter stub. Does not validate the 100 MHz board clock/phase configuration or HDMI transmission."
+    },
+    "historical_core_integration": {
+      "result": "sim/integration_r3_sim_result.json",
+      "status": "PASS",
+      "recorded_input_hashes_checked": 80,
+      "mismatches": 0,
+      "sdram_mhz": 150,
+      "scope_limit": "Does not validate the 100 MHz board clock/phase configuration or HDMI transmission."
+    },
+    "board_compile": {
+      "result": "sim/board_clock_compile_sim_result.json",
+      "status": "COMPILE_PASS",
+      "recorded_input_hash_mismatches": 0,
+      "scope_limit": "Compile and elaboration only; real PLL/ODDR models, HDMI transmitter stub."
+    },
+    "physical100_existing_phase": {
+      "result": "sim/physical100_trace_sim_result.json",
+      "log": "sim/physical100_trace_sim.log",
+      "config": "sim/modelsim_physical100_trace.json",
+      "status": "FAIL",
+      "sdram_mhz": 100,
+      "SDR_SHIFT_ns": 5.0,
+      "first_read_mismatch": {
+        "word_address": 3,
+        "expected": "00040c00",
+        "actual": "zzzzzzzz",
+        "dq_word_available_at_ns": 1841155.5,
+        "dq_released_at_ns": 1841162.5,
+        "controller_clock_edge_ns": 1841165.0,
+        "invalid_word_returned_at_ns": 1841175.0
+      },
+      "layer0": {
+        "pixels_checked": 20480,
+        "pixel_errors": 7680,
+        "underruns": 0,
+        "stalls": 0,
+        "fetch_errors": 0,
+        "gaps": 0,
+        "buffer_collisions": 0
+      }
+    },
+    "physical100_diagnostic_phase": {
+      "result": "sim/physical100_phase_probe_sim_result.json",
+      "log": "sim/physical100_phase_probe_sim.log",
+      "config": "sim/modelsim_physical100_phase_probe.json",
+      "status": "PASS",
+      "sdram_mhz": 100,
+      "SDR_SHIFT_ns": -2.0,
+      "equivalent_periodic_shift_ns": 8.0,
+      "pixels_checked": 51200,
+      "pixel_errors": 0,
+      "text_jobs": 3212,
+      "preload_jobs": 3098,
+      "all_layer_error_and_collision_counters": 0,
+      "scope_limit": "Diagnostic phase only, 16 background lines and 8 cover lines across two scenes. Not a production fix, full-frame physical test, hardware measurement, or board pass."
+    },
+    "diagnostic_method": "Passive wrapper tb/tb_display_memory_trace.v reuses the original pixel checker. Original TB, controller, device model, expected scenarios and production PLL are unchanged."
+  },
+  "resource_reference": {
+    "implementation": "prj/td_build/compact_final_phy",
+    "physical_slices": 8616,
+    "physical_slice_utilization_percent": 87.92,
+    "area_report": "prj/td_build/compact_final_phy/skeleton_phy.area",
+    "actual_luts": 15507,
+    "registers": 10985,
+    "synthesis_area_luts": 15006,
+    "synthesis_area_registers": 10967,
+    "ram_9k": 43,
+    "ram_32k": 4,
+    "dsps": 13,
+    "synthesis_recorded_sources": 64,
+    "current_source_mismatches": ["rtl/top/skeleton_top.v"],
+    "scope_limit": "Reference from before the board-top parameter correction; not a measurement of the current board build."
+  },
+  "timing_reference": {
+    "report": "prj/td_build/compact_final_phy/final_timing.rpt",
+    "user_accepted_inherent_setup_wns_ns": -5.565,
+    "waiver_scope": "Only the inherent -5.565 ns violation identified by the user; no blanket clock-group waiver.",
+    "other_setup_violations_ns": {"clk50MHz": -1.240, "sdr_clk_sft": -1.537},
+    "final_both_corner_hold_wns_ns": 0.003,
+    "final_hold_tns_ns": 0.0
+  },
+  "board_reference": {
+    "tag": "bringup100",
+    "physical_slices": 9309,
+    "physical_slice_utilization_percent": 94.99,
+    "user_confirmed_cover_with_prepared_assets": true,
+    "bitstream": "prj/td_build/bringup100_phy/skeleton.bit",
+    "sha256": "BD97C1B68C9331C51A3E9DDE483E5A0BA61C563BDE0DA66630498327F56AD1BA",
+    "scope_limit": "User confirmation concerns the prepared-asset display; it does not validate the newer optimized bitstream, every feature or long-duration stability."
+  },
+  "current_build": {
+    "tag": "area_bmp_r1",
+    "status": "BUILD_COMPLETE",
+    "completed": "2026-10-23T11:23:07.7680470+08:00",
+    "tool": "Tang Dynasty v6.2.168116",
+    "device": "EG4S20BG256",
+    "place_seed": 3,
+    "synthesis_result": "prj/td_build/area_bmp_r1_syn/build_result.json",
+    "implementation_result": "prj/td_build/area_bmp_r1_phy/build_result.json",
+    "synthesis_inputs": "prj/td_build/area_bmp_r1_syn/inputs.json",
+    "implementation_inputs": "prj/td_build/area_bmp_r1_phy/inputs.json",
+    "lut_structure": "off",
+    "recorded_sources_per_stage": 64,
+    "input_hash_mismatches": 0,
+    "bitstream": {
+      "path": "prj/td_build/area_bmp_r1_phy/skeleton.bit",
+      "bytes": 635453,
+      "sha256": "9FA408F7A6E8BB41EB34F0D5A79C12E5DF34D46EDE18C5631002C4DA999EF567"
+    },
+    "scope_limit": "Build and bitstream generation completed, and the user confirmed normal board behavior on 2026-10-23. Complete upgrade coverage, long-duration stability, and complete timing closure are not established."
+  },
+  "current_resources": {
+    "qor_report": "prj/td_build/area_bmp_r1_phy/route.qor",
+    "area_report": "prj/td_build/area_bmp_r1_phy/skeleton_phy.area",
+    "physical_slices": 8474,
+    "physical_slice_utilization_percent": 86.47,
+    "free_slices": 1326,
+    "actual_luts": 15134,
+    "registers": 10854,
+    "ram_9k": 43,
+    "ram_32k": 4,
+    "dsps": 13,
+    "comparison_with_board_reference": {
+      "slices_recovered": 835,
+      "utilization_reduction_percentage_points": 8.52,
+      "board_clock_and_pll_phase_unchanged": true,
+      "assessment": "Measured physical-area improvement with the retained mapping, storage and BMP changes. The later control-width trial increased Slice usage and was reverted."
+    },
+    "stage_target": {
+      "slice_percent": 80,
+      "reached": false,
+      "additional_slices_to_recover": 634,
+      "all_remaining_features_fit_proven": false
+    }
+  },
+  "current_timing": {
+    "report": "prj/td_build/area_bmp_r1_phy/final_timing.rpt",
+    "corner": "Both (Slow and Fast)",
+    "sta_coverage_percent": 96.09,
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -198.617,
+    "setup_violated_endpoints": 65,
+    "hold_wns_ns": 0.024,
+    "hold_tns_ns": 0.0,
+    "hold_violated_endpoints": 0,
+    "setup_wns_by_capture_clock_ns": {
+      "clk": 0.204,
+      "video_clk": 2.632,
+      "sdr_clk": -5.565,
+      "hdmi_5x_clk": 5.601,
+      "sdr_clk_sft": -1.166
+    },
+    "user_accepted_inherent_setup_wns_ns": -5.565,
+    "waiver_scope": "Only the inherent violation identified by the user; other violations remain reported. No timing exceptions were added.",
+    "timing_closed": false
+  },
+  "test_card": {
+    "directory": "card",
+    "manifest": "card/manifest.json",
+    "files_checked": 18,
+    "asset_check": "PASS",
+    "static_preview": "sim/card_layout_preview.png",
+    "cover_origin": [140, 45],
+    "cover_size": [240, 240],
+    "cover_center": [260, 165],
+    "audio": "Both song names use the first 45 seconds of the same source audio.",
+    "physical_sd_card_written": false,
+    "scope_limit": "Static background/cover layout only; not a screenshot of the FPGA output."
+  },
+  "remaining": [
+    "The user confirmed normal board behavior for area_bmp_r1 on 2026-10-23. Detailed feature coverage and long-duration stability checks remain separately scoped.",
+    "Preserve the SDRAM simulation difference and diagnostic PASS as separate evidence; the user-reported board pass does not change those simulation results.",
+    "Continue reducing physical Slice usage; area_bmp_r1 is 86.47%, above the 80% stage target. Address setup violations outside the user's limited waiver, including sdr_clk_sft at -1.166 ns.",
+    "Continue the remaining HTML/DOCX upgrade features after this bringup stage; the full upgrade is not complete."
+  ]
+}

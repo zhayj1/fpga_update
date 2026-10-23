@@ -1,0 +1,87 @@
+# End time: 23:20:36 on Oct 22,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 22
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/77089f8f1dab42a688eeefd474b13d40/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_upgrade_core 
+# Start time: 23:20:36 on Oct 22,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_upgrade_core
+# Loading work.skeleton_core
+# Loading work.color_bar
+# Loading work.px_arb5
+# Loading work.layer_bg
+# Loading work.fetch_line_scene
+# Loading work.layer_cover
+# Loading work.compositor
+# Loading work.scene_blend
+# Loading work.video_rgb_to_axis_640x480
+# Loading work.pcm_test_tone
+# Loading work.audio_sample_tick
+# Loading work.hdmi_audio_acr_gen
+# Loading work.hdmi_1_4b_transmitter_core_wrapper
+# Loading work.sdram_top
+# Loading work.sdr_as_ram
+# Loading work.sdr_init_ref
+# Loading work.IS42s32200
+# Loading work.sdram_arb
+# Loading work.bw_selftest
+# Loading work.storage_top
+# Loading work.sd_phy
+# Loading work.sd_spi_byte
+# Loading work.fat32_mount
+# Loading work.fat32_chain
+# Loading work.fat32_scan
+# Loading work.fat32_sessions
+# Loading work.resource_catalog
+# Loading work.cw_probe
+# Loading work.asset_manager
+# Loading work.load_writeback
+# Loading work.afifo_8i_32o_bram
+# Loading work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# Loading work.bmp_load
+# Loading work.font_load
+# Loading work.key_debounce
+# Loading work.carousel
+# Loading work.scene_fade
+# Loading work.wav_head
+# Loading work.wav_stream_player
+# Loading work.audio_mux
+# Loading work.spec_fft
+# Loading work.spec_bands
+# Loading work.layer_fft
+# Loading work.lyric_pick
+# Loading work.layer_text
+# Loading work.lyric_row
+# Loading work.uart_report
+# Loading work.uart_tx
+# Loading work.sd_card_model_min
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Too few port connections. Expected 28, found 19.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_upgrade_core/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'O_video_locked'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'O_ddc_scl'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'IO_ddc_sda'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'uart_tx'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(17): [TFMPC] - Missing connection for port 'led'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(791): [TFMPC] - Too few port connections. Expected 77, found 72.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_upgrade_core/dut/u_sd File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/storage_top.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(791): [TFMPC] - Missing connection for port 'lo_rd_err_code'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(791): [TFMPC] - Missing connection for port 'lo_stall'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(791): [TFMPC] - Missing connection for port 'hi_rd_err_code'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(791): [TFMPC] - Missing connection for port 'dbg_arb_ow'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(791): [TFMPC] - Missing connection for port 'dbg_arb_busy'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1457): [TFMPC] - Too few port connections. Expected 12, found 10.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_upgrade_core/dut/u_wav_head File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/wav_head.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1457): [TFMPC] - Missing connection for port 'busy'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1457): [TFMPC] - Missing connection for port 'hdr_bytes'.
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1491): [TFMPC] - Too few port connections. Expected 13, found 12.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_upgrade_core/dut/u_amux File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/audio_mux.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1491): [TFMPC] - Missing connection for port 'wav_ready'.
+# TEST_FAIL invalid scene identity bg=000000 cv=070800
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(111)
+#    Time: 67489720 ns  Iteration: 1  Instance: /tb_upgrade_core
+# Break in Module tb_upgrade_core at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v line 111
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v line 111
+# End time: 23:24:56 on Oct 22,2026, Elapsed time: 0:04:20
+# Errors: 0, Warnings: 22

@@ -1,0 +1,17 @@
+# End time: 11:03:34 on Oct 23,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0e9132159a1a41d89206510fd7586dcf/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_fat32_mount_pipeline 
+# Start time: 11:03:34 on Oct 23,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_fat32_mount_pipeline
+# Loading work.fat32_mount
+# Loading work.fat32_mount_before_pipeline
+# MOUNT_EQ cases=30
+# SCENARIO_PASS MOUNT01
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_mount_pipeline.v(156)
+#    Time: 388740 ns  Iteration: 1  Instance: /tb_fat32_mount_pipeline
+# Break in Module tb_fat32_mount_pipeline at D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_mount_pipeline.v line 156
+# Stopped at D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_mount_pipeline.v line 156
+# End time: 11:03:36 on Oct 23,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1

@@ -1,0 +1,286 @@
+{
+  "format": "audio_visual_upgrade_bringup_card_v1",
+  "purpose": "新工程上板小样；PC 静态预览不代表实拍",
+  "cover_window": {
+    "x": 140,
+    "y": 45,
+    "w": 240,
+    "h": 240,
+    "center_x": 260,
+    "center_y": 165,
+    "color_key": "FF00FF"
+  },
+  "background": {
+    "w": 640,
+    "h": 480,
+    "bmp": "24bit BI_RGB bottom-up"
+  },
+  "audio": "S01/S02 均使用 S01.WAV 前45秒，便于重复观察切图与跨歌渐变",
+  "preview": "sim/card_layout_preview.png",
+  "files": [
+    {
+      "name": "ASC.HZK",
+      "resource_id": 137,
+      "bytes": 6144,
+      "sha256": "799c92e3edd3b73cab7dbc0f80b5885135cfdaa47a4a0000084ba79ea83e6e39"
+    },
+    {
+      "name": "FONT.HZK",
+      "resource_id": 136,
+      "bytes": 1046784,
+      "sha256": "e8cd2c6f0138232ca87ae695c595638e620588bda605495e6082a64362e81909"
+    },
+    {
+      "name": "S01.LRC",
+      "resource_id": 15,
+      "bytes": 4448,
+      "sha256": "f6fffc2e007269983f39ff36c7e680822033baf748547b26a0b0dbabb55f10c2"
+    },
+    {
+      "name": "S01.WAV",
+      "resource_id": 14,
+      "bytes": 8640044,
+      "sha256": "d615a22df236c7bbce0a4fe15c30f9cd5df3c2c316dfa0c6eddc663df74d9617"
+    },
+    {
+      "name": "S01BG1.BMP",
+      "resource_id": 8,
+      "bytes": 921654,
+      "sha256": "aa8523fc51d7d6e0f9e9cf7e97339f4c908747004e94407ea5f2dfcf8c8dafc7"
+    },
+    {
+      "name": "S01BG2.BMP",
+      "resource_id": 9,
+      "bytes": 921654,
+      "sha256": "b5a4db596b67adc5e39ddd90ad1f5f5024e20ef9d1fb54bdba6d139a676015ef"
+    },
+    {
+      "name": "S01BG3.BMP",
+      "resource_id": 10,
+      "bytes": 921654,
+      "sha256": "bacf275fe53c0dd425892e8b0332b76c637ece65d68b46a8ef1ae9a030a565bb"
+    },
+    {
+      "name": "S01CV1.BMP",
+      "resource_id": 11,
+      "bytes": 172854,
+      "sha256": "126d11c6a954df4ca9041debabdd23aa724fce2f5d4887146abc4d551624fd1b"
+    },
+    {
+      "name": "S01CV2.BMP",
+      "resource_id": 12,
+      "bytes": 172854,
+      "sha256": "8c136adff3988d1da00359469ac1050850c7f447be409469c490b67c8becc914"
+    },
+    {
+      "name": "S01CV3.BMP",
+      "resource_id": 13,
+      "bytes": 172854,
+      "sha256": "3188e162c18c75f434bff5a553a2df6744b9253c861b5ff941b62456d2db0987"
+    },
+    {
+      "name": "S02.LRC",
+      "resource_id": 23,
+      "bytes": 4448,
+      "sha256": "f6fffc2e007269983f39ff36c7e680822033baf748547b26a0b0dbabb55f10c2"
+    },
+    {
+      "name": "S02.WAV",
+      "resource_id": 22,
+      "bytes": 8640044,
+      "sha256": "d615a22df236c7bbce0a4fe15c30f9cd5df3c2c316dfa0c6eddc663df74d9617"
+    },
+    {
+      "name": "S02BG1.BMP",
+      "resource_id": 16,
+      "bytes": 921654,
+      "sha256": "b5a4db596b67adc5e39ddd90ad1f5f5024e20ef9d1fb54bdba6d139a676015ef"
+    },
+    {
+      "name": "S02BG2.BMP",
+      "resource_id": 17,
+      "bytes": 921654,
+      "sha256": "bacf275fe53c0dd425892e8b0332b76c637ece65d68b46a8ef1ae9a030a565bb"
+    },
+    {
+      "name": "S02BG3.BMP",
+      "resource_id": 18,
+      "bytes": 921654,
+      "sha256": "aa8523fc51d7d6e0f9e9cf7e97339f4c908747004e94407ea5f2dfcf8c8dafc7"
+    },
+    {
+      "name": "S02CV1.BMP",
+      "resource_id": 19,
+      "bytes": 172854,
+      "sha256": "8c136adff3988d1da00359469ac1050850c7f447be409469c490b67c8becc914"
+    },
+    {
+      "name": "S02CV2.BMP",
+      "resource_id": 20,
+      "bytes": 172854,
+      "sha256": "3188e162c18c75f434bff5a553a2df6744b9253c861b5ff941b62456d2db0987"
+    },
+    {
+      "name": "S02CV3.BMP",
+      "resource_id": 21,
+      "bytes": 172854,
+      "sha256": "126d11c6a954df4ca9041debabdd23aa724fce2f5d4887146abc4d551624fd1b"
+    }
+  ],
+  "songs": [
+    {
+      "song": 1,
+      "audio": "S01.WAV",
+      "audio_source": "music_screen_area_opt/card/S01.WAV (前45秒复用)",
+      "lrc": "S01.LRC",
+      "frames": 2160000,
+      "sample_rate": 48000,
+      "channels": 2,
+      "duration_seconds": 45.0,
+      "background_order": [
+        1,
+        2,
+        3
+      ],
+      "cover_order": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "file": "S01BG1.BMP",
+      "kind": "BG",
+      "size": [
+        640,
+        480
+      ],
+      "source": "S01BG1.BMP"
+    },
+    {
+      "file": "S01BG2.BMP",
+      "kind": "BG",
+      "size": [
+        640,
+        480
+      ],
+      "source": "S01BG2.BMP"
+    },
+    {
+      "file": "S01BG3.BMP",
+      "kind": "BG",
+      "size": [
+        640,
+        480
+      ],
+      "source": "S01BG3.BMP"
+    },
+    {
+      "file": "S01CV1.BMP",
+      "kind": "CV",
+      "size": [
+        240,
+        240
+      ],
+      "source": "S01CV1.BMP",
+      "key": "FF00FF"
+    },
+    {
+      "file": "S01CV2.BMP",
+      "kind": "CV",
+      "size": [
+        240,
+        240
+      ],
+      "source": "S01CV2.BMP",
+      "key": "FF00FF"
+    },
+    {
+      "file": "S01CV3.BMP",
+      "kind": "CV",
+      "size": [
+        240,
+        240
+      ],
+      "source": "S01CV3.BMP",
+      "key": "FF00FF"
+    },
+    {
+      "song": 2,
+      "audio": "S02.WAV",
+      "audio_source": "music_screen_area_opt/card/S01.WAV (前45秒复用)",
+      "lrc": "S02.LRC",
+      "frames": 2160000,
+      "sample_rate": 48000,
+      "channels": 2,
+      "duration_seconds": 45.0,
+      "background_order": [
+        2,
+        3,
+        1
+      ],
+      "cover_order": [
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "file": "S02BG1.BMP",
+      "kind": "BG",
+      "size": [
+        640,
+        480
+      ],
+      "source": "S01BG2.BMP"
+    },
+    {
+      "file": "S02BG2.BMP",
+      "kind": "BG",
+      "size": [
+        640,
+        480
+      ],
+      "source": "S01BG3.BMP"
+    },
+    {
+      "file": "S02BG3.BMP",
+      "kind": "BG",
+      "size": [
+        640,
+        480
+      ],
+      "source": "S01BG1.BMP"
+    },
+    {
+      "file": "S02CV1.BMP",
+      "kind": "CV",
+      "size": [
+        240,
+        240
+      ],
+      "source": "S01CV2.BMP",
+      "key": "FF00FF"
+    },
+    {
+      "file": "S02CV2.BMP",
+      "kind": "CV",
+      "size": [
+        240,
+        240
+      ],
+      "source": "S01CV3.BMP",
+      "key": "FF00FF"
+    },
+    {
+      "file": "S02CV3.BMP",
+      "kind": "CV",
+      "size": [
+        240,
+        240
+      ],
+      "source": "S01CV1.BMP",
+      "key": "FF00FF"
+    }
+  ]
+}

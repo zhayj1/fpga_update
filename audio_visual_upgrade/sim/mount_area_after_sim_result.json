@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792724610.7343237,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.fat32_mount",
+    "tb_top": "work.tb_fat32_mount_pipeline",
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/storage/fat32_mount.v",
+            "language": "verilog"
+          },
+          {
+            "path": "../music_screen_area_opt/tb/reference/fat32_mount_before_pipeline.v",
+            "language": "verilog"
+          },
+          {
+            "path": "../music_screen_area_opt/tb/tb_fat32_mount_pipeline.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "MOUNT01"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/../music_screen_area_opt/tb/expected_mount_pipeline.json": "f7823742aec7a6ac79770619e5d5cdd50c54c7c17e15b328c14501d220afdade",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_mount.v": "a6201b73a97ad52d5ec7515d05f33f53e871a16e5f1e50378f471f266950b598",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_mount_area.json": "8a002755f0082ee787bfec21660bf534ff734a67900983a1702ece5c5bb0ec1d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/reference/fat32_mount_before_pipeline.v": "38d1d809fa8e4abc93fa21a6dcc817fd60601b4294c8b8efd399d038671551a1",
+    "D:/Verilog_teacher/guoyi/pro/music_screen_area_opt/tb/tb_fat32_mount_pipeline.v": "978c8b26b3a80bffbfd6b4411a99ce8a9b72cfe7f6cb1df9e557c415ab6dcefc"
+  },
+  "command": [
+    "D:/modeltech64_10.6e/win64/vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0e9132159a1a41d89206510fd7586dcf/run.do\""
+  ],
+  "script": "sim/modelsim/0e9132159a1a41d89206510fd7586dcf/run.do",
+  "compile_log": "sim/mount_area_after_compile.log",
+  "sim_log": "sim/mount_area_after_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1792724616.7426765
+}

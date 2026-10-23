@@ -1,0 +1,9 @@
+{
+  "dut_top": "work.bmp_load",
+  "dut_parameters": {"EXTERNAL_BACKEND": 1},
+  "tb_top": "work.tb_bmp_capacity",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/load/bmp_load.v", "language": "verilog"},
+    {"path": "tb/tb_bmp_capacity.v", "language": "verilog"}
+  ]}]
+}

@@ -1,0 +1,8 @@
+{
+  "dut_top": "work.resource_catalog",
+  "tb_top": "work.tb_catalog_matrix",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/storage/resource_catalog.v", "language": "verilog"},
+    {"path": "tb/tb_catalog_matrix.v", "language": "verilog"}
+  ]}]
+}

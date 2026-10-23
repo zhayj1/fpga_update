@@ -1,0 +1,126 @@
+{
+  "status": "FAIL",
+  "reason": "Failure diagnostic in simulation log",
+  "backend": "modelsim",
+  "started_at": 1792680364.0189574,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.layer_bg",
+    "tb_top": "work.tb_display_memory",
+    "libraries": [
+      {
+        "name": "work",
+        "include_dirs": [
+          "ip/sdram",
+          "rtl/video"
+        ],
+        "defines": [
+          "SIM_DEVICE_MODEL"
+        ],
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/IS42s32200.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_as_ram.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_wrrd.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_init_ref.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdram_top.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/mem/sdram_arb.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/video/color_bar.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/fetch_line_scene.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_bg.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/px_arb5.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_display_memory.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ],
+    "tb_parameters": {
+      "PHYSICAL": 0
+    }
+  },
+  "expected_scenarios": [
+    "four_images_and_scene_change"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/global_def.v": "07ed880f0908203a8943b5d8ed044979edbc615b484abebf25a5c39063b752c6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_as_ram.enc.v": "767dbdfbd83d42223b77dfa7deab42ce8216a8fd6f6cb41b7e7593d9a345ba57",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v": "367e7edf2092c153d9fb6d98376c5726a3d1d7373756e8fe7256ad9546c90da5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_wrrd.enc.v": "c7d7fe07d75f66aa88d9f986b3006319c995162434f104f9990664b374cdfdd2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdram_top.v": "de60d0ba50660fcb9722be9b9fb759fe2f37b6acbf4fdd2721844cd136d891f6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line_scene.v": "d4d25184f3d4b5ef9157b580fa31be441eabdf54eac15db6e4ced6b2b8ef90db",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_bg.v": "2c497c1db23903f0f307bced396667db5f0d63253477df2ef210a68d6405148a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/px_arb5.v": "b9349547c43c17e64ab8fbf41bce81bc545ccef1be39496b294f18e940066595",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/mem/sdram_arb.v": "cc9ee3b17a3a96c3dc5ab8ed43a73752aa40ecdbb35ad3de278507f9c668c604",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/color_bar.v": "afe1f56714ec58d2477ba1717e5a36c5a0da5fe5c07d70d11aa5ace710c4b152",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v": "867e0b0bdd874bc383d00918c9e1be3fe01edf41f343b6a0d73e262776596a63",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/hdmi_phy_warpper.v": "416b082b0987001bdbc0a7e20a557cb8fb1dca34e25dc881e6d28a8cb3cf4300",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/lane_lvds_10_1.v": "de9529321354f04837e051d0ec1681cf44783d4be3284703a788e081147500bc",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/video_define.v": "77748966850a8f5af0d77f2cdb08006088ba5e1a31b98391fba6cc61c5247da2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/video_rgb_to_axis_640x480.v": "1c8fc26c789f87227036bea034f1ab6fc5633f2ab2684be422c54687a290fb96",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_app100.json": "0d08b03e6354499d8d157446f387c000eb4143aae80f126bec27156915c3ebb4",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "9bf65512424ddf2f7e2646d157b26266352b96d95fb520b0a4d4d5199428913b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/IS42s32200.v": "6aad09c411b00e319ea6e7ff5a85453eb990532541ae368084406f78a276690b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_memory.json": "8ee87b3f7d5ae4aa0d88e3f7346e635cffd5f68ba5b81f3ce674f35b48902fb5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v": "bc316dc88935470e9c93d8777cc48e3b8c40c3cf11723d69a3ffd53c673bfebe"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/7ddb62796e974e2792370a80d1a8facd/run.do\""
+  ],
+  "script": "sim/modelsim/7ddb62796e974e2792370a80d1a8facd/run.do",
+  "compile_log": "sim/app100_compile.log",
+  "sim_log": "sim/app100_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+    "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1792680373.0794597
+}
