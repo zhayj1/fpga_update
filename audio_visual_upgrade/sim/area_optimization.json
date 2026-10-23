@@ -393,7 +393,13 @@
       },
       "board_tested": true,
       "board_confirmation": {"reported_on": "2026-10-23", "user_report": "上板没问题"},
-      "git_uploaded": false
+      "git_uploaded": true,
+      "git_publication": {
+        "repository": "https://github.com/zhayj1/fpga_update.git",
+        "branch": "main",
+        "code_checkpoint_commit": "75363102e92dda8afbffeabc5da6c8dacd7741ca",
+        "uploaded_on": "2026-10-23"
+      }
     }
   ],
   "full_upgrade_complete": false,

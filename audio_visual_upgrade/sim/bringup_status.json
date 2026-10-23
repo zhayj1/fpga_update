@@ -1,6 +1,6 @@
 {
   "updated_on": "2026-10-23",
-  "stage": "resource_optimization_area_fetchshare_r2_board_pass_stop_after_git_upload",
+  "stage": "resource_optimization_area_fetchshare_r2_board_pass_saved_stopped",
   "upgrade_complete": false,
   "board_verified": true,
   "current_board_configuration_functionally_verified": true,
@@ -9,7 +9,7 @@
     "user_authorized": true,
     "clock_and_phase": "Retain the existing 100 MHz PLL and nominal +5 ns shift for the first board trial.",
     "sdram_simulation_difference_blocks_initial_trial": false,
-    "scope": "The user confirmed normal area_fetchshare_r2 board behavior on 2026-10-23: 上板没问题. Shared-writer, full-frame application-port, physical150 and core regression passed. Timing is not fully closed. Retain area_scanaddr_r1 as fallback. The agent has not downloaded hardware or written the physical SD card. Upload this checkpoint and stop as requested."
+    "scope": "The user confirmed normal area_fetchshare_r2 board behavior on 2026-10-23: 上板没问题. Shared-writer, full-frame application-port, physical150 and core regression passed. Timing is not fully closed. Retain area_scanaddr_r1 as fallback. The agent has not downloaded hardware or written the physical SD card. The code checkpoint was uploaded to fpga_update/main; further work is stopped as requested."
   },
   "board_trial": {
     "current_version_confirmation": {
@@ -43,7 +43,7 @@
       "new_cover_origin": [140, 45],
       "assessment": "The legacy-size geometry bug explained the absent cover. The user subsequently confirmed normal display after replacing the assets; no RTL or PLL change was needed."
     },
-    "next_action": "Upload the user-confirmed area_fetchshare_r2 checkpoint to https://github.com/zhayj1/fpga_update.git, then stop. Resume resource reduction or remaining upgrade work only when the user requests it. Keep area_scanaddr_r1 as fallback."
+    "next_action": "Stopped after uploading the user-confirmed area_fetchshare_r2 checkpoint to https://github.com/zhayj1/fpga_update.git. Resume resource reduction or remaining upgrade work only when the user requests it. Keep area_scanaddr_r1 as fallback."
   },
   "production_changes": {
     "bmp_watchdog": "Reverted to the compact implementation; the timingfix implementation was not retained.",
@@ -283,7 +283,13 @@
       "bytes": 635453,
       "sha256": "CFE4D5FE69D3AA9AAF0A2E3570F47418F0B562B623EB9B8060301F12BC801BDB"
     },
-    "git_uploaded": false,
+    "git_uploaded": true,
+    "git_publication": {
+      "repository": "https://github.com/zhayj1/fpga_update.git",
+      "branch": "main",
+      "code_checkpoint_commit": "75363102e92dda8afbffeabc5da6c8dacd7741ca",
+      "uploaded_on": "2026-10-23"
+    },
     "scope_limit": "The user confirmed normal board behavior on 2026-10-23. Build and bitstream generation completed; shared-writer, stress and four whole-core scenarios passed. Existing shift-clock timing remains open; internal SDRAM setup passes with only 9 ps margin. Complete upgrade coverage, long-duration stability and independent verification of the board SDRAM phase are not established."
   },
   "current_resources": {
@@ -369,7 +375,7 @@
     "scope_limit": "Static background/cover layout only; not a screenshot of the FPGA output."
   },
   "remaining": [
-    "The user confirmed normal area_fetchshare_r2 board behavior on 2026-10-23. Upload this checkpoint and stop as requested; keep user-confirmed area_scanaddr_r1 as fallback.",
+    "The user confirmed normal area_fetchshare_r2 board behavior on 2026-10-23. The checkpoint is uploaded and further work is stopped as requested; keep user-confirmed area_scanaddr_r1 as fallback.",
     "Preserve the SDRAM simulation difference and diagnostic PASS as separate evidence; the user-reported board pass does not change those simulation results.",
     "Deferred until the user requests further work: reduce physical Slice usage; area_fetchshare_r2 is 83.48%, above the 80% experiment target by 341 Slices. The target does not prove that all remaining upgrade features fit.",
     "Address setup violations outside the user's limited waiver: existing sdr_clk -> sdr_clk_sft remains -0.872 ns despite a 0.514 ns improvement. New internal violations were removed, but internal setup margin is only 0.009 ns. No false-path or multicycle exceptions were added.",
