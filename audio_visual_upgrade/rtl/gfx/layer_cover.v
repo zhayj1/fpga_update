@@ -24,7 +24,7 @@ module layer_cover #(
     parameter integer H_ACT_DLY = 144,   // 透传 layer_bg（行首 → 首个 de 的拍数）
     parameter integer V_ACT_DLY = 35,    // 透传 layer_bg（帧首 → 首个有效行的行数）
     parameter integer V_ACT_LIN = 480,   // 透传 layer_bg（一帧有效行数）
-    parameter integer SHARED_RASTER=0,SHARED_WRITER=0
+    parameter integer SHARED_RASTER=0,SHARED_WRITER=0,SCALE=0
 )(
     // ---------------- 像素域（25MHz）----------------
     input  wire        clk_pix,
@@ -77,7 +77,8 @@ module layer_cover #(
         .LAT       (LAT),
         .H_ACT_DLY (H_ACT_DLY),
         .V_ACT_DLY (V_ACT_DLY),
-        .V_ACT_LIN (V_ACT_LIN),.SHARED_RASTER(SHARED_RASTER),.SHARED_WRITER(SHARED_WRITER)
+        .V_ACT_LIN (V_ACT_LIN),.SHARED_RASTER(SHARED_RASTER),.SHARED_WRITER(SHARED_WRITER),
+        .SCALE(SCALE)
     ) u_img (
         .clk_pix       (clk_pix),
         .rst_pix_n     (rst_pix_n),

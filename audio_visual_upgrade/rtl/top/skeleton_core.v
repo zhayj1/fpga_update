@@ -68,6 +68,7 @@ module skeleton_core #(
     //   【仿真怎么办】集成台的 golden **不含频谱层** ✗ ⇒ **台里显式给 0** ✓
     //     （`tb_skeleton_core.v` 的 `.en_fft(0)` ✓）⇒ 两边各取所需 ✓，**RTL 一个字不用改** ✓
     parameter en_fft                  = 1'b1,
+    parameter en_color_diag           = 1'b0,
     // ★★★ P5/A8（2026-10-10）：**小轮播开关 ＋ 周期**
     //   · `en_rot`：默认 **1**（功能是要用的 ✓）—— 与 `en_fft` 同一套纪律 ✓
     //     ★ 台里**显式给 0** ✓ ⇒ 可做"`en_rot=0` 时 T-01..T-07 逐位不变"的 A/B ✓
@@ -165,11 +166,17 @@ module skeleton_core #(
     wire [20:0] bg_slot;
     wire [15:0] cv_x, cv_y, cv_w, cv_h, cv_iw, cv_ih, cv_wpr;
     wire [20:0] cv_slot;
+    wire [15:0] cv_pop_x,cv_pop_y,cv_pop_w,cv_pop_h;
     wire obg_en,ocv_en,old_enable,fade_busy,scene_accepted;
     wire [8:0] fade_alpha;
     wire [15:0] obg_x,obg_y,obg_w,obg_h,obg_iw,obg_ih,obg_wpr;
     wire [15:0] ocv_x,ocv_y,ocv_w,ocv_h,ocv_iw,ocv_ih,ocv_wpr;
     wire [20:0] obg_slot,ocv_slot;
+    wire [15:0] ocv_pop_x,ocv_pop_y,ocv_pop_w,ocv_pop_h;
+    wire [1:0] cover_pop_level;
+    wire ring_vld;
+    wire [23:0] ring_rgb;
+    wire [7:0] ring_alpha;
     wire [23:0] obg_rgb,ocv_rgb;
     wire obg_vld,ocv_vld,obg_idle,ocv_idle;
     localparam [23:0] ch_key = 24'hFF00FF;   // ★ 色键常量（2026-10-02：原为 reg+initial ⇒ TD 警告
@@ -267,10 +274,10 @@ module skeleton_core #(
     );
 
     layer_cover #(.MAX_W(320), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480),
-                  .SHARED_RASTER(1),.SHARED_WRITER(1)) u_cv (
+                  .SHARED_RASTER(1),.SHARED_WRITER(1),.SCALE(1)) u_cv (
         .clk_pix (clk_pix), .rst_pix_n (~rst_pix), .hs (cb_hs), .vs (cb_vs), .de (cb_de),
         .en (cv_en), .ch_key (ch_key),
-        .win_x (cv_x), .win_y (cv_y), .win_w (cv_w), .win_h (cv_h),
+        .win_x (cv_pop_x), .win_y (cv_pop_y), .win_w (cv_pop_w), .win_h (cv_pop_h),
         .img_w (cv_iw), .img_h (cv_ih), .words_per_row (cv_wpr), .slot_base (cv_slot),
         .dout (cv_rgb), .dout_vld (cv_vld),
         .underrun_cnt (cv_und), .stall_cnt (cv_stall), .ferr_cnt (cv_ferr),
@@ -297,10 +304,10 @@ module skeleton_core #(
         .wr_take(img_take[2]),.wr_active(img_active[2]),.wr_done(img_done[2]),
         .wr_error(img_err[2]),.wr_en(img_we[2]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
-    layer_cover #(.MAX_W(320),.SHARED_RASTER(1),.SHARED_WRITER(1)) u_old_cv (
+    layer_cover #(.MAX_W(320),.SHARED_RASTER(1),.SHARED_WRITER(1),.SCALE(1)) u_old_cv (
         .clk_pix(clk_pix),.rst_pix_n(~rst_pix),.hs(cb_hs),.vs(cb_vs),.de(cb_de),
         .en(old_enable && ocv_en),.ch_key(ch_key),
-        .win_x(ocv_x),.win_y(ocv_y),.win_w(ocv_w),.win_h(ocv_h),
+        .win_x(ocv_pop_x),.win_y(ocv_pop_y),.win_w(ocv_pop_w),.win_h(ocv_pop_h),
         .img_w(ocv_iw),.img_h(ocv_ih),.words_per_row(ocv_wpr),.slot_base(ocv_slot),
         .dout(ocv_rgb),.dout_vld(ocv_vld),.underrun_cnt(),.stall_cnt(),.ferr_cnt(),.gap_cnt(),
         .keyed_cnt(),.idle(ocv_idle),.clk_sdr(clk_sdr),.rst_sdr_n(~rst_sdr),
@@ -314,7 +321,12 @@ module skeleton_core #(
 
     localparam [23:0] base_rgb = 24'h0A140A; // ★ 底色常量（同上；与 PC golden 的 base 对齐）
     wire [23:0] cmp_rgb;
+    wire [23:0] cmp_raw_rgb;
     wire        cmp_vld,cmp_vs,cmp_hs;
+    // Shared Stage 4 loudness state is declared before the pixel color path
+    // so the Verilog-2001 compiler sees the signal at its first use.
+    reg [17:0] env_sum;
+    reg [7:0]  env_loud_q8, env_rel_q8;
 
     //=========================================================================
     // ★★ P4 Stage 3：频谱链（`spec_fft` → `spec_bands` → `layer_fft`）
@@ -359,8 +371,58 @@ module skeleton_core #(
     wire        ff_vld;
 
     wire [23:0] overlay_rgb;
-    wire [23:0] new_image=cv_vld ? cv_rgb : (bg_vld ? bg_rgb : base_rgb);
-    wire [23:0] old_image=ocv_vld ? ocv_rgb : (obg_vld ? obg_rgb : base_rgb);
+    function [7:0] ring_channel;
+        input [7:0] background, foreground, opacity;
+        reg signed [8:0] delta;
+        reg signed [18:0] result;
+        begin
+            delta=$signed({1'b0,foreground})-$signed({1'b0,background});
+            result=$signed({3'b0,background,8'b0})+
+                   delta*$signed({1'b0,opacity})+19'sd128;
+            ring_channel=result[15:8];
+        end
+    endfunction
+    function [23:0] ring_over;
+        input [23:0] background, foreground;
+        input [7:0] opacity;
+        begin
+            ring_over={ring_channel(background[23:16],foreground[23:16],opacity),
+                       ring_channel(background[15:8],foreground[15:8],opacity),
+                       ring_channel(background[7:0],foreground[7:0],opacity)};
+        end
+    endfunction
+    wire [23:0] new_bg=bg_vld ? bg_rgb : base_rgb;
+    wire [23:0] old_bg=obg_vld ? obg_rgb : base_rgb;
+    reg [23:0] new_bg_d,old_bg_d,cv_rgb_d,ocv_rgb_d,overlay_rgb_d;
+    reg cv_vld_d,ocv_vld_d,ring_vld_d,overlay_vld_d;
+    reg overlay_text_d,overlay_text_d2;
+    reg [7:0] ring_alpha_d;
+    reg [8:0] fade_alpha_d;
+    reg scene_de_d,scene_vs_d,scene_hs_d;
+    always @(posedge clk_pix) begin
+        if(rst_pix) begin
+            new_bg_d<=0; old_bg_d<=0; cv_rgb_d<=0; ocv_rgb_d<=0;
+            overlay_rgb_d<=0; cv_vld_d<=0; ocv_vld_d<=0;
+            ring_vld_d<=0; overlay_vld_d<=0; ring_alpha_d<=0;
+            overlay_text_d<=0; overlay_text_d2<=0;
+            fade_alpha_d<=0; scene_de_d<=0; scene_vs_d<=0; scene_hs_d<=0;
+        end else begin
+            new_bg_d<=new_bg; old_bg_d<=old_bg;
+            cv_rgb_d<=cv_rgb; ocv_rgb_d<=ocv_rgb;
+            cv_vld_d<=cv_vld; ocv_vld_d<=ocv_vld;
+            ring_vld_d<=ring_vld; ring_alpha_d<=ring_alpha;
+            overlay_rgb_d<=overlay_rgb;
+            overlay_text_d<=ly_vld;
+            overlay_text_d2<=overlay_text_d;
+            overlay_vld_d<=ly_vld || ff_vld;
+            fade_alpha_d<=fade_alpha;
+            scene_de_d<=cb_de; scene_vs_d<=cb_vs; scene_hs_d<=cb_hs;
+        end
+    end
+    wire [23:0] new_image=cv_vld_d ? cv_rgb_d :
+                          (ring_vld_d ? ring_over(new_bg_d,ring_rgb,ring_alpha_d) : new_bg_d);
+    wire [23:0] old_image=ocv_vld_d ? ocv_rgb_d :
+                          (ring_vld_d ? ring_over(old_bg_d,ring_rgb,ring_alpha_d) : old_bg_d);
     compositor u_cmp (
         .de (cb_de), .base_rgb (base_rgb),
         .bg_rgb (24'd0), .bg_vld (1'b0),
@@ -379,11 +441,77 @@ module skeleton_core #(
         .rgb (overlay_rgb), .rgb_vld ()
     );
     scene_blend u_blend (
-        .clk(clk_pix),.rst(rst_pix),.de(cb_de),.vs(cb_vs),.hs(cb_hs),
-        .old_rgb(old_image),.new_rgb(new_image),.alpha(fade_alpha),
-        .overlay_rgb(overlay_rgb),.overlay_valid(ly_vld || ff_vld),
-        .rgb(cmp_rgb),.out_de(cmp_vld),.out_vs(cmp_vs),.out_hs(cmp_hs)
+        .clk(clk_pix),.rst(rst_pix),.de(scene_de_d),.vs(scene_vs_d),.hs(scene_hs_d),
+        .old_rgb(old_image),.new_rgb(new_image),.alpha(fade_alpha_d),
+        .overlay_rgb(overlay_rgb_d),.overlay_valid(overlay_vld_d),
+        .rgb(cmp_raw_rgb),.out_de(cmp_vld),.out_vs(cmp_vs),.out_hs(cmp_hs)
     );
+
+    // Stage 4: color response follows the shared audio envelope. The text
+    // overlay is selected after this transform, matching the HTML model.
+    function [7:0] color_clip;
+        input signed [19:0] value;
+        begin
+            if (value < 0) color_clip=8'd0;
+            else if (value > 20'sd255) color_clip=8'd255;
+            else color_clip=value[7:0];
+        end
+    endfunction
+    function [23:0] color_link;
+        input [23:0] src;
+        input [7:0] rel;
+        reg [7:0] r,g,b,lum;
+        reg [9:0] sat_gain,con_gain;
+        reg signed [10:0] sat_delta,con_delta;
+        reg signed [17:0] dr,dg,db;
+        reg signed [19:0] sr,sg,sb;
+        reg signed [19:0] sat_r,sat_g,sat_b;
+        reg signed [19:0] lr,lg,lb;
+        reg signed [19:0] cr,cg,cb;
+        begin
+            r=src[23:16]; g=src[15:8]; b=src[7:0];
+            // Canvas saturate()/contrast() uses the CSS filter luma matrix
+            // 0.213/0.715/0.072. 55/183/18 is its Q8 shift/add form.
+            lum=({3'd0,r,5'd0}+{4'd0,r,4'd0}+{6'd0,r,2'd0}+{7'd0,r,1'd0}+{8'd0,r}+
+                 {1'd0,g,7'd0}+{3'd0,g,5'd0}+{4'd0,g,4'd0}+{6'd0,g,2'd0}+
+                 {7'd0,g,1'd0}+{8'd0,g}+
+                 {4'd0,b,4'd0}+{7'd0,b,1'd0}) >> 8;
+            // Defaults are 100%; the HTML maxima are 180% and 135%.
+            // Q8 slopes use shift/add approximations: 0.8 ~= 1/2+1/4+1/32+1/64,
+            // 0.35 ~= 1/4+1/16+1/32.  Keep the deltas signed before the
+            // channel products; an unsigned factor would turn negative
+            // chroma differences into large positive values and clip to white.
+            sat_gain=10'd256+((rel>>1)+(rel>>2)+(rel>>5)+(rel>>6));
+            con_gain=10'd256+((rel>>2)+(rel>>4)+(rel>>5));
+            sat_delta=$signed({1'b0,sat_gain})-11'sd256;
+            con_delta=$signed({1'b0,con_gain})-11'sd256;
+            if (rel==8'd0) begin
+                color_link=src;
+            end else begin
+            dr=$signed({1'b0,r})-$signed({1'b0,lum});
+            dg=$signed({1'b0,g})-$signed({1'b0,lum});
+            db=$signed({1'b0,b})-$signed({1'b0,lum});
+            sr=dr*20'sd256+dr*sat_delta;
+            sg=dg*20'sd256+dg*sat_delta;
+            sb=db*20'sd256+db*sat_delta;
+            sat_r=$signed({1'b0,lum})+((sr+20'sd128)>>>8);
+            sat_g=$signed({1'b0,lum})+((sg+20'sd128)>>>8);
+            sat_b=$signed({1'b0,lum})+((sb+20'sd128)>>>8);
+            lr=sat_r-20'sd128; lg=sat_g-20'sd128; lb=sat_b-20'sd128;
+            cr=lr*20'sd256+lr*con_delta;
+            cg=lg*20'sd256+lg*con_delta;
+            cb=lb*20'sd256+lb*con_delta;
+            color_link={color_clip(20'sd128+((cr+20'sd128)>>>8)),
+                        color_clip(20'sd128+((cg+20'sd128)>>>8)),
+                        color_clip(20'sd128+((cb+20'sd128)>>>8))};
+            end
+        end
+    endfunction
+    wire [7:0] color_rel = en_fft ? env_rel_q8 : 8'd0;
+    wire [23:0] colorized_rgb = color_link(cmp_raw_rgb,color_rel);
+    assign cmp_rgb = overlay_text_d2 ? cmp_raw_rgb : colorized_rgb;
+    reg [9:0] de_pix;
+    reg [9:0] ff_x, ff_y;
 
     // ★ 2026-10-02：`ch_key` / `base_rgb` 已改成 **localparam 常量**（原先 reg + initial ⇒
     //   TD 警告 "Initial value omitted on non-DFF net" ⇒ **硬件里根本没有初值** ✗）。
@@ -394,7 +522,17 @@ module skeleton_core #(
 
     // ★★★ 临时调试开关（2026-10-01）—— **本轮已还原为 0**（诊断结论：纯色帧均匀无网格 ⇒ 帧数据侧问题）
     localparam FORCE_SOLID = 1'b0;
-    wire [23:0] ax_rgb = FORCE_SOLID ? 24'h2050A0 : cmp_rgb;   // 纯色：中等蓝
+    // Temporary board diagnostic: upper bar is loudness, lower bar is the
+    // actual filter coefficient. The display core uses this pixel stream.
+    wire diag_x = (de_pix >= 10'd512 && de_pix < 10'd624);
+    wire [6:0] diag_pos = de_pix[6:0];
+    wire diag_loud = diag_x && ff_y >= 10'd60 && ff_y < 10'd66;
+    wire diag_rel = diag_x && ff_y >= 10'd70 && ff_y < 10'd76;
+    wire [23:0] diag_rgb = diag_loud ?
+        ((diag_pos < env_loud_q8[7:1]) ? 24'hD8F36A : 24'h172028) :
+        ((diag_pos < color_rel[7:1]) ? 24'h2CE6DF : 24'h172028);
+    wire [23:0] ax_rgb = FORCE_SOLID ? 24'h2050A0 :
+        ((en_color_diag && (diag_loud || diag_rel)) ? diag_rgb : cmp_rgb);
     wire        ax_user, ax_valid, ax_last;
     wire [23:0] ax_data;
 
@@ -416,7 +554,6 @@ module skeleton_core #(
     //   ⇒ 不为此改厂商原件（保持可追溯），改在**本模块自己重建 last**：
     //      de_pix 在空档清零，DE 首个像素时 pre 值=0，第 640 个像素时 pre 值=639
     //      ⇒ 那时置位，正好落在"最后一个有效拍"（valid 是 de 打一拍）上。
-    reg [9:0] de_pix;
     reg       ax_last_fix;
     always @(posedge clk_pix) begin
         if (rst_pix) begin
@@ -1418,7 +1555,7 @@ module skeleton_core #(
     wire [7:0]  wh_err;
     // 环播放器
     wire        wp_refill, wp_rd_ready, wp_sector_room, wp_valid, wp_primed, wp_end, wp_wr_done;
-    wire [15:0] wp_l, wp_r;
+    wire [15:0] wp_l, wp_r, wp_raw_l, wp_raw_r;
     wire [12:0] wp_level_now, wp_level_min;
     wire [31:0] wp_uc, wp_hold;
     // 48k 节拍（与 `u_tone` 内部那一个**同算式、同复位、同 enable** ⇒ 相位逐拍相同 ✓）
@@ -1507,6 +1644,7 @@ module skeleton_core #(
         .sample_ready (1'b1),                // 厂商核**没有** ready 口 ✓（端口清单事实 ✓）
         .sample_valid (wp_valid),
         .sample_left  (wp_l), .sample_right (wp_r),
+        .sample_raw_left(wp_raw_l), .sample_raw_right(wp_raw_r),
         .gain         (GAIN_DEFAULT),        // ★ S3-b：档位源 = 常量 ✓（满档 256 = 精确 ×1 ✓；P5 再接按键/OSD ✓）
         .stat_clr     (au_clr),
         .level_now    (wp_level_now), .level_min (wp_level_min),
@@ -1980,7 +2118,6 @@ module skeleton_core #(
     //=========================================================================
     // ---- ★ 活动像素坐标：**直接数 `de`** ✓（不猜消隐约定 ✓）⇒ x 0..639 ✓、y 0..479 ✓
     //      坐标系与 `layer_cover` 的 `win_x/win_y` 一致 ✓（都是"第几个有效像素/行" ✓）
-    reg  [9:0] ff_x, ff_y;
     reg        cb_de_d;
     always @(posedge clk_pix or posedge rst_pix) begin
         if (rst_pix) begin
@@ -1996,30 +2133,83 @@ module skeleton_core #(
     end
 
     wire            sp_frame_stb, sp_bin_stb;
-    wire [7:0]      sp_bin_idx, sp_bin_mag, sp_peak_bin, sp_peak_val;
-    wire [8*24-1:0] sp_bars, sp_peak_bars;
-    wire            sb_bars_stb;
-    // 频谱独立于封面几何：右下角留 32px 右边距，避开左下歌名/歌手。
-    wire [15:0]     ff_base_x = 16'd320;
-    wire [15:0]     ff_base_y = 16'd465;
+    wire [8:0]      sp_bin_idx, sp_peak_bin;
+    wire [7:0]      sp_bin_mag, sp_peak_val;
+    wire            sp_samp_ready, sp_samp_valid, sp_window_overrun;
+    wire signed [11:0] sp_samp;
+    wire            sb_bar_stb, sb_bars_done;
+    wire [5:0]      sb_bar_idx;
+    wire [7:0]      sb_bar_level;
+    wire            sa_band_stb, sa_hit;
+    wire [4:0]      sa_band_idx, sa_hit_band;
+    wire [7:0]      sa_band_level;
     reg [2:0] spec_song_sync;
     always @(posedge clk_pix) begin
         if (rst_pix) spec_song_sync <= 3'd0;
         else spec_song_sync <= {spec_song_sync[1:0], au_play_tgl};
     end
     wire spec_song_clear = spec_song_sync[2] ^ spec_song_sync[1];
-
-    spec_fft #(.N(512), .SAMP_W(12), .FS_HZ(48000), .WINDOW_HANN(1)) u_spec_fft (
+    // Keep the board-approved FFT scale (78-count nonzero floor) for spectrum
+    // and attack. Reconstruct the approved color-only excess exactly:
+    // min(max(FFT_byte-78,0),110) == max(min(log_raw+145,255)-145,0).
+    // The 110 clamp preserves the previous color saturation at 255-145.
+    // Scale the mean by eight before the existing integer envelope smoothing.
+    wire [7:0] env_bin_excess = (sp_bin_mag>=8'd188) ? 8'd110 :
+        ((sp_bin_mag>8'd78) ? (sp_bin_mag-8'd78) : 8'd0);
+    wire [8:0] env_loud_avg = env_sum[17:9];
+    wire [11:0] env_loud_scaled = {env_loud_avg,3'b000};
+    wire [7:0] env_loud_target = (env_loud_scaled>12'd255) ?
+        8'd255 : env_loud_scaled[7:0];
+    wire [8:0] env_loud_up_delta = {1'b0,env_loud_target} - {1'b0,env_loud_q8};
+    wire [8:0] env_loud_dn_delta = {1'b0,env_loud_q8} - {1'b0,env_loud_target};
+    wire [7:0] env_loud_up_step = env_loud_up_delta[8:1];
+    wire [7:0] env_loud_dn_step = (env_loud_dn_delta[8:4] - env_loud_dn_delta[8:8]);
+    wire [7:0] env_loud_next = (env_loud_target >= env_loud_q8) ?
+        (env_loud_q8 + env_loud_up_step) :
+        (env_loud_q8 - env_loud_dn_step);
+    // Card WAV probe: accompaniment excess is about 3..6 counts, while
+    // strong passages reach 16..19. In the x8 domain use 32..144.
+    wire [8:0] env_rel_delta = (env_loud_next>8'd32) ?
+        ({1'b0,env_loud_next}-9'd32) : 9'd0;
+    wire [11:0] env_rel_scaled = (env_rel_delta<<1)+
+                                  (env_rel_delta>>2)+(env_rel_delta>>5);
+    wire [7:0] env_rel_raw = (env_loud_next<=8'd32) ? 8'd0 :
+        (env_loud_next>=8'd144) ? 8'd255 :
+        (env_rel_scaled>12'd255 ? 8'd255 : env_rel_scaled[7:0]);
+    wire [8:0] env_rel_up_delta = {1'b0,env_rel_raw} - {1'b0,env_rel_q8};
+    wire [8:0] env_rel_dn_delta = {1'b0,env_rel_q8} - {1'b0,env_rel_raw};
+    wire [7:0] env_rel_up_step = (env_rel_up_delta>>3)+(env_rel_up_delta>>4);
+    wire [7:0] env_rel_dn_step = (env_rel_dn_delta>>4)+(env_rel_dn_delta>>6);
+    wire [7:0] env_rel_next = (env_rel_raw>=env_rel_q8) ?
+        (env_rel_q8+env_rel_up_step) : (env_rel_q8-env_rel_dn_step);
+    always @(posedge clk_pix) begin
+        if (rst_pix || spec_song_clear) begin
+            env_sum<=18'd0; env_loud_q8<=8'd0; env_rel_q8<=8'd0;
+        end else begin
+            if (sp_bin_stb) begin
+                if (sp_bin_idx==9'd0) env_sum<=18'd0;
+                else env_sum<=env_sum+{10'd0,env_bin_excess};
+            end
+            if (sp_frame_stb) begin
+                env_loud_q8<=env_loud_next;
+                env_rel_q8<=env_rel_next;
+                env_sum<=18'd0;
+            end
+        end
+    end
+    spec_window u_spec_window (
+        .clk(clk_pix), .rst_n(~rst_pix & ~spec_song_clear),
+        .sample_valid(wp_valid), .sample_data(wp_raw_l[15:4]),
+        .fft_ready(sp_samp_ready), .fft_valid(sp_samp_valid),
+        .fft_sample(sp_samp), .window_overrun(sp_window_overrun)
+    );
+    spec_fft #(.N(1024), .SAMP_W(12), .FS_HZ(48000),
+               .WINDOW_HANN(1), .LOG_MAG(1)) u_spec_fft (
         .clk       (clk_pix),
         .rst_n     (~rst_pix & ~spec_song_clear),
-        .samp_stb  (wp_valid),                  // ★★ 修：**直接用它** ✓ —— `sample_valid` 自己就是
-                                                //   "**每节拍 1 拍**"的样本选通（见 `wav_stream_player.v:26-28` ✓）
-                                                //   ✗ 早先写成 `wav_tick & wp_valid`：两者**不在同一拍**
-                                                //   （`sample_valid` 是寄存过的 ✗）⇒ 相与**恒 0** ✗
-                                                //   ⇒ FFT 一个样本都收不到 ⇒ 不出帧 ⇒ 柱恒 0 ⇒ **板上一根都看不到** ✗
-                                                //   ★ 这个 bug **仿真测不到** ✗：集成台跑的是 `en_fft=0`，
-                                                //     整条链被常数传播优化掉 ⇒ 谁也没在看它 ✗（§11.14(b) 的陷阱 ✓）
-        .samp      (wp_l[15:4]),                // Deliberately post-gain: the display follows audible level.
+        .samp_stb  (sp_samp_valid),
+        .samp_ready(sp_samp_ready),
+        .samp      (sp_samp),
         .frame_stb (sp_frame_stb),
         .bin_stb   (sp_bin_stb),
         .bin_idx   (sp_bin_idx),
@@ -2028,33 +2218,72 @@ module skeleton_core #(
         .peak_val  (sp_peak_val)
     );
 
-    spec_bands #(.BARS(24), .BIN(256)) u_spec_bands (
+    spec_bands64 u_spec_bands (
         .clk       (clk_pix),
         .rst_n     (~rst_pix & ~spec_song_clear),
         .bin_stb   (sp_bin_stb),
         .bin_idx   (sp_bin_idx),
         .bin_mag   (sp_bin_mag),
         .frame_stb (sp_frame_stb),
-        .bars_stb  (sb_bars_stb),
-        .bars      (sp_bars),
-        .peak_bars (sp_peak_bars)
+        .bar_stb   (sb_bar_stb),
+        .bar_idx   (sb_bar_idx),
+        .bar_level (sb_bar_level),
+        .bars_done (sb_bars_done),
+        .attack_band_stb  (sa_band_stb),
+        .attack_band_idx  (sa_band_idx),
+        .attack_band_level(sa_band_level)
     );
 
-    // Snapshot complete band sets at vertical blank; render 96 white tines.
-    layer_fft #(.BARS(24), .BAR_PITCH(12), .TINE_PITCH(3), .BAR_W(1), .H_SHIFT(2)) u_layer_fft (
+    spec_attack18 u_spec_attack (
+        .clk         (clk_pix),
+        .rst_n       (~rst_pix & ~spec_song_clear),
+        .band_stb    (sa_band_stb),
+        .band_idx    (sa_band_idx),
+        .band_level  (sa_band_level),
+        .sensitivity (6'd16),
+        .analysis_stb(),
+        .hit         (sa_hit),
+        .hit_band    (sa_hit_band),
+        .flux        (),
+        .threshold   (),
+        .hit_count   ()
+    );
+
+    layer_fft64 u_layer_fft (
         .clk       (clk_pix),
         .rst_n     (~rst_pix & ~spec_song_clear),
-        .bars_stb  (sb_bars_stb),
+        .bar_stb   (sb_bar_stb),
+        .bars_done (sb_bars_done),
+        .bar_idx   (sb_bar_idx),
+        .bar_level (sb_bar_level),
         .frame_stb (fr_start),
+        .attack_hit(sa_hit),
+        .attack_band(sa_hit_band),
         .de        (cb_de),                     // ★ 与合成器同一个 `de` ✓
         .x         ({6'd0, ff_x}),              // ★ **当前**活动像素 ✓（不是延迟坐标 ✗）
         .y         ({6'd0, ff_y}),
         .en        (en_fft),                    // 0 时整层透明
-        .base_x    (ff_base_x),
-        .base_y    (ff_base_y),
-        .bars      (sp_bars),
         .dout      (ff_rgb),
         .dout_vld  (ff_vld)
+    );
+
+    cover_pop u_cover_pop (
+        .clk(clk_pix),.rst(rst_pix || spec_song_clear),
+        .frame_tick(fr_start),.hit(sa_hit && en_fft),.level(cover_pop_level)
+    );
+    cover_pop_geom u_new_pop_geom (
+        .x(cv_x),.y(cv_y),.w(cv_w),.h(cv_h),.level(cover_pop_level),
+        .out_x(cv_pop_x),.out_y(cv_pop_y),.out_w(cv_pop_w),.out_h(cv_pop_h)
+    );
+    cover_pop_geom u_old_pop_geom (
+        .x(ocv_x),.y(ocv_y),.w(ocv_w),.h(ocv_h),.level(cover_pop_level),
+        .out_x(ocv_pop_x),.out_y(ocv_pop_y),.out_w(ocv_pop_w),.out_h(ocv_pop_h)
+    );
+    attack_rings u_attack_rings (
+        .clk(clk_pix),.rst(rst_pix || spec_song_clear),
+        .frame_tick(fr_start),.hit(sa_hit && en_fft),
+        .de(cb_de),.x(ff_x),.y(ff_y),.valid(ring_vld),.rgb(ring_rgb),
+        .alpha(ring_alpha)
     );
 
     //   ★ 本段放在音频段**之后**：这里才能引用 `wav_tick`（`default_nettype none` 下不能先用后声明 ✓）
@@ -2216,7 +2445,7 @@ module skeleton_core #(
         // ★ 槽位新址（步2c-3 避重叠）：与装载器、`lyric_pick` **三处必须一致** ✗
         .LRC_BASE (21'h121440), .FONT_BASE (21'hE1000), .ASC_BASE (21'h120E40),
         // ★★ L1M 并层：歌名/歌手版面 —— 照旧版**冻结值**显式写出（便于一眼核对 ✓）
-        .BOX_X (32), .BOX_W (160), .TTL_Y0 (13), .SGR_Y0 (47),
+        .BOX_X (32), .BOX_W (160), .TTL_Y0 (13), .SGR_Y0 (41),
         .MAX_CH_L (19), .MAX_CH_T (24), .SPP (1200), .HOLD_N (24000),
         .CLK_HZ (SDR_CLK_MHZ * 1000000)
     ) u_lyr (

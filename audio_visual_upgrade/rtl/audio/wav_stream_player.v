@@ -69,6 +69,8 @@ module wav_stream_player #(
     output reg         sample_valid,
     output reg  [15:0] sample_left,
     output reg  [15:0] sample_right,
+    output reg  [15:0] sample_raw_left,
+    output reg  [15:0] sample_raw_right,
     input  wire [8:0]  gain,               // 音量：**256 = ×1** ✓（S2 先恒 256 ✓）
     // ---------------- 观测（读侧域 ✓）----------------
     input  wire        stat_clr,           // 脉冲：清"最小水位/欠载"（报文每窗口清一次 ✓）
@@ -336,6 +338,8 @@ module wav_stream_player #(
             sample_valid <= 1'b0;
             sample_left  <= 16'sd0;
             sample_right <= 16'sd0;
+            sample_raw_left <= 16'sd0;
+            sample_raw_right <= 16'sd0;
             level_now    <= {(ADDR_WIDTH+1){1'b0}};
             level_min    <= {(ADDR_WIDTH+1){1'b0}};
             underrun_cnt <= 32'd0;
@@ -367,6 +371,8 @@ module wav_stream_player #(
                     sample_valid <= 1'b1;
                     sample_left  <= mul_l[23:8];                  // >>> 8 ✓（gain=256 ⇒ 原样 ✓）
                     sample_right <= mul_r[23:8];
+                    sample_raw_left <= raw_l;
+                    sample_raw_right <= raw_r;
                     rd_ptr       <= rd_ptr + 2'd1;
                     if (mark_valid && ((rd_ptr + 2'd1) == mark_front)) begin
                         stream_end <= 1'b1;                       // 最后一帧 ⇒ 收尾脉冲 ✓
@@ -377,6 +383,8 @@ module wav_stream_player #(
                     sample_valid <= 1'b1;
                     sample_left  <= 16'sd0;
                     sample_right <= 16'sd0;
+                    sample_raw_left <= 16'sd0;
+                    sample_raw_right <= 16'sd0;
                     if (primed && !wr_done_r) underrun_cnt <= underrun_cnt + 32'd1;
                 end
             end else if (accepted) begin

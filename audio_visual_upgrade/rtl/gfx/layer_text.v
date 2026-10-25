@@ -19,8 +19,8 @@
 // 【居中】`x0 = (40 − nw) >> 1`（字为单位 ✓ 量化到 16px ⇒ ≤8px 偏差 ✓）
 //   读地址 `= (x>>4) − x0` ✓ 天然字节对齐 ⇒ **零桶形移位器** ✓（见 `lyric_row` 头注释 ✓）
 //
-// 【上色（`design:749-750` ✓）】色码 0=透明 ✓；当前行：2=已唱金 / 1=未唱中灰 ✓；
-//   预备行（nxt/n3）：**整行暗灰**（不管是 1 还是 2 ✓）—— 引擎不必知道自己是第几行 ✓
+// 【上色（`design:749-750` ✓）】色码 0=透明 ✓；当前行：2=已唱粉紫 / 1=未唱浅紫 ✓；
+//   预备行（nxt/n3）：与当前行未唱部分同色（不管是 1 还是 2）
 //
 // 【跨域】三类信号，全部按本工程既有口径处理：
 //   ① 每帧一次的**描述符快照**：`desc_tgl`（来自 `lyric_pick.done` ✓）+ 2FF 边沿捕获 ✓
@@ -58,9 +58,9 @@ module layer_text #(
     parameter integer NW_MAX    = 40,       // 行缓冲字数（= 640px ✓）
     parameter integer GL_H      = 32,       // 字高 ✓
     parameter integer AW        = 8,        // 统一文字行缓冲：歌词 80 + 歌名 96 + 歌手 16 字
-    parameter [23:0]  C_SUNG    = 24'hFFD678,   // (255,214,120) ✓
-    parameter [23:0]  C_UNSUNG  = 24'h8A92A0,   // (138,146,160) ✓
-    parameter [23:0]  C_NEXT    = 24'h929BAA,   // (146,155,170) ✓
+    parameter [23:0]  C_SUNG    = 24'hFF5FCB,   // (255,95,203) ✓
+    parameter [23:0]  C_UNSUNG  = 24'hE8E4FF,   // (232,228,255) ✓
+    parameter [23:0]  C_NEXT    = 24'hE8E4FF,   // same as C_UNSUNG
     // ★★ L1M 并层：歌名/歌手（跑马灯）—— 参数与口径照旧 `layer_title.v` **冻结值** ✓
     //   （旧版在 `exp/lrc-linefetch` 分支上 ✓：BOX_X=32 / BOX_W=160 / TTL_Y0=408 / SGR_Y0=442
     //     / GL_H=32 / SPP=1200（40px/s @48k）/ HOLD_N=24000（停 0.5s）/ C_TTL 白 / C_SGR 浅蓝灰 ✓）
@@ -327,15 +327,18 @@ module layer_text #(
     //     滚动时 `off` 每 `SPP` 个样本 +1 px；绕一圈回来再停 `HOLD_N` 个样本 ✓
     //     ⇒ 尾出/头进同一刻 ✓（全框皆空只有 `off = W` 这一个值 = 25ms ✓ 肉眼不可辨 ✓）
     //=========================================================================
-    //   ★ L1M-瘦身：宽度**降到 11~12 位** ✓（周期 ≤512 ⇒ 11 位实质够 ✓ 原 12 位白烧 LUT ✗）
-    wire [11:0] per_t = {1'b0, w_t} + {1'b0, BW11};      // 周期 = W + 框宽 ✓
-    wire [11:0] per_s = {1'b0, w_s} + {1'b0, BW11};
+    // 宽度来自 6 位 row_nw*16，周期使用 12 位；偏移保持原来的 11 位。
+    // off+1 >= W+BOX_W 等价于 off >= W+(BOX_W-1)。把常量运算放在
+    // 宽度侧，移除偏移反馈路径上“加一再比较”的串联进位链，不增加寄存器。
+    localparam [11:0] BW_LAST = {1'b0, BW11} - 12'd1;
+    wire [11:0] last_t = w_t + BW_LAST;
+    wire [11:0] last_s = w_s + BW_LAST;
     wire [11:0] per_t_pix = {1'b0, w_t_p2} + {1'b0, BW11};
     wire [11:0] per_s_pix = {1'b0, w_s_p2} + {1'b0, BW11};
     wire        mov_t = ({1'b0, w_t} > {1'b0, BW11});    // >5 字 ⇒ 滚动 ✓（各自判 ✓）
     wire        mov_s = ({1'b0, w_s} > {1'b0, BW11});
-    wire        wrp_t = mov_t && (({1'b0, off_t} + 12'd1) >= per_t);
-    wire        wrp_s = mov_s && (({1'b0, off_s} + 12'd1) >= per_s);
+    wire        wrp_t = mov_t && ({1'b0, off_t} >= last_t);
+    wire        wrp_s = mov_s && ({1'b0, off_s} >= last_s);
     // 显示侧选带（组合 ✓；`per_sel`/`off_sel` 被上面两段共用 ⇒ 放这里 ✓）
     wire [10:0] off_sel = in_t ? off_t_p2 : off_s_p2;
     wire [11:0] per_sel = in_t ? per_t_pix : per_s_pix;
@@ -485,7 +488,7 @@ module layer_text #(
 
     //=========================================================================
     // F. 上色
-    //   · 歌词带：色码 0=透明 ✓；当前行 2=金/1=中灰 ✓；预备行整行暗灰 ✓（L1G 原样 ✓）
+    //   · 歌词带：色码 0=透明 ✓；当前行 2=粉紫/1=浅紫 ✓；预备行同未唱浅紫 ✓
     //   · 歌名/歌手带：**整条一个颜色** ✓（歌名白 / 歌手浅蓝灰 ✓；本层只判"是不是墨" ✓）
     //=========================================================================
     assign dout     = any_ttl ? (in_t ? C_TTL : C_SGR)

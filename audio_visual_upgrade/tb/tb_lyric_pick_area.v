@@ -1,6 +1,7 @@
 `timescale 1ns/1ps
 `default_nettype none
-// Reuse baseline checker and read-only golden assets; assertions are unchanged.
+// Reuse baseline checker and read-only golden assets. Scroll decisions commit
+// one clock after sample capture; allow that latency without changing values.
 //============================================================================
 // tb/tb_lyric_pick.v —— `lyric_pick` 单元层自检 TB（P3/S4-1）
 //
@@ -265,6 +266,7 @@ module tb_lyric_pick;
                 @(negedge clk_sdr); samp_stb = 1'b1;
                 @(negedge clk_sdr); samp_stb = 1'b0;
             end
+            @(negedge clk_sdr);                   // delayed decision has committed
         end
     endtask
 
@@ -535,6 +537,53 @@ module tb_lyric_pick;
         stb_n(4);
         chkint("lp09_last_off", 0, off_px);
         chkint("lp09_last_sw",  0, scroll_on);
+        // Real playback advances played on the same clock as samp_stb.
+        // Check every sample against an independent rational phase, including
+        // the inclusive start, exclusive end and the held final position.
+        do_pick(24'd168000);
+        for (i2 = 0; i2 < 14401; i2 = i2 + 1) begin
+            @(negedge clk_sdr);
+            played = 24'd168000 + i2;
+            samp_stb = 1'b1;
+            @(posedge clk_sdr);
+            #1 played = played + 24'd1;
+            @(negedge clk_sdr); samp_stb = 1'b0;
+            @(negedge clk_sdr);
+            if (i2 < 14400) begin
+                chkint("lp09_ramp_on", 1, scroll_on);
+                chkint("lp09_ramp_px", ((i2 + 1) * 38) / 14400, off_px);
+            end else begin
+                chkint("lp09_ramp_end", 0, scroll_on);
+                chkint("lp09_ramp_hold", 38, off_px);
+            end
+        end
+        // Force the new-line submission to overlap a pending old-window
+        // event, then a coincident event. Neither may revive the old phase.
+        for (i2 = 0; i2 < 2; i2 = i2 + 1) begin
+            do_pick(24'd168000);
+            stb_n(758);
+            chkint("lp09_collision_pre", 2, off_px);
+            @(negedge clk_sdr); played = 24'd182400; tick = 1'b1;
+            @(negedge clk_sdr); tick = 1'b0;
+            ww = 0;
+            while (((i2 == 0 && !(px_valid && u_dut.wc == 8'd135)) ||
+                    (i2 == 1 && u_dut.st != 3'd3)) && ww < TMO) begin
+                @(negedge clk_sdr); ww = ww + 1;
+            end
+            if (ww == TMO) begin
+                $display("TEST_FAIL scroll/line collision alignment timeout");
+                $finish;
+            end
+            played = 24'd168000; samp_stb = 1'b1;
+            @(negedge clk_sdr); samp_stb = 1'b0;
+            repeat (3) @(negedge clk_sdr);
+            chkint("lp09_collision_cur", 1, cur_idx);
+            chkint("lp09_collision_px", 0, off_px);
+            chkint("lp09_collision_on", 0, scroll_on);
+            stb_n(1);
+            chkint("lp09_collision_stale", 0, off_px);
+            chkint("lp09_collision_newwin", 0, scroll_on);
+        end
         prot_checks();
         scen_end("LP-09");
 

@@ -2,7 +2,7 @@
 // One completed row mailbox; two banks. Completed metadata stays stable until
 // pixel retirement returns through two flops. Tags reject late/old-frame rows.
 // Both domains reset together. The RAM itself is deliberately not reset.
-module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
+module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0,SCALE=0)(
     input wire clk_sdr,rst_sdr_n,fetch_start,
     input wire [20:0] row_base,
     input wire [15:0] words_per_row,
@@ -19,7 +19,7 @@ module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
     input wire [14:0] frame_id,
     input wire [8:0] min_row,
     input wire discard_all,
-    input wire [15:0] img_w,wr_pix,
+    input wire [15:0] img_w,out_w,wr_pix,
     output reg [23:0] px_out,
     output reg px_out_vld,px_line_done,
     output reg [31:0] underrun_cnt,go_cnt,
@@ -127,11 +127,16 @@ module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
     // RGB888 byte lanes repeat 0,3,2,1. Read word indices repeat 0,1,2,2,
     // 3,4,5,5,... . At lanes 3/2 the preceding word supplies the low bytes;
     // lanes 0/1 fit within the current BRAM output. No FIFO or barrel shifter.
-    localparam [1:0] P_IDLE=0,P_PRIME=1,P_RUN=2;
+    localparam [1:0] P_IDLE=0,P_PRIME=1,P_RUN=2,P_REPEAT=3;
     reg [1:0] pst,rdy_s,rdy_buf_s,lane;
     reg rdy_seen,rd_buf,stream_on,line_ok;
     reg [2:0] prime;
-    reg [XW-1:0] x,width_l;
+    reg [XW-1:0] x,width_l,extra_l;
+    reg [XW:0] repeat_acc;
+    reg repeat_last;
+    reg [23:0] last_pixel;
+    wire [XW:0] repeat_sum=repeat_acc+{1'b0,extra_l};
+    wire repeat_now=SCALE && (extra_l!=0) && (repeat_sum>={1'b0,width_l});
     reg [CW-1:0] rd_ptr;
     reg [31:0] previous_word;
     reg [23:0] selected_pixel;
@@ -148,7 +153,8 @@ module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
     always @(posedge clk_pix) begin
         if(!rst_pix_n) begin
             pst<=P_IDLE; rdy_s<=0; rdy_buf_s<=0; lane<=0; rdy_seen<=0; rd_buf<=0;
-            stream_on<=0; line_ok<=0; prime<=0; x<=0; width_l<=0; rd_ptr<=0;
+            stream_on<=0; line_ok<=0; prime<=0; x<=0; width_l<=0; extra_l<=0;
+            repeat_acc<=0; repeat_last<=0; last_pixel<=0; rd_ptr<=0;
             previous_word<=0; cons_tgl<=0; px_out<=0; px_out_vld<=0;
             px_line_done<=0; underrun_cnt<=0; go_cnt<=0;
         end else begin
@@ -162,14 +168,18 @@ module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
                     end
                     if(px_go) begin
                         go_cnt<=go_cnt+1'b1; x<=0; lane<=0; rd_ptr<=0; prime<=4;
-                        width_l<=img_w[XW-1:0]; line_ok<=0; previous_word<=0;
+                        width_l<=img_w[XW-1:0];
+                        extra_l<=SCALE ? (out_w-img_w) : {XW{1'b0}};
+                        repeat_acc<=0; repeat_last<=0;
+                        line_ok<=0; previous_word<=0;
                         if(rdy_s[1]!=rdy_seen) begin
                             rdy_seen<=rdy_s[1]; rd_buf<=rdy_buf_s[1]; cons_tgl<=~cons_tgl;
                             line_ok<=rdy_good && rdy_tag==expect_tag;
                         end
                         if(rdy_s[1]==rdy_seen || !rdy_good || rdy_tag!=expect_tag)
                             underrun_cnt<=underrun_cnt+1'b1;
-                        if(img_w==0 || img_w>MAX_W) px_line_done<=1;
+                        if(img_w==0 || img_w>MAX_W ||
+                           (SCALE && (out_w<img_w || out_w>MAX_W+(MAX_W>>3)))) px_line_done<=1;
                         else begin stream_on<=1; pst<=P_PRIME; end
                     end
                 end
@@ -178,12 +188,25 @@ module fetch_line_scene #(parameter integer MAX_W=640,SHARED_WRITER=0)(
                     if(prime==1) begin pst<=P_RUN; rd_ptr<=1; end
                 end
                 P_RUN: begin
-                    previous_word<=mem_dob; px_out<=selected_pixel; px_out_vld<=line_ok;
-                    if(lane!=3) rd_ptr<=rd_ptr+1'b1;
+                    previous_word<=mem_dob; px_out<=selected_pixel; last_pixel<=selected_pixel;
+                    px_out_vld<=line_ok;
+                    if(lane!=3 && !repeat_now) rd_ptr<=rd_ptr+1'b1;
                     lane<=lane-1'b1; x<=x+1'b1;
-                    if(x+1'b1>=width_l) begin
+                    if(repeat_now) repeat_acc<=repeat_sum-{1'b0,width_l};
+                    else repeat_acc<=repeat_sum;
+                    if(repeat_now) begin
+                        repeat_last<=x+1'b1>=width_l;
+                        pst<=P_REPEAT;
+                    end else if(x+1'b1>=width_l) begin
                         pst<=P_IDLE; stream_on<=0; px_line_done<=1;
                     end
+                end
+                P_REPEAT: begin
+                    px_out<=last_pixel; px_out_vld<=line_ok;
+                    if(lane!=2) rd_ptr<=rd_ptr+1'b1;
+                    if(repeat_last) begin
+                        pst<=P_IDLE; stream_on<=0; px_line_done<=1;
+                    end else pst<=P_RUN;
                 end
                 default: pst<=P_IDLE;
             endcase

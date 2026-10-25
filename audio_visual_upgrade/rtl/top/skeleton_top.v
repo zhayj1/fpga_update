@@ -69,7 +69,8 @@ module skeleton_top (
     // constant divider: 4000 * 100 / WIN_CYCLES(200000) = 2.
     skeleton_core #(
         .SDR_CLK_MHZ (100),
-        .BW_NUM      (2)
+        .BW_NUM      (2),
+        .en_color_diag(1'b1)
     ) u_core (
         .clk_pix      (clk_pix),
         .clk_pix5x    (clk_pix5x),

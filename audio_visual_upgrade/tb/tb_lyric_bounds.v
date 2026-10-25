@@ -73,6 +73,7 @@ module lyric_bounds_case #(
         begin
             @(posedge clk);#1;samp=1;
             @(posedge clk);#1;samp=0;
+            @(posedge clk);#1; // commit the captured sample decision
         end
     endtask
     initial begin

@@ -149,8 +149,7 @@ def make_assets() -> dict:
 
         for group, source_group in enumerate(cv_order[song], 1):
             image = read_bmp(SOURCE / f"S01CV{source_group}.BMP")
-            # The source art is 320x400.  Its centred 240x240 crop preserves
-            # the round artwork and matches the new 1:1 cover window.
+            # The legacy art already has a narrow circular mask for this display.
             left = (image.width - 240) // 2
             top = (image.height - 240) // 2
             image = image.crop((left, top, left + 240, top + 240))
@@ -159,7 +158,15 @@ def make_assets() -> dict:
             name = f"S{song:02d}CV{group}.BMP"
             write_bmp24(OUT / name, image)
             records.append({"file": name, "kind": "CV", "size": list(image.size),
-                            "source": f"S01CV{source_group}.BMP", "key": "FF00FF"})
+                            "source": f"S01CV{source_group}.BMP", "key": "FF00FF",
+                            "display_correction": "source mask already narrow"})
+    # Preserve the user's approved S01 artwork on future card regeneration.
+    # Only this song's six images override the original bring-up artwork.
+    import prepare_photo_art
+    if prepare_photo_art.available():
+        artwork = prepare_photo_art.render_assets(OUT)
+        by_name = {record["file"]: record for record in artwork}
+        records = [by_name.get(record.get("file"), record) for record in records]
     return {"songs": records}
 
 
@@ -183,6 +190,8 @@ def make_preview() -> None:
         draw.text((x0 + 14, y0 + 12), f"S{song:02d}  group {group}", fill=(255, 255, 255))
     PREVIEW.parent.mkdir(parents=True, exist_ok=True)
     sheet.save(PREVIEW)
+    sheet.resize((1536, 1440), Image.Resampling.NEAREST).save(
+        PREVIEW.with_name("card_layout_display16x10_preview.png"))
 
 
 def inspect_assets() -> list:
@@ -234,8 +243,40 @@ def cover_window() -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="只校验现有素材和清单")
+    parser.add_argument("--correct-circles", action="store_true",
+                        help="只从原始素材重建六张预压缩圆形封面")
     args = parser.parse_args()
     if args.check:
+        check_card()
+        return
+    if args.correct_circles:
+        check_card()
+        import prepare_photo_art
+        if not prepare_photo_art.available():
+            raise FileNotFoundError("S01 approved photo sources are missing")
+        generated = prepare_photo_art.render_assets(OUT / ".." / "output" / "circle_correction_s01")
+        for record in generated:
+            if record["kind"] == "CV":
+                shutil.copy2(OUT / ".." / "output" / "circle_correction_s01" /
+                             record["file"], OUT / record["file"])
+        for song in (2,):
+            for group, source_group in enumerate((2, 3, 1), 1):
+                source = read_bmp(SOURCE / f"S01CV{source_group}.BMP")
+                left, top = (source.width - 240) // 2, (source.height - 240) // 2
+                cover = source.crop((left, top, left + 240, top + 240))
+                write_bmp24(OUT / f"S{song:02d}CV{group}.BMP", cover)
+        manifest_path = OUT / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["files"] = inspect_assets()
+        manifest["cover_circle_correction"] = "S01 photos horizontal 5/6; S02 source mask already narrow"
+        for record in manifest["songs"]:
+            if record.get("kind") == "CV":
+                record["display_correction"] = (
+                    "horizontal 5/6" if record["file"].startswith("S01")
+                    else "source mask already narrow")
+        manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                                 encoding="utf-8")
+        make_preview()
         check_card()
         return
     OUT.mkdir(parents=True, exist_ok=True)
@@ -249,6 +290,7 @@ def main() -> None:
         "cover_window": cover_window(),
         "background": {"w": 640, "h": 480, "bmp": "24bit BI_RGB bottom-up"},
         "audio": "S01/S02 均使用 S01.WAV 前45秒，便于重复观察切图与跨歌渐变",
+        "cover_circle_correction": "S01 photos horizontal 5/6; S02 source mask already narrow",
         "preview": str(PREVIEW.relative_to(ROOT)).replace("\\", "/"),
         "files": inspect_assets(),
         "songs": detail["songs"],

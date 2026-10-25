@@ -48,7 +48,7 @@ module load_writeback (
         .rdusedw(usedw),.valid(),.empty_flag(),.afull(),.aempty(),.wrusedw()
     );
     localparam [2:0] IDLE=0,REQ=1,RUN=2,ACCOUNT=3,ROWSTEP=4,
-                     CALC=5,READY=6;
+                     CALC=5,READY=6,LIMIT=7;
     reg [2:0] bst;
     reg [1:0] cfg_sync,end_sync;
     reg cfg_seen,end_seen,armed,ended,rows,down;
@@ -56,20 +56,24 @@ module load_writeback (
     reg [13:0] row_groups,offset_groups;
     reg [16:0] remaining_r;
     reg [13:0] row_left_r;
+    reg [5:0] total_want_r;
     reg [5:0] want_r;
     reg [18:0] base_groups;
     reg [1:0] base_low;
     wire [16:0] limit_groups=total_groups;
     wire [13:0] row_left_groups=row_groups-offset_groups;
     wire [5:0] total_want=(|remaining_r[16:5]) ? 6'd32 : {1'b0,remaining_r[4:0]};
-    wire [5:0] want=(rows && row_left_r<{8'd0,total_want}) ? row_left_r[5:0] : total_want;
+    wire [5:0] want=(rows && row_left_r<{8'd0,total_want_r}) ? row_left_r[5:0] : total_want_r;
     // END already supplies the exact complete-granule count. Waiting for the
     // entire next burst also handles short input without an available/min mux.
     wire enough=usedw[7:2]>=want_r;
     wire cfg_pending=cfg_sync[1]!=cfg_seen;
     wire end_pending=end_sync[1]!=end_seen;
     wire [5:0] burst_groups=ld_len[7:2];
-    wire row_end=row_left_groups=={8'd0,burst_groups};
+    // row_left_r was captured before this burst and remains unchanged until
+    // ACCOUNT. Reuse it rather than subtracting row_groups-offset_groups
+    // again on the row-end/reset control path.
+    wire row_end=row_left_r=={8'd0,burst_groups};
     // Address calculation and row stepping share this one add/sub datapath.
     wire step_row=bst==ROWSTEP;
     wire sub_row=step_row && rows && down;
@@ -88,7 +92,7 @@ module load_writeback (
         if(!rst_sdr_n) begin
             bst<=IDLE;cfg_sync<=0;end_sync<=0;cfg_seen<=0;end_seen<=0;
             armed<=0;ended<=0;done_toggle<=0;total_groups<=0;done_groups<=0;
-            row_groups<=0;offset_groups<=0;remaining_r<=0;row_left_r<=0;want_r<=0;
+            row_groups<=0;offset_groups<=0;remaining_r<=0;row_left_r<=0;total_want_r<=0;want_r<=0;
             base_groups<=0;base_low<=0;rows<=0;down<=0;
             ld_req<=0;ld_addr<=0;ld_len<=0;
         end else begin
@@ -100,9 +104,13 @@ module load_writeback (
                 else if(done_groups<limit_groups) begin
                     remaining_r<=limit_groups-done_groups;
                     row_left_r<=row_left_groups;
-                    bst<=CALC;
+                    bst<=LIMIT;
                 end
             end
+            // Separate the 32-group cap from the row-boundary minimum. One
+            // preparation clock per burst leaves FIFO/SDRAM throughput intact.
+            LIMIT:if(cfg_pending || end_pending) bst<=IDLE;
+                  else begin total_want_r<=total_want;bst<=CALC;end
             CALC:if(cfg_pending || end_pending) bst<=IDLE;
                  else begin want_r<=want;bst<=READY;end
             READY:if(cfg_pending || end_pending) bst<=IDLE;

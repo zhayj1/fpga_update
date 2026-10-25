@@ -1,94 +1,12 @@
 `default_nettype none
-//============================================================================
-// rtl/audio/spec_fft.v -- 256/512-point single-butterfly FFT.
-// The historical P4 notes below describe N=256, WINDOW_HANN=0. The upgraded
-// top uses N=512, WINDOW_HANN=1: 93.75 Hz/bin at 48 kHz, 256 output bins,
-// periodic Hann from the idle twiddle ROM, and 2x coherent-gain correction.
-// Its real/imag/ROM arrays are each 512x16 bits (one 9K BRAM each if mapped
-// as intended). At 25 MHz compute + scan is about 0.584 ms per frame.
-//
-// 【它要满足的判据】单元台 `tb/tb_spec_fft.v`（**先写的** ✓，见工单 §11.5/§11.6）：
-//   FF-01  937.5Hz 单音        ⇒ `peak_bin == 5` ✓ 且流里幅度最大的 bin 就是 5 ✓
-//   FF-02  937.5 + 3937.5Hz    ⇒ `peak_bin ∈ {5,21}` ✓ 且 **bin 5 与 bin 21 都非零** ✓
-//   FF-03  静音（全 0 样本）    ⇒ 流里 **128 个 bin 幅度全 0** ✓ 且 `peak_val == 0` ✓ 且 `peak_bin` 无 X ✓
-//   + 每帧 `frame_stb` **单拍** ✓、一帧 = **256 个样本** ✓、一帧吐 **128 个 bin**（0..127 顺序 ✓）
-//
-// 【接口契约】（工单 §11.5 钉死 ✓；★ 2026-10-07 **用户拍板改成"bin 流"** ✓ 见 §11.9）
-//   · `samp_stb` = 48kHz 单拍 ✓、`samp` = 12 位**有符号** PCM ✓（**音量前**同一份样本 ✓）
-//   · `bin_stb/bin_idx/bin_mag` = **逐 bin 流** ✓：`bin_idx` 0..127 **自然序** ✓、`bin_mag` = 幅度 0~255 ✓
-//     （`bin_stb` 单拍 ✓ 与 `bin_idx/bin_mag` 同拍 ✓；间隔 3 拍 ✓ —— 下游只认脉冲和编号 ✓）
-//   · `frame_stb` = "**本帧最后一个 bin 已吐完**" ✓（单拍 ✓）—— 帧界交给下游收口 ✓
-//   · ★ 柱（频带）**不在这里生成** ✗：已搬到 Stage 2 `rtl/audio/spec_bands.v` ✓
-//     （理由：那里才是"256 bin → 16 对数带 + dB + 峰值保持"✓；放这里就是**重复算** ✗）
-//   · ★ **算的时候新来的 `samp_stb` 直接丢** ✓（契约允许 ✓ —— 真机 5.33ms 一帧、
-//     本模块算一帧约 **6.5k 拍 = 43us@150MHz** ✓ ⇒ 一帧最多丢 2~3 个样本 ✓ 无所谓 ✓）
-//     ⇒ 本模块**只有 `S_COLL` 状态**才收样本 ✓（其余状态一律不理 `samp_stb` ✓）
-//
-// 【算法】基 2 DIT（时域抽取）✓，**输入按位倒序入 RAM** ⇒ 输出**自然顺序** ✓
-//   · 阶 s = 0..7：`half = 2^s` ✓、每组 2·half 个点 ✓、蝶形对 (m, m+half) ✓
-//   · 旋转因子指数步长 `step = N/(2·half) = 2^(7-s)` ✓ ⇒ 用寄存器 `twinc` 每阶**右移一位** ✓
-//     （不用桶形移位器 ✓ 省 LUT ✓）
-//   · 蝶形：`X1 = (A + W·B) >>> 1` ✓、`X2 = (A − W·B) >>> 1` ✓（**每阶除 2** ✓ 见下"量程"）
-//
-// 【量程：为什么 16 位数据通路够用】（这条不成立就会溢出，必须写清 ✓）
-//   · 输入 |x| ≤ 2047 ✓（12 位有符号 ✓）；每阶除 2 ⇒ **每阶幅度包络不增** ✓
-//   · 单点上下界：|A + W·B| / 2 ≤ (|A| + |B|)/2 ✓；实部/虚部分量同样满足该界 ✓
-//     ⇒ 全程 |分量| 有界 ✓（最坏档按 1.21^8 ≈ 4.3 倍放量估也只到 ~8.8k ✓ ≪ 32767 ✓）
-//   ⇒ 所以内部一律 **32 位有符号算、存回时取低 16 位** ✓（不走"部分位选是有符号还是无符号"的坑 ✓）
-//
-// 【幅度与柱高】
-//   · |X| 用 **α-max-β-min 近似**：`max + min/2`（即 α=1、β=1/2 ✓ **不开方、不用 DSP** ✓）
-//     ★ 它的误差是 **偏大 0 ~ +11.8%**（`|re|=|im|` 的 45° 处最坏 ✓）—— **不是 ±4%** ✗（早先写错过，改掉）
-//       ⇒ 于是显示值系统性偏大：**FF-01 理论 125、实测 136（= +8.8% ✓）**，
-//         落在 0~+11.8% 界内 ✓（要更准可换 α=0.96/β=0.4 ⇒ ±4% ✓，Stage 2 做 dB 时一并定 ✓）
-//   · 显示值 `disp = (|X| ≥ 1024) ? 255 : (|X| >> 2)` ✓
-//     —— 内部已被 8 阶除 2（= ÷256 ✓）⇒ **满量程单音正好顶到 255** ✓（2047·128/256 = 1023 ✓）
-//        FF-01 的幅度 1000 ⇒ bin 5 ≈ 1000·128/256 = **500** ⇒ `disp ≈ 125` ✓（非 0 ✓）
-//   · `peak_bin/peak_val`：在 **bin 1..127** 里取最大 ✓（**跳过 DC** ✓；**严格大于** ⇒
-//     平局取更低 bin ✓，且全 0 时 `peak_bin` 保持 **0**（无 X ✓））
-//
-// 【频带映射：★ 不在本模块 ✓ 已搬到 Stage 2（2026-10-07 用户拍板 ✓ 见 §11.9）】
-//   本模块只保证"**bin 号对、幅度对、一个不落、顺序是自然序**" ✓；
-//   "哪几个 bin 算一根柱" 由 `spec_bands.v` 用一张 **16 项边界表**决定 ✓（表见工单 §11.9 ✓）。
-//   ★ 一条**物理事实**（写在这里免得以后又忘 ✗）：256 点 @48kHz ⇒ **bin 宽 = 187.5Hz**
-//     ⇒ 文档 `:728` 说的"**60Hz 下限**"**做不到** ✗（60Hz 落在 bin **0.32** ✗）
-//     ⇒ 小端口径：**第 0 柱 = bin 0..1**（≈0~375Hz ✓），其余 15 柱对数分到 **bin 85 ≈ 16.0kHz** ✓，
-//       **bin 86..127 不用** ✓（要改口径就得连 `design_music_player.md:728` 一起改 ✓）
-//
-// 【旋转因子 ROM】`tw_rom[0..127]` = cos、`tw_rom[128..255]` = sin ✓（Q15 ✓ 1.0 = 32767 ✓）
-//   ⇒ 读口 **16 位宽、256 深** ⇒ EG4 9K（512×18）**占 1 块** ✓✓
-//   ★ 表**不要手抄** ✗：由 `scripts/gen_spec_twiddle.py` 生成并注入
-//     `==TABLE-BEGIN==` / `==TABLE-END==` 之间 ✓（重跑脚本 ⇒ 哈希不变 ✓ 可自检 ✓）
-//   ★ 符号口径：本模块按 `W = cos + j·sin`（**反变换核**）算，但只输出**幅度** ✓，
-//     而输入是实信号 ⇒ 幅度谱**天然共轭对称** ⇒ 正/反变换核对柱高与 `peak_bin` **没有影响** ✓
-//     （由 FF-01/FF-02 判定 ✓ —— 这条是"实测口径"，不是推测 ✓）
-//
-// 【时序预算】（不算不知道，算了才敢说够 ✓）
-//   蝶形 6 拍 × (8 阶 × 128 蝶形 = 1024) = **6144 拍** ✓；扫描 3 拍 × 128 = **384 拍** ✓
-//   ⇒ 一帧计算 ≈ 6.6k 拍 ≈ **44us** ✓ ≪ 一帧 5.33ms ✓（占用率 ~0.8% ✓；@25MHz 则约 265us ✓ 仍只占 5% ✓）
-//
-// 【★ 试过又**退掉**的一级流水（2026-10-07 ✓ 用户拍板"退掉、保持最小改动" ✓）】
-//   来历：单元探针第一版把 `clk` 当 **150MHz** 卡 ✗ —— **那是我猜错的** ✗
-//     （真机 48kHz 音频时基在 **`clk_pix` = 25MHz** ✓ 见 `rtl/top/skeleton_core.v:1154` ✓；
-//      像素/合成器也在 `clk_pix` ✓ ⇒ 频谱与它同域、不用跨时钟 ✓）
-//     ⇒ 于是量出 Setup WNS **−11.4ns** ✗，我据此加了一级流水（把"BRAM 读出 → 幅度"那段断成两段 ✓：
-//       实测 −11.18 → **−6.57ns**，仍为负 ✗）
-//   口径改对（**25MHz / 40ns** ✓）后重测：**加与不加都过** ✓
-//     · **本文件这一版（不加流水）**：链长实测 ≈ **17.8ns** ✓ ⇒ 余量 ≈ 22.2ns ✓（0 违例 ✓）
-//     · 加流水那版：链长 ≈ **13.2ns** ✓ ⇒ 余量 ≈ 26.8ns ✓（LUT −1、触发器 +17 ✓）
-//   ★ 结论：**用户选择退掉** ✓ ⇒ 本文件就是**无流水**的那一版 ✓（完整测量与换算见
-//     `doc/workitem_p3_lean.md` §11.8 ✓）。**若将来并进 50MHz 域发现余量不够**（无流水只剩 ≈2.2ns ✗），
-//     把 `S_SCQ` 那一级加回来即可 ✓ —— 改法与实测数据都在 §11.8 ✓。
-//
-// 【资源目标】LUT ≤550 ✓／9K BRAM ≤3 ✓（数据 re/im 各 1 + 旋转因子 1 ✓）／DSP ≤6 ✓（4 个 16×16 ✓）
-//   —— 实际占用以 TD 面积报告为准（本文件不写"预计"当结论 ✗）。
-//
-// 【未验证】TD 综合/布局布线/时序（Stage 1 要单独跑一次 phy ✓）；板上效果（P6 才上板 ✓）。
-//============================================================================
+// Single-butterfly FFT, N=256/512/1024. Input handshakes on samp_stb &&
+// samp_ready; caller retains continuous PCM separately while the FFT computes.
+// Six clocks/butterfly, three clocks/bin; all arithmetic uses Q15 twiddles.
 module spec_fft #(
     parameter integer N      = 256,        // FFT 点数 ✓
     parameter integer SAMP_W = 12,         // 采样位宽 ✓
     parameter integer FS_HZ  = 48000,      // 采样率（只用于文档口径 ✓ 逻辑不依赖它 ✓）
+    parameter integer LOG_MAG = 0,
     parameter integer WINDOW_HANN = 0      // 512-point periodic Hann; 0 retains the board baseline
 )(
     input  wire                     clk,
@@ -97,9 +15,10 @@ module spec_fft #(
     input  wire signed [SAMP_W-1:0] samp,       // 12 位有符号 PCM ✓
     output reg                      frame_stb,  // 一帧的**最后一个 bin** 那一拍（单拍 ✓ 帧界 ✓）
     output reg                      bin_stb,    // 逐 bin 有效（单拍 ✓ 与 bin_idx/bin_mag 同拍 ✓）
-    output reg  [7:0]               bin_idx,    // 本拍这个 bin 的**编号**（0..127 ✓ 自然序 ✓）
+    output wire                     samp_ready,
+    output reg  [8:0]               bin_idx,    // 本拍这个 bin 的**编号**（0..127 ✓ 自然序 ✓）
     output reg  [7:0]               bin_mag,    // 本拍这个 bin 的**幅度 0~255** ✓（= 原 disp ✓）
-    output reg  [7:0]               peak_bin,   // ★ 自证用：本帧幅度最大的 bin ✓（0 = 无峰/静音 ✓）
+    output reg  [8:0]               peak_bin,   // ★ 自证用：本帧幅度最大的 bin ✓（0 = 无峰/静音 ✓）
     output reg  [7:0]               peak_val    // ★ 自证用：该 bin 的幅度（0~255 ✓）
 );
 
@@ -126,139 +45,522 @@ module spec_fft #(
     //=========================================================================
     reg signed [DW-1:0] mem_re [0:N-1];
     reg signed [DW-1:0] mem_im [0:N-1];
-    reg        [15:0]   tw_rom [0:511];         // 512-point cos/sin; 256-point mode reads even entries
+    reg        [15:0]   tw_rom [0:1023];         // 512-point cos/sin; 256-point mode reads even entries
 
     initial begin
-        // ==TABLE-BEGIN== 由 scripts/gen_spec_twiddle.py 注入 ✓ 不要手改 ✓
-        // k = 0..255: cos at k, sin at 256+k (Q15). N=256 uses even k.
-        tw_rom[  0] = 16'h7FFF;  tw_rom[256] = 16'h0000;  tw_rom[  1] = 16'h7FFD;  tw_rom[257] = 16'h0192;
-        tw_rom[  2] = 16'h7FF5;  tw_rom[258] = 16'h0324;  tw_rom[  3] = 16'h7FE9;  tw_rom[259] = 16'h04B6;
-        tw_rom[  4] = 16'h7FD8;  tw_rom[260] = 16'h0648;  tw_rom[  5] = 16'h7FC1;  tw_rom[261] = 16'h07D9;
-        tw_rom[  6] = 16'h7FA6;  tw_rom[262] = 16'h096A;  tw_rom[  7] = 16'h7F86;  tw_rom[263] = 16'h0AFB;
-        tw_rom[  8] = 16'h7F61;  tw_rom[264] = 16'h0C8C;  tw_rom[  9] = 16'h7F37;  tw_rom[265] = 16'h0E1C;
-        tw_rom[ 10] = 16'h7F09;  tw_rom[266] = 16'h0FAB;  tw_rom[ 11] = 16'h7ED5;  tw_rom[267] = 16'h113A;
-        tw_rom[ 12] = 16'h7E9C;  tw_rom[268] = 16'h12C8;  tw_rom[ 13] = 16'h7E5F;  tw_rom[269] = 16'h1455;
-        tw_rom[ 14] = 16'h7E1D;  tw_rom[270] = 16'h15E2;  tw_rom[ 15] = 16'h7DD5;  tw_rom[271] = 16'h176E;
-        tw_rom[ 16] = 16'h7D89;  tw_rom[272] = 16'h18F9;  tw_rom[ 17] = 16'h7D39;  tw_rom[273] = 16'h1A82;
-        tw_rom[ 18] = 16'h7CE3;  tw_rom[274] = 16'h1C0B;  tw_rom[ 19] = 16'h7C88;  tw_rom[275] = 16'h1D93;
-        tw_rom[ 20] = 16'h7C29;  tw_rom[276] = 16'h1F1A;  tw_rom[ 21] = 16'h7BC5;  tw_rom[277] = 16'h209F;
-        tw_rom[ 22] = 16'h7B5C;  tw_rom[278] = 16'h2223;  tw_rom[ 23] = 16'h7AEE;  tw_rom[279] = 16'h23A6;
-        tw_rom[ 24] = 16'h7A7C;  tw_rom[280] = 16'h2528;  tw_rom[ 25] = 16'h7A05;  tw_rom[281] = 16'h26A8;
-        tw_rom[ 26] = 16'h7989;  tw_rom[282] = 16'h2826;  tw_rom[ 27] = 16'h7909;  tw_rom[283] = 16'h29A3;
-        tw_rom[ 28] = 16'h7884;  tw_rom[284] = 16'h2B1F;  tw_rom[ 29] = 16'h77FA;  tw_rom[285] = 16'h2C99;
-        tw_rom[ 30] = 16'h776B;  tw_rom[286] = 16'h2E11;  tw_rom[ 31] = 16'h76D8;  tw_rom[287] = 16'h2F87;
-        tw_rom[ 32] = 16'h7641;  tw_rom[288] = 16'h30FB;  tw_rom[ 33] = 16'h75A5;  tw_rom[289] = 16'h326E;
-        tw_rom[ 34] = 16'h7504;  tw_rom[290] = 16'h33DF;  tw_rom[ 35] = 16'h745F;  tw_rom[291] = 16'h354D;
-        tw_rom[ 36] = 16'h73B5;  tw_rom[292] = 16'h36BA;  tw_rom[ 37] = 16'h7307;  tw_rom[293] = 16'h3824;
-        tw_rom[ 38] = 16'h7254;  tw_rom[294] = 16'h398C;  tw_rom[ 39] = 16'h719D;  tw_rom[295] = 16'h3AF2;
-        tw_rom[ 40] = 16'h70E2;  tw_rom[296] = 16'h3C56;  tw_rom[ 41] = 16'h7022;  tw_rom[297] = 16'h3DB8;
-        tw_rom[ 42] = 16'h6F5E;  tw_rom[298] = 16'h3F17;  tw_rom[ 43] = 16'h6E96;  tw_rom[299] = 16'h4073;
-        tw_rom[ 44] = 16'h6DC9;  tw_rom[300] = 16'h41CE;  tw_rom[ 45] = 16'h6CF8;  tw_rom[301] = 16'h4325;
-        tw_rom[ 46] = 16'h6C23;  tw_rom[302] = 16'h447A;  tw_rom[ 47] = 16'h6B4A;  tw_rom[303] = 16'h45CD;
-        tw_rom[ 48] = 16'h6A6D;  tw_rom[304] = 16'h471C;  tw_rom[ 49] = 16'h698B;  tw_rom[305] = 16'h4869;
-        tw_rom[ 50] = 16'h68A6;  tw_rom[306] = 16'h49B4;  tw_rom[ 51] = 16'h67BC;  tw_rom[307] = 16'h4AFB;
-        tw_rom[ 52] = 16'h66CF;  tw_rom[308] = 16'h4C3F;  tw_rom[ 53] = 16'h65DD;  tw_rom[309] = 16'h4D81;
-        tw_rom[ 54] = 16'h64E8;  tw_rom[310] = 16'h4EBF;  tw_rom[ 55] = 16'h63EE;  tw_rom[311] = 16'h4FFB;
-        tw_rom[ 56] = 16'h62F1;  tw_rom[312] = 16'h5133;  tw_rom[ 57] = 16'h61F0;  tw_rom[313] = 16'h5268;
-        tw_rom[ 58] = 16'h60EB;  tw_rom[314] = 16'h539B;  tw_rom[ 59] = 16'h5FE3;  tw_rom[315] = 16'h54C9;
-        tw_rom[ 60] = 16'h5ED7;  tw_rom[316] = 16'h55F5;  tw_rom[ 61] = 16'h5DC7;  tw_rom[317] = 16'h571D;
-        tw_rom[ 62] = 16'h5CB3;  tw_rom[318] = 16'h5842;  tw_rom[ 63] = 16'h5B9C;  tw_rom[319] = 16'h5964;
-        tw_rom[ 64] = 16'h5A82;  tw_rom[320] = 16'h5A82;  tw_rom[ 65] = 16'h5964;  tw_rom[321] = 16'h5B9C;
-        tw_rom[ 66] = 16'h5842;  tw_rom[322] = 16'h5CB3;  tw_rom[ 67] = 16'h571D;  tw_rom[323] = 16'h5DC7;
-        tw_rom[ 68] = 16'h55F5;  tw_rom[324] = 16'h5ED7;  tw_rom[ 69] = 16'h54C9;  tw_rom[325] = 16'h5FE3;
-        tw_rom[ 70] = 16'h539B;  tw_rom[326] = 16'h60EB;  tw_rom[ 71] = 16'h5268;  tw_rom[327] = 16'h61F0;
-        tw_rom[ 72] = 16'h5133;  tw_rom[328] = 16'h62F1;  tw_rom[ 73] = 16'h4FFB;  tw_rom[329] = 16'h63EE;
-        tw_rom[ 74] = 16'h4EBF;  tw_rom[330] = 16'h64E8;  tw_rom[ 75] = 16'h4D81;  tw_rom[331] = 16'h65DD;
-        tw_rom[ 76] = 16'h4C3F;  tw_rom[332] = 16'h66CF;  tw_rom[ 77] = 16'h4AFB;  tw_rom[333] = 16'h67BC;
-        tw_rom[ 78] = 16'h49B4;  tw_rom[334] = 16'h68A6;  tw_rom[ 79] = 16'h4869;  tw_rom[335] = 16'h698B;
-        tw_rom[ 80] = 16'h471C;  tw_rom[336] = 16'h6A6D;  tw_rom[ 81] = 16'h45CD;  tw_rom[337] = 16'h6B4A;
-        tw_rom[ 82] = 16'h447A;  tw_rom[338] = 16'h6C23;  tw_rom[ 83] = 16'h4325;  tw_rom[339] = 16'h6CF8;
-        tw_rom[ 84] = 16'h41CE;  tw_rom[340] = 16'h6DC9;  tw_rom[ 85] = 16'h4073;  tw_rom[341] = 16'h6E96;
-        tw_rom[ 86] = 16'h3F17;  tw_rom[342] = 16'h6F5E;  tw_rom[ 87] = 16'h3DB8;  tw_rom[343] = 16'h7022;
-        tw_rom[ 88] = 16'h3C56;  tw_rom[344] = 16'h70E2;  tw_rom[ 89] = 16'h3AF2;  tw_rom[345] = 16'h719D;
-        tw_rom[ 90] = 16'h398C;  tw_rom[346] = 16'h7254;  tw_rom[ 91] = 16'h3824;  tw_rom[347] = 16'h7307;
-        tw_rom[ 92] = 16'h36BA;  tw_rom[348] = 16'h73B5;  tw_rom[ 93] = 16'h354D;  tw_rom[349] = 16'h745F;
-        tw_rom[ 94] = 16'h33DF;  tw_rom[350] = 16'h7504;  tw_rom[ 95] = 16'h326E;  tw_rom[351] = 16'h75A5;
-        tw_rom[ 96] = 16'h30FB;  tw_rom[352] = 16'h7641;  tw_rom[ 97] = 16'h2F87;  tw_rom[353] = 16'h76D8;
-        tw_rom[ 98] = 16'h2E11;  tw_rom[354] = 16'h776B;  tw_rom[ 99] = 16'h2C99;  tw_rom[355] = 16'h77FA;
-        tw_rom[100] = 16'h2B1F;  tw_rom[356] = 16'h7884;  tw_rom[101] = 16'h29A3;  tw_rom[357] = 16'h7909;
-        tw_rom[102] = 16'h2826;  tw_rom[358] = 16'h7989;  tw_rom[103] = 16'h26A8;  tw_rom[359] = 16'h7A05;
-        tw_rom[104] = 16'h2528;  tw_rom[360] = 16'h7A7C;  tw_rom[105] = 16'h23A6;  tw_rom[361] = 16'h7AEE;
-        tw_rom[106] = 16'h2223;  tw_rom[362] = 16'h7B5C;  tw_rom[107] = 16'h209F;  tw_rom[363] = 16'h7BC5;
-        tw_rom[108] = 16'h1F1A;  tw_rom[364] = 16'h7C29;  tw_rom[109] = 16'h1D93;  tw_rom[365] = 16'h7C88;
-        tw_rom[110] = 16'h1C0B;  tw_rom[366] = 16'h7CE3;  tw_rom[111] = 16'h1A82;  tw_rom[367] = 16'h7D39;
-        tw_rom[112] = 16'h18F9;  tw_rom[368] = 16'h7D89;  tw_rom[113] = 16'h176E;  tw_rom[369] = 16'h7DD5;
-        tw_rom[114] = 16'h15E2;  tw_rom[370] = 16'h7E1D;  tw_rom[115] = 16'h1455;  tw_rom[371] = 16'h7E5F;
-        tw_rom[116] = 16'h12C8;  tw_rom[372] = 16'h7E9C;  tw_rom[117] = 16'h113A;  tw_rom[373] = 16'h7ED5;
-        tw_rom[118] = 16'h0FAB;  tw_rom[374] = 16'h7F09;  tw_rom[119] = 16'h0E1C;  tw_rom[375] = 16'h7F37;
-        tw_rom[120] = 16'h0C8C;  tw_rom[376] = 16'h7F61;  tw_rom[121] = 16'h0AFB;  tw_rom[377] = 16'h7F86;
-        tw_rom[122] = 16'h096A;  tw_rom[378] = 16'h7FA6;  tw_rom[123] = 16'h07D9;  tw_rom[379] = 16'h7FC1;
-        tw_rom[124] = 16'h0648;  tw_rom[380] = 16'h7FD8;  tw_rom[125] = 16'h04B6;  tw_rom[381] = 16'h7FE9;
-        tw_rom[126] = 16'h0324;  tw_rom[382] = 16'h7FF5;  tw_rom[127] = 16'h0192;  tw_rom[383] = 16'h7FFD;
-        tw_rom[128] = 16'h0000;  tw_rom[384] = 16'h7FFF;  tw_rom[129] = 16'hFE6E;  tw_rom[385] = 16'h7FFD;
-        tw_rom[130] = 16'hFCDC;  tw_rom[386] = 16'h7FF5;  tw_rom[131] = 16'hFB4A;  tw_rom[387] = 16'h7FE9;
-        tw_rom[132] = 16'hF9B8;  tw_rom[388] = 16'h7FD8;  tw_rom[133] = 16'hF827;  tw_rom[389] = 16'h7FC1;
-        tw_rom[134] = 16'hF696;  tw_rom[390] = 16'h7FA6;  tw_rom[135] = 16'hF505;  tw_rom[391] = 16'h7F86;
-        tw_rom[136] = 16'hF374;  tw_rom[392] = 16'h7F61;  tw_rom[137] = 16'hF1E4;  tw_rom[393] = 16'h7F37;
-        tw_rom[138] = 16'hF055;  tw_rom[394] = 16'h7F09;  tw_rom[139] = 16'hEEC6;  tw_rom[395] = 16'h7ED5;
-        tw_rom[140] = 16'hED38;  tw_rom[396] = 16'h7E9C;  tw_rom[141] = 16'hEBAB;  tw_rom[397] = 16'h7E5F;
-        tw_rom[142] = 16'hEA1E;  tw_rom[398] = 16'h7E1D;  tw_rom[143] = 16'hE892;  tw_rom[399] = 16'h7DD5;
-        tw_rom[144] = 16'hE707;  tw_rom[400] = 16'h7D89;  tw_rom[145] = 16'hE57E;  tw_rom[401] = 16'h7D39;
-        tw_rom[146] = 16'hE3F5;  tw_rom[402] = 16'h7CE3;  tw_rom[147] = 16'hE26D;  tw_rom[403] = 16'h7C88;
-        tw_rom[148] = 16'hE0E6;  tw_rom[404] = 16'h7C29;  tw_rom[149] = 16'hDF61;  tw_rom[405] = 16'h7BC5;
-        tw_rom[150] = 16'hDDDD;  tw_rom[406] = 16'h7B5C;  tw_rom[151] = 16'hDC5A;  tw_rom[407] = 16'h7AEE;
-        tw_rom[152] = 16'hDAD8;  tw_rom[408] = 16'h7A7C;  tw_rom[153] = 16'hD958;  tw_rom[409] = 16'h7A05;
-        tw_rom[154] = 16'hD7DA;  tw_rom[410] = 16'h7989;  tw_rom[155] = 16'hD65D;  tw_rom[411] = 16'h7909;
-        tw_rom[156] = 16'hD4E1;  tw_rom[412] = 16'h7884;  tw_rom[157] = 16'hD367;  tw_rom[413] = 16'h77FA;
-        tw_rom[158] = 16'hD1EF;  tw_rom[414] = 16'h776B;  tw_rom[159] = 16'hD079;  tw_rom[415] = 16'h76D8;
-        tw_rom[160] = 16'hCF05;  tw_rom[416] = 16'h7641;  tw_rom[161] = 16'hCD92;  tw_rom[417] = 16'h75A5;
-        tw_rom[162] = 16'hCC21;  tw_rom[418] = 16'h7504;  tw_rom[163] = 16'hCAB3;  tw_rom[419] = 16'h745F;
-        tw_rom[164] = 16'hC946;  tw_rom[420] = 16'h73B5;  tw_rom[165] = 16'hC7DC;  tw_rom[421] = 16'h7307;
-        tw_rom[166] = 16'hC674;  tw_rom[422] = 16'h7254;  tw_rom[167] = 16'hC50E;  tw_rom[423] = 16'h719D;
-        tw_rom[168] = 16'hC3AA;  tw_rom[424] = 16'h70E2;  tw_rom[169] = 16'hC248;  tw_rom[425] = 16'h7022;
-        tw_rom[170] = 16'hC0E9;  tw_rom[426] = 16'h6F5E;  tw_rom[171] = 16'hBF8D;  tw_rom[427] = 16'h6E96;
-        tw_rom[172] = 16'hBE32;  tw_rom[428] = 16'h6DC9;  tw_rom[173] = 16'hBCDB;  tw_rom[429] = 16'h6CF8;
-        tw_rom[174] = 16'hBB86;  tw_rom[430] = 16'h6C23;  tw_rom[175] = 16'hBA33;  tw_rom[431] = 16'h6B4A;
-        tw_rom[176] = 16'hB8E4;  tw_rom[432] = 16'h6A6D;  tw_rom[177] = 16'hB797;  tw_rom[433] = 16'h698B;
-        tw_rom[178] = 16'hB64C;  tw_rom[434] = 16'h68A6;  tw_rom[179] = 16'hB505;  tw_rom[435] = 16'h67BC;
-        tw_rom[180] = 16'hB3C1;  tw_rom[436] = 16'h66CF;  tw_rom[181] = 16'hB27F;  tw_rom[437] = 16'h65DD;
-        tw_rom[182] = 16'hB141;  tw_rom[438] = 16'h64E8;  tw_rom[183] = 16'hB005;  tw_rom[439] = 16'h63EE;
-        tw_rom[184] = 16'hAECD;  tw_rom[440] = 16'h62F1;  tw_rom[185] = 16'hAD98;  tw_rom[441] = 16'h61F0;
-        tw_rom[186] = 16'hAC65;  tw_rom[442] = 16'h60EB;  tw_rom[187] = 16'hAB37;  tw_rom[443] = 16'h5FE3;
-        tw_rom[188] = 16'hAA0B;  tw_rom[444] = 16'h5ED7;  tw_rom[189] = 16'hA8E3;  tw_rom[445] = 16'h5DC7;
-        tw_rom[190] = 16'hA7BE;  tw_rom[446] = 16'h5CB3;  tw_rom[191] = 16'hA69C;  tw_rom[447] = 16'h5B9C;
-        tw_rom[192] = 16'hA57E;  tw_rom[448] = 16'h5A82;  tw_rom[193] = 16'hA464;  tw_rom[449] = 16'h5964;
-        tw_rom[194] = 16'hA34D;  tw_rom[450] = 16'h5842;  tw_rom[195] = 16'hA239;  tw_rom[451] = 16'h571D;
-        tw_rom[196] = 16'hA129;  tw_rom[452] = 16'h55F5;  tw_rom[197] = 16'hA01D;  tw_rom[453] = 16'h54C9;
-        tw_rom[198] = 16'h9F15;  tw_rom[454] = 16'h539B;  tw_rom[199] = 16'h9E10;  tw_rom[455] = 16'h5268;
-        tw_rom[200] = 16'h9D0F;  tw_rom[456] = 16'h5133;  tw_rom[201] = 16'h9C12;  tw_rom[457] = 16'h4FFB;
-        tw_rom[202] = 16'h9B18;  tw_rom[458] = 16'h4EBF;  tw_rom[203] = 16'h9A23;  tw_rom[459] = 16'h4D81;
-        tw_rom[204] = 16'h9931;  tw_rom[460] = 16'h4C3F;  tw_rom[205] = 16'h9844;  tw_rom[461] = 16'h4AFB;
-        tw_rom[206] = 16'h975A;  tw_rom[462] = 16'h49B4;  tw_rom[207] = 16'h9675;  tw_rom[463] = 16'h4869;
-        tw_rom[208] = 16'h9593;  tw_rom[464] = 16'h471C;  tw_rom[209] = 16'h94B6;  tw_rom[465] = 16'h45CD;
-        tw_rom[210] = 16'h93DD;  tw_rom[466] = 16'h447A;  tw_rom[211] = 16'h9308;  tw_rom[467] = 16'h4325;
-        tw_rom[212] = 16'h9237;  tw_rom[468] = 16'h41CE;  tw_rom[213] = 16'h916A;  tw_rom[469] = 16'h4073;
-        tw_rom[214] = 16'h90A2;  tw_rom[470] = 16'h3F17;  tw_rom[215] = 16'h8FDE;  tw_rom[471] = 16'h3DB8;
-        tw_rom[216] = 16'h8F1E;  tw_rom[472] = 16'h3C56;  tw_rom[217] = 16'h8E63;  tw_rom[473] = 16'h3AF2;
-        tw_rom[218] = 16'h8DAC;  tw_rom[474] = 16'h398C;  tw_rom[219] = 16'h8CF9;  tw_rom[475] = 16'h3824;
-        tw_rom[220] = 16'h8C4B;  tw_rom[476] = 16'h36BA;  tw_rom[221] = 16'h8BA1;  tw_rom[477] = 16'h354D;
-        tw_rom[222] = 16'h8AFC;  tw_rom[478] = 16'h33DF;  tw_rom[223] = 16'h8A5B;  tw_rom[479] = 16'h326E;
-        tw_rom[224] = 16'h89BF;  tw_rom[480] = 16'h30FB;  tw_rom[225] = 16'h8928;  tw_rom[481] = 16'h2F87;
-        tw_rom[226] = 16'h8895;  tw_rom[482] = 16'h2E11;  tw_rom[227] = 16'h8806;  tw_rom[483] = 16'h2C99;
-        tw_rom[228] = 16'h877C;  tw_rom[484] = 16'h2B1F;  tw_rom[229] = 16'h86F7;  tw_rom[485] = 16'h29A3;
-        tw_rom[230] = 16'h8677;  tw_rom[486] = 16'h2826;  tw_rom[231] = 16'h85FB;  tw_rom[487] = 16'h26A8;
-        tw_rom[232] = 16'h8584;  tw_rom[488] = 16'h2528;  tw_rom[233] = 16'h8512;  tw_rom[489] = 16'h23A6;
-        tw_rom[234] = 16'h84A4;  tw_rom[490] = 16'h2223;  tw_rom[235] = 16'h843B;  tw_rom[491] = 16'h209F;
-        tw_rom[236] = 16'h83D7;  tw_rom[492] = 16'h1F1A;  tw_rom[237] = 16'h8378;  tw_rom[493] = 16'h1D93;
-        tw_rom[238] = 16'h831D;  tw_rom[494] = 16'h1C0B;  tw_rom[239] = 16'h82C7;  tw_rom[495] = 16'h1A82;
-        tw_rom[240] = 16'h8277;  tw_rom[496] = 16'h18F9;  tw_rom[241] = 16'h822B;  tw_rom[497] = 16'h176E;
-        tw_rom[242] = 16'h81E3;  tw_rom[498] = 16'h15E2;  tw_rom[243] = 16'h81A1;  tw_rom[499] = 16'h1455;
-        tw_rom[244] = 16'h8164;  tw_rom[500] = 16'h12C8;  tw_rom[245] = 16'h812B;  tw_rom[501] = 16'h113A;
-        tw_rom[246] = 16'h80F7;  tw_rom[502] = 16'h0FAB;  tw_rom[247] = 16'h80C9;  tw_rom[503] = 16'h0E1C;
-        tw_rom[248] = 16'h809F;  tw_rom[504] = 16'h0C8C;  tw_rom[249] = 16'h807A;  tw_rom[505] = 16'h0AFB;
-        tw_rom[250] = 16'h805A;  tw_rom[506] = 16'h096A;  tw_rom[251] = 16'h803F;  tw_rom[507] = 16'h07D9;
-        tw_rom[252] = 16'h8028;  tw_rom[508] = 16'h0648;  tw_rom[253] = 16'h8017;  tw_rom[509] = 16'h04B6;
-        tw_rom[254] = 16'h800B;  tw_rom[510] = 16'h0324;  tw_rom[255] = 16'h8003;  tw_rom[511] = 16'h0192;
+        // ==TABLE-BEGIN== Q15 cos/sin, 1024 points; generated by gen_spectrum_tables.py.
+        tw_rom[0] = 16'h7FFF; tw_rom[512] = 16'h0000;
+        tw_rom[1] = 16'h7FFE; tw_rom[513] = 16'h00C9;
+        tw_rom[2] = 16'h7FFD; tw_rom[514] = 16'h0192;
+        tw_rom[3] = 16'h7FF9; tw_rom[515] = 16'h025B;
+        tw_rom[4] = 16'h7FF5; tw_rom[516] = 16'h0324;
+        tw_rom[5] = 16'h7FF0; tw_rom[517] = 16'h03ED;
+        tw_rom[6] = 16'h7FE9; tw_rom[518] = 16'h04B6;
+        tw_rom[7] = 16'h7FE1; tw_rom[519] = 16'h057F;
+        tw_rom[8] = 16'h7FD8; tw_rom[520] = 16'h0648;
+        tw_rom[9] = 16'h7FCD; tw_rom[521] = 16'h0711;
+        tw_rom[10] = 16'h7FC1; tw_rom[522] = 16'h07D9;
+        tw_rom[11] = 16'h7FB4; tw_rom[523] = 16'h08A2;
+        tw_rom[12] = 16'h7FA6; tw_rom[524] = 16'h096A;
+        tw_rom[13] = 16'h7F97; tw_rom[525] = 16'h0A33;
+        tw_rom[14] = 16'h7F86; tw_rom[526] = 16'h0AFB;
+        tw_rom[15] = 16'h7F74; tw_rom[527] = 16'h0BC4;
+        tw_rom[16] = 16'h7F61; tw_rom[528] = 16'h0C8C;
+        tw_rom[17] = 16'h7F4D; tw_rom[529] = 16'h0D54;
+        tw_rom[18] = 16'h7F37; tw_rom[530] = 16'h0E1C;
+        tw_rom[19] = 16'h7F21; tw_rom[531] = 16'h0EE3;
+        tw_rom[20] = 16'h7F09; tw_rom[532] = 16'h0FAB;
+        tw_rom[21] = 16'h7EEF; tw_rom[533] = 16'h1072;
+        tw_rom[22] = 16'h7ED5; tw_rom[534] = 16'h113A;
+        tw_rom[23] = 16'h7EB9; tw_rom[535] = 16'h1201;
+        tw_rom[24] = 16'h7E9C; tw_rom[536] = 16'h12C8;
+        tw_rom[25] = 16'h7E7E; tw_rom[537] = 16'h138F;
+        tw_rom[26] = 16'h7E5F; tw_rom[538] = 16'h1455;
+        tw_rom[27] = 16'h7E3E; tw_rom[539] = 16'h151C;
+        tw_rom[28] = 16'h7E1D; tw_rom[540] = 16'h15E2;
+        tw_rom[29] = 16'h7DFA; tw_rom[541] = 16'h16A8;
+        tw_rom[30] = 16'h7DD5; tw_rom[542] = 16'h176E;
+        tw_rom[31] = 16'h7DB0; tw_rom[543] = 16'h1833;
+        tw_rom[32] = 16'h7D89; tw_rom[544] = 16'h18F9;
+        tw_rom[33] = 16'h7D62; tw_rom[545] = 16'h19BE;
+        tw_rom[34] = 16'h7D39; tw_rom[546] = 16'h1A82;
+        tw_rom[35] = 16'h7D0E; tw_rom[547] = 16'h1B47;
+        tw_rom[36] = 16'h7CE3; tw_rom[548] = 16'h1C0B;
+        tw_rom[37] = 16'h7CB6; tw_rom[549] = 16'h1CCF;
+        tw_rom[38] = 16'h7C88; tw_rom[550] = 16'h1D93;
+        tw_rom[39] = 16'h7C59; tw_rom[551] = 16'h1E57;
+        tw_rom[40] = 16'h7C29; tw_rom[552] = 16'h1F1A;
+        tw_rom[41] = 16'h7BF8; tw_rom[553] = 16'h1FDD;
+        tw_rom[42] = 16'h7BC5; tw_rom[554] = 16'h209F;
+        tw_rom[43] = 16'h7B91; tw_rom[555] = 16'h2161;
+        tw_rom[44] = 16'h7B5C; tw_rom[556] = 16'h2223;
+        tw_rom[45] = 16'h7B26; tw_rom[557] = 16'h22E5;
+        tw_rom[46] = 16'h7AEE; tw_rom[558] = 16'h23A6;
+        tw_rom[47] = 16'h7AB6; tw_rom[559] = 16'h2467;
+        tw_rom[48] = 16'h7A7C; tw_rom[560] = 16'h2528;
+        tw_rom[49] = 16'h7A41; tw_rom[561] = 16'h25E8;
+        tw_rom[50] = 16'h7A05; tw_rom[562] = 16'h26A8;
+        tw_rom[51] = 16'h79C8; tw_rom[563] = 16'h2767;
+        tw_rom[52] = 16'h7989; tw_rom[564] = 16'h2826;
+        tw_rom[53] = 16'h794A; tw_rom[565] = 16'h28E5;
+        tw_rom[54] = 16'h7909; tw_rom[566] = 16'h29A3;
+        tw_rom[55] = 16'h78C7; tw_rom[567] = 16'h2A61;
+        tw_rom[56] = 16'h7884; tw_rom[568] = 16'h2B1F;
+        tw_rom[57] = 16'h783F; tw_rom[569] = 16'h2BDC;
+        tw_rom[58] = 16'h77FA; tw_rom[570] = 16'h2C99;
+        tw_rom[59] = 16'h77B3; tw_rom[571] = 16'h2D55;
+        tw_rom[60] = 16'h776B; tw_rom[572] = 16'h2E11;
+        tw_rom[61] = 16'h7722; tw_rom[573] = 16'h2ECC;
+        tw_rom[62] = 16'h76D8; tw_rom[574] = 16'h2F87;
+        tw_rom[63] = 16'h768D; tw_rom[575] = 16'h3041;
+        tw_rom[64] = 16'h7641; tw_rom[576] = 16'h30FB;
+        tw_rom[65] = 16'h75F3; tw_rom[577] = 16'h31B5;
+        tw_rom[66] = 16'h75A5; tw_rom[578] = 16'h326E;
+        tw_rom[67] = 16'h7555; tw_rom[579] = 16'h3326;
+        tw_rom[68] = 16'h7504; tw_rom[580] = 16'h33DF;
+        tw_rom[69] = 16'h74B2; tw_rom[581] = 16'h3496;
+        tw_rom[70] = 16'h745F; tw_rom[582] = 16'h354D;
+        tw_rom[71] = 16'h740A; tw_rom[583] = 16'h3604;
+        tw_rom[72] = 16'h73B5; tw_rom[584] = 16'h36BA;
+        tw_rom[73] = 16'h735E; tw_rom[585] = 16'h376F;
+        tw_rom[74] = 16'h7307; tw_rom[586] = 16'h3824;
+        tw_rom[75] = 16'h72AE; tw_rom[587] = 16'h38D9;
+        tw_rom[76] = 16'h7254; tw_rom[588] = 16'h398C;
+        tw_rom[77] = 16'h71F9; tw_rom[589] = 16'h3A40;
+        tw_rom[78] = 16'h719D; tw_rom[590] = 16'h3AF2;
+        tw_rom[79] = 16'h7140; tw_rom[591] = 16'h3BA5;
+        tw_rom[80] = 16'h70E2; tw_rom[592] = 16'h3C56;
+        tw_rom[81] = 16'h7083; tw_rom[593] = 16'h3D07;
+        tw_rom[82] = 16'h7022; tw_rom[594] = 16'h3DB8;
+        tw_rom[83] = 16'h6FC1; tw_rom[595] = 16'h3E68;
+        tw_rom[84] = 16'h6F5E; tw_rom[596] = 16'h3F17;
+        tw_rom[85] = 16'h6EFB; tw_rom[597] = 16'h3FC5;
+        tw_rom[86] = 16'h6E96; tw_rom[598] = 16'h4073;
+        tw_rom[87] = 16'h6E30; tw_rom[599] = 16'h4121;
+        tw_rom[88] = 16'h6DC9; tw_rom[600] = 16'h41CE;
+        tw_rom[89] = 16'h6D61; tw_rom[601] = 16'h427A;
+        tw_rom[90] = 16'h6CF8; tw_rom[602] = 16'h4325;
+        tw_rom[91] = 16'h6C8E; tw_rom[603] = 16'h43D0;
+        tw_rom[92] = 16'h6C23; tw_rom[604] = 16'h447A;
+        tw_rom[93] = 16'h6BB7; tw_rom[605] = 16'h4524;
+        tw_rom[94] = 16'h6B4A; tw_rom[606] = 16'h45CD;
+        tw_rom[95] = 16'h6ADC; tw_rom[607] = 16'h4675;
+        tw_rom[96] = 16'h6A6D; tw_rom[608] = 16'h471C;
+        tw_rom[97] = 16'h69FD; tw_rom[609] = 16'h47C3;
+        tw_rom[98] = 16'h698B; tw_rom[610] = 16'h4869;
+        tw_rom[99] = 16'h6919; tw_rom[611] = 16'h490F;
+        tw_rom[100] = 16'h68A6; tw_rom[612] = 16'h49B4;
+        tw_rom[101] = 16'h6832; tw_rom[613] = 16'h4A58;
+        tw_rom[102] = 16'h67BC; tw_rom[614] = 16'h4AFB;
+        tw_rom[103] = 16'h6746; tw_rom[615] = 16'h4B9D;
+        tw_rom[104] = 16'h66CF; tw_rom[616] = 16'h4C3F;
+        tw_rom[105] = 16'h6656; tw_rom[617] = 16'h4CE0;
+        tw_rom[106] = 16'h65DD; tw_rom[618] = 16'h4D81;
+        tw_rom[107] = 16'h6563; tw_rom[619] = 16'h4E20;
+        tw_rom[108] = 16'h64E8; tw_rom[620] = 16'h4EBF;
+        tw_rom[109] = 16'h646C; tw_rom[621] = 16'h4F5D;
+        tw_rom[110] = 16'h63EE; tw_rom[622] = 16'h4FFB;
+        tw_rom[111] = 16'h6370; tw_rom[623] = 16'h5097;
+        tw_rom[112] = 16'h62F1; tw_rom[624] = 16'h5133;
+        tw_rom[113] = 16'h6271; tw_rom[625] = 16'h51CE;
+        tw_rom[114] = 16'h61F0; tw_rom[626] = 16'h5268;
+        tw_rom[115] = 16'h616E; tw_rom[627] = 16'h5302;
+        tw_rom[116] = 16'h60EB; tw_rom[628] = 16'h539B;
+        tw_rom[117] = 16'h6068; tw_rom[629] = 16'h5432;
+        tw_rom[118] = 16'h5FE3; tw_rom[630] = 16'h54C9;
+        tw_rom[119] = 16'h5F5D; tw_rom[631] = 16'h5560;
+        tw_rom[120] = 16'h5ED7; tw_rom[632] = 16'h55F5;
+        tw_rom[121] = 16'h5E4F; tw_rom[633] = 16'h568A;
+        tw_rom[122] = 16'h5DC7; tw_rom[634] = 16'h571D;
+        tw_rom[123] = 16'h5D3E; tw_rom[635] = 16'h57B0;
+        tw_rom[124] = 16'h5CB3; tw_rom[636] = 16'h5842;
+        tw_rom[125] = 16'h5C28; tw_rom[637] = 16'h58D3;
+        tw_rom[126] = 16'h5B9C; tw_rom[638] = 16'h5964;
+        tw_rom[127] = 16'h5B0F; tw_rom[639] = 16'h59F3;
+        tw_rom[128] = 16'h5A82; tw_rom[640] = 16'h5A82;
+        tw_rom[129] = 16'h59F3; tw_rom[641] = 16'h5B0F;
+        tw_rom[130] = 16'h5964; tw_rom[642] = 16'h5B9C;
+        tw_rom[131] = 16'h58D3; tw_rom[643] = 16'h5C28;
+        tw_rom[132] = 16'h5842; tw_rom[644] = 16'h5CB3;
+        tw_rom[133] = 16'h57B0; tw_rom[645] = 16'h5D3E;
+        tw_rom[134] = 16'h571D; tw_rom[646] = 16'h5DC7;
+        tw_rom[135] = 16'h568A; tw_rom[647] = 16'h5E4F;
+        tw_rom[136] = 16'h55F5; tw_rom[648] = 16'h5ED7;
+        tw_rom[137] = 16'h5560; tw_rom[649] = 16'h5F5D;
+        tw_rom[138] = 16'h54C9; tw_rom[650] = 16'h5FE3;
+        tw_rom[139] = 16'h5432; tw_rom[651] = 16'h6068;
+        tw_rom[140] = 16'h539B; tw_rom[652] = 16'h60EB;
+        tw_rom[141] = 16'h5302; tw_rom[653] = 16'h616E;
+        tw_rom[142] = 16'h5268; tw_rom[654] = 16'h61F0;
+        tw_rom[143] = 16'h51CE; tw_rom[655] = 16'h6271;
+        tw_rom[144] = 16'h5133; tw_rom[656] = 16'h62F1;
+        tw_rom[145] = 16'h5097; tw_rom[657] = 16'h6370;
+        tw_rom[146] = 16'h4FFB; tw_rom[658] = 16'h63EE;
+        tw_rom[147] = 16'h4F5D; tw_rom[659] = 16'h646C;
+        tw_rom[148] = 16'h4EBF; tw_rom[660] = 16'h64E8;
+        tw_rom[149] = 16'h4E20; tw_rom[661] = 16'h6563;
+        tw_rom[150] = 16'h4D81; tw_rom[662] = 16'h65DD;
+        tw_rom[151] = 16'h4CE0; tw_rom[663] = 16'h6656;
+        tw_rom[152] = 16'h4C3F; tw_rom[664] = 16'h66CF;
+        tw_rom[153] = 16'h4B9D; tw_rom[665] = 16'h6746;
+        tw_rom[154] = 16'h4AFB; tw_rom[666] = 16'h67BC;
+        tw_rom[155] = 16'h4A58; tw_rom[667] = 16'h6832;
+        tw_rom[156] = 16'h49B4; tw_rom[668] = 16'h68A6;
+        tw_rom[157] = 16'h490F; tw_rom[669] = 16'h6919;
+        tw_rom[158] = 16'h4869; tw_rom[670] = 16'h698B;
+        tw_rom[159] = 16'h47C3; tw_rom[671] = 16'h69FD;
+        tw_rom[160] = 16'h471C; tw_rom[672] = 16'h6A6D;
+        tw_rom[161] = 16'h4675; tw_rom[673] = 16'h6ADC;
+        tw_rom[162] = 16'h45CD; tw_rom[674] = 16'h6B4A;
+        tw_rom[163] = 16'h4524; tw_rom[675] = 16'h6BB7;
+        tw_rom[164] = 16'h447A; tw_rom[676] = 16'h6C23;
+        tw_rom[165] = 16'h43D0; tw_rom[677] = 16'h6C8E;
+        tw_rom[166] = 16'h4325; tw_rom[678] = 16'h6CF8;
+        tw_rom[167] = 16'h427A; tw_rom[679] = 16'h6D61;
+        tw_rom[168] = 16'h41CE; tw_rom[680] = 16'h6DC9;
+        tw_rom[169] = 16'h4121; tw_rom[681] = 16'h6E30;
+        tw_rom[170] = 16'h4073; tw_rom[682] = 16'h6E96;
+        tw_rom[171] = 16'h3FC5; tw_rom[683] = 16'h6EFB;
+        tw_rom[172] = 16'h3F17; tw_rom[684] = 16'h6F5E;
+        tw_rom[173] = 16'h3E68; tw_rom[685] = 16'h6FC1;
+        tw_rom[174] = 16'h3DB8; tw_rom[686] = 16'h7022;
+        tw_rom[175] = 16'h3D07; tw_rom[687] = 16'h7083;
+        tw_rom[176] = 16'h3C56; tw_rom[688] = 16'h70E2;
+        tw_rom[177] = 16'h3BA5; tw_rom[689] = 16'h7140;
+        tw_rom[178] = 16'h3AF2; tw_rom[690] = 16'h719D;
+        tw_rom[179] = 16'h3A40; tw_rom[691] = 16'h71F9;
+        tw_rom[180] = 16'h398C; tw_rom[692] = 16'h7254;
+        tw_rom[181] = 16'h38D9; tw_rom[693] = 16'h72AE;
+        tw_rom[182] = 16'h3824; tw_rom[694] = 16'h7307;
+        tw_rom[183] = 16'h376F; tw_rom[695] = 16'h735E;
+        tw_rom[184] = 16'h36BA; tw_rom[696] = 16'h73B5;
+        tw_rom[185] = 16'h3604; tw_rom[697] = 16'h740A;
+        tw_rom[186] = 16'h354D; tw_rom[698] = 16'h745F;
+        tw_rom[187] = 16'h3496; tw_rom[699] = 16'h74B2;
+        tw_rom[188] = 16'h33DF; tw_rom[700] = 16'h7504;
+        tw_rom[189] = 16'h3326; tw_rom[701] = 16'h7555;
+        tw_rom[190] = 16'h326E; tw_rom[702] = 16'h75A5;
+        tw_rom[191] = 16'h31B5; tw_rom[703] = 16'h75F3;
+        tw_rom[192] = 16'h30FB; tw_rom[704] = 16'h7641;
+        tw_rom[193] = 16'h3041; tw_rom[705] = 16'h768D;
+        tw_rom[194] = 16'h2F87; tw_rom[706] = 16'h76D8;
+        tw_rom[195] = 16'h2ECC; tw_rom[707] = 16'h7722;
+        tw_rom[196] = 16'h2E11; tw_rom[708] = 16'h776B;
+        tw_rom[197] = 16'h2D55; tw_rom[709] = 16'h77B3;
+        tw_rom[198] = 16'h2C99; tw_rom[710] = 16'h77FA;
+        tw_rom[199] = 16'h2BDC; tw_rom[711] = 16'h783F;
+        tw_rom[200] = 16'h2B1F; tw_rom[712] = 16'h7884;
+        tw_rom[201] = 16'h2A61; tw_rom[713] = 16'h78C7;
+        tw_rom[202] = 16'h29A3; tw_rom[714] = 16'h7909;
+        tw_rom[203] = 16'h28E5; tw_rom[715] = 16'h794A;
+        tw_rom[204] = 16'h2826; tw_rom[716] = 16'h7989;
+        tw_rom[205] = 16'h2767; tw_rom[717] = 16'h79C8;
+        tw_rom[206] = 16'h26A8; tw_rom[718] = 16'h7A05;
+        tw_rom[207] = 16'h25E8; tw_rom[719] = 16'h7A41;
+        tw_rom[208] = 16'h2528; tw_rom[720] = 16'h7A7C;
+        tw_rom[209] = 16'h2467; tw_rom[721] = 16'h7AB6;
+        tw_rom[210] = 16'h23A6; tw_rom[722] = 16'h7AEE;
+        tw_rom[211] = 16'h22E5; tw_rom[723] = 16'h7B26;
+        tw_rom[212] = 16'h2223; tw_rom[724] = 16'h7B5C;
+        tw_rom[213] = 16'h2161; tw_rom[725] = 16'h7B91;
+        tw_rom[214] = 16'h209F; tw_rom[726] = 16'h7BC5;
+        tw_rom[215] = 16'h1FDD; tw_rom[727] = 16'h7BF8;
+        tw_rom[216] = 16'h1F1A; tw_rom[728] = 16'h7C29;
+        tw_rom[217] = 16'h1E57; tw_rom[729] = 16'h7C59;
+        tw_rom[218] = 16'h1D93; tw_rom[730] = 16'h7C88;
+        tw_rom[219] = 16'h1CCF; tw_rom[731] = 16'h7CB6;
+        tw_rom[220] = 16'h1C0B; tw_rom[732] = 16'h7CE3;
+        tw_rom[221] = 16'h1B47; tw_rom[733] = 16'h7D0E;
+        tw_rom[222] = 16'h1A82; tw_rom[734] = 16'h7D39;
+        tw_rom[223] = 16'h19BE; tw_rom[735] = 16'h7D62;
+        tw_rom[224] = 16'h18F9; tw_rom[736] = 16'h7D89;
+        tw_rom[225] = 16'h1833; tw_rom[737] = 16'h7DB0;
+        tw_rom[226] = 16'h176E; tw_rom[738] = 16'h7DD5;
+        tw_rom[227] = 16'h16A8; tw_rom[739] = 16'h7DFA;
+        tw_rom[228] = 16'h15E2; tw_rom[740] = 16'h7E1D;
+        tw_rom[229] = 16'h151C; tw_rom[741] = 16'h7E3E;
+        tw_rom[230] = 16'h1455; tw_rom[742] = 16'h7E5F;
+        tw_rom[231] = 16'h138F; tw_rom[743] = 16'h7E7E;
+        tw_rom[232] = 16'h12C8; tw_rom[744] = 16'h7E9C;
+        tw_rom[233] = 16'h1201; tw_rom[745] = 16'h7EB9;
+        tw_rom[234] = 16'h113A; tw_rom[746] = 16'h7ED5;
+        tw_rom[235] = 16'h1072; tw_rom[747] = 16'h7EEF;
+        tw_rom[236] = 16'h0FAB; tw_rom[748] = 16'h7F09;
+        tw_rom[237] = 16'h0EE3; tw_rom[749] = 16'h7F21;
+        tw_rom[238] = 16'h0E1C; tw_rom[750] = 16'h7F37;
+        tw_rom[239] = 16'h0D54; tw_rom[751] = 16'h7F4D;
+        tw_rom[240] = 16'h0C8C; tw_rom[752] = 16'h7F61;
+        tw_rom[241] = 16'h0BC4; tw_rom[753] = 16'h7F74;
+        tw_rom[242] = 16'h0AFB; tw_rom[754] = 16'h7F86;
+        tw_rom[243] = 16'h0A33; tw_rom[755] = 16'h7F97;
+        tw_rom[244] = 16'h096A; tw_rom[756] = 16'h7FA6;
+        tw_rom[245] = 16'h08A2; tw_rom[757] = 16'h7FB4;
+        tw_rom[246] = 16'h07D9; tw_rom[758] = 16'h7FC1;
+        tw_rom[247] = 16'h0711; tw_rom[759] = 16'h7FCD;
+        tw_rom[248] = 16'h0648; tw_rom[760] = 16'h7FD8;
+        tw_rom[249] = 16'h057F; tw_rom[761] = 16'h7FE1;
+        tw_rom[250] = 16'h04B6; tw_rom[762] = 16'h7FE9;
+        tw_rom[251] = 16'h03ED; tw_rom[763] = 16'h7FF0;
+        tw_rom[252] = 16'h0324; tw_rom[764] = 16'h7FF5;
+        tw_rom[253] = 16'h025B; tw_rom[765] = 16'h7FF9;
+        tw_rom[254] = 16'h0192; tw_rom[766] = 16'h7FFD;
+        tw_rom[255] = 16'h00C9; tw_rom[767] = 16'h7FFE;
+        tw_rom[256] = 16'h0000; tw_rom[768] = 16'h7FFF;
+        tw_rom[257] = 16'hFF37; tw_rom[769] = 16'h7FFE;
+        tw_rom[258] = 16'hFE6E; tw_rom[770] = 16'h7FFD;
+        tw_rom[259] = 16'hFDA5; tw_rom[771] = 16'h7FF9;
+        tw_rom[260] = 16'hFCDC; tw_rom[772] = 16'h7FF5;
+        tw_rom[261] = 16'hFC13; tw_rom[773] = 16'h7FF0;
+        tw_rom[262] = 16'hFB4A; tw_rom[774] = 16'h7FE9;
+        tw_rom[263] = 16'hFA81; tw_rom[775] = 16'h7FE1;
+        tw_rom[264] = 16'hF9B8; tw_rom[776] = 16'h7FD8;
+        tw_rom[265] = 16'hF8EF; tw_rom[777] = 16'h7FCD;
+        tw_rom[266] = 16'hF827; tw_rom[778] = 16'h7FC1;
+        tw_rom[267] = 16'hF75E; tw_rom[779] = 16'h7FB4;
+        tw_rom[268] = 16'hF696; tw_rom[780] = 16'h7FA6;
+        tw_rom[269] = 16'hF5CD; tw_rom[781] = 16'h7F97;
+        tw_rom[270] = 16'hF505; tw_rom[782] = 16'h7F86;
+        tw_rom[271] = 16'hF43C; tw_rom[783] = 16'h7F74;
+        tw_rom[272] = 16'hF374; tw_rom[784] = 16'h7F61;
+        tw_rom[273] = 16'hF2AC; tw_rom[785] = 16'h7F4D;
+        tw_rom[274] = 16'hF1E4; tw_rom[786] = 16'h7F37;
+        tw_rom[275] = 16'hF11D; tw_rom[787] = 16'h7F21;
+        tw_rom[276] = 16'hF055; tw_rom[788] = 16'h7F09;
+        tw_rom[277] = 16'hEF8E; tw_rom[789] = 16'h7EEF;
+        tw_rom[278] = 16'hEEC6; tw_rom[790] = 16'h7ED5;
+        tw_rom[279] = 16'hEDFF; tw_rom[791] = 16'h7EB9;
+        tw_rom[280] = 16'hED38; tw_rom[792] = 16'h7E9C;
+        tw_rom[281] = 16'hEC71; tw_rom[793] = 16'h7E7E;
+        tw_rom[282] = 16'hEBAB; tw_rom[794] = 16'h7E5F;
+        tw_rom[283] = 16'hEAE4; tw_rom[795] = 16'h7E3E;
+        tw_rom[284] = 16'hEA1E; tw_rom[796] = 16'h7E1D;
+        tw_rom[285] = 16'hE958; tw_rom[797] = 16'h7DFA;
+        tw_rom[286] = 16'hE892; tw_rom[798] = 16'h7DD5;
+        tw_rom[287] = 16'hE7CD; tw_rom[799] = 16'h7DB0;
+        tw_rom[288] = 16'hE707; tw_rom[800] = 16'h7D89;
+        tw_rom[289] = 16'hE642; tw_rom[801] = 16'h7D62;
+        tw_rom[290] = 16'hE57E; tw_rom[802] = 16'h7D39;
+        tw_rom[291] = 16'hE4B9; tw_rom[803] = 16'h7D0E;
+        tw_rom[292] = 16'hE3F5; tw_rom[804] = 16'h7CE3;
+        tw_rom[293] = 16'hE331; tw_rom[805] = 16'h7CB6;
+        tw_rom[294] = 16'hE26D; tw_rom[806] = 16'h7C88;
+        tw_rom[295] = 16'hE1A9; tw_rom[807] = 16'h7C59;
+        tw_rom[296] = 16'hE0E6; tw_rom[808] = 16'h7C29;
+        tw_rom[297] = 16'hE023; tw_rom[809] = 16'h7BF8;
+        tw_rom[298] = 16'hDF61; tw_rom[810] = 16'h7BC5;
+        tw_rom[299] = 16'hDE9F; tw_rom[811] = 16'h7B91;
+        tw_rom[300] = 16'hDDDD; tw_rom[812] = 16'h7B5C;
+        tw_rom[301] = 16'hDD1B; tw_rom[813] = 16'h7B26;
+        tw_rom[302] = 16'hDC5A; tw_rom[814] = 16'h7AEE;
+        tw_rom[303] = 16'hDB99; tw_rom[815] = 16'h7AB6;
+        tw_rom[304] = 16'hDAD8; tw_rom[816] = 16'h7A7C;
+        tw_rom[305] = 16'hDA18; tw_rom[817] = 16'h7A41;
+        tw_rom[306] = 16'hD958; tw_rom[818] = 16'h7A05;
+        tw_rom[307] = 16'hD899; tw_rom[819] = 16'h79C8;
+        tw_rom[308] = 16'hD7DA; tw_rom[820] = 16'h7989;
+        tw_rom[309] = 16'hD71B; tw_rom[821] = 16'h794A;
+        tw_rom[310] = 16'hD65D; tw_rom[822] = 16'h7909;
+        tw_rom[311] = 16'hD59F; tw_rom[823] = 16'h78C7;
+        tw_rom[312] = 16'hD4E1; tw_rom[824] = 16'h7884;
+        tw_rom[313] = 16'hD424; tw_rom[825] = 16'h783F;
+        tw_rom[314] = 16'hD367; tw_rom[826] = 16'h77FA;
+        tw_rom[315] = 16'hD2AB; tw_rom[827] = 16'h77B3;
+        tw_rom[316] = 16'hD1EF; tw_rom[828] = 16'h776B;
+        tw_rom[317] = 16'hD134; tw_rom[829] = 16'h7722;
+        tw_rom[318] = 16'hD079; tw_rom[830] = 16'h76D8;
+        tw_rom[319] = 16'hCFBF; tw_rom[831] = 16'h768D;
+        tw_rom[320] = 16'hCF05; tw_rom[832] = 16'h7641;
+        tw_rom[321] = 16'hCE4B; tw_rom[833] = 16'h75F3;
+        tw_rom[322] = 16'hCD92; tw_rom[834] = 16'h75A5;
+        tw_rom[323] = 16'hCCDA; tw_rom[835] = 16'h7555;
+        tw_rom[324] = 16'hCC21; tw_rom[836] = 16'h7504;
+        tw_rom[325] = 16'hCB6A; tw_rom[837] = 16'h74B2;
+        tw_rom[326] = 16'hCAB3; tw_rom[838] = 16'h745F;
+        tw_rom[327] = 16'hC9FC; tw_rom[839] = 16'h740A;
+        tw_rom[328] = 16'hC946; tw_rom[840] = 16'h73B5;
+        tw_rom[329] = 16'hC891; tw_rom[841] = 16'h735E;
+        tw_rom[330] = 16'hC7DC; tw_rom[842] = 16'h7307;
+        tw_rom[331] = 16'hC727; tw_rom[843] = 16'h72AE;
+        tw_rom[332] = 16'hC674; tw_rom[844] = 16'h7254;
+        tw_rom[333] = 16'hC5C0; tw_rom[845] = 16'h71F9;
+        tw_rom[334] = 16'hC50E; tw_rom[846] = 16'h719D;
+        tw_rom[335] = 16'hC45B; tw_rom[847] = 16'h7140;
+        tw_rom[336] = 16'hC3AA; tw_rom[848] = 16'h70E2;
+        tw_rom[337] = 16'hC2F9; tw_rom[849] = 16'h7083;
+        tw_rom[338] = 16'hC248; tw_rom[850] = 16'h7022;
+        tw_rom[339] = 16'hC198; tw_rom[851] = 16'h6FC1;
+        tw_rom[340] = 16'hC0E9; tw_rom[852] = 16'h6F5E;
+        tw_rom[341] = 16'hC03B; tw_rom[853] = 16'h6EFB;
+        tw_rom[342] = 16'hBF8D; tw_rom[854] = 16'h6E96;
+        tw_rom[343] = 16'hBEDF; tw_rom[855] = 16'h6E30;
+        tw_rom[344] = 16'hBE32; tw_rom[856] = 16'h6DC9;
+        tw_rom[345] = 16'hBD86; tw_rom[857] = 16'h6D61;
+        tw_rom[346] = 16'hBCDB; tw_rom[858] = 16'h6CF8;
+        tw_rom[347] = 16'hBC30; tw_rom[859] = 16'h6C8E;
+        tw_rom[348] = 16'hBB86; tw_rom[860] = 16'h6C23;
+        tw_rom[349] = 16'hBADC; tw_rom[861] = 16'h6BB7;
+        tw_rom[350] = 16'hBA33; tw_rom[862] = 16'h6B4A;
+        tw_rom[351] = 16'hB98B; tw_rom[863] = 16'h6ADC;
+        tw_rom[352] = 16'hB8E4; tw_rom[864] = 16'h6A6D;
+        tw_rom[353] = 16'hB83D; tw_rom[865] = 16'h69FD;
+        tw_rom[354] = 16'hB797; tw_rom[866] = 16'h698B;
+        tw_rom[355] = 16'hB6F1; tw_rom[867] = 16'h6919;
+        tw_rom[356] = 16'hB64C; tw_rom[868] = 16'h68A6;
+        tw_rom[357] = 16'hB5A8; tw_rom[869] = 16'h6832;
+        tw_rom[358] = 16'hB505; tw_rom[870] = 16'h67BC;
+        tw_rom[359] = 16'hB463; tw_rom[871] = 16'h6746;
+        tw_rom[360] = 16'hB3C1; tw_rom[872] = 16'h66CF;
+        tw_rom[361] = 16'hB320; tw_rom[873] = 16'h6656;
+        tw_rom[362] = 16'hB27F; tw_rom[874] = 16'h65DD;
+        tw_rom[363] = 16'hB1E0; tw_rom[875] = 16'h6563;
+        tw_rom[364] = 16'hB141; tw_rom[876] = 16'h64E8;
+        tw_rom[365] = 16'hB0A3; tw_rom[877] = 16'h646C;
+        tw_rom[366] = 16'hB005; tw_rom[878] = 16'h63EE;
+        tw_rom[367] = 16'hAF69; tw_rom[879] = 16'h6370;
+        tw_rom[368] = 16'hAECD; tw_rom[880] = 16'h62F1;
+        tw_rom[369] = 16'hAE32; tw_rom[881] = 16'h6271;
+        tw_rom[370] = 16'hAD98; tw_rom[882] = 16'h61F0;
+        tw_rom[371] = 16'hACFE; tw_rom[883] = 16'h616E;
+        tw_rom[372] = 16'hAC65; tw_rom[884] = 16'h60EB;
+        tw_rom[373] = 16'hABCE; tw_rom[885] = 16'h6068;
+        tw_rom[374] = 16'hAB37; tw_rom[886] = 16'h5FE3;
+        tw_rom[375] = 16'hAAA0; tw_rom[887] = 16'h5F5D;
+        tw_rom[376] = 16'hAA0B; tw_rom[888] = 16'h5ED7;
+        tw_rom[377] = 16'hA976; tw_rom[889] = 16'h5E4F;
+        tw_rom[378] = 16'hA8E3; tw_rom[890] = 16'h5DC7;
+        tw_rom[379] = 16'hA850; tw_rom[891] = 16'h5D3E;
+        tw_rom[380] = 16'hA7BE; tw_rom[892] = 16'h5CB3;
+        tw_rom[381] = 16'hA72D; tw_rom[893] = 16'h5C28;
+        tw_rom[382] = 16'hA69C; tw_rom[894] = 16'h5B9C;
+        tw_rom[383] = 16'hA60D; tw_rom[895] = 16'h5B0F;
+        tw_rom[384] = 16'hA57E; tw_rom[896] = 16'h5A82;
+        tw_rom[385] = 16'hA4F1; tw_rom[897] = 16'h59F3;
+        tw_rom[386] = 16'hA464; tw_rom[898] = 16'h5964;
+        tw_rom[387] = 16'hA3D8; tw_rom[899] = 16'h58D3;
+        tw_rom[388] = 16'hA34D; tw_rom[900] = 16'h5842;
+        tw_rom[389] = 16'hA2C2; tw_rom[901] = 16'h57B0;
+        tw_rom[390] = 16'hA239; tw_rom[902] = 16'h571D;
+        tw_rom[391] = 16'hA1B1; tw_rom[903] = 16'h568A;
+        tw_rom[392] = 16'hA129; tw_rom[904] = 16'h55F5;
+        tw_rom[393] = 16'hA0A3; tw_rom[905] = 16'h5560;
+        tw_rom[394] = 16'hA01D; tw_rom[906] = 16'h54C9;
+        tw_rom[395] = 16'h9F98; tw_rom[907] = 16'h5432;
+        tw_rom[396] = 16'h9F15; tw_rom[908] = 16'h539B;
+        tw_rom[397] = 16'h9E92; tw_rom[909] = 16'h5302;
+        tw_rom[398] = 16'h9E10; tw_rom[910] = 16'h5268;
+        tw_rom[399] = 16'h9D8F; tw_rom[911] = 16'h51CE;
+        tw_rom[400] = 16'h9D0F; tw_rom[912] = 16'h5133;
+        tw_rom[401] = 16'h9C90; tw_rom[913] = 16'h5097;
+        tw_rom[402] = 16'h9C12; tw_rom[914] = 16'h4FFB;
+        tw_rom[403] = 16'h9B94; tw_rom[915] = 16'h4F5D;
+        tw_rom[404] = 16'h9B18; tw_rom[916] = 16'h4EBF;
+        tw_rom[405] = 16'h9A9D; tw_rom[917] = 16'h4E20;
+        tw_rom[406] = 16'h9A23; tw_rom[918] = 16'h4D81;
+        tw_rom[407] = 16'h99AA; tw_rom[919] = 16'h4CE0;
+        tw_rom[408] = 16'h9931; tw_rom[920] = 16'h4C3F;
+        tw_rom[409] = 16'h98BA; tw_rom[921] = 16'h4B9D;
+        tw_rom[410] = 16'h9844; tw_rom[922] = 16'h4AFB;
+        tw_rom[411] = 16'h97CE; tw_rom[923] = 16'h4A58;
+        tw_rom[412] = 16'h975A; tw_rom[924] = 16'h49B4;
+        tw_rom[413] = 16'h96E7; tw_rom[925] = 16'h490F;
+        tw_rom[414] = 16'h9675; tw_rom[926] = 16'h4869;
+        tw_rom[415] = 16'h9603; tw_rom[927] = 16'h47C3;
+        tw_rom[416] = 16'h9593; tw_rom[928] = 16'h471C;
+        tw_rom[417] = 16'h9524; tw_rom[929] = 16'h4675;
+        tw_rom[418] = 16'h94B6; tw_rom[930] = 16'h45CD;
+        tw_rom[419] = 16'h9449; tw_rom[931] = 16'h4524;
+        tw_rom[420] = 16'h93DD; tw_rom[932] = 16'h447A;
+        tw_rom[421] = 16'h9372; tw_rom[933] = 16'h43D0;
+        tw_rom[422] = 16'h9308; tw_rom[934] = 16'h4325;
+        tw_rom[423] = 16'h929F; tw_rom[935] = 16'h427A;
+        tw_rom[424] = 16'h9237; tw_rom[936] = 16'h41CE;
+        tw_rom[425] = 16'h91D0; tw_rom[937] = 16'h4121;
+        tw_rom[426] = 16'h916A; tw_rom[938] = 16'h4073;
+        tw_rom[427] = 16'h9105; tw_rom[939] = 16'h3FC5;
+        tw_rom[428] = 16'h90A2; tw_rom[940] = 16'h3F17;
+        tw_rom[429] = 16'h903F; tw_rom[941] = 16'h3E68;
+        tw_rom[430] = 16'h8FDE; tw_rom[942] = 16'h3DB8;
+        tw_rom[431] = 16'h8F7D; tw_rom[943] = 16'h3D07;
+        tw_rom[432] = 16'h8F1E; tw_rom[944] = 16'h3C56;
+        tw_rom[433] = 16'h8EC0; tw_rom[945] = 16'h3BA5;
+        tw_rom[434] = 16'h8E63; tw_rom[946] = 16'h3AF2;
+        tw_rom[435] = 16'h8E07; tw_rom[947] = 16'h3A40;
+        tw_rom[436] = 16'h8DAC; tw_rom[948] = 16'h398C;
+        tw_rom[437] = 16'h8D52; tw_rom[949] = 16'h38D9;
+        tw_rom[438] = 16'h8CF9; tw_rom[950] = 16'h3824;
+        tw_rom[439] = 16'h8CA2; tw_rom[951] = 16'h376F;
+        tw_rom[440] = 16'h8C4B; tw_rom[952] = 16'h36BA;
+        tw_rom[441] = 16'h8BF6; tw_rom[953] = 16'h3604;
+        tw_rom[442] = 16'h8BA1; tw_rom[954] = 16'h354D;
+        tw_rom[443] = 16'h8B4E; tw_rom[955] = 16'h3496;
+        tw_rom[444] = 16'h8AFC; tw_rom[956] = 16'h33DF;
+        tw_rom[445] = 16'h8AAB; tw_rom[957] = 16'h3326;
+        tw_rom[446] = 16'h8A5B; tw_rom[958] = 16'h326E;
+        tw_rom[447] = 16'h8A0D; tw_rom[959] = 16'h31B5;
+        tw_rom[448] = 16'h89BF; tw_rom[960] = 16'h30FB;
+        tw_rom[449] = 16'h8973; tw_rom[961] = 16'h3041;
+        tw_rom[450] = 16'h8928; tw_rom[962] = 16'h2F87;
+        tw_rom[451] = 16'h88DE; tw_rom[963] = 16'h2ECC;
+        tw_rom[452] = 16'h8895; tw_rom[964] = 16'h2E11;
+        tw_rom[453] = 16'h884D; tw_rom[965] = 16'h2D55;
+        tw_rom[454] = 16'h8806; tw_rom[966] = 16'h2C99;
+        tw_rom[455] = 16'h87C1; tw_rom[967] = 16'h2BDC;
+        tw_rom[456] = 16'h877C; tw_rom[968] = 16'h2B1F;
+        tw_rom[457] = 16'h8739; tw_rom[969] = 16'h2A61;
+        tw_rom[458] = 16'h86F7; tw_rom[970] = 16'h29A3;
+        tw_rom[459] = 16'h86B6; tw_rom[971] = 16'h28E5;
+        tw_rom[460] = 16'h8677; tw_rom[972] = 16'h2826;
+        tw_rom[461] = 16'h8638; tw_rom[973] = 16'h2767;
+        tw_rom[462] = 16'h85FB; tw_rom[974] = 16'h26A8;
+        tw_rom[463] = 16'h85BF; tw_rom[975] = 16'h25E8;
+        tw_rom[464] = 16'h8584; tw_rom[976] = 16'h2528;
+        tw_rom[465] = 16'h854A; tw_rom[977] = 16'h2467;
+        tw_rom[466] = 16'h8512; tw_rom[978] = 16'h23A6;
+        tw_rom[467] = 16'h84DA; tw_rom[979] = 16'h22E5;
+        tw_rom[468] = 16'h84A4; tw_rom[980] = 16'h2223;
+        tw_rom[469] = 16'h846F; tw_rom[981] = 16'h2161;
+        tw_rom[470] = 16'h843B; tw_rom[982] = 16'h209F;
+        tw_rom[471] = 16'h8408; tw_rom[983] = 16'h1FDD;
+        tw_rom[472] = 16'h83D7; tw_rom[984] = 16'h1F1A;
+        tw_rom[473] = 16'h83A7; tw_rom[985] = 16'h1E57;
+        tw_rom[474] = 16'h8378; tw_rom[986] = 16'h1D93;
+        tw_rom[475] = 16'h834A; tw_rom[987] = 16'h1CCF;
+        tw_rom[476] = 16'h831D; tw_rom[988] = 16'h1C0B;
+        tw_rom[477] = 16'h82F2; tw_rom[989] = 16'h1B47;
+        tw_rom[478] = 16'h82C7; tw_rom[990] = 16'h1A82;
+        tw_rom[479] = 16'h829E; tw_rom[991] = 16'h19BE;
+        tw_rom[480] = 16'h8277; tw_rom[992] = 16'h18F9;
+        tw_rom[481] = 16'h8250; tw_rom[993] = 16'h1833;
+        tw_rom[482] = 16'h822B; tw_rom[994] = 16'h176E;
+        tw_rom[483] = 16'h8206; tw_rom[995] = 16'h16A8;
+        tw_rom[484] = 16'h81E3; tw_rom[996] = 16'h15E2;
+        tw_rom[485] = 16'h81C2; tw_rom[997] = 16'h151C;
+        tw_rom[486] = 16'h81A1; tw_rom[998] = 16'h1455;
+        tw_rom[487] = 16'h8182; tw_rom[999] = 16'h138F;
+        tw_rom[488] = 16'h8164; tw_rom[1000] = 16'h12C8;
+        tw_rom[489] = 16'h8147; tw_rom[1001] = 16'h1201;
+        tw_rom[490] = 16'h812B; tw_rom[1002] = 16'h113A;
+        tw_rom[491] = 16'h8111; tw_rom[1003] = 16'h1072;
+        tw_rom[492] = 16'h80F7; tw_rom[1004] = 16'h0FAB;
+        tw_rom[493] = 16'h80DF; tw_rom[1005] = 16'h0EE3;
+        tw_rom[494] = 16'h80C9; tw_rom[1006] = 16'h0E1C;
+        tw_rom[495] = 16'h80B3; tw_rom[1007] = 16'h0D54;
+        tw_rom[496] = 16'h809F; tw_rom[1008] = 16'h0C8C;
+        tw_rom[497] = 16'h808C; tw_rom[1009] = 16'h0BC4;
+        tw_rom[498] = 16'h807A; tw_rom[1010] = 16'h0AFB;
+        tw_rom[499] = 16'h8069; tw_rom[1011] = 16'h0A33;
+        tw_rom[500] = 16'h805A; tw_rom[1012] = 16'h096A;
+        tw_rom[501] = 16'h804C; tw_rom[1013] = 16'h08A2;
+        tw_rom[502] = 16'h803F; tw_rom[1014] = 16'h07D9;
+        tw_rom[503] = 16'h8033; tw_rom[1015] = 16'h0711;
+        tw_rom[504] = 16'h8028; tw_rom[1016] = 16'h0648;
+        tw_rom[505] = 16'h801F; tw_rom[1017] = 16'h057F;
+        tw_rom[506] = 16'h8017; tw_rom[1018] = 16'h04B6;
+        tw_rom[507] = 16'h8010; tw_rom[1019] = 16'h03ED;
+        tw_rom[508] = 16'h800B; tw_rom[1020] = 16'h0324;
+        tw_rom[509] = 16'h8007; tw_rom[1021] = 16'h025B;
+        tw_rom[510] = 16'h8003; tw_rom[1022] = 16'h0192;
+        tw_rom[511] = 16'h8002; tw_rom[1023] = 16'h00C9;
         // ==TABLE-END==
     end
 
@@ -267,7 +569,7 @@ module spec_fft #(
     reg  signed [DW-1:0] ram_wre, ram_wim;
     reg  [AW-1:0]       ram_raddr;
     reg  signed [DW-1:0] rd_re, rd_im;
-    reg  [8:0]          tw_addr;
+    reg  [9:0]          tw_addr;
     reg  [15:0]         tw_q;
 
     always @(posedge clk) begin
@@ -301,8 +603,7 @@ module spec_fft #(
     reg [AW-1:0] j;                             // 组内蝶形序号 ✓
     reg [AW-1:0] twidx;                         // 旋转因子指数（≤127 ✓ ⇒ bit7 恒 0 ✓）
 
-    wire [8:0] fft_tw_index = (N == 256) ? {twidx[7:0], 1'b0}
-                                          : {1'b0, twidx[7:0]};
+    wire [9:0] fft_tw_index = twidx * (1024 / N);
 
     wire [AW-1:0] bf_m  = base + j;
     wire [AW-1:0] bf_m2 = base + j + half;
@@ -331,17 +632,34 @@ module spec_fft #(
     // 4. 扫描：幅度 → 显示值 → 柱 / 峰值
     //=========================================================================
     reg  [AW-1:0] sc;                           // 扫描 bin（0..127 ✓）
-    reg  [7:0]    pmax;                         // 本帧峰值 ✓
-    reg  [7:0]    pbin;
+    reg  [7:0]    pmax;                         // 本帧显示峰值 ✓
+    reg  [16:0]   pmax_mag;                     // 峰值比较保留原始幅度
+    reg  [8:0]    pbin;
 
     wire [DW-1:0] abs_re = rd_re[DW-1] ? (~rd_re + 16'd1) : rd_re;
     wire [DW-1:0] abs_im = rd_im[DW-1] ? (~rd_im + 16'd1) : rd_im;
     wire [DW-1:0] mag_hi = (abs_re > abs_im) ? abs_re : abs_im;
     wire [DW-1:0] mag_lo = (abs_re > abs_im) ? abs_im : abs_re;
     wire [DW:0]   mag17  = {1'b0, mag_hi} + {2'b0, mag_lo[DW-1:1]};   // max + min/2 ✓
-    wire [7:0]    disp   = WINDOW_HANN
+    wire [7:0]    linear_disp = WINDOW_HANN
         ? ((mag17[DW:9] != 8'd0) ? 8'd255 : mag17[8:1])
         : ((mag17[DW:10] != 7'd0) ? 8'd255 : mag17[9:2]);
+
+    function [7:0] log_level;
+        input [16:0] magnitude;
+        integer k, exponent, result;
+        reg [16:0] normalized;
+        begin
+            exponent=0;
+            for(k=0;k<17;k=k+1) if(magnitude[k]) exponent=k;
+            normalized=magnitude << (16-exponent);
+            result=78+exponent*22+((normalized[15:12]*22)>>4);
+            if(magnitude==0) log_level=0;
+            else if(result>255) log_level=255;
+            else log_level=result[7:0];
+        end
+    endfunction
+    wire [7:0] disp = LOG_MAG ? log_level(mag17) : linear_disp;
 
     //=========================================================================
     // 5. 主状态机
@@ -360,6 +678,9 @@ module spec_fft #(
 
     reg [3:0]    fst;
     reg [AW-1:0] cnt;
+    reg [1:0] capture_wait;
+    assign samp_ready = (fst == S_COLL) && (capture_wait == 0);
+    wire [9:0] window_index = (cnt & (N/2-1)) * (1024/N);
     wire signed [17:0] win_cos = {{2{tw_q[15]}}, tw_q};
     wire signed [17:0] win_delta = cnt[AW-1] ? (18'sd32767 + win_cos)
                                               : (18'sd32767 - win_cos);
@@ -378,7 +699,8 @@ module spec_fft #(
             ram_wre   <= {DW{1'b0}};
             ram_wim   <= {DW{1'b0}};
             ram_raddr <= {AW{1'b0}};
-            tw_addr   <= 9'd0;
+            tw_addr   <= 10'd0;
+            capture_wait <= 2'd3;
             frame_stb <= 1'b0;
             bin_stb   <= 1'b0;
             bin_idx   <= 8'd0;
@@ -389,7 +711,7 @@ module spec_fft #(
             ngrp <= {AW{1'b0}}; grp <= {AW{1'b0}}; base <= {AW{1'b0}}; j <= {AW{1'b0}}; twidx <= {AW{1'b0}};
             a_re <= {DW{1'b0}}; a_im <= {DW{1'b0}}; b_re <= {DW{1'b0}}; b_im <= {DW{1'b0}};
             w_cos <= {DW{1'b0}}; w_sin <= {DW{1'b0}};
-            sc <= {AW{1'b0}}; pmax <= 8'd0; pbin <= 8'd0;
+            sc <= {AW{1'b0}}; pmax <= 8'd0; pmax_mag <= 17'd0; pbin <= 8'd0;
         end else begin
             ram_we    <= 1'b0;                  // 默认不写 ✓（需要的状态里再置 1 ✓）
             frame_stb <= 1'b0;                  // 默认不出帧 ✓（S_OUT 里置 1 ⇒ **单拍** ✓）
@@ -402,8 +724,10 @@ module spec_fft #(
             S_COLL: begin
                 // The twiddle ROM is idle while collecting samples. Its cosine
                 // half supplies periodic Hann weights without another BRAM.
-                if (WINDOW_HANN) tw_addr <= {1'b0, cnt[7:0]};
-                if (samp_stb) begin
+                if (WINDOW_HANN) tw_addr <= window_index;
+                if (capture_wait != 0) capture_wait <= capture_wait - 1'b1;
+                if (samp_stb && samp_ready) begin
+                    capture_wait <= 2'd3;
                     ram_we    <= 1'b1;
                     ram_waddr <= brev(cnt);
                     ram_wre   <= capture_sample;
@@ -435,7 +759,7 @@ module spec_fft #(
             end
             S_BF1: begin
                 ram_raddr <= bf_m2;
-                tw_addr   <= {1'b1, fft_tw_index[7:0]};
+                tw_addr   <= {1'b1, fft_tw_index[8:0]};
                 fst       <= S_BF2;
             end
             S_BF2: begin
@@ -470,6 +794,7 @@ module spec_fft #(
                         if (stg == AW - 1) begin                  // 最后一阶（AW = log2(N) ✓）
                             sc    <= {AW{1'b0}};
                             pmax  <= 8'd0;
+                            pmax_mag <= 17'd0;
                             pbin  <= 8'd0;
                             fst   <= S_SCA;
                         end else begin
@@ -509,8 +834,10 @@ module spec_fft #(
                 bin_stb <= 1'b1;
                 bin_idx <= sc;
                 bin_mag <= disp;
-                // 峰值：跳过 DC ✓、严格大于（平局取更低 bin ✓）、全 0 时保持 0 ✓
-                if ((sc != {AW{1'b0}}) && (disp > pmax)) begin
+                // 峰值跳过 DC，并按原始幅度比较；显示字节可能因 dB 上限
+                // 饱和，不能让相邻泄漏 bin 的量化结果改变峰值位置。
+                if ((sc != {AW{1'b0}}) && (mag17 > pmax_mag)) begin
+                    pmax_mag <= mag17;
                     pmax <= disp;
                     pbin <= sc;
                 end
@@ -531,6 +858,7 @@ module spec_fft #(
                 frame_stb <= 1'b1;
                 cnt       <= {AW{1'b0}};
                 fst       <= S_COLL;
+                capture_wait <= 2'd3;
             end
             default: fst <= S_COLL;
             endcase
@@ -542,7 +870,7 @@ module spec_fft #(
     //    否则**故意**停在"模块未定义"，不静默走错路 ✓
     //=========================================================================
     generate
-    if (((N != 256) && (N != 512)) || (WINDOW_HANN && (N != 512))) begin : g_guard
+    if (((N != 256) && (N != 512) && (N != 1024))) begin : g_guard
         spec_fft_unsupported_configuration u_guard (.unused(1'b0));
     end
     endgenerate

@@ -260,6 +260,22 @@
           "language": "verilog"
         },
         {
+          "path": "rtl/audio/spec_window.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/audio/spec_bands64.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/audio/spec_attack18.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_fft64.v",
+          "language": "verilog"
+        },
+        {
           "path": "rtl/gfx/fetch_line_scene.v",
           "language": "verilog"
         },

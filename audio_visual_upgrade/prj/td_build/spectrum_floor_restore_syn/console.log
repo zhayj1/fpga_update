@@ -1,0 +1,1256 @@
+============================================================
+   Tang Dynasty, V6.2.168116
+   Copyright (c) 2012-2025 Anlogic Inc.
+   Executable = D:/Anlogic/TD_6.2.1_Engineer_6.2.168.116/bin/td_commands_prompt.exe
+   Built at =   16:32:07 Jun 12 2025
+   Run by =     CodexSandboxOffline
+   Run Date =   Sun Oct 25 22:49:15 2026
+
+   Run on =     LAPTOP-ITBPSCNA
+============================================================
+RUN-1002 : start command "import_device eagle_s20.db -package EG4S20BG256"
+RUN-1001 : Using default speed grade: NA
+ARC-1001 : Device Initialization.
+ARC-1001 : ------------------------------------------------------------------
+ARC-1001 :            OPTION            |          IO          |   SETTING   
+ARC-1001 : ------------------------------------------------------------------
+ARC-1001 :   cso_b/cclk/mosi/miso/dout  |  T3/R11/T10/P10/S11  |    gpio    
+ARC-1001 :             done             |         P13          |    gpio    
+ARC-1001 :           program_b          |          T2          |  dedicate  
+ARC-1001 :        tdi/tms/tck/tdo       |   C12/A15/C14/E14    |  dedicate  
+ARC-1001 : ------------------------------------------------------------------
+ARC-1004 : Device setting, marked 5 dedicate IOs in total.
+RUN-1002 : start command "open_project skeleton.prj"
+PRJ-5611 WARNING: ../../../rtl/app/cw_probe.v and ../../../rtl/app/bw_selftest.v have the same CompileOrder value.
+PRJ-5611 WARNING: ../../../rtl/app/carousel.v and ../../../rtl/app/cw_probe.v have the same CompileOrder value.
+PRJ-5611 WARNING: ../../../rtl/app/asset_manager.v and ../../../rtl/app/carousel.v have the same CompileOrder value.
+PRJ-5611 WARNING: ../../../rtl/load/bmp_load.v and ../../../rtl/load/load_writeback.v have the same CompileOrder value.
+RUN-1002 : start command "commit_param -step design"
+RUN-1001 : Print Global Property
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   Parameters   |  Settings  |  Default Values  |  Note  
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   enable_seed  |    off     |       off        |        
+RUN-1001 :     message    |  standard  |     standard     |        
+RUN-1001 :   qor_monitor  |     on     |        on        |        
+RUN-1001 :   syn_ip_flow  |    off     |       off        |        
+RUN-1001 :     thread     |    auto    |       auto       |        
+RUN-1001 : --------------------------------------------------------
+RUN-1001 : Print Design Property
+RUN-1001 : ----------------------------------------------------------------
+RUN-1001 :       Parameters       |  Settings  |  Default Values  |  Note  
+RUN-1001 : ----------------------------------------------------------------
+RUN-1001 :   default_reg_initial  |    auto    |       auto       |        
+RUN-1001 :    hdl_warning_level   |   normal   |      normal      |        
+RUN-1001 : ----------------------------------------------------------------
+HDL-1007 : analyze verilog file ../../../ip/sdram/global_def.v
+HDL-1007 : analyze verilog file ../../../rtl/video/video_define.v
+HDL-1007 : analyze verilog file ../../../rtl/util/uart_tx.v
+HDL-1007 : analyze verilog file ../../../rtl/app/uart_report.v
+HDL-1007 : analyze verilog file ../../../rtl/app/asset_manager.v
+HDL-1007 : analyze verilog file ../../../rtl/app/carousel.v
+HDL-1007 : analyze verilog file ../../../rtl/app/cw_probe.v
+HDL-1007 : analyze verilog file ../../../rtl/app/bw_selftest.v
+HDL-1007 : analyze verilog file ../../../rtl/mem/sdram_arb.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/sector_arbiter.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/resource_catalog.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/sd_spi_byte.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/sd_init_spi.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/sd_block_read.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/sd_phy.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/fat32_chain.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/fat32_mount.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/fat32_scan.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/fat32_sessions.v
+HDL-1007 : analyze verilog file ../../../rtl/storage/storage_top.v
+HDL-1007 : analyze verilog file ../../../ip/sdram/sdr_as_ram.enc.v
+HDL-1007 : analyze included file ../../../ip/sdram/global_def.v in ../../../ip/sdram/sdr_as_ram.enc.v(10)
+HDL-1007 : back to file '../../../ip/sdram/sdr_as_ram.enc.v' in ../../../ip/sdram/sdr_as_ram.enc.v(10)
+Copyright (c) 1998-2019 The OpenSSL Project.  All rights reserved.
+This product includes software developed by the OpenSSL Project
+for use in the OpenSSL Toolkit (http://www.openssl.org/)
+Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+All rights reserved.
+This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)
+HDL-1007 : back to file '../../../ip/sdram/sdr_as_ram.enc.v' in ../../../ip/sdram/sdr_as_ram.enc.v(45)
+HDL-1007 : analyze verilog file ../../../ip/sdram/sdr_init_ref.enc.v
+HDL-1007 : analyze included file ../../../ip/sdram/global_def.v in ../../../ip/sdram/sdr_init_ref.enc.v(11)
+HDL-1007 : back to file '../../../ip/sdram/sdr_init_ref.enc.v' in ../../../ip/sdram/sdr_init_ref.enc.v(11)
+HDL-1007 : undeclared symbol '**', assumed default net type '**' in ../../../ip/sdram/sdr_init_ref.enc.v(57)
+HDL-1007 : back to file '../../../ip/sdram/sdr_init_ref.enc.v' in ../../../ip/sdram/sdr_init_ref.enc.v(149)
+HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in ../../../ip/sdram/sdr_init_ref.enc.v(47)
+HDL-1007 : analyze verilog file ../../../ip/sdram/sdr_wrrd.enc.v
+HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in ../../../ip/sdram/sdr_wrrd.enc.v(283)
+HDL-1007 : back to file '../../../ip/sdram/sdr_wrrd.enc.v' in ../../../ip/sdram/sdr_wrrd.enc.v(19)
+HDL-1007 : analyze verilog file ../../../ip/sdram/sdram_top.v
+HDL-1007 : analyze included file ../../../ip/sdram/global_def.v in ../../../ip/sdram/sdram_top.v(10)
+HDL-1007 : back to file '../../../ip/sdram/sdram_top.v' in ../../../ip/sdram/sdram_top.v(10)
+HDL-1007 : undeclared symbol 'SDR_CKE', assumed default net type 'wire' in ../../../ip/sdram/sdram_top.v(169)
+HDL-1007 : analyze verilog file ../../../rtl/ip/video_pll.v
+HDL-1007 : undeclared symbol 'open', assumed default net type 'wire' in ../../../rtl/ip/video_pll.v(78)
+HDL-1007 : analyze verilog file ../../../rtl/ip/pll_sdr.v
+HDL-1007 : undeclared symbol 'open', assumed default net type 'wire' in ../../../rtl/ip/pll_sdr.v(109)
+HDL-1007 : analyze verilog file ../../../rtl/video/color_bar.v
+HDL-1007 : analyze included file ../../../rtl/video/video_define.v in ../../../rtl/video/color_bar.v(2)
+HDL-1007 : back to file '../../../rtl/video/color_bar.v' in ../../../rtl/video/color_bar.v(2)
+HDL-1007 : analyze verilog file ../../../rtl/video/video_rgb_to_axis_640x480.v
+HDL-1007 : analyze verilog file ../../../rtl/video/lane_lvds_10_1.v
+HDL-1007 : analyze verilog file ../../../rtl/video/hdmi_phy_warpper.v
+HDL-1007 : analyze verilog file ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v
+HDL-1007 : undeclared symbol '**', assumed default net type '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2614)
+HDL-1007 : undeclared symbol '**', assumed default net type '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2716)
+HDL-1007 : undeclared symbol '**', assumed default net type '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2724)
+HDL-1007 : undeclared symbol '**', assumed default net type '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(4936)
+HDL-1007 : undeclared symbol '**', assumed default net type '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(5989)
+HDL-1007 : back to file '../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(77)
+HDL-1007 : analyze verilog file ../../../rtl/top/skeleton_core.v
+HDL-1007 : analyze verilog file ../../../rtl/top/skeleton_top.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/fetch_line.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/layer_bg.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/layer_cover.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/compositor.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/px_arb2.v
+HDL-1007 : analyze verilog file ../../../rtl/load/bmp_load.v
+HDL-1007 : analyze verilog file ../../../rtl/load/load_writeback.v
+HDL-1007 : analyze verilog file ../../../rtl/ip/afifo_8i_32o_1024.v
+HDL-1007 : analyze verilog file ../../../rtl/app/frame_sig.v
+HDL-1007 : analyze verilog file ../../../rtl/util/key_debounce.v
+HDL-1007 : analyze verilog file ../../../rtl/ip/afifo_8i_32o_bram.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/pcm_test_tone.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/hdmi_audio_acr_gen.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/audio_sample_tick.v
+HDL-1007 : analyze verilog file ../../../rtl/load/wav_head.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/wav_stream_player.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/audio_mux.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/px_arb3.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/lyric_pick.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/lyric_row.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/layer_text.v
+HDL-1007 : analyze verilog file ../../../rtl/load/font_load.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/layer_fft.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/spec_fft.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/spec_bands.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/fetch_line_scene.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/scene_raster.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/fetch_writer4.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/scene_fade.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/scene_blend.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/px_arb5.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/spec_window.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/spec_bands64.v
+HDL-1007 : analyze verilog file ../../../rtl/audio/spec_attack18.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/layer_fft64.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/cover_pop.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/cover_pop_geom.v
+HDL-1007 : analyze verilog file ../../../rtl/gfx/attack_rings.v
+PRJ-1401 : Successfully analyzed 71 source files.
+RUN-1002 : start command "set_param gate add_map_lut_struct off"
+RUN-1002 : start command "set_param gate map_mode area_prior"
+RUN-1002 : start command "set_param gate opt_area high"
+RUN-1002 : start command "set_param gate multi_thread_mapping partition"
+RUN-1002 : start command "set_param rtl resource_sharing auto"
+RUN-1002 : start command "set_param rtl shifter_style shifter_reg"
+RUN-1002 : start command "commit_param -step design"
+RUN-1001 : Print Global Property
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   Parameters   |  Settings  |  Default Values  |  Note  
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   enable_seed  |    off     |       off        |        
+RUN-1001 :     message    |  standard  |     standard     |        
+RUN-1001 :   qor_monitor  |     on     |        on        |        
+RUN-1001 :   syn_ip_flow  |    off     |       off        |        
+RUN-1001 :     thread     |    auto    |       auto       |        
+RUN-1001 : --------------------------------------------------------
+RUN-1001 : Print Design Property
+RUN-1001 : ----------------------------------------------------------------
+RUN-1001 :       Parameters       |  Settings  |  Default Values  |  Note  
+RUN-1001 : ----------------------------------------------------------------
+RUN-1001 :   default_reg_initial  |    auto    |       auto       |        
+RUN-1001 :    hdl_warning_level   |   normal   |      normal      |        
+RUN-1001 : ----------------------------------------------------------------
+RUN-1002 : start command "elaborate -top skeleton_top"
+HDL-1007 : port 'obs_axis_data' remains unconnected for this instance in ../../../rtl/top/skeleton_top.v(70)
+HDL-1007 : port 'obs_axis_valid' remains unconnected for this instance in ../../../rtl/top/skeleton_top.v(70)
+HDL-1007 : port 'obs_axis_user' remains unconnected for this instance in ../../../rtl/top/skeleton_top.v(70)
+HDL-1007 : port 'obs_axis_last' remains unconnected for this instance in ../../../rtl/top/skeleton_top.v(70)
+HDL-1007 : port 'obs_de' remains unconnected for this instance in ../../../rtl/top/skeleton_top.v(70)
+HDL-1007 : port 'obs_rgb' remains unconnected for this instance in ../../../rtl/top/skeleton_top.v(70)
+HDL-1007 : elaborate module skeleton_top in ../../../rtl/top/skeleton_top.v(20)
+HDL-1007 : elaborate module video_pll in ../../../rtl/ip/video_pll.v(23)
+HDL-1007 : elaborate module EG_LOGIC_BUFG in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(5)
+HDL-1007 : elaborate module EG_PHY_PLL(FIN="50.000000",REFCLK_DIV=2,CLKC0_DIV=40,CLKC1_DIV=8,CLKC0_ENABLE="ENABLE",CLKC1_ENABLE="ENABLE",FEEDBK_PATH="CLKC0_EXT",STDBY_ENABLE="DISABLE",CLKC0_CPHASE=39,CLKC1_CPHASE=7,GMC_GAIN=2,ICP_CURRENT=9,KVCO=2,LPF_CAPACITOR=1,LPF_RESISTOR=8,SYNC_ENABLE="DISABLE") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(889)
+HDL-1007 : elaborate module pll_sdr in ../../../rtl/ip/pll_sdr.v(41)
+HDL-1007 : elaborate module EG_PHY_PLL(FIN="50.000000",REFCLK_DIV=5,CLKC0_DIV=100,CLKC1_DIV=10,CLKC2_DIV=10,CLKC0_ENABLE="ENABLE",CLKC1_ENABLE="ENABLE",CLKC2_ENABLE="ENABLE",FEEDBK_PATH="CLKC0_EXT",STDBY_ENABLE="DISABLE",CLKC0_CPHASE=99,CLKC1_CPHASE=9,CLKC2_CPHASE=4,GMC_GAIN=0,ICP_CURRENT=9,KVCO=2,LPF_CAPACITOR=2,LPF_RESISTOR=8,SYNC_ENABLE="DISABLE") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(889)
+HDL-1007 : port 'O_edid_read_valid' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(653)
+HDL-1007 : port 'O_edid_read_data' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(653)
+HDL-1007 : port 'O_axis_s_ready' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(653)
+HDL-1007 : port 'lo_rd_err_code' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(952)
+HDL-1007 : port 'lo_stall' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(952)
+HDL-1007 : port 'hi_rd_err_code' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(952)
+HDL-1007 : port 'dbg_arb_ow' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(952)
+HDL-1007 : port 'dbg_arb_busy' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(952)
+HDL-1007 : port 'busy' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(1618)
+HDL-1007 : port 'hdr_bytes' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(1618)
+HDL-1007 : port 'wav_ready' remains unconnected for this instance in ../../../rtl/top/skeleton_core.v(1655)
+HDL-1007 : elaborate module skeleton_core(SDR_CLK_MHZ=100,BW_NUM=2,en_color_diag=1'b1) in ../../../rtl/top/skeleton_core.v(22)
+HDL-1007 : elaborate module color_bar in ../../../rtl/video/color_bar.v(3)
+HDL-1007 : elaborate module px_arb5 in ../../../rtl/gfx/px_arb5.v(4)
+HDL-1007 : elaborate module scene_raster in ../../../rtl/gfx/scene_raster.v(3)
+HDL-1007 : elaborate module fetch_writer4 in ../../../rtl/gfx/fetch_writer4.v(6)
+HDL-1007 : elaborate module layer_bg(SHARED_RASTER=1,SHARED_WRITER=1) in ../../../rtl/gfx/layer_bg.v(4)
+HDL-1007 : elaborate module fetch_line_scene(SHARED_WRITER=1) in ../../../rtl/gfx/fetch_line_scene.v(5)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=32,DATA_WIDTH_B=32,ADDR_WIDTH_B=10,DATA_DEPTH_A=1024,DATA_DEPTH_B=1024,BYTE_A=1,BYTE_B=1) in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module layer_cover(MAX_W=320,SHARED_RASTER=1,SHARED_WRITER=1,SCALE=1) in ../../../rtl/gfx/layer_cover.v(21)
+HDL-1007 : elaborate module layer_bg(MAX_W=320,SHARED_RASTER=1,SHARED_WRITER=1,SCALE=1) in ../../../rtl/gfx/layer_bg.v(4)
+HDL-1007 : elaborate module fetch_line_scene(MAX_W=320,SHARED_WRITER=1,SCALE=1) in ../../../rtl/gfx/fetch_line_scene.v(5)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=32,DATA_WIDTH_B=32,ADDR_WIDTH_A=9,ADDR_WIDTH_B=9,DATA_DEPTH_A=512,DATA_DEPTH_B=512,BYTE_A=1,BYTE_B=1) in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module compositor in ../../../rtl/gfx/compositor.v(18)
+HDL-1007 : elaborate module scene_blend in ../../../rtl/gfx/scene_blend.v(4)
+HDL-1007 : elaborate module video_rgb_to_axis_640x480 in ../../../rtl/video/video_rgb_to_axis_640x480.v(2)
+HDL-1007 : elaborate module pcm_test_tone in ../../../rtl/audio/pcm_test_tone.v(37)
+HDL-1007 : elaborate module audio_sample_tick in ../../../rtl/audio/audio_sample_tick.v(27)
+HDL-1007 : elaborate module hdmi_audio_acr_gen in ../../../rtl/audio/hdmi_audio_acr_gen.v(36)
+HDL-1007 : elaborate module hdmi_1_4b_transmitter_core_wrapper(HTOTAL=800,HSA=96,HFP=16,HBP=48,HACTIVE=640,VTOTAL=525,VSA=2,VFP=10,VBP=33,VACTIVE=480,VIDEO_TPG="Disable",VIDEO_VIC=1,IIC_SCL_DIV=250) in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(91)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(137)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(208)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(285)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(396)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(803)
+HDL-1007 : elaborate module EG_LOGIC_RAMFIFO(DATA_WIDTH=11,ADDR_WIDTH=10,IMPLEMENT="9K") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(750)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(1338)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(1480)
+HDL-1007 : elaborate module EG_LOGIC_RAMFIFO(DATA_WIDTH=9,ADDR_WIDTH=10,IMPLEMENT="9K") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(750)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2012)
+HDL-1007 : port '**' remains unconnected for this instance in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2733)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2403)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2842)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(2939)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3138)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3177)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3511)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3666)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3730)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3860)
+HDL-5007 WARNING: actual bit length ** differs from formal bit length *** for port '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3307)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3949)
+HDL-5007 WARNING: actual bit length ** differs from formal bit length *** for port '**' in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(3318)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(4034)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(4127)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(4285)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(4586)
+HDL-1007 : elaborate module EG_LOGIC_RAMFIFO(DATA_WIDTH=96,ADDR_WIDTH=10,IMPLEMENT="9K") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(750)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(5534)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(5657)
+HDL-1007 : elaborate module EG_LOGIC_RAMFIFO(DATA_WIDTH=24,ADDR_WIDTH=10,IMPLEMENT="9K") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(750)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6273)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6501)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6575)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6924)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6994)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6994)
+HDL-1007 : elaborate module ** in ../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(6994)
+HDL-1007 : elaborate module sdram_top in ../../../ip/sdram/sdram_top.v(12)
+HDL-1007 : elaborate module sdr_as_ram(self_refresh_open=1'b0) in ../../../ip/sdram/sdr_as_ram.enc.v(12)
+HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in ../../../ip/sdram/sdr_init_ref.enc.v(47)
+HDL-1007 : elaborate module sdr_init_ref(self_refresh_open=1'b0) in ../../../ip/sdram/sdr_init_ref.enc.v(13)
+HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in ../../../ip/sdram/sdr_wrrd.enc.v(283)
+HDL-1007 : elaborate module ** in ../../../ip/sdram/sdr_wrrd.enc.v(3)
+HDL-5317 WARNING: input port '**' is not connected on this instance in ../../../ip/sdram/sdr_as_ram.enc.v(17)
+HDL-1007 : elaborate module EG_PHY_SDRAM_2M_32 in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(683)
+HDL-1007 : elaborate module sdram_arb in ../../../rtl/mem/sdram_arb.v(54)
+HDL-1007 : elaborate module bw_selftest(CLK_MHZ=100,BW_NUM=2) in ../../../rtl/app/bw_selftest.v(34)
+HDL-1007 : elaborate module storage_top in ../../../rtl/storage/storage_top.v(23)
+HDL-1007 : elaborate module sd_phy in ../../../rtl/storage/sd_phy.v(3)
+HDL-1007 : elaborate module sd_spi_byte in ../../../rtl/storage/sd_spi_byte.v(2)
+HDL-1007 : elaborate module fat32_mount in ../../../rtl/storage/fat32_mount.v(20)
+HDL-1007 : elaborate module fat32_chain in ../../../rtl/storage/fat32_chain.v(50)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=32,DATA_WIDTH_B=32,ADDR_WIDTH_A=7,ADDR_WIDTH_B=7,DATA_DEPTH_A=128,DATA_DEPTH_B=128,BYTE_A=1,BYTE_B=1,MODE="SP") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module fat32_scan in ../../../rtl/storage/fat32_scan.v(23)
+HDL-1007 : elaborate module fat32_sessions(LO_STALL_MS=1000) in ../../../rtl/storage/fat32_sessions.v(5)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=8,DATA_WIDTH_B=8,ADDR_WIDTH_B=10,DATA_DEPTH_A=1024,DATA_DEPTH_B=1024,BYTE_A=1,BYTE_B=1) in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module resource_catalog in ../../../rtl/storage/resource_catalog.v(5)
+HDL-1007 : extracting RAM for identifier 'descriptor' in ../../../rtl/storage/resource_catalog.v(36)
+HDL-1007 : elaborate module cw_probe in ../../../rtl/app/cw_probe.v(30)
+HDL-1007 : elaborate module asset_manager in ../../../rtl/app/asset_manager.v(5)
+HDL-1007 : extracting RAM for identifier 'slot_epoch' in ../../../rtl/app/asset_manager.v(49)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=16,DATA_WIDTH_B=16,ADDR_WIDTH_A=4,ADDR_WIDTH_B=4,DATA_DEPTH_A=16,DATA_DEPTH_B=16,BYTE_A=1,BYTE_B=1) in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module load_writeback in ../../../rtl/load/load_writeback.v(4)
+HDL-1007 : elaborate module afifo_8i_32o_bram(SHOW_AHEAD_EN=1'b1) in ../../../rtl/ip/afifo_8i_32o_bram.v(43)
+HDL-1007 : elaborate module fifo_cross_domain_addr_process_al_afifo_8i_32o_1024 in ../../../rtl/ip/afifo_8i_32o_1024.v(290)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=32,DATA_WIDTH_B=32,ADDR_WIDTH_A=8,ADDR_WIDTH_B=8,DATA_DEPTH_A=256,DATA_DEPTH_B=256,BYTE_A=1,BYTE_B=1) in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module bmp_load(WD_MS=1,EXTERNAL_BACKEND=1,STREAM_WD_MS=200) in ../../../rtl/load/bmp_load.v(38)
+HDL-1007 : elaborate module font_load(EXTERNAL_BACKEND=1) in ../../../rtl/load/font_load.v(41)
+HDL-1007 : elaborate module key_debounce in ../../../rtl/util/key_debounce.v(20)
+HDL-1007 : elaborate module carousel in ../../../rtl/app/carousel.v(27)
+HDL-1007 : elaborate module scene_fade in ../../../rtl/gfx/scene_fade.v(5)
+HDL-1007 : elaborate module wav_head in ../../../rtl/load/wav_head.v(39)
+HDL-1007 : elaborate module wav_stream_player in ../../../rtl/audio/wav_stream_player.v(46)
+HDL-1007 : extracting RAM for identifier 'end_mark' in ../../../rtl/audio/wav_stream_player.v(152)
+HDL-1007 : elaborate module EG_LOGIC_BRAM(DATA_WIDTH_A=32,DATA_WIDTH_B=32,ADDR_WIDTH_A=12,ADDR_WIDTH_B=12,DATA_DEPTH_A=4096,DATA_DEPTH_B=4096,BYTE_A=1,BYTE_B=1,IMPLEMENT="32K") in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(986)
+HDL-1007 : elaborate module audio_mux in ../../../rtl/audio/audio_mux.v(18)
+HDL-1007 : elaborate module spec_window in ../../../rtl/audio/spec_window.v(4)
+HDL-1007 : extracting RAM for identifier 'ring' in ../../../rtl/audio/spec_window.v(14)
+HDL-1007 : elaborate module spec_fft(N=1024,LOG_MAG=1,WINDOW_HANN=1) in ../../../rtl/audio/spec_fft.v(5)
+HDL-1007 : extracting RAM for identifier 'mem_re' in ../../../rtl/audio/spec_fft.v(46)
+HDL-1007 : extracting RAM for identifier 'mem_im' in ../../../rtl/audio/spec_fft.v(47)
+HDL-1007 : extracting RAM for identifier 'tw_rom' in ../../../rtl/audio/spec_fft.v(48)
+HDL-5314 WARNING: net 'tw_rom' does not have a driver in ../../../rtl/audio/spec_fft.v(48)
+HDL-1007 : elaborate module spec_bands64 in ../../../rtl/audio/spec_bands64.v(3)
+HDL-1007 : extracting RAM for identifier 'bins' in ../../../rtl/audio/spec_bands64.v(17)
+HDL-1007 : elaborate module spec_attack18 in ../../../rtl/audio/spec_attack18.v(4)
+HDL-1007 : extracting RAM for identifier 'history' in ../../../rtl/audio/spec_attack18.v(17)
+HDL-1007 : elaborate module layer_fft64 in ../../../rtl/gfx/layer_fft64.v(3)
+HDL-1007 : extracting RAM for identifier 'heights' in ../../../rtl/gfx/layer_fft64.v(16)
+HDL-1007 : elaborate module cover_pop in ../../../rtl/gfx/cover_pop.v(2)
+HDL-1007 : elaborate module cover_pop_geom in ../../../rtl/gfx/cover_pop_geom.v(3)
+HDL-1007 : elaborate module attack_rings in ../../../rtl/gfx/attack_rings.v(7)
+HDL-1007 : extracting RAM for identifier 'age' in ../../../rtl/gfx/attack_rings.v(16)
+HDL-1007 : elaborate module lyric_pick(LRC_BASE=21'b100100001010001000000) in ../../../rtl/gfx/lyric_pick.v(50)
+HDL-1007 : elaborate module layer_text(WIN_Y0=396,ROW_Y0=404,TTL_Y0=13,SGR_Y0=41,LRC_BASE=21'b100100001010001000000,FONT_BASE=21'b011100001000000000000,ASC_BASE=21'b100100000111001000000) in ../../../rtl/gfx/layer_text.v(50)
+HDL-1007 : elaborate module lyric_row(LRC_BASE=21'b100100001010001000000,FONT_BASE=21'b011100001000000000000,ASC_BASE=21'b100100000111001000000,MAX_CH=24) in ../../../rtl/gfx/lyric_row.v(53)
+HDL-1007 : elaborate module uart_report(CLK_HZ=50000000) in ../../../rtl/app/uart_report.v(36)
+HDL-1007 : elaborate module uart_tx in ../../../rtl/util/uart_tx.v(11)
+HDL-1007 : elaborate module hdmi_phy_wrapper in ../../../rtl/video/hdmi_phy_warpper.v(3)
+HDL-1007 : elaborate module lane_lvds_10_1 in ../../../rtl/video/lane_lvds_10_1.v(4)
+HDL-1007 : elaborate module EG_LOGIC_ODDR in D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\arch/eagle_macro.v(66)
+HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed
+HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed
+HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed
+HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed
+HDL-1200 : Current top model is skeleton_top
+HDL-1100 : Inferred 11 RAMs.
+RUN-1003 : finish command "elaborate -top skeleton_top" in  1.342523s wall, 1.250000s user + 0.078125s system = 1.328125s CPU (98.9%)
+
+RUN-1004 : used memory is 394 MB, reserved memory is 383 MB, peak memory is 394 MB
+RUN-1002 : start command "read_adc D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/constraints/skeleton_top.adc"
+RUN-1002 : start command "set_pin_assignment  clk            LOCATION = R7;  IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; "
+RUN-1002 : start command "set_pin_assignment  rst_n          LOCATION = A2;  IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; "
+RUN-1002 : start command "set_pin_assignment  key4           LOCATION = C1;  IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; "
+RUN-1002 : start command "set_pin_assignment  uart_tx        LOCATION = D12; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  sd_sck         LOCATION = A14; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  sd_mosi        LOCATION = A13; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  sd_cs_n        LOCATION = A12; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  sd_miso        LOCATION = B14; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; "
+RUN-1002 : start command "set_pin_assignment  HDMI_CLK_P     LOCATION = C3;  IOSTANDARD = LVDS33; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  HDMI_D0_P      LOCATION = G5;  IOSTANDARD = LVDS33; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  HDMI_D1_P      LOCATION = F1;  IOSTANDARD = LVDS33; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  HDMI_D2_P      LOCATION = E1;  IOSTANDARD = LVDS33; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  HDMI_DDC_SCL   LOCATION = P2;  IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLUP; "
+RUN-1002 : start command "set_pin_assignment  HDMI_DDC_SDA   LOCATION = R2;  IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLUP; "
+RUN-1002 : start command "set_pin_assignment  led[0]         LOCATION = A4;  IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  led[1]         LOCATION = A3;  IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  led[2]         LOCATION = C10; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1002 : start command "set_pin_assignment  led[3]         LOCATION = B12; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; "
+RUN-1001 : Starting of IO setups legality check.
+RUN-1001 : Starting of IO vref setups legality check.
+RUN-1002 : start command "read_sdc D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/constraints/skeleton_top.sdc"
+RUN-1002 : start command "export_db skeleton_elaborate.db"
+RUN-1001 : Exported flow parameters
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported packer
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported ATMR Setting
+RUN-1001 : Exported timing constraints
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported ChipWatcher
+RUN-1002 : start command "commit_param -step rtl"
+RUN-1001 : Print Global Property
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   Parameters   |  Settings  |  Default Values  |  Note  
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   enable_seed  |    off     |       off        |        
+RUN-1001 :     message    |  standard  |     standard     |        
+RUN-1001 :   qor_monitor  |     on     |        on        |        
+RUN-1001 :   syn_ip_flow  |    off     |       off        |        
+RUN-1001 :     thread     |    auto    |       auto       |        
+RUN-1001 : --------------------------------------------------------
+RUN-1001 : Print Rtl Property
+RUN-1001 : -------------------------------------------------------------------
+RUN-1001 :         Parameters        |  Settings  |  Default Values  |  Note  
+RUN-1001 : -------------------------------------------------------------------
+RUN-1001 :        fix_undriven       |     0      |        0         |        
+RUN-1001 :   gated_clock_conversion  |    off     |       off        |        
+RUN-1001 :         infer_fsm         |    auto    |       auto       |        
+RUN-1001 :         infer_gsr         |    off     |       off        |        
+RUN-1001 :         infer_rom         |     on     |        on        |        
+RUN-1001 :       keep_hierarchy      |    auto    |       auto       |        
+RUN-1001 :        merge_equal        |     on     |        on        |        
+RUN-1001 :      min_control_set      |     8      |        8         |        
+RUN-1001 :       min_ripple_len      |    auto    |       auto       |        
+RUN-1001 :          seq_syn          |     on     |        on        |        
+RUN-1001 : -------------------------------------------------------------------
+RUN-1002 : start command "insert_debugger"
+RUN-1002 : start command "optimize_rtl"
+RUN-1001 : Open license file D:/Anlogic/TD_6.2.1_Engineer_6.2.168.116/license/Anlogic.lic
+SYN-1001 : Stage 1 | Optimize RTL
+SYN-1001 : Stage 1.1 | Check Design Sanity
+SYN-1001 : End Stage 1.1 | Check Design Sanity; Time: 0.019367s wall, 0.015625s user + 0.000000s system = 0.015625s CPU (80.7%); Memory(MB): used = 417, reserved = 520, peak = 417;
+
+SYN-1079 : finish stage Check Design Sanity. Total instances: 52720, Total nets: 147045.
+
+SYN-1001 : Stage 1.2 | Initialize Design
+SYN-1001 : End Stage 1.2 | Initialize Design; Time: 2.242379s wall, 2.187500s user + 0.000000s system = 2.187500s CPU (97.6%); Memory(MB): used = 417, reserved = 520, peak = 417;
+
+SYN-1079 : finish stage Initialize Design. Total instances: 11975, Total nets: 98298.
+
+SYN-1001 : Stage 1.3 | Flatten Module
+SYN-1011 : Flatten model skeleton_top
+SYN-1001 : End Stage 1.3 | Flatten Module; Time: 0.450470s wall, 0.437500s user + 0.000000s system = 0.437500s CPU (97.1%); Memory(MB): used = 419, reserved = 520, peak = 419;
+
+SYN-1079 : finish stage Flatten Module. Total instances: 14527, Total nets: 91489.
+
+SYN-1001 : Stage 1.4 | Uniform Instance
+SYN-5013 WARNING: Undriven net: model "skeleton_top" / net "u_core/u_phy/u2_ram/u2_wrrd/Sdr_init_ref_ba[1]" in ../../../ip/sdram/sdr_wrrd.enc.v(0)
+		the net's pin: pin "i1[1]" in ../../../ip/sdram/sdr_wrrd.enc.v(0)
+SYN-5013 WARNING: Undriven net: model "skeleton_top" / net "u_core/u_phy/u2_ram/u2_wrrd/Sdr_init_ref_ba[0]" in ../../../ip/sdram/sdr_wrrd.enc.v(0)
+		the net's pin: pin "i1[0]" in ../../../ip/sdram/sdr_wrrd.enc.v(0)
+SYN-5025 WARNING: Using 0 for all undriven pins and nets
+SYN-1001 : End Stage 1.4 | Uniform Instance; Time: 0.080020s wall, 0.046875s user + 0.031250s system = 0.078125s CPU (97.6%); Memory(MB): used = 392, reserved = 492, peak = 419;
+
+SYN-1079 : finish stage Uniform Instance. Total instances: 12058, Total nets: 88999.
+
+SYN-1001 : Stage 1.5 | Optimize Design
+SYN-1066 : Inferred FSM for state register 'u_core/r_st_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   010            00100
+                   011            01000
+                   100            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/r_st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_arb/st_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   010            00100
+                   011            01000
+                   100            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_arb/st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_assets/shape_phase_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000           000001
+                   001           000010
+                   010           000100
+                   011           001000
+                   100           010000
+                   101           100000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_assets/shape_phase_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_assets/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000             0001
+                   001             0010
+                   010             0100
+                   011             1000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_assets/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_attack_rings/refresh_phase_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   010            00100
+                   011            01000
+                   100            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_attack_rings/refresh_phase_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_bg/u_fl/pst_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00              001
+                    01              010
+                    10              100
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_bg/u_fl/pst_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_bw/st_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000        000000001
+                  0001        000000010
+                  0010        000000100
+                  0011        000001000
+                  0100        000010000
+                  0101        000100000
+                  0110        001000000
+                  0111        010000000
+                  1000        100000000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_bw/st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_cv/u_img/u_fl/pst_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00             0001
+                    01             0010
+                    10             0100
+                    11             1000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_cv/u_img/u_fl/pst_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_fade/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00              001
+                    01              010
+                    10              100
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_fade/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_image_writer/st_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00             0001
+                    01             0010
+                    10             0100
+                    11             1000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_image_writer/st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_load/px_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00             0001
+                    01             0010
+                    10             0100
+                    11             1000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_load/px_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_load/st_reg' in module 'skeleton_top'
+----------------------------------------------
+     Previous Encoding       New Encoding
+----------------------------------------------
+                  0000     00000000000001
+                  0001     00000000000010
+                  0010     00000000000100
+                  0011     00000000001000
+                  0100     00000000010000
+                  0101     00000000100000
+                  0110     00000001000000
+                  0111     00000010000000
+                  1000     00000100000000
+                  1001     00001000000000
+                  1010     00010000000000
+                  1011     00100000000000
+                  1100     01000000000000
+                  1101     10000000000000
+----------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_load/st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_old_bg/u_fl/pst_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00              001
+                    01              010
+                    10              100
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_old_bg/u_fl/pst_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_old_cv/u_img/u_fl/pst_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00             0001
+                    01             0010
+                    10             0100
+                    11             1000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_old_cv/u_img/u_fl/pst_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_phy/u2_ram/u2_wrrd/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000              001
+                  0001              010
+                  0010              100
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_phy/u2_ram/u2_wrrd/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_rpt/st_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   011            00100
+                   100            01000
+                   010            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_rpt/st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/hi_st_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   010            00100
+                   011            01000
+                   100            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/hi_st_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000       0000000001
+                  0001       0000000010
+                  0010       0000000100
+                  0011       0000001000
+                  0100       0000010000
+                  0101       0000100000
+                  0110       0001000000
+                  0111       0010000000
+                  1000       0100000000
+                  1001       1000000000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/u_chain/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000             0001
+                   010             0010
+                   011             0100
+                   001             1000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/u_chain/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/u_files/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000        000000001
+                  0001        000000010
+                  0101        000000100
+                  0110        000001000
+                  0111        000010000
+                  1000        000100000
+                  0010        001000000
+                  0100        010000000
+                  0011        100000000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/u_files/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/u_mount/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000     000000000001
+                  0001     000000000010
+                  0010     000000000100
+                  0110     000000001000
+                  1000     000000010000
+                  1001     000000100000
+                  1010     000001000000
+                  1011     000010000000
+                  0111     000100000000
+                  0011     001000000000
+                  0100     010000000000
+                  0101     100000000000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/u_mount/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/u_scan/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000       0000000001
+                  0001       0000000010
+                  0110       0000000100
+                  0111       0000001000
+                  1000       0000010000
+                  1001       0000100000
+                  0010       0001000000
+                  0011       0010000000
+                  0100       0100000000
+                  0101       1000000000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/u_scan/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/u_sd_phy/state_reg' in module 'skeleton_top'
+---------------------------------------------
+     Previous Encoding      New Encoding
+---------------------------------------------
+                  0000     0000000000001
+                  0001     0000000000010
+                  1100     0000000000100
+                  1011     0000000001000
+                  0110     0000000010000
+                  0010     0000000100000
+                  0011     0000001000000
+                  0111     0000010000000
+                  1000     0000100000000
+                  1001     0001000000000
+                  1010     0010000000000
+                  0101     0100000000000
+                  0100     1000000000000
+---------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/u_sd_phy/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_sd/u_sd_phy/step_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   011            00100
+                   100            01000
+                   101            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_sd/u_sd_phy/step_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_spec_bands/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                   000            00001
+                   001            00010
+                   010            00100
+                   011            01000
+                   100            10000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_spec_bands/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_spec_fft/fst_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                  0000      00000000001
+                  0001      00000000010
+                  0010      00000000100
+                  0011      00000001000
+                  0100      00000010000
+                  0101      00000100000
+                  0110      00001000000
+                  0111      00010000000
+                  1000      00100000000
+                  1001      01000000000
+                  1010      10000000000
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_spec_fft/fst_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_spec_window/state_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00              001
+                    01              010
+                    10              100
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_spec_window/state_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1066 : Inferred FSM for state register 'u_core/u_wav/wst_reg' in module 'skeleton_top'
+--------------------------------------------
+     Previous Encoding     New Encoding
+--------------------------------------------
+                    00              001
+                    01              010
+                    10              100
+--------------------------------------------
+SYN-1067 : encoded FSM with state register 'u_core/u_wav/wst_reg' using encoding 'one_hot' in model 'skeleton_top'
+SYN-1057 : Inferred 28 FSM(s)
+SYN-1001 : Optimize 2 less-than instances
+SYN-1001 : Optimize 9 less-than instances
+SYN-1032 : 77749/714 useful/useless nets, 10911/58 useful/useless insts
+SYN-1001 : Bypass 2 mux instances
+SYN-1021 : Optimized 82 onehot mux instances.
+SYN-1068 : Optimized 41 binary mux instances.
+SYN-1019 : Optimized 23 mux instances.
+SYN-1021 : Optimized 3 onehot mux instances.
+SYN-1021 : Optimized 1 onehot mux instances.
+SYN-1021 : Optimized 4 onehot mux instances.
+SYN-1001 : Optimize 5 less-than instances
+SYN-1016 : Merged 997 instances.
+SYN-1025 : Merged 3 RAM ports.
+SYN-1026 : Infer Logic BRAM(u_core/u_layer_fft/ramread0_syn_4)
+	 port mode: single dual port
+	 port a size: 128 x 8	 write mode: NORMAL
+	 port b size: 128 x 8	 write mode: READBEFOREWRITE
+SYN-1026 : Infer Logic BRAM(u_core/u_sd/u_ft/ramread0_syn_4)
+	 port mode: single dual port
+	 port a size: 256 x 64	 write mode: NORMAL
+	 port b size: 256 x 64	 write mode: READBEFOREWRITE
+SYN-1026 : Infer Logic BRAM(u_core/u_spec_attack/ramread0_syn_4)
+	 port mode: single dual port
+	 port a size: 32 x 32	 write mode: NORMAL
+	 port b size: 32 x 32	 write mode: READBEFOREWRITE
+SYN-1026 : Infer Logic BRAM(u_core/u_spec_bands/ramread0_syn_4)
+	 port mode: single dual port
+	 port a size: 512 x 8	 write mode: NORMAL
+	 port b size: 512 x 8	 write mode: READBEFOREWRITE
+SYN-1026 : Infer Logic BRAM(u_core/u_spec_fft/ramread0_syn_4)
+	 port mode: single dual port
+	 port a size: 1024 x 16	 write mode: NORMAL
+	 port b size: 1024 x 16	 write mode: READBEFOREWRITE
+SYN-1026 : Infer Logic BRAM(u_core/u_spec_fft/ramread1_syn_4)
+	 port mode: single dual port
+	 port a size: 1024 x 16	 write mode: NORMAL
+	 port b size: 1024 x 16	 write mode: READBEFOREWRITE
+SYN-1026 : Infer Logic BRAM(u_core/u_spec_window/ramread0_syn_4)
+	 port mode: single dual port
+	 port a size: 1024 x 12	 write mode: NORMAL
+	 port b size: 1024 x 12	 write mode: READBEFOREWRITE
+SYN-1025 : Merged 1 RAM ports.
+SYN-1027 : Infer Logic DRAM(u_core/u_wav/ramread0_syn_36) read 4x13, write 4x13
+SYN-1025 : Merged 12 RAM ports.
+SYN-1025 : Merged 6 RAM ports.
+SYN-1023 : Infer 1 Logic DRAMs, 8 Logic BRAMs.
+SYN-1001 : Share 43 instances
+SYN-1001 :    use sharing_strategy = 103, sharing_ratio = 1, min_slack = 1000
+SYN-1016 : Merged 4212 instances.
+SYN-1001 : End Stage 1.5 | Optimize Design; Time: 7.919891s wall, 7.656250s user + 0.015625s system = 7.671875s CPU (96.9%); Memory(MB): used = 737, reserved = 720, peak = 737;
+
+SYN-1079 : finish stage Optimize Design. Total instances: 30573, Total nets: 37309.
+
+SYN-1001 : Stage 1.6 | Optimize Iteratively
+SYN-1018 : Transformed 1 mux instances.
+SYN-1019 : Optimized 48 mux instances.
+SYN-1021 : Optimized 1378 onehot mux instances.
+SYN-1014 : Optimize round 1
+SYN-1044 : Optimized 292 inv instances.
+SYN-1017 : Remove 67 const input seq instances
+SYN-1019 : Optimized 215 mux instances.
+SYN-1020 : Optimized 1789 distributor mux.
+SYN-1001 : Optimize 72 less-than instances
+SYN-1019 : Optimized 398 mux instances.
+SYN-2595 : bram inst: u_core/u_assets/u_geometry is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_bg/u_fl/u_linebuf is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_cv/u_img/u_fl/u_linebuf is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_layer_fft/ramread0_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_lyr/u_buf is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_old_bg/u_fl/u_linebuf is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_old_cv/u_img/u_fl/u_linebuf is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_sd/u_files/u_sectors is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_sd/u_ft/ramread0_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_spec_attack/ramread0_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_spec_bands/ramread0_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_spec_fft/ramread0_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_spec_fft/ramread1_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_spec_window/ramread0_syn_4 is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_wav/u_ram is set to PDPW/SP from DP for resource saving
+SYN-2595 : bram inst: u_core/u_writeback/u_fifo/u_ram is set to PDPW/SP from DP for resource saving
+SYN-2593 : bram inst: u_core/u_assets/u_geometry will be optimized to a new one with A-width 10 due to unused data out
+SYN-2593 : bram inst: u_core/u_sd/u_chain/u_fbuf will be optimized to a new one with A-width 28 due to unused data out
+SYN-1016 : Merged 19470 instances.
+SYN-1015 : Optimize round 1, 67010 better
+SYN-1014 : Optimize round 2
+SYN-1044 : Optimized 26 inv instances.
+SYN-1017 : Remove 8 const input seq instances
+SYN-1019 : Optimized 210 mux instances.
+SYN-1020 : Optimized 4 distributor mux.
+SYN-1019 : Optimized 700 mux instances.
+SYN-1016 : Merged 111 instances.
+SYN-1015 : Optimize round 2, 1497 better
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_assets/u_geometry" in ../../../rtl/app/asset_manager.v(84) / pin "bea[0]"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_assets/u_geometry" in ../../../rtl/app/asset_manager.v(84) / pin "beb[0]"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_sd/u_chain/u_fbuf" in ../../../rtl/storage/fat32_chain.v(259) / pin "bea[0]"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_sd/u_chain/u_fbuf" in ../../../rtl/storage/fat32_chain.v(259) / pin "beb[0]"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_spec_fft/ramread0_syn_4" in ../../../rtl/audio/spec_fft.v(580) / pin "bea[0]"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_spec_fft/ramread0_syn_4" in ../../../rtl/audio/spec_fft.v(580) / pin "beb[0]"
+SYN-5025 WARNING: Using 0 for all undriven pins and nets
+SYN-3010 : Optimized 380 DFF(s)
+SYN-1014 : Optimize round 1
+SYN-1017 : Remove 4 const input seq instances
+SYN-1020 : Optimized 446 distributor mux.
+SYN-1019 : Optimized 3 mux instances.
+SYN-1016 : Merged 2044 instances.
+SYN-1015 : Optimize round 1, 2641 better
+SYN-1014 : Optimize round 2
+SYN-1044 : Optimized 3 inv instances.
+SYN-1020 : Optimized 24 distributor mux.
+SYN-1016 : Merged 59 instances.
+SYN-1015 : Optimize round 2, 86 better
+SYN-1014 : Optimize round 3
+SYN-1015 : Optimize round 3, 0 better
+SYN-1001 : End Stage 1.6 | Optimize Iteratively; Time: 21.754531s wall, 21.093750s user + 0.140625s system = 21.234375s CPU (97.6%); Memory(MB): used = 721, reserved = 715, peak = 796;
+
+SYN-1079 : finish stage Optimize Iteratively. Total instances: 40419, Total nets: 46680.
+
+SYN-1001 : Stage 1.7 | Check Design
+SYN-1001 : End Stage 1.7 | Check Design; Time: 0.008474s wall, 0.015625s user + 0.000000s system = 0.015625s CPU (184.4%); Memory(MB): used = 721, reserved = 715, peak = 796;
+
+SYN-1079 : finish stage Check Design. Total instances: 40419, Total nets: 46680.
+
+SYN-1001 : End Stage 1 | Optimize RTL; Time: 32.478568s wall, 31.468750s user + 0.187500s system = 31.656250s CPU (97.5%); Memory(MB): used = 720, reserved = 714, peak = 796;
+
+SYN-1079 : finish stage Optimize RTL. Total instances: 40419, Total nets: 46680.
+
+RUN-1003 : finish command "optimize_rtl" in  32.491843s wall, 31.484375s user + 0.187500s system = 31.671875s CPU (97.5%)
+
+RUN-1004 : used memory is 720 MB, reserved memory is 714 MB, peak memory is 796 MB
+RUN-1002 : start command "report_area -file skeleton_rtl.area"
+RUN-1001 : standard
+***Report Model: skeleton_top Device: EG4S20BG256***
+
+IO Statistics
+#IO                        18
+  #input                    4
+  #output                  13
+  #inout                    1
+
+Gate Statistics
+#Basic gates            32467
+  #and                   9269
+  #nand                     0
+  #or                    7544
+  #nor                      0
+  #xor                    166
+  #xnor                     1
+  #buf                      0
+  #not                   1304
+  #bufif1                  33
+  #MX21                  3116
+  #FADD                     0
+  #DFF                  11034
+  #LATCH                    0
+#MACRO_ADD                869
+#MACRO_EQ                 460
+#MACRO_MULT                26
+#MACRO_MUX               6285
+#MACRO_OTHERS              29
+
+RUN-1002 : start command "export_db skeleton_rtl.db"
+RUN-1001 : Exported flow parameters
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported packer
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported ATMR Setting
+RUN-1001 : Exported timing constraints
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported ChipWatcher
+RUN-1002 : start command "commit_param -step gate"
+RUN-1001 : Print Global Property
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   Parameters   |  Settings  |  Default Values  |  Note  
+RUN-1001 : --------------------------------------------------------
+RUN-1001 :   enable_seed  |    off     |       off        |        
+RUN-1001 :     message    |  standard  |     standard     |        
+RUN-1001 :   qor_monitor  |     on     |        on        |        
+RUN-1001 :   syn_ip_flow  |    off     |       off        |        
+RUN-1001 :     thread     |    auto    |       auto       |        
+RUN-1001 : --------------------------------------------------------
+RUN-1001 : Print Gate Property
+RUN-1001 : -------------------------------------------------------------
+RUN-1001 :     Parameters    |   Settings   |  Default Values  |  Note  
+RUN-1001 : -------------------------------------------------------------
+RUN-1001 :     eram_init     |     off      |       off        |        
+RUN-1001 :      map_mode     |  area_prior  |       auto       |   *    
+RUN-1001 :    pack_effort    |    medium    |      medium      |        
+RUN-1001 :   pack_seq_in_io  |     auto     |       auto       |        
+RUN-1001 :       report      |   standard   |     standard     |        
+RUN-1001 : -------------------------------------------------------------
+RUN-1002 : start command "optimize_gate -packarea skeleton_gate.area"
+RUN-1001 : Open license file D:/Anlogic/TD_6.2.1_Engineer_6.2.168.116/license/Anlogic.lic
+SYN-1001 : Stage 2 | Optimize Gate
+SYN-1001 : Stage 2.1 | Map Reg
+SYN-1001 : End Stage 2.1 | Map Reg; Time: 0.866382s wall, 0.828125s user + 0.015625s system = 0.843750s CPU (97.4%); Memory(MB): used = 740, reserved = 843, peak = 796;
+
+SYN-1079 : finish stage Map Reg. Total instances: 40419, Total nets: 46680.
+
+SYN-1001 : Stage 2.2 | Map IO
+SYN-2002 : EG_PHY_SDRAM_2M_32 instance u_core/u_phy/sdram.
+SYN-2001 : Map 73 IOs to PADs of model 'skeleton_top'
+SYN-1001 : End Stage 2.2 | Map IO; Time: 0.492922s wall, 0.468750s user + 0.000000s system = 0.468750s CPU (95.1%); Memory(MB): used = 742, reserved = 844, peak = 796;
+
+SYN-1001 : Stage 2.3 | Map Macro
+RUN-1002 : start command "update_pll_param -module skeleton_top"
+SYN-6577 WARNING: The clock signal "u_core/u_phy/u2_ram/SDRAM_CLK" is added with the synthetic instruction (keep/mark_debug/dont_touch/max_fanout), which may create additional logic on this net
+SYN-2501 : Processed 0 LOGIC_BUF instances.
+SYN-2501 : 4 BUFG to GCLK
+SYN-2541 : Logic Ram FIFO "u_core/u_hdmi/u_hdmi_edid_wrapper/u_iic_master_wrapper/u_iic_transmitter_controller/u_iic_w11_d1024_fifo/u_logic_ramfifo"
+SYN-2541 : Logic Ram FIFO "u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u_hdmi_island_data_gen/U_audio_sample_packet_2_channel/u_w96_d1024_fifo/u_logic_ramfifo"
+SYN-2541 : Logic Ram FIFO "u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u_video_axi_stream_receiver/u_w24_d1024_fifo/u_logic_ramfifo"
+SYN-6562 WARNING: The init value of "u_core/u_assets/u_geometry(../../../rtl/app/asset_manager.v(84))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_bg/u_fl/u_linebuf(../../../rtl/gfx/fetch_line_scene.v(61))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_cv/u_img/u_fl/u_linebuf(../../../rtl/gfx/fetch_line_scene.v(61))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_hdmi/u_hdmi_edid_wrapper/u_iic_master_wrapper/u_iic_transmitter_controller/u_iic_w11_d1024_fifo/u_logic_ramfifo_syn_327(../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(0))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u_hdmi_island_data_gen/U_audio_sample_packet_2_channel/u_w96_d1024_fifo/u_logic_ramfifo_syn_497(../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(0))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u_video_axi_stream_receiver/u_w24_d1024_fifo/u_logic_ramfifo_syn_353(../../../rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(0))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_layer_fft/ramread0_syn_4(../../../rtl/gfx/layer_fft64.v(31))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_lyr/u_buf(../../../rtl/gfx/layer_text.v(547))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_old_bg/u_fl/u_linebuf(../../../rtl/gfx/fetch_line_scene.v(61))" will be ignored since gate eram_init is set to off
+SYN-6562 WARNING: The init value of "u_core/u_old_cv/u_img/u_fl/u_linebuf(../../../rtl/gfx/fetch_line_scene.v(61))" will be ignored since gate eram_init is set to off
+SYN-6562 Similar messages will be suppressed.
+SYN-2571 : Map 26 macro multiplier
+SYN-2571 : Optimize after map_dsp, round 1
+SYN-1016 : Merged 16 instances.
+SYN-2571 : Optimize after map_dsp, round 1, 16 better
+SYN-2571 : Optimize after map_dsp, round 2
+SYN-2571 : Optimize after map_dsp, round 2, 0 better
+SYN-1001 : Throwback 1423 control mux instances
+SYN-1001 : Generate 66 bigger adders
+SYN-1001 : Convert 6 adder
+SYN-1001 : Optimize 159 adders
+SYN-1001 : Convert 12 adder
+SYN-2501 : Optimize round 1
+SYN-1016 : Merged 1318 instances.
+SYN-2501 : Optimize round 1, 5031 better
+SYN-2501 : Optimize round 2
+SYN-2501 : Optimize round 2, 0 better
+SYN-2501 : Optimize round 1
+SYN-1016 : Merged 3 instances.
+SYN-2501 : Optimize round 1, 5 better
+SYN-2501 : Optimize round 2
+SYN-2501 : Optimize round 2, 0 better
+SYN-2501 : Map 804 macro adder(s)
+SYN-1019 : Optimized 4334 mux instances.
+SYN-1016 : Merged 5979 instances.
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[0]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[1]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[2]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[3]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[4]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[5]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[6]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[7]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[8]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 WARNING: Undriven pin: model "skeleton_top" / inst "u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[9]" in ../../../ip/sdram/sdr_wrrd.enc.v(0) / pin "clk"
+SYN-5011 Similar messages will be suppressed.
+SYN-5025 WARNING: Using 0 for all undriven pins and nets
+SYN-1001 : End Stage 2.3 | Map Macro; Time: 10.335389s wall, 10.046875s user + 0.031250s system = 10.078125s CPU (97.5%); Memory(MB): used = 819, reserved = 911, peak = 819;
+
+SYN-1079 : finish stage Map Macro. Total instances: 60026, Total nets: 65587.
+
+SYN-1001 : Stage 2.4 | Map Gate
+SYN-3001 : Collect 11671 PI 7229 PO (50 timing unconstrained) for mapping
+SYN-2581 : Mapping with K=5, #lut = 13235 (3.42), #lev = 21 (4.36), #crit_level = 0
+SYN-2551 : Post LUT mapping optimization.
+SYN-2581 : Mapping with K=5, #lut = 12558 (3.37), #lev = 17 (4.41), #crit_level = 0
+SYN-3001 : Logic optimization opt = 5.38 sec, map = 1.60 sec, post map opt = 43.45 sec.
+SYN-3001 : Mapper removed 1 lut buffers
+SYN-1001 : End Stage 2.4 | Map Gate; Time: 58.427723s wall, 57.296875s user + 0.125000s system = 57.421875s CPU (98.3%); Memory(MB): used = 833, reserved = 915, peak = 833;
+
+SYN-1001 : Packing model "skeleton_top" ...
+SYN-4010 : Pack lib has 58 rtl pack models with 26 top pack blocks
+SYN-1014 : Optimize round 1
+SYN-1015 : Optimize round 1, 0 better
+SYN-4002 : Packing 11048 DFF/LATCH to SEQ ...
+SYN-4009 : Pack 123 carry chain into lslice
+SYN-4007 : Packing 2786 adder to BLE ...
+SYN-4008 : Packed 2786 adder and 354 SEQ to BLE.
+SYN-4007 : Packing 0 gate4 to BLE ...
+SYN-4008 : Packed 0 gate4 and 0 SEQ to BLE.
+SYN-4013 : Packed 4 DRAM and 0 SEQ.
+RUN-1002 : start command "report_qor -step gate -file gate.qor"
+RUN-1002 : start command "start_timer"
+-----------------------------------------------------------
+| QoR metrics               |         value               |
+-----------------------------------------------------------
+| Timing                    |                             |
+|     Setup WNS             |        -4291                |
+|     Setup TNS             |      -182096                |
+|     Num of violated S-EP  |           80                |
+|     Hold WNS              |          471                |
+|     Hold TNS              |            0                |
+|     Num of violated H-EP  |            0                |
+-----------------------------------------------------------
+| Utilization               |                             |
+|     #registers            |        10694                |
+|     #luts                 |        12559                |
+|     #lut1                 |          104                |
+|     #lut1(~A)             |          103                |
+|     #slices               |         2237                |
+|     slices percentage     |       22.83%                |
+|     #RAMs                 |           56                |
+|     #DSPs                 |           21                |
+|     #f7mux                |        0.00%                |
+|     #MACROs               |          389                |
+|     #insts in MACRO       |         2237                |
+-----------------------------------------------------------
+| kept_net                  |                             |
+|     #syn_keep             |          135                |
+|     #keep_hier            |            0                |
+|     #dont_touch           |            0                |
+|     #mark_debug           |            0                |
+|     #max_fanout_keep      |            0                |
+|     #async_reg            |            0                |
+-----------------------------------------------------------
+| Top 10% datanet fanout#   |        34.89                |
+| dff(single fanout)->dff   |         1507                |
+| dff(single fanout)->dram  |            0                |
+-----------------------------------------------------------
+| Over-quota path num*      |                             |
+|     Total                 |            0                |
+-----------------------------------------------------------
+| Rent**                    |                             |
+-----------------------------------------------------------
+Note*: Over-quota path shows the over-path-level-threshold path number of each clock.
+       The clock will not be shown if no path is with path level over the threshold.
+       The threshold is defined as worst path_margin / 800ps.
+Note**: Rent shows the rent exponent value of the modules whose rent value exceeds the threshold.
+        Only modules under top are reported, and the threshold is defined as 0.7.
+
+Logic Level Distribution
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Clock                       |  Period             |  0     |  1     |  2     |  3     |  4     |  5     |  6    |  7    |  8    |  9    |  10   |  11   |  12   |  13   |  14   |  15   |  16   |  17   |  18  |  19   |  20   |  21  |  22  |  23  |  24  |  25  |  26
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  clk                         |  20.000ns (50MHz)   |  1514  |  2218  |  744   |  1136  |  549   |  1192  |  207  |  232  |  113  |  280  |  229  |  196  |  51   |  106  |  357  |  218  |  142  |  48   |  3   |  0    |  0    |  0   |  0   |  0   |  0   |  0   |  0
+  hdmi_5x_clk                 |  8.000ns (125MHz)   |  16    |  33    |  0     |  0     |  0     |  0     |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0   |  0    |  0    |  0   |  0   |  0   |  0   |  0   |  0
+  sdr_clk                     |  10.000ns (100MHz)  |  1249  |  678   |  702   |  470   |  178   |  161   |  159  |  245  |  26   |  19   |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0   |  0    |  0    |  0   |  0   |  0   |  0   |  0   |  0
+  sdr_clk_sft                 |  10.000ns (100MHz)  |  16    |  32    |  0     |  0     |  0     |  0     |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0   |  0    |  0    |  0   |  0   |  0   |  0   |  0   |  0
+  u_pll_sdr/pll_inst.clkc[0]  |  100.000ns (10MHz)  |  0     |  0     |  0     |  0     |  0     |  0     |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0    |  0   |  0    |  0    |  0   |  0   |  0   |  0   |  0   |  0
+  video_clk                   |  40.000ns (25MHz)   |  2548  |  2465  |  823   |  645   |  463   |  496   |  130  |  119  |  110  |  103  |  45   |  86   |  203  |  124  |  3    |  27   |  365  |  64   |  79  |  122  |  110  |  54  |  38  |  5   |  29  |  4   |  21
+  Total                       |  NA                 |  5343  |  5426  |  2269  |  2251  |  1190  |  1849  |  496  |  596  |  249  |  402  |  274  |  282  |  254  |  230  |  360  |  245  |  507  |  112  |  82  |  122  |  110  |  54  |  38  |  5   |  29  |  4   |  21
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Note: The table count the worst 100000 paths, each endpoint count only one time.(22800 paths analyzed)
+
+Hierarchical Rent Exponent Report
++-----------------------------------------------------------------+
+|Inst     |Model           |Rent     |Cell     |Pin     |Term     |
++-----------------------------------------------------------------+
+|top      |skeleton_top    |0.12     |25917    |112097  |15       |
+|  u_core |skeleton_core_1 |0.48     |25556    |110775  |539      |
++-----------------------------------------------------------------+
+Note: Cell represents total number of cells inside module; Pin represents total number of pins
+      which have net connection inside module; Term represents total number of PIs and POs of module.
+      Rent represents the relationship between number of terms and number of cells in module.
+      A module with higher rent corresponds to highly connected logic and strong connectivity with others.
+Report gate stage QoR done.
+
+RUN-1003 : finish command "report_qor -step gate -file gate.qor" in  3.865508s wall, 3.859375s user + 0.015625s system = 3.875000s CPU (100.2%)
+
+RUN-1004 : used memory is 834 MB, reserved memory is 915 MB, peak memory is 834 MB
+RUN-1002 : start command "report_area -file skeleton_gate.area"
+RUN-1001 : standard
+***Report Model: skeleton_top Device: EG4S20BG256***
+
+IO Statistics
+#IO                        18   out of    188    9.57%
+  #input                    4
+  #output                  13
+  #inout                    1
+
+LUT Statistics
+#Total_luts             12559
+  #lut4                 10586
+  #lut5                  1973
+  #lut6                     0
+  #lut5_mx41                0
+  #lut4_alu1b               0
+
+Utilization Statistics
+#lut                    17033   out of  19600   86.90%
+#reg                    11048   out of  19600   56.37%
+#bram                      52   out of     64   81.25%
+  #bram9k                  52
+  #fifo9k                   0
+#bram32k                    4   out of     16   25.00%
+#dsp                       21   out of     29   72.41%
+#pad                       22   out of    188   11.70%
+  #ireg                     1
+  #oreg                    13
+  #treg                     1
+#pll                        2   out of      4   50.00%
+#gclk                       4   out of     16   25.00%
+
+SYN-1001 : End Stage 2 | Optimize Gate; Time: 78.645900s wall, 73.312500s user + 3.984375s system = 77.296875s CPU (98.3%); Memory(MB): used = 834, reserved = 915, peak = 834;
+
+RUN-1003 : finish command "optimize_gate -packarea skeleton_gate.area" in  78.660743s wall, 73.328125s user + 3.984375s system = 77.312500s CPU (98.3%)
+
+RUN-1004 : used memory is 834 MB, reserved memory is 915 MB, peak memory is 834 MB
+RUN-1002 : start command "legalize_phy_inst"
+SYN-1001 : Stage 3 | Legalize Phy Inst
+SYN-1011 : Flatten model skeleton_top
+SYN-1001 : End Stage 3 | Legalize Phy Inst; Time: 0.084734s wall, 0.078125s user + 0.000000s system = 0.078125s CPU (92.2%); Memory(MB): used = 834, reserved = 915, peak = 834;
+
+RUN-1002 : start command "update_timing"
+RUN-1002 : start command "start_timer"
+RUN-1003 : finish command "update_timing" in  1.895660s wall, 1.765625s user + 0.000000s system = 1.765625s CPU (93.1%)
+
+RUN-1004 : used memory is 834 MB, reserved memory is 915 MB, peak memory is 834 MB
+RUN-1002 : start command "report_timing_status -file skeleton_gate.ts"
+RUN-1002 : start command "report_timing_summary -file skeleton_gate.timing"
+RUN-1002 : start command "flow_status -file flow.status"
+Location         : D:\Verilog_teacher\guoyi\pro\audio_visual_upgrade\prj\td_build\spectrum_floor_restore_syn
+Running with     : Tang Dynasty v6.2.168116
+                   Copyright (c) 2012-2025 Anlogic Inc.
+Top Model        : skeleton_top
+Device           : EG4S20BG256
+Speed            : NA
+
+Timing Mode      : basic
+Setup            : WNS -4291ps  TNS  -182096ps  NUM_FEPS    80
+Hold             : WNS   471ps  TNS        0ps  NUM_FEPS     0
+
+Flow Statistics  :
+RUN-1001 : Flow Statistics:
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1001 :      command     |  #calls  |  wall time   |  cpu time(s)  |  used memory(mb)  |  peak memory(mb)  
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1001 :   optimize_gate  |    1     |  1m18s(70%)  |    76(71%)    |        834        |        834        
+RUN-1001 :   optimize_rtl   |    1     |   32s(29%)   |    31(28%)    |        720        |        796        
+RUN-1001 :   import_device  |    1     |    0s(0%)    |     0(0%)     |        83         |        83         
+RUN-1001 :     read_adc     |    1     |    0s(0%)    |     0(0%)     |        395        |        395        
+RUN-1001 :     read_sdc     |    1     |    0s(0%)    |     0(0%)     |        395        |        395        
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1001 :       total      |    5     |    1m50s     |      107      |        834        |        834        
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1002 : start command "export_db skeleton_gate.db"
+RUN-1001 : Exported flow parameters
+RUN-1001 : Exported /
+RUN-1001 : Exported libs
+RUN-1001 : Exported entities
+RUN-1001 : Exported ports
+RUN-1001 : Exported pins
+RUN-1001 : Exported instances
+RUN-1001 : Exported nets
+RUN-1001 : Exported buses
+RUN-1001 : Exported models
+RUN-1001 : Exported packer
+RUN-1001 : Exported congestions
+RUN-1001 : Exported violations
+RUN-1001 : Exported ATMR Setting
+RUN-1001 : Exported timing constraints
+RUN-1001 : Exported IO constraints
+RUN-1001 : Exported Inst constraints
+RUN-1001 : Exported ChipWatcher
+RUN-1002 : start command "export_flow_status -s read_design -e opt_gate"
+RUN-1002 : start command "flow_status"
+
+Location         : D:\Verilog_teacher\guoyi\pro\audio_visual_upgrade\prj\td_build\spectrum_floor_restore_syn
+Running with     : Tang Dynasty v6.2.168116
+                   Copyright (c) 2012-2025 Anlogic Inc.
+Top Model        : skeleton_top
+Device           : EG4S20BG256
+Speed            : NA
+
+Timing Mode      : basic
+Setup            : WNS -4291ps  TNS  -182096ps  NUM_FEPS    80
+Hold             : WNS   471ps  TNS        0ps  NUM_FEPS     0
+
+RUN-1001 : Flow Statistics:
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1001 :      command     |  #calls  |  wall time   |  cpu time(s)  |  used memory(mb)  |  peak memory(mb)  
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1001 :   optimize_gate  |    1     |  1m18s(70%)  |    76(71%)    |        834        |        834        
+RUN-1001 :   optimize_rtl   |    1     |   32s(29%)   |    31(28%)    |        720        |        796        
+RUN-1001 :   import_device  |    1     |    0s(0%)    |     0(0%)     |        83         |        83         
+RUN-1001 :     read_adc     |    1     |    0s(0%)    |     0(0%)     |        395        |        395        
+RUN-1001 :     read_sdc     |    1     |    0s(0%)    |     0(0%)     |        395        |        395        
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+RUN-1001 :       total      |    5     |    1m50s     |      107      |        834        |        834        
+RUN-1001 : ---------------------------------------------------------------------------------------------------
+
+td > 

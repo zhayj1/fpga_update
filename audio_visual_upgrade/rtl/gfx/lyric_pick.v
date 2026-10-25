@@ -27,6 +27,7 @@
 // 【滚行相位（0.3s / 38px ✓ workitem §1b-3/4）】
 //   窗口内（`0 < nxt_s − played ≤ 14400` 样本 ✓ = 0.3s@48kHz ✓）按 48kHz 节拍 `samp_stb` 推进：
 //     `acc += 38`；`acc ≥ 14400` ⇒ `off_px++`、`acc −= 14400` ✓
+//   窗口判断在采样拍锁存，位移在下一 clk_sdr 拍提交；换行取消待提交的旧样本。
 //   ⇒ 14400 拍正好走 38 px ✓（38 × 14400 / 14400 = 38 **精确** ✓ 无除法、无乘法器 ✓，
 //     只用"加常数 + 比较 + 减常数" ✓）。
 //   ★ 进入窗口的那一拍**预置** `acc = 38`、`off_px = 0` ⇒ 窗口最后一拍恰好 `off_px = 38` ✓
@@ -96,6 +97,19 @@ module lyric_pick #(
     localparam [31:0]  MAGIC  = 32'h3143524C;          // 'LRC1'（小端 ✓ 工具侧 `put32` ✓）
     localparam [15:0]  SLOT16 = SLOT_MAX;              // 行数上限（比较用向量 ✓ 不切 integer ✓）
 
+    function integer clog2f;
+        input integer value;
+        integer v;
+        begin
+            clog2f = 0;
+            for (v = value - 1; v > 0; v = v >> 1) clog2f = clog2f + 1;
+        end
+    endfunction
+    // Narrow residue only when each step is at most one window. Preserve the
+    // original 32-bit arithmetic for parameter sets with a larger increment.
+    localparam integer ACC_W = (SC_PX > SC_SAMP) ? 32 : clog2f(SC_SAMP + SC_PX);
+    localparam [ACC_W-1:0] WRAP_AT = SC_SAMP - SC_PX;
+
     localparam [2:0] S_IDLE = 3'd0,
                      S_REQ  = 3'd1,       // 发一次 136 字读请求 ✓
                      S_FILL = 3'd2,       // 边收边比（体检 + 选行 ✓）
@@ -113,9 +127,12 @@ module lyric_pick #(
     reg         c_v, n_v, n3_v;        // 本次扫描的中间有效位 ✓
     reg         bad;                   // 表坏（magic 或行数 ✓）
     reg         wd_e;                  // 读超时 / 突发被截短 ✓
-    reg  [31:0] acc;                   // 滚行累加器 ✓
+    reg  [ACC_W-1:0] acc;              // 只需容纳窗口阈值及单次增量
     reg  [23:0] win_start;             // 下一行滚动窗口的饱和起点
     reg         in_prev;               // 上一拍是否在窗口内（上升沿预置 ✓）
+    // Sample decisions commit one clk_sdr later. A real line change cancels
+    // both the pending decision and a coincident sample, keeping reset priority.
+    reg         scroll_stb, scroll_nxt, scroll_win;
     reg  [15:0] ttl_fc_r, ttl_cnt_r, sgr_fc_r, sgr_cnt_r;   // 字 5 / 6 暂存（提交那拍才对外 ✓）
     reg         ttl_vld_r, sgr_vld_r;
 
@@ -127,6 +144,10 @@ module lyric_pick #(
     //   工具侧槽 = [samples 4B][first_char 2B][count 2B] ⇒ 偶数字 = samples、
     //   奇数字低半 = first_char ✓ 高半 = count ✓（表结构 v2 ✓ 已对 golden 核过 ✓）
     wire        in_win  = nxt_vld && (nxt_s > played) && (played >= win_start);
+    wire        acc_wrap = (SC_PX <= SC_SAMP) ? (acc >= WRAP_AT)
+                         : ((acc + SC_PX[ACC_W-1:0]) >= SC_SAMP[ACC_W-1:0]);
+    wire [ACC_W-1:0] wrapped_acc = (SC_PX <= SC_SAMP) ? (acc - WRAP_AT)
+                                : (acc + SC_PX[ACC_W-1:0] - SC_SAMP[ACC_W-1:0]);
 
     integer k;
 
@@ -143,8 +164,9 @@ module lyric_pick #(
             sgr_fc <= 16'd0; sgr_cnt <= 16'd0; sgr_vld <= 1'b0;
             ttl_fc_r <= 16'd0; ttl_cnt_r <= 16'd0; ttl_vld_r <= 1'b0;
             sgr_fc_r <= 16'd0; sgr_cnt_r <= 16'd0; sgr_vld_r <= 1'b0;
-            off_px <= 6'd0; scroll_on <= 1'b0; acc <= 32'd0; in_prev <= 1'b0;
+            off_px <= 6'd0; scroll_on <= 1'b0; acc <= {ACC_W{1'b0}}; in_prev <= 1'b0;
             win_start <= 24'd0;
+            scroll_stb <= 1'b0; scroll_nxt <= 1'b0; scroll_win <= 1'b0;
             px_req <= 1'b0; px_addr <= 21'd0; px_len <= 16'd0;
             wd <= 32'd0; wc <= 8'd0; nl_t <= 16'd0; pend_s <= 24'd0; pend_hit <= 1'b0;
             sl_c <= 56'd0; sl_n <= 56'd0; sl_3 <= 56'd0; wi_c <= 16'd0;
@@ -154,6 +176,11 @@ module lyric_pick #(
             st_d <= st;
             done <= 1'b0;
             px_req <= 1'b0;                       // 默认撤 ✓（ack 那拍撤 ✓）
+            scroll_stb <= samp_stb;
+            if (samp_stb) begin
+                scroll_nxt <= nxt_vld;
+                scroll_win <= in_win;
+            end
 
             // 看门狗：状态推进或收到数据就清零 ✓
             // ★★ 2026-10-05（**整机仿真实测抓出**）：`wd` 在 S_IDLE 也自增到**饱和** ✗
@@ -170,20 +197,20 @@ module lyric_pick #(
             // ★ 滚行累加器（本 always 块是 `off_px`/`acc`/`scroll_on` 的**唯一写者** ✓；
             //   S_FIN 里的清零写在**后面** ⇒ 同拍冲突时"换行清零"优先 ✓ 确定性 ✓）
             //----------------------------------------------------------------
-            if (samp_stb) begin
-                if (!nxt_vld) begin               // 没有下一行 ⇒ 永远不滚 ✓ 顺手清干净
-                    scroll_on <= 1'b0; off_px <= 6'd0; acc <= 32'd0; in_prev <= 1'b0;
-                end else if (in_win) begin
+            if (scroll_stb) begin
+                if (!scroll_nxt) begin            // 没有下一行 ⇒ 永远不滚 ✓ 顺手清干净
+                    scroll_on <= 1'b0; off_px <= 6'd0; acc <= {ACC_W{1'b0}}; in_prev <= 1'b0;
+                end else if (scroll_win) begin
                     scroll_on <= 1'b1;
                     if (!in_prev) begin           // ★ 刚进窗口：预置一拍 ⇒ 末拍恰好 38 ✓
-                        acc     <= SC_PX[31:0];
+                        acc     <= SC_PX[ACC_W-1:0];
                         off_px  <= 6'd0;
                         in_prev <= 1'b1;
-                    end else if ((acc + SC_PX[31:0]) >= SC_SAMP[31:0]) begin
-                        acc <= acc + SC_PX[31:0] - SC_SAMP[31:0];
+                    end else if (acc_wrap) begin
+                        acc <= wrapped_acc;
                         if (off_px < SC_PX[5:0]) off_px <= off_px + 6'd1;
                     end else begin
-                        acc <= acc + SC_PX[31:0];
+                        acc <= acc + SC_PX[ACC_W-1:0];
                     end
                 end else begin
                     scroll_on <= 1'b0;            // ★ 出窗口只停不动 ✗ 不清零（见文件头 ✓）
@@ -298,7 +325,8 @@ module lyric_pick #(
                 sgr_fc  <= sgr_fc_r;  sgr_cnt <= sgr_cnt_r;  sgr_vld <= ok_w & sgr_vld_r;
                 // ★ 真换行 ⇒ 滚行相位归零（与本块前面的累加器同拍冲突时**本处优先** ✓）
                 if (wi_c != cur_idx) begin
-                    off_px <= 6'd0; acc <= 32'd0; in_prev <= 1'b0; scroll_on <= 1'b0;
+                    off_px <= 6'd0; acc <= {ACC_W{1'b0}}; in_prev <= 1'b0; scroll_on <= 1'b0;
+                    scroll_stb <= 1'b0;
                 end
                 st <= S_IDLE;
             end

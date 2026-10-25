@@ -1,0 +1,62 @@
+{
+  "scope": "阶段4频谱柱高恢复至正常版幅度基准；保留已验证的色彩联动并完成TD实现与bit交付",
+  "target_top": "skeleton_top",
+  "status": "completed_board_verified",
+  "board_validation": "passed",
+  "source": {
+    "path": "rtl/top/skeleton_core.v",
+    "sha256": "6727D87B15BFB501819BC4CD6B3365F0359A822576EA90A1BA94B0A8412D03CF"
+  },
+  "verification": [
+    {
+      "run": "spectrum_floor_restore_wav",
+      "status": "PASS",
+      "changed_inputs": []
+    },
+    {
+      "run": "spectrum_floor_restore_core",
+      "status": "PASS",
+      "changed_inputs": []
+    },
+    {
+      "run": "spectrum_floor_restore_board_compile",
+      "status": "COMPILE_PASS",
+      "changed_inputs": []
+    },
+    {
+      "run": "spectrum_floor_restore_envelope",
+      "status": "PASS",
+      "changed_inputs": []
+    }
+  ],
+  "build_directory": "prj\\td_build\\spectrum_floor_restore2_seed4_phy",
+  "bitstream": {
+    "bytes": 638945,
+    "sha256": "6E93038A44314457319687245ED474D826B6775DD2F6299F61979F406DC54FB0",
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\spectrum_floor_restore2_seed4_phy\\skeleton.bit"
+  },
+  "report": "output/reports/stage4_spectrum_floor_restore.md",
+  "board_confirmation": {
+    "reported_on": "2026-10-25",
+    "user_report": "上板没有问题"
+  },
+  "limitations": [
+    "实卡FFT探针为45个音乐采样窗",
+    "整机TMDS发射核采用stub",
+    "既有SDRAM负时序按用户口径保留"
+  ],
+  "repair_record": [
+    {
+      "area": "包络回落断言",
+      "attempt": 1,
+      "cause": "测试阈值未计入整数平滑小于16的死区",
+      "change": "响度回落上限36改45；青条回落上限40未变"
+    },
+    {
+      "area": "自检配置",
+      "attempt": 1,
+      "cause": "旧core配置缺少阶段3依赖",
+      "change": "采用完整板级依赖"
+    }
+  ]
+}

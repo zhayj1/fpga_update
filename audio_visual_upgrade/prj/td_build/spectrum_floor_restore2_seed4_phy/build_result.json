@@ -1,0 +1,11 @@
+{
+  "inputs_unchanged": true,
+  "status": "BUILD_COMPLETE",
+  "stage": "phy",
+  "completed": "2026-10-25T23:00:11.0221788+08:00",
+  "bitstream": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\spectrum_floor_restore2_seed4_phy\\skeleton.bit",
+    "sha256": "6E93038A44314457319687245ED474D826B6775DD2F6299F61979F406DC54FB0",
+    "bytes": 638945
+  }
+}

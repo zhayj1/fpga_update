@@ -1,0 +1,61 @@
+# End time: 22:30:56 on Oct 25,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/d1b726993873440391535fd804bed088/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_color_wav_probe 
+# Start time: 22:30:56 on Oct 25,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_color_wav_probe
+# Loading work.spec_fft
+# COLOR_WAV_FRAME second=-1 avg=0 excess=0 nonzero=0 saturated=0 peak=0:0
+# COLOR_WAV_FRAME second=0 avg=1 excess=0 nonzero=11 saturated=0 peak=1:78
+# COLOR_WAV_FRAME second=1 avg=19 excess=0 nonzero=130 saturated=0 peak=1:78
+# COLOR_WAV_FRAME second=2 avg=53 excess=3 nonzero=326 saturated=0 peak=3:181
+# COLOR_WAV_FRAME second=3 avg=58 excess=6 nonzero=347 saturated=0 peak=12:182
+# COLOR_WAV_FRAME second=4 avg=52 excess=4 nonzero=313 saturated=0 peak=12:182
+# COLOR_WAV_FRAME second=5 avg=53 excess=4 nonzero=323 saturated=0 peak=12:186
+# COLOR_WAV_FRAME second=6 avg=56 excess=4 nonzero=341 saturated=0 peak=2:189
+# COLOR_WAV_FRAME second=7 avg=52 excess=3 nonzero=323 saturated=0 peak=3:178
+# COLOR_WAV_FRAME second=8 avg=58 excess=6 nonzero=339 saturated=0 peak=13:197
+# COLOR_WAV_FRAME second=9 avg=58 excess=5 nonzero=347 saturated=0 peak=12:182
+# COLOR_WAV_FRAME second=10 avg=51 excess=3 nonzero=316 saturated=0 peak=9:177
+# COLOR_WAV_FRAME second=11 avg=52 excess=4 nonzero=315 saturated=0 peak=7:190
+# COLOR_WAV_FRAME second=12 avg=52 excess=3 nonzero=322 saturated=0 peak=2:193
+# COLOR_WAV_FRAME second=13 avg=56 excess=6 nonzero=330 saturated=0 peak=1:237
+# COLOR_WAV_FRAME second=14 avg=49 excess=3 nonzero=302 saturated=0 peak=1:205
+# COLOR_WAV_FRAME second=15 avg=52 excess=3 nonzero=326 saturated=0 peak=7:166
+# COLOR_WAV_FRAME second=16 avg=60 excess=9 nonzero=337 saturated=0 peak=24:216
+# COLOR_WAV_FRAME second=17 avg=61 excess=7 nonzero=355 saturated=0 peak=18:222
+# COLOR_WAV_FRAME second=18 avg=79 excess=17 nonzero=411 saturated=0 peak=11:222
+# COLOR_WAV_FRAME second=19 avg=66 excess=11 nonzero=365 saturated=0 peak=2:221
+# COLOR_WAV_FRAME second=20 avg=61 excess=8 nonzero=349 saturated=0 peak=12:214
+# COLOR_WAV_FRAME second=21 avg=56 excess=4 nonzero=339 saturated=0 peak=2:212
+# COLOR_WAV_FRAME second=22 avg=57 excess=5 nonzero=338 saturated=0 peak=5:200
+# COLOR_WAV_FRAME second=23 avg=83 excess=18 nonzero=426 saturated=0 peak=12:216
+# COLOR_WAV_FRAME second=24 avg=68 excess=10 nonzero=378 saturated=0 peak=24:203
+# COLOR_WAV_FRAME second=25 avg=60 excess=5 nonzero=360 saturated=0 peak=2:205
+# COLOR_WAV_FRAME second=26 avg=65 excess=9 nonzero=371 saturated=0 peak=4:193
+# COLOR_WAV_FRAME second=27 avg=61 excess=6 nonzero=362 saturated=0 peak=7:193
+# COLOR_WAV_FRAME second=28 avg=71 excess=12 nonzero=386 saturated=0 peak=2:203
+# COLOR_WAV_FRAME second=29 avg=73 excess=12 nonzero=398 saturated=0 peak=2:211
+# COLOR_WAV_FRAME second=30 avg=55 excess=5 nonzero=329 saturated=0 peak=2:215
+# COLOR_WAV_FRAME second=31 avg=67 excess=10 nonzero=374 saturated=0 peak=36:205
+# COLOR_WAV_FRAME second=32 avg=81 excess=19 nonzero=413 saturated=0 peak=3:167
+# COLOR_WAV_FRAME second=33 avg=79 excess=16 nonzero=415 saturated=0 peak=4:215
+# COLOR_WAV_FRAME second=34 avg=60 excess=6 nonzero=354 saturated=0 peak=3:189
+# COLOR_WAV_FRAME second=35 avg=57 excess=5 nonzero=344 saturated=0 peak=1:194
+# COLOR_WAV_FRAME second=36 avg=64 excess=8 nonzero=371 saturated=0 peak=2:207
+# COLOR_WAV_FRAME second=37 avg=82 excess=18 nonzero=418 saturated=0 peak=128:170
+# COLOR_WAV_FRAME second=38 avg=76 excess=13 nonzero=414 saturated=0 peak=2:197
+# COLOR_WAV_FRAME second=39 avg=62 excess=7 nonzero=360 saturated=0 peak=2:197
+# COLOR_WAV_FRAME second=40 avg=60 excess=7 nonzero=351 saturated=0 peak=1:194
+# COLOR_WAV_FRAME second=41 avg=70 excess=9 nonzero=400 saturated=0 peak=3:192
+# COLOR_WAV_FRAME second=42 avg=66 excess=10 nonzero=368 saturated=0 peak=9:204
+# COLOR_WAV_FRAME second=43 avg=77 excess=15 nonzero=406 saturated=0 peak=12:221
+# COLOR_WAV_FRAME second=44 avg=68 excess=11 nonzero=374 saturated=0 peak=4:196
+# SCENARIO_PASS rtl_fft_card_wav_windows
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_color_wav_probe.v(53)
+#    Time: 66889600 ns  Iteration: 1  Instance: /tb_color_wav_probe
+# Break in Module tb_color_wav_probe at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_color_wav_probe.v line 53
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_color_wav_probe.v line 53
+# End time: 22:30:59 on Oct 25,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 1

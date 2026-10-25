@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1792936100.4278114,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.spec_fft",
+    "tb_top": "work.tb_color_wav_probe",
+    "data_files": [
+      "sim/color_wav_probe.mem"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "include_dirs": [],
+        "defines": [],
+        "sources": [
+          {
+            "path": "rtl/audio/spec_fft.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_color_wav_probe.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "rtl_fft_card_wav_windows"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/spec_fft.v": "ef06ddee9e3b8d8f6c7c5a5ffd759202c50821681a2c85d463b721563849db22",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/color_wav_probe.mem": "080d8d5ba6cda0c00690eb936e26a3ff471fc5433b4d1dc0a952933841ae8a1b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_color_wav_probe.json": "03fd0c0937a82783ae24739dca0948d6f37b2fa9c1532a73123707c1215f8175",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_color_wav_probe.json": "2d4ab7d55037ed0e17be41b4b54311f7cad4d5dabc78247cf4ac0830dc40516d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_color_wav_probe.v": "02620ee5b8dea8cc76dc6cf2da9f8e3f2c3f3ce1fd837c344c0bd974da9ac567"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.EXE",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/375697d0ec7a42d6a692eab1b4b48fc4/run.do\""
+  ],
+  "script": "sim/modelsim/375697d0ec7a42d6a692eab1b4b48fc4/run.do",
+  "compile_log": "sim/color_wav_floor_fix_compile.log",
+  "sim_log": "sim/color_wav_floor_fix_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1792936106.9491427
+}

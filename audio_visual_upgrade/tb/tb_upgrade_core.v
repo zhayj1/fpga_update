@@ -79,9 +79,59 @@ module tb_upgrade_core;
             blend={r[7:0],g[7:0],b[7:0]};
         end
     endfunction
+    function [23:0] color_model;
+        input [23:0] src;
+        input integer rel;
+        integer r,g,b,lum;
+        integer sat_delta,con_delta;
+        integer sr,sg,sb,lr,lg,lb,cr,cg,cb;
+        integer rr,gg,bb;
+        begin
+            if (rel<=0) begin
+                color_model=src;
+            end else begin
+                r=src[23:16]; g=src[15:8]; b=src[7:0];
+                // CSS filter luma matrix used by the HTML reference.
+                lum=(55*r+183*g+18*b)>>8;
+                sat_delta=(rel>>1)+(rel>>2)+(rel>>5)+(rel>>6);
+                con_delta=(rel>>2)+(rel>>4)+(rel>>5);
+                sr=(r-lum)*256+(r-lum)*sat_delta;
+                sg=(g-lum)*256+(g-lum)*sat_delta;
+                sb=(b-lum)*256+(b-lum)*sat_delta;
+                lr=lum+((sr+128)>>>8)-128;
+                lg=lum+((sg+128)>>>8)-128;
+                lb=lum+((sb+128)>>>8)-128;
+                cr=lr*256+lr*con_delta;
+                cg=lg*256+lg*con_delta;
+                cb=lb*256+lb*con_delta;
+                rr=128+((cr+128)>>>8);
+                gg=128+((cg+128)>>>8);
+                bb=128+((cb+128)>>>8);
+                if(rr<0) rr=0; else if(rr>255) rr=255;
+                if(gg<0) gg=0; else if(gg>255) gg=255;
+                if(bb<0) bb=0; else if(bb>255) bb=255;
+                color_model={rr[7:0],gg[7:0],bb[7:0]};
+            end
+        end
+    endfunction
     initial begin
         for(i=0;i<4;i=i+1) begin map_bg[i]=-1;map_cv[i]=-1;end
+        if (dut.color_link(24'h0a140a,8'd3)!==color_model(24'h0a140a,3) ||
+            dut.color_link(24'h0a140a,8'd162)!==color_model(24'h0a140a,162) ||
+            dut.color_link(24'h7ebef2,8'd162)!==color_model(24'h7ebef2,162) ||
+            dut.color_link(24'hd8a050,8'd255)!==color_model(24'hd8a050,255)) begin
+            $display("TEST_FAIL color matrix samples");$finish;
+        end
+        $display("COLOR_SPOT_PASS");
+        if(dut.u_lyr.C_SUNG!==24'hFF5FCB || dut.u_lyr.C_UNSUNG!==24'hE8E4FF ||
+           dut.u_lyr.C_NEXT!==24'hE8E4FF) begin
+            $display("TEST_FAIL lyric palette parameters");$finish;
+        end
         #1000;rst_n=1;rst_pix=0;rst_sdr=0;
+        #40;
+        if (dut.color_rel!==dut.env_rel_q8) begin
+            $display("TEST_FAIL color rel wiring");$finish;
+        end
         wait(cur==0);
         #2000000; key4=0; #2000000;key4=1;
     end
@@ -131,7 +181,7 @@ module tb_upgrade_core;
     end
 
     integer x=0,y=0,gap=3000,frames=0,frame_pixels=0,checked=0,midpixels=0;
-    integer axis_x=0,axis_y=0,axis_frames=0,audio_n=0,fft_n=0,text_n=0;
+    integer axis_x=0,axis_y=0,axis_frames=0,audio_n=0,fft_n=0,text_n=0,next_lyric_n=0;
     integer audio_index=0,audio_song=0;
     reg lastde=0,lastav=0;
     reg [23:0] exp;
@@ -140,7 +190,23 @@ module tb_upgrade_core;
     // background/transparent cover/fade in their image rows, outside text bands.
     always @(negedge pix) if(!rst_pix) begin
         if(dut.ff_vld) fft_n=fft_n+1;
-        if(dut.ly_vld) text_n=text_n+1;
+        if(dut.ly_vld) begin
+            text_n=text_n+1;
+            if(!dut.u_lyr.any_ttl) begin
+                if(dut.u_lyr.sel==2'd0 && dut.u_lyr.code==2'd2 && dut.ly_rgb!==24'hFF5FCB) begin
+                    $display("TEST_FAIL sung lyric color %h",dut.ly_rgb);$finish;
+                end
+                if(dut.u_lyr.sel==2'd0 && dut.u_lyr.code!=2'd2 && dut.ly_rgb!==24'hE8E4FF) begin
+                    $display("TEST_FAIL unsung lyric color %h",dut.ly_rgb);$finish;
+                end
+                if(dut.u_lyr.sel==2'd1) begin
+                    next_lyric_n=next_lyric_n+1;
+                    if(dut.ly_rgb!==24'hE8E4FF) begin
+                        $display("TEST_FAIL second lyric color %h",dut.ly_rgb);$finish;
+                    end
+                end
+            end
+        end
         // Before prefill the player intentionally emits silence, not PCM.
         if(dut.wp_valid && dut.wp_primed) begin
             pcm=(audio_index+(audio_song==0 ? 0 : 16'h4000)) & 16'hffff;
@@ -163,8 +229,9 @@ module tb_upgrade_core;
             end
             if(cur>=0 && ((y>=232 && y<248) || (y>=157 && y<173))) begin
                 exp=blend(scene_pixel(old,x,y),scene_pixel(cur,x,y),dut.fade_alpha);
+                exp=color_model(exp,dut.color_rel);
                 if(rgb!==exp) begin
-                    $display("TEST_FAIL RGB t=%0t x=%0d y=%0d old=%0d cur=%0d alpha=%0d got=%h expected=%h",$time,x,y,old,cur,dut.fade_alpha,rgb,exp);$finish;
+                    $display("TEST_FAIL RGB t=%0t x=%0d y=%0d old=%0d cur=%0d alpha=%0d got=%h expected=%h raw=%h rel=%0d loud=%0d",$time,x,y,old,cur,dut.fade_alpha,rgb,exp,dut.cmp_raw_rgb,dut.color_rel,dut.env_loud_q8);$finish;
                 end
                 checked=checked+1;
                 if(dut.fade_alpha==128) midpixels=midpixels+1;
@@ -192,9 +259,9 @@ module tb_upgrade_core;
         if(song_accepts>0 && !dut.fade_busy && audio_n>10000 && midpixels>1000 && frames>18) begin
             if(keys<1 || manual_accepts<1 || auto_accepts<1 || rotations<1 || ends<1 ||
                pin_checks<1000 || checked<50000 || fft_n<1 || text_n<1 || cmd0<1) begin
-                $display("TEST_FAIL missing activity manual=%0d auto=%0d song=%0d fft=%0d text=%0d",manual_accepts,auto_accepts,song_accepts,fft_n,text_n);$finish;
+                $display("TEST_FAIL missing activity manual=%0d auto=%0d song=%0d fft=%0d text=%0d next=%0d",manual_accepts,auto_accepts,song_accepts,fft_n,text_n,next_lyric_n);$finish;
             end
-            $display("CORE_COUNTS frames=%0d checked=%0d mid=%0d pcm=%0d pins=%0d",frames,checked,midpixels,audio_n,pin_checks);
+            $display("CORE_COUNTS frames=%0d checked=%0d mid=%0d pcm=%0d pins=%0d second_lyric=%0d",frames,checked,midpixels,audio_n,pin_checks,next_lyric_n);
             $display("SCENARIO_PASS real_spi_boot_and_layout");
             $display("SCENARIO_PASS key_and_timer_fade_pixels");
             $display("SCENARIO_PASS natural_song_end_fade_and_slot_protection");

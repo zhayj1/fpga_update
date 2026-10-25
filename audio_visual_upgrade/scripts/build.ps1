@@ -1,5 +1,6 @@
 param([ValidateSet('syn','phy')][string]$Stage='syn',[string]$Tag='candidate',[switch]$GenerateBitstream,
-      [ValidateSet('on','off','high')][string]$LutStructure='off',[string]$SynthesisTag='')
+      [ValidateSet('on','off','high')][string]$LutStructure='off',[string]$SynthesisTag='',
+      [ValidateRange(1,999)][int]$Seed=3)
 $ErrorActionPreference='Stop'
 if ($Tag -notmatch '^[a-zA-Z][a-zA-Z0-9_]*$') { throw 'Invalid tag' }
 if ($SynthesisTag -and $SynthesisTag -notmatch '^[a-zA-Z][a-zA-Z0-9_]*$') { throw 'Invalid synthesis tag' }
@@ -17,8 +18,8 @@ $utf8=New-Object System.Text.UTF8Encoding($false)
 $manifest=[System.Collections.Generic.List[object]]::new()
 $prj=Get-Content (Join-Path $template 'skeleton.prj') -Raw -Encoding UTF8
 $order=80
-foreach($name in @('fetch_line_scene','scene_raster','fetch_writer4','scene_fade','scene_blend','px_arb5')) {
-    $prj=$prj.Replace('</Verilog>',"<File Path=`"../../../rtl/gfx/$name.v`"><FileInfo><Attr Name=`"UsedInSyn`" Val=`"true`"/><Attr Name=`"UsedInP&R`" Val=`"true`"/><Attr Name=`"BelongTo`" Val=`"design_1`"/><Attr Name=`"CompileOrder`" Val=`"$order`"/></FileInfo></File></Verilog>")
+foreach($source in @('gfx/fetch_line_scene','gfx/scene_raster','gfx/fetch_writer4','gfx/scene_fade','gfx/scene_blend','gfx/px_arb5','audio/spec_window','audio/spec_bands64','audio/spec_attack18','gfx/layer_fft64','gfx/cover_pop','gfx/cover_pop_geom','gfx/attack_rings')) {
+    $prj=$prj.Replace('</Verilog>',"<File Path=`"../../../rtl/$source.v`"><FileInfo><Attr Name=`"UsedInSyn`" Val=`"true`"/><Attr Name=`"UsedInP&R`" Val=`"true`"/><Attr Name=`"BelongTo`" Val=`"design_1`"/><Attr Name=`"CompileOrder`" Val=`"$order`"/></FileInfo></File></Verilog>")
     $order++
 }
 $prj=[regex]::Replace($prj,'<File Path="([^"]+)"',{
@@ -52,7 +53,7 @@ $buildFiles=@('skeleton.prj','settings.cfg','skeleton.tcl') | ForEach-Object {
     $path=Join-Path $run $_
     @{path=$path;sha256=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash}
 }
-$inputRecord=@{time=(Get-Date).ToString('o');stage=$Stage;seed=3;lut_structure=$LutStructure;generate_bitstream=[bool]$GenerateBitstream;sources=$manifest;build_files=$buildFiles;script_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash}
+$inputRecord=@{time=(Get-Date).ToString('o');stage=$Stage;seed=$Seed;lut_structure=$LutStructure;generate_bitstream=[bool]$GenerateBitstream;sources=$manifest;build_files=$buildFiles;script_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash}
 if ($Stage -eq 'phy') {
     $inputRecord.synthesis_tag=$SynthesisTag
     $inputRecord.synthesis_inputs=@{path=(Join-Path $syn 'inputs.json');sha256=(Get-FileHash -LiteralPath (Join-Path $syn 'inputs.json') -Algorithm SHA256).Hash}
@@ -62,7 +63,7 @@ if ($Stage -eq 'phy') {
 Push-Location $run
 $previousSeed=$env:PL_SEED
 try {
-    $env:PL_SEED='3'
+    $env:PL_SEED="$Seed"
     & 'D:\Anlogic\TD_6.2.1_Engineer_6.2.168.116\bin\td_commands_prompt.exe' skeleton.tcl *> console.log
     $expected=if($Stage -eq 'syn'){'gate.qor'}else{'route.qor'}
     if ($LASTEXITCODE -ne 0 -or !(Test-Path $expected) -or (Get-ChildItem -Force -Filter '*.error.f').Count -gt 0) {
