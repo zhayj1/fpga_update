@@ -175,7 +175,9 @@ module spec_bands64 (
     reg attack_mode;
     reg [8:0] cursor;
     reg [14:0] sum; // 78 bins maximum, 78*255 = 19890
-    reg [7:0] history [0:63];
+    reg [4:0] history [0:63];
+    reg [4:0] history_read;
+    reg [63:0] history_valid;
     wire [14:0] sum_next=sum+{7'd0,rd_data};
     wire [15:0] recip=attack_mode ? attack_recip(attack_band_idx)
                                     : band_recip(bar_idx);
@@ -186,14 +188,20 @@ module spec_bands64 (
                     ((bar_idx<=6'd21)||(bar_idx==6'd23)||(bar_idx==6'd25));
     wire [7:0] average=single_bin ? rd_data
                       : ((scaled[30:16]>255)?8'd255:scaled[23:16]);
-    wire [8:0] smooth={1'b0,average}-{1'b0,average[7:3]}+{1'b0,history[bar_idx][7:3]};
-    integer i;
+    wire [8:0] smooth={1'b0,average}-{1'b0,average[7:3]}+
+                      {4'd0,(history_valid[bar_idx] ? history_read : 5'd0)};
+    wire [7:0] smooth_level=smooth[8] ? 8'd255 : smooth[7:0];
+    wire history_write=(state==ADD) && !attack_mode && (cursor==target_hi);
+    always @(posedge clk) begin
+        history_read<=history[bar_idx];
+        if(history_write) history[bar_idx]<=smooth_level[7:3];
+    end
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state<=IDLE; bar_stb<=0; bars_done<=0; bar_idx<=0;
             attack_band_stb<=0; attack_band_idx<=0; attack_band_level<=0;
             bar_level<=0; cursor<=0; rd_addr<=0; sum<=0; attack_mode<=0;
-            for(i=0;i<64;i=i+1) history[i]<=0;
+            history_valid<=0;
         end else begin
             bar_stb<=0; bars_done<=0; attack_band_stb<=0;
             case(state)
@@ -209,8 +217,8 @@ module spec_bands64 (
                         attack_band_level<=average;
                         attack_band_stb<=1;
                     end else begin
-                        bar_level<=smooth[8]?8'd255:smooth[7:0];
-                        history[bar_idx]<=smooth[8]?8'd255:smooth[7:0];
+                        bar_level<=smooth_level;
+                        history_valid[bar_idx]<=1'b1;
                         bar_stb<=1;
                         if(bar_idx==6'd63) bars_done<=1;
                     end

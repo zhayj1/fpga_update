@@ -8,7 +8,9 @@
   "data_files": [
     "sim/fat32_core.mem",
     "sim/core_pixels.mem",
-    "tb/core_fixture.vh"
+    "tb/core_fixture.vh",
+    "rtl/gfx/osd_font_ch.dath",
+    "rtl/gfx/osd_font_ascii.dath"
   ],
   "libraries": [
     {
@@ -20,7 +22,8 @@
         "tb"
       ],
       "defines": [
-        "SIM_DEVICE_MODEL"
+        "SIM_DEVICE_MODEL",
+        "OSD_SIM"
       ],
       "sources": [
         {

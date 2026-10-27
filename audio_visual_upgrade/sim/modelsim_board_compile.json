@@ -15,7 +15,8 @@
         "rtl/storage"
       ],
       "defines": [
-        "SIM_DEVICE_MODEL"
+        "SIM_DEVICE_MODEL",
+        "OSD_SIM"
       ],
       "sources": [
         {
@@ -152,6 +153,18 @@
         },
         {
           "path": "rtl/gfx/layer_text.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_controls.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_font_rom.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_layer.v",
           "language": "verilog"
         },
         {

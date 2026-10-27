@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793102218.1273305,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.tb_osd_stage5",
+    "tb_top": "work.tb_osd_stage5",
+    "dut_parameters": {},
+    "tb_parameters": {},
+    "data_files": [
+      "rtl/gfx/osd_font_ch.dath",
+      "rtl/gfx/osd_font_ascii.dath"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "include_dirs": [],
+        "defines": [
+          "OSD_SIM"
+        ],
+        "sources": [
+          {
+            "path": "rtl/util/key_debounce.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_controls.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_font_rom.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_layer.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_osd_stage5.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "osd_short_page",
+    "osd_long_toggle",
+    "osd_volume_adjust",
+    "osd_font_and_panel",
+    "osd_pixel_alignment",
+    "osd_numeric_pages",
+    "osd_bar_width",
+    "osd_scope_mark",
+    "osd_three_pages",
+    "osd_parameter_bounds",
+    "osd_scope_rescale"
+  ],
+  "timeout_seconds": 300.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v": "4382a3f7fb278e047dfe9c3bd70ffe259aa16b4104e6a9268ec6abde8ab0c456",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_ascii.dath": "4063f65531897688e6bed43e67e5cd05949fb9c276997cd0dd49333f99b48338",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_ch.dath": "e2a6f1b16b9120bf80856d6771588b632174e787bcac9c55957763257b6dd7e4",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_rom.v": "81606aee02bb9654ac5ba4822ae8cda3948aeec01ee8654065ca1ba778d50253",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_layer.v": "540fe6378c76b57cfd5e3d936af66fd4edb3a67fe2b870ebba208f5cb8c364e2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/util/key_debounce.v": "b47aa2589795826bb0fbe3a2f15a6d189162cdd5a3f1fdd06cce6b8d552a081d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_osd_stage5.json": "bb0995afa398a441ac34862ac23153edb0821fc32fa9e7e8a1c295b228ae8351",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram32k.v": "d9443cdaffea436c51852fa6e859bb25650f9f87d9d0b276643db16575a75baa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_osd_stage5.json": "4a6d65a78583e0413c8ddb15abfcce4fe61c795516964dbba24e9cc25ada3b0f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v": "45a5e1c22278c9f770da73a57bb3937479ce0dfb20524629b14909f80b22e01e"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.EXE",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/bb835e5d88d64b2c8ca963740404c5ea/run.do\""
+  ],
+  "script": "sim/modelsim/bb835e5d88d64b2c8ca963740404c5ea/run.do",
+  "compile_log": "sim/stage5_font_split_osd_r1_compile.log",
+  "sim_log": "sim/stage5_font_split_osd_r1_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1793102224.4336746
+}

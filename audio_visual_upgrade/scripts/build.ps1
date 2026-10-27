@@ -1,6 +1,7 @@
 param([ValidateSet('syn','phy')][string]$Stage='syn',[string]$Tag='candidate',[switch]$GenerateBitstream,
       [ValidateSet('on','off','high')][string]$LutStructure='off',[string]$SynthesisTag='',
-      [ValidateRange(1,999)][int]$Seed=3)
+      [ValidateRange(1,999)][int]$Seed=3,
+      [ValidateSet('default','routability')][string]$RouteEffort='default')
 $ErrorActionPreference='Stop'
 if ($Tag -notmatch '^[a-zA-Z][a-zA-Z0-9_]*$') { throw 'Invalid tag' }
 if ($SynthesisTag -and $SynthesisTag -notmatch '^[a-zA-Z][a-zA-Z0-9_]*$') { throw 'Invalid synthesis tag' }
@@ -18,9 +19,13 @@ $utf8=New-Object System.Text.UTF8Encoding($false)
 $manifest=[System.Collections.Generic.List[object]]::new()
 $prj=Get-Content (Join-Path $template 'skeleton.prj') -Raw -Encoding UTF8
 $order=80
-foreach($source in @('gfx/fetch_line_scene','gfx/scene_raster','gfx/fetch_writer4','gfx/scene_fade','gfx/scene_blend','gfx/px_arb5','audio/spec_window','audio/spec_bands64','audio/spec_attack18','gfx/layer_fft64','gfx/cover_pop','gfx/cover_pop_geom','gfx/attack_rings')) {
+foreach($source in @('gfx/fetch_line_scene','gfx/scene_raster','gfx/fetch_writer4','gfx/scene_fade','gfx/scene_blend','gfx/px_arb5','audio/spec_window','audio/spec_bands64','audio/spec_attack18','gfx/layer_fft64','gfx/cover_pop','gfx/cover_pop_geom','gfx/attack_rings','gfx/osd_controls','gfx/osd_font_rom','gfx/osd_layer')) {
     $prj=$prj.Replace('</Verilog>',"<File Path=`"../../../rtl/$source.v`"><FileInfo><Attr Name=`"UsedInSyn`" Val=`"true`"/><Attr Name=`"UsedInP&R`" Val=`"true`"/><Attr Name=`"BelongTo`" Val=`"design_1`"/><Attr Name=`"CompileOrder`" Val=`"$order`"/></FileInfo></File></Verilog>")
     $order++
+}
+foreach($fontFile in @('osd_font_ch.dath','osd_font_ascii.dath')) {
+    $fontData=Join-Path $project "rtl/gfx/$fontFile"
+    $manifest.Add(@{path=$fontData;sha256=(Get-FileHash -LiteralPath $fontData -Algorithm SHA256).Hash})
 }
 $prj=[regex]::Replace($prj,'<File Path="([^"]+)"',{
     param($m)
@@ -47,13 +52,18 @@ if ($Stage -eq 'phy') {
 }
 [IO.File]::WriteAllText((Join-Path $run 'settings.cfg'),$cfg,$utf8)
 $tcl=Get-Content (Join-Path $template 'skeleton.tcl') -Raw -Encoding UTF8
-if ($Stage -eq 'phy') {$tcl=$tcl.Replace('update_timing -mode final',"update_timing -mode final`n report_qor -step route -file route.qor`n report_timing_summary -file final_timing.rpt")}
+if ($Stage -eq 'phy') {
+    $tcl=$tcl.Replace('update_timing -mode final',"update_timing -mode final`n report_qor -step route -file route.qor`n report_timing_summary -file final_timing.rpt")
+    if ($RouteEffort -eq 'routability') {
+        $tcl=$tcl.Replace("  route`n", "  set_param route effort routability`n  route`n")
+    }
+}
 [IO.File]::WriteAllText((Join-Path $run 'skeleton.tcl'),$tcl,$utf8)
 $buildFiles=@('skeleton.prj','settings.cfg','skeleton.tcl') | ForEach-Object {
     $path=Join-Path $run $_
     @{path=$path;sha256=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash}
 }
-$inputRecord=@{time=(Get-Date).ToString('o');stage=$Stage;seed=$Seed;lut_structure=$LutStructure;generate_bitstream=[bool]$GenerateBitstream;sources=$manifest;build_files=$buildFiles;script_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash}
+$inputRecord=@{time=(Get-Date).ToString('o');stage=$Stage;seed=$Seed;lut_structure=$LutStructure;route_effort=$RouteEffort;generate_bitstream=[bool]$GenerateBitstream;sources=$manifest;build_files=$buildFiles;script_sha256=(Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash}
 if ($Stage -eq 'phy') {
     $inputRecord.synthesis_tag=$SynthesisTag
     $inputRecord.synthesis_inputs=@{path=(Join-Path $syn 'inputs.json');sha256=(Get-FileHash -LiteralPath (Join-Path $syn 'inputs.json') -Algorithm SHA256).Hash}

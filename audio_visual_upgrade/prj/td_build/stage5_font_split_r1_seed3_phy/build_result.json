@@ -1,0 +1,11 @@
+{
+    "inputs_unchanged":  true,
+    "completed":  "2026-10-27T20:20:18.1761279+08:00",
+    "bitstream":  {
+                      "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_seed3_phy\\skeleton.bit",
+                      "sha256":  "1888055E210DF5EFF9094E9CD27D3F78A201681D646FD0C4F52722B4A1A205E0",
+                      "bytes":  651749
+                  },
+    "status":  "BUILD_COMPLETE",
+    "stage":  "phy"
+}

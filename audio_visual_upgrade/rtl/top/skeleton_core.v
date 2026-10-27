@@ -69,6 +69,7 @@ module skeleton_core #(
     //     （`tb_skeleton_core.v` 的 `.en_fft(0)` ✓）⇒ 两边各取所需 ✓，**RTL 一个字不用改** ✓
     parameter en_fft                  = 1'b1,
     parameter en_color_diag           = 1'b0,
+    parameter en_osd                  = 1'b0,
     // ★★★ P5/A8（2026-10-10）：**小轮播开关 ＋ 周期**
     //   · `en_rot`：默认 **1**（功能是要用的 ✓）—— 与 `en_fft` 同一套纪律 ✓
     //     ★ 台里**显式给 0** ✓ ⇒ 可做"`en_rot=0` 时 T-01..T-07 逐位不变"的 A/B ✓
@@ -115,6 +116,8 @@ module skeleton_core #(
     output wire        sd_mosi,
     input  wire        sd_miso,
     // ---------------- 按键（★ A1：板上 KEY4 = C1，低有效；手册《按键引脚分配》表定案）----------------
+    input  wire        key2,
+    input  wire        key3,
     input  wire        key4,
     // ---------------- UART / 观测 ----------------
     output wire        uart_tx,
@@ -323,10 +326,58 @@ module skeleton_core #(
     wire [23:0] cmp_rgb;
     wire [23:0] cmp_raw_rgb;
     wire        cmp_vld,cmp_vs,cmp_hs;
+    wire [23:0] osd_rgb;
+    wire osd_vld;
+    wire osd_visible_clk, key_image_next, key_press_legacy;
+    wire key_press = key_press_legacy; // Legacy integration TB observation.
+    wire [1:0] osd_page_clk;
+    wire [2:0] osd_selected_clk;
+    wire [5:0] osd_sensitivity_clk;
+    wire [8:0] osd_volume_clk, osd_sat_base_clk, osd_sat_max_clk;
+    wire [8:0] osd_con_base_clk, osd_con_max_clk;
+    wire sa_analysis_stb;
+    wire [12:0] sa_flux, sa_threshold;
+    wire [16:0] sa_scope_max;
+    wire [15:0] sa_hit_count;
     // Shared Stage 4 loudness state is declared before the pixel color path
     // so the Verilog-2001 compiler sees the signal at its first use.
     reg [17:0] env_sum;
     reg [7:0]  env_loud_q8, env_rel_q8;
+    reg [1:0] osd_visible_sync;
+    reg [1:0] osd_page_s1, osd_page_s2;
+    reg [2:0] osd_selected_s1, osd_selected_s2;
+    reg [5:0] osd_sens_s1, osd_sens_s2;
+    reg [8:0] osd_volume_s1, osd_volume_s2;
+    reg [8:0] osd_sat_base_s1, osd_sat_base_s2, osd_sat_max_s1, osd_sat_max_s2;
+    reg [8:0] osd_con_base_s1, osd_con_base_s2, osd_con_max_s1, osd_con_max_s2;
+    always @(posedge clk_pix) begin
+        if (rst_pix) begin
+            osd_visible_sync<=2'b00;
+            osd_page_s1<=0; osd_page_s2<=0;
+            osd_selected_s1<=0; osd_selected_s2<=0;
+            osd_sens_s1<=6'd16; osd_sens_s2<=6'd16;
+            osd_volume_s1<=9'd100; osd_volume_s2<=9'd100;
+            osd_sat_base_s1<=9'd100; osd_sat_base_s2<=9'd100;
+            osd_sat_max_s1<=9'd180; osd_sat_max_s2<=9'd180;
+            osd_con_base_s1<=9'd100; osd_con_base_s2<=9'd100;
+            osd_con_max_s1<=9'd135; osd_con_max_s2<=9'd135;
+        end else begin
+            osd_visible_sync<={osd_visible_sync[0],osd_visible_clk};
+            osd_page_s1<=osd_page_clk; osd_page_s2<=osd_page_s1;
+            osd_selected_s1<=osd_selected_clk; osd_selected_s2<=osd_selected_s1;
+            osd_sens_s1<=osd_sensitivity_clk; osd_sens_s2<=osd_sens_s1;
+            osd_volume_s1<=osd_volume_clk; osd_volume_s2<=osd_volume_s1;
+            osd_sat_base_s1<=osd_sat_base_clk; osd_sat_base_s2<=osd_sat_base_s1;
+            osd_sat_max_s1<=osd_sat_max_clk; osd_sat_max_s2<=osd_sat_max_s1;
+            osd_con_base_s1<=osd_con_base_clk; osd_con_base_s2<=osd_con_base_s1;
+            osd_con_max_s1<=osd_con_max_clk; osd_con_max_s2<=osd_con_max_s1;
+        end
+    end
+    wire [8:0] gain_pct = osd_volume_s2;
+    wire [12:0] gain_scaled = ({4'd0,gain_pct}<<5)+
+                              ({4'd0,gain_pct}<<3)+{4'd0,gain_pct};
+    wire [8:0] user_gain = en_osd ?
+        ((gain_pct==9'd100) ? GAIN_DEFAULT : gain_scaled[12:4]) : GAIN_DEFAULT;
 
     //=========================================================================
     // ★★ P4 Stage 3：频谱链（`spec_fft` → `spec_bands` → `layer_fft`）
@@ -457,11 +508,10 @@ module skeleton_core #(
             else color_clip=value[7:0];
         end
     endfunction
-    function [23:0] color_link;
+    function [23:0] color_link_gains;
         input [23:0] src;
-        input [7:0] rel;
+        input [9:0] sat_gain, con_gain;
         reg [7:0] r,g,b,lum;
-        reg [9:0] sat_gain,con_gain;
         reg signed [10:0] sat_delta,con_delta;
         reg signed [17:0] dr,dg,db;
         reg signed [19:0] sr,sg,sb;
@@ -476,17 +526,10 @@ module skeleton_core #(
                  {1'd0,g,7'd0}+{3'd0,g,5'd0}+{4'd0,g,4'd0}+{6'd0,g,2'd0}+
                  {7'd0,g,1'd0}+{8'd0,g}+
                  {4'd0,b,4'd0}+{7'd0,b,1'd0}) >> 8;
-            // Defaults are 100%; the HTML maxima are 180% and 135%.
-            // Q8 slopes use shift/add approximations: 0.8 ~= 1/2+1/4+1/32+1/64,
-            // 0.35 ~= 1/4+1/16+1/32.  Keep the deltas signed before the
-            // channel products; an unsigned factor would turn negative
-            // chroma differences into large positive values and clip to white.
-            sat_gain=10'd256+((rel>>1)+(rel>>2)+(rel>>5)+(rel>>6));
-            con_gain=10'd256+((rel>>2)+(rel>>4)+(rel>>5));
             sat_delta=$signed({1'b0,sat_gain})-11'sd256;
             con_delta=$signed({1'b0,con_gain})-11'sd256;
-            if (rel==8'd0) begin
-                color_link=src;
+            if (sat_gain==10'd256 && con_gain==10'd256) begin
+                color_link_gains=src;
             end else begin
             dr=$signed({1'b0,r})-$signed({1'b0,lum});
             dg=$signed({1'b0,g})-$signed({1'b0,lum});
@@ -501,14 +544,49 @@ module skeleton_core #(
             cr=lr*20'sd256+lr*con_delta;
             cg=lg*20'sd256+lg*con_delta;
             cb=lb*20'sd256+lb*con_delta;
-            color_link={color_clip(20'sd128+((cr+20'sd128)>>>8)),
+            color_link_gains={color_clip(20'sd128+((cr+20'sd128)>>>8)),
                         color_clip(20'sd128+((cg+20'sd128)>>>8)),
                         color_clip(20'sd128+((cb+20'sd128)>>>8))};
             end
         end
     endfunction
+    // Retain the previous default mapping for the existing color regression.
+    function [23:0] color_link;
+        input [23:0] src;
+        input [7:0] rel;
+        reg [9:0] sat_default, con_default;
+        begin
+            sat_default=10'd256+((rel>>1)+(rel>>2)+(rel>>5)+(rel>>6));
+            con_default=10'd256+((rel>>2)+(rel>>4)+(rel>>5));
+            color_link=color_link_gains(src,sat_default,con_default);
+        end
+    endfunction
     wire [7:0] color_rel = en_fft ? env_rel_q8 : 8'd0;
-    wire [23:0] colorized_rgb = color_link(cmp_raw_rgb,color_rel);
+    wire [8:0] sat_range_pct=osd_sat_max_s2-osd_sat_base_s2;
+    wire [8:0] con_range_pct=osd_con_max_s2-osd_con_base_s2;
+    wire [16:0] sat_rel_product=sat_range_pct*color_rel;
+    wire [16:0] con_rel_product=con_range_pct*color_rel;
+    wire [8:0] sat_pct_next=osd_sat_base_s2+((sat_rel_product+17'd128)>>8);
+    wire [8:0] con_pct_next=osd_con_base_s2+((con_rel_product+17'd128)>>8);
+    reg [8:0] sat_current_pct, con_current_pct;
+    reg [9:0] sat_gain_cfg, con_gain_cfg;
+    wire [13:0] sat_gain_next=({5'd0,sat_pct_next}<<5)+
+        ({5'd0,sat_pct_next}<<3)+{5'd0,sat_pct_next};
+    wire [13:0] con_gain_next=({5'd0,con_pct_next}<<5)+
+        ({5'd0,con_pct_next}<<3)+{5'd0,con_pct_next};
+    always @(posedge clk_pix) begin
+        if (rst_pix) begin
+            sat_current_pct<=9'd100; con_current_pct<=9'd100;
+            sat_gain_cfg<=10'd256; con_gain_cfg<=10'd256;
+        end else if (sa_analysis_stb) begin
+            sat_current_pct<=sat_pct_next; con_current_pct<=con_pct_next;
+            sat_gain_cfg<=en_fft ? sat_gain_next[13:4] : 10'd256;
+            con_gain_cfg<=en_fft ? con_gain_next[13:4] : 10'd256;
+        end
+    end
+    wire [23:0] colorized_rgb = en_osd ?
+        color_link_gains(cmp_raw_rgb,sat_gain_cfg,con_gain_cfg) :
+        color_link(cmp_raw_rgb,color_rel);
     assign cmp_rgb = overlay_text_d2 ? cmp_raw_rgb : colorized_rgb;
     reg [9:0] de_pix;
     reg [9:0] ff_x, ff_y;
@@ -518,7 +596,7 @@ module skeleton_core #(
     //   至此本模块**不再有任何 initial 块** —— 所有状态一律由复位给出。
 
     assign obs_de  = cmp_vld;
-    assign obs_rgb = cmp_rgb;
+    // The observation port uses the same final pixel as the HDMI stream.
 
     // ★★★ 临时调试开关（2026-10-01）—— **本轮已还原为 0**（诊断结论：纯色帧均匀无网格 ⇒ 帧数据侧问题）
     localparam FORCE_SOLID = 1'b0;
@@ -532,7 +610,9 @@ module skeleton_core #(
         ((diag_pos < env_loud_q8[7:1]) ? 24'hD8F36A : 24'h172028) :
         ((diag_pos < color_rel[7:1]) ? 24'h2CE6DF : 24'h172028);
     wire [23:0] ax_rgb = FORCE_SOLID ? 24'h2050A0 :
-        ((en_color_diag && (diag_loud || diag_rel)) ? diag_rgb : cmp_rgb);
+        (osd_vld ? osd_rgb :
+        ((en_color_diag && (diag_loud || diag_rel)) ? diag_rgb : cmp_rgb));
+    assign obs_rgb = ax_rgb;
     wire        ax_user, ax_valid, ax_last;
     wire [23:0] ax_data;
 
@@ -1218,15 +1298,32 @@ module skeleton_core #(
     //   按下 ⇒ 组号 1→2→3→1 循环，并重新走一遍"扫描→装载"；新组装完才重新使能图层
     //   （所以切组瞬间画面会短暂熄灭，属预期）。
     //=========================================================================
-    wire key_press, key_level;
-    key_debounce #(
-        .CLK_HZ         (CLK_HZ),
-        .DEBOUNCE_MS    (KEY_DEBOUNCE_MS),
-        .KEY_ACTIVE_LOW (1)
-    ) u_key4 (
-        .clk(clk), .rst_n(rst_n), .key_in(key4),
-        .press(key_press), .level(key_level)
+    generate if (en_osd) begin : g_osd_keys
+    osd_controls #(.CLK_HZ(CLK_HZ),.DEBOUNCE_MS(KEY_DEBOUNCE_MS)) u_osd_controls (
+        .clk(clk),.rst_n(rst_n),.key2(key2),.key3(key3),.key4(key4),
+        .visible(osd_visible_clk),.page(osd_page_clk),.selected(osd_selected_clk),
+        .image_next(key_image_next),
+        .sensitivity(osd_sensitivity_clk),
+        .volume(osd_volume_clk),.sat_base(osd_sat_base_clk),.sat_max(osd_sat_max_clk),
+        .con_base(osd_con_base_clk),.con_max(osd_con_max_clk)
     );
+    assign key_press_legacy=key_image_next;
+    end else begin : g_legacy_key
+        key_debounce #(.CLK_HZ(CLK_HZ),.DEBOUNCE_MS(KEY_DEBOUNCE_MS)) u_key4 (
+            .clk(clk),.rst_n(rst_n),.key_in(key4),
+            .press(key_press_legacy),.level()
+        );
+        assign key_image_next=key_press_legacy;
+        assign osd_visible_clk=1'b0;
+        assign osd_page_clk=2'd0;
+        assign osd_selected_clk=3'd0;
+        assign osd_sensitivity_clk=6'd16;
+        assign osd_volume_clk=9'd100;
+        assign osd_sat_base_clk=9'd100;
+        assign osd_sat_max_clk=9'd180;
+        assign osd_con_base_clk=9'd100;
+        assign osd_con_max_clk=9'd135;
+    end endgenerate
 
     //=========================================================================
     // ★★★ P5/A8（2026-10-10）：**小轮播** —— 只产生一个与 `key_press` 等价的脉冲 ✓
@@ -1257,7 +1354,7 @@ module skeleton_core #(
 
     // ★ 换组事件 = 按键 **或** 轮播到点 ✓（两条路**完全等价** ✓）
     wire song_view_fire = song_view_pending && view_idle;
-    wire grp_adv = ((key_press | rot_pulse) && !pre_busy && !pre_sw_pending &&
+    wire grp_adv = ((key_image_next | rot_pulse) && !pre_busy && !pre_sw_pending &&
                     !song_view_pending && view_idle && !(au_end_pulse && sw_ok)) || song_view_fire;
     always @(posedge clk) begin
         if (!rst_n) song_view_pending <= 1'b0;
@@ -1645,7 +1742,7 @@ module skeleton_core #(
         .sample_valid (wp_valid),
         .sample_left  (wp_l), .sample_right (wp_r),
         .sample_raw_left(wp_raw_l), .sample_raw_right(wp_raw_r),
-        .gain         (GAIN_DEFAULT),        // ★ S3-b：档位源 = 常量 ✓（满档 256 = 精确 ×1 ✓；P5 再接按键/OSD ✓）
+        .gain         (user_gain),
         .stat_clr     (au_clr),
         .level_now    (wp_level_now), .level_min (wp_level_min),
         .underrun_cnt (wp_uc), .hold_cnt (wp_hold),
@@ -2240,14 +2337,46 @@ module skeleton_core #(
         .band_stb    (sa_band_stb),
         .band_idx    (sa_band_idx),
         .band_level  (sa_band_level),
-        .sensitivity (6'd16),
-        .analysis_stb(),
+        .sensitivity (osd_sens_s2),
+        .analysis_stb(sa_analysis_stb),
         .hit         (sa_hit),
         .hit_band    (sa_hit_band),
-        .flux        (),
-        .threshold   (),
-        .hit_count   ()
+        .flux        (sa_flux),
+        .threshold   (sa_threshold),
+        .scope_max   (sa_scope_max),
+        .hit_count   (sa_hit_count)
     );
+
+    generate if (en_osd) begin : g_osd_picture
+        wire [23:0] raster_rgb;
+        wire raster_valid;
+        reg [23:0] aligned_rgb;
+        reg aligned_valid;
+        // The scene path has a preparation register plus two blend stages.
+        // Match those three stages using the original raster DE and X/Y.
+        always @(posedge clk_pix) begin
+            if (rst_pix) begin aligned_rgb<=0; aligned_valid<=0; end
+            else begin aligned_rgb<=raster_rgb; aligned_valid<=raster_valid; end
+        end
+        assign osd_rgb=aligned_rgb;
+        assign osd_vld=aligned_valid;
+        osd_layer u_osd_layer (
+            .clk(clk_pix),.rst(rst_pix),.de(cb_de),.x(ff_x),.y(ff_y),
+            .visible(osd_visible_sync[1]),.page(osd_page_s2),
+            .selected(osd_selected_s2),.sensitivity(osd_sens_s2),
+            .volume(osd_volume_s2),.sat_base(osd_sat_base_s2),
+            .sat_max(osd_sat_max_s2),.con_base(osd_con_base_s2),
+            .con_max(osd_con_max_s2),.sat_current(sat_current_pct),
+            .con_current(con_current_pct),.loud(env_loud_q8),
+            .relative(env_rel_q8),.analysis_stb(sa_analysis_stb),
+            .attack_hit(sa_hit),.song_clear(spec_song_clear),
+            .flux(sa_flux),.threshold(sa_threshold),.scope_max(sa_scope_max),
+            .rgb(raster_rgb),.valid(raster_valid)
+        );
+    end else begin : g_no_osd_picture
+        assign osd_rgb=24'd0;
+        assign osd_vld=1'b0;
+    end endgenerate
 
     layer_fft64 u_layer_fft (
         .clk       (clk_pix),

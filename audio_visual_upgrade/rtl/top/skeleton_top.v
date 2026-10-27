@@ -25,7 +25,9 @@ module skeleton_top (
     output wire       sd_cs_n,       // A12
     output wire       sd_mosi,       // A13
     input  wire       sd_miso,       // B14
-    input  wire       key4,          // ★ A1：C1 = 板上 KEY4（低有效），手动切素材组
+    input  wire       key2,          // B2, OSD decrease
+    input  wire       key3,          // B1, OSD increase
+    input  wire       key4,          // C1, short/long mode key
     output wire       HDMI_CLK_P,    // C3
     output wire       HDMI_D0_P,     // G5
     output wire       HDMI_D1_P,     // F1
@@ -70,7 +72,8 @@ module skeleton_top (
     skeleton_core #(
         .SDR_CLK_MHZ (100),
         .BW_NUM      (2),
-        .en_color_diag(1'b1)
+        .en_color_diag(1'b0),
+        .en_osd(1'b1)
     ) u_core (
         .clk_pix      (clk_pix),
         .clk_pix5x    (clk_pix5x),
@@ -91,7 +94,9 @@ module skeleton_top (
         .sd_cs_n         (sd_cs_n),
         .sd_mosi         (sd_mosi),
         .sd_miso         (sd_miso),
-        .key4            (key4),          // ★ A1：KEY4（C1）→ 切素材组
+        .key2            (key2),
+        .key3            (key3),
+        .key4            (key4),
         .uart_tx         (uart_tx),
         .led             (led)
         // obs_axis_* 是给仿真看的观测口，上板不接 ⇒ 整行不写（不能写 () ）

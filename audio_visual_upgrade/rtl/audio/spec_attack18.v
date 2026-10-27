@@ -12,6 +12,7 @@ module spec_attack18 (
     output reg [4:0] hit_band,
     output reg [12:0] flux,
     output reg [12:0] threshold,
+    output wire [16:0] scope_max,
     output reg [15:0] hit_count
 );
     reg [31:0] history [0:17];
@@ -24,6 +25,10 @@ module spec_attack18 (
     reg [7:0] best_val;
     reg [4:0] best_idx;
     reg [17:0] base_q, sigma_q; // Q4
+    // The reference scope uses max(5, baseline + 4 * deviation),
+    // independently of the sensitivity-dependent detection threshold.
+    wire [16:0] scope_range={3'd0,base_q[17:4]}+{1'b0,sigma_q[17:2]};
+    assign scope_max=(scope_range<17'd5)?17'd5:scope_range;
     reg base_valid;
     reg [3:0] cooldown;
     reg multiply_busy;

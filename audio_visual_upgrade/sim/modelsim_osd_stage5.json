@@ -1,0 +1,23 @@
+{
+  "dut_top": "work.tb_osd_stage5",
+  "tb_top": "work.tb_osd_stage5",
+  "dut_parameters": {},
+  "tb_parameters": {},
+  "data_files": ["rtl/gfx/osd_font_ch.dath", "rtl/gfx/osd_font_ascii.dath"],
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": ["OSD_SIM"],
+      "sources": [
+        {"path": "rtl/util/key_debounce.v", "language": "verilog"},
+        {"path": "rtl/gfx/osd_controls.v", "language": "verilog"},
+        {"path": "rtl/gfx/osd_font_rom.v", "language": "verilog"},
+        {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+        {"path": "sim/vendor/eg4/eg_phy_bram32k.v", "language": "verilog"},
+        {"path": "rtl/gfx/osd_layer.v", "language": "verilog"},
+        {"path": "tb/tb_osd_stage5.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

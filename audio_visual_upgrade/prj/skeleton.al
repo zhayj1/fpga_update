@@ -453,6 +453,30 @@
                     <Attr Name="CompileOrder" Val="66" />
                 </FileInfo>
             </File>
+            <File Path="../rtl/gfx/osd_controls.v">
+                <FileInfo>
+                    <Attr Name="UsedInSyn" Val="true" />
+                    <Attr Name="UsedInP&R" Val="true" />
+                    <Attr Name="BelongTo" Val="design_1" />
+                    <Attr Name="CompileOrder" Val="84" />
+                </FileInfo>
+            </File>
+            <File Path="../rtl/gfx/osd_font_rom.v">
+                <FileInfo>
+                    <Attr Name="UsedInSyn" Val="true" />
+                    <Attr Name="UsedInP&R" Val="true" />
+                    <Attr Name="BelongTo" Val="design_1" />
+                    <Attr Name="CompileOrder" Val="85" />
+                </FileInfo>
+            </File>
+            <File Path="../rtl/gfx/osd_layer.v">
+                <FileInfo>
+                    <Attr Name="UsedInSyn" Val="true" />
+                    <Attr Name="UsedInP&R" Val="true" />
+                    <Attr Name="BelongTo" Val="design_1" />
+                    <Attr Name="CompileOrder" Val="86" />
+                </FileInfo>
+            </File>
             <File Path="../rtl/load/font_load.v">
                 <FileInfo>
                     <Attr Name="UsedInSyn" Val="true" />

@@ -1,0 +1,346 @@
+{
+    "build_files":  [
+                        {
+                            "sha256":  "82CC67DDAB34CDF4D53A6A729D7B5C413B6232285A5CB20D57607525FFA6D52E",
+                            "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_seed3_phy\\skeleton.prj"
+                        },
+                        {
+                            "sha256":  "31B58ECAF08C30D85BB4C97A3248339EE5F840B9A6D1CCFE62011C974D897878",
+                            "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_seed3_phy\\settings.cfg"
+                        },
+                        {
+                            "sha256":  "50C2AE11D2A226AD269288C0D3D196A4D30E599B4CA740D6EC25575E2F7FA229",
+                            "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_seed3_phy\\skeleton.tcl"
+                        }
+                    ],
+    "seed":  3,
+    "synthesis_inputs":  {
+                             "sha256":  "14523B89BACF0482095458BF92A53DC5978C67FA052E2DABBF96D29C120DFDCE",
+                             "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_syn\\inputs.json"
+                         },
+    "sources":  [
+                    {
+                        "sha256":  "E2A6F1B16B9120BF80856D6771588B632174E787BCAC9C55957763257B6DD7E4",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\osd_font_ch.dath"
+                    },
+                    {
+                        "sha256":  "4063F65531897688E6BED43E67E5CD05949FB9C276997CD0DD49333F99B48338",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\osd_font_ascii.dath"
+                    },
+                    {
+                        "sha256":  "74470A353C1995F840DF0FB1DDD0A39991841B6DEC6727C82B94DA340A661700",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\util\\uart_tx.v"
+                    },
+                    {
+                        "sha256":  "54855708ECA536F5B63A47D231DF9117307B298B8C92F8F6A2FC366F063698DE",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\app\\uart_report.v"
+                    },
+                    {
+                        "sha256":  "8FAACD5713DEF6FA3F95143F060FD015A93FFB48E36BB020FC3BCFE59B6FAE3C",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\app\\bw_selftest.v"
+                    },
+                    {
+                        "sha256":  "6718F5A1DA1CE5A675007F1181D8C8B3098A3A5730CEDE242BDAFCD5627E8DD6",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\app\\cw_probe.v"
+                    },
+                    {
+                        "sha256":  "3A9369802190400AF1F3E07B773F29906C5100641B232B83F37E2F8D70BCB620",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\app\\carousel.v"
+                    },
+                    {
+                        "sha256":  "F5A546F04C4AE7421AC70373371FF80E3152E864C361F78FD1565A3375710102",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\app\\asset_manager.v"
+                    },
+                    {
+                        "sha256":  "CC9EE3B17A3A96C3DC5AB8ED43A73752AA40ECDBB35AD3DE278507F9C668C604",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\mem\\sdram_arb.v"
+                    },
+                    {
+                        "sha256":  "7670B2A0FFB665379463DBA9D93B7C984F81D02EF5D81C813E91462E1F976728",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\fetch_line.v"
+                    },
+                    {
+                        "sha256":  "7E89D18C8EC9F3E3617EA58DE7B9271E7EAA3325801A7E7319962150BF5CA6E7",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\layer_bg.v"
+                    },
+                    {
+                        "sha256":  "470878BE0896A50A71450ED391E1E1A137C025CA44853FE9473547196435472B",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\layer_cover.v"
+                    },
+                    {
+                        "sha256":  "619E161171D1B6A7A8A059AFBAC76648D9F09683D6C622BEBDC95E151A56E20E",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\compositor.v"
+                    },
+                    {
+                        "sha256":  "03F92175AC11023D4497FDBEA8DF4325CF48EAF53D47D4D795E0A563F6D17C0D",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\px_arb2.v"
+                    },
+                    {
+                        "sha256":  "C0B10A8D2982B65935F3EBBB36D8C8B81F0559C28980E15F5E5B4E554E24FC79",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\load\\load_writeback.v"
+                    },
+                    {
+                        "sha256":  "574E9DE169704890A288A45A8E3075D28BB8DD6DA413A479A543DC1A92A48263",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\load\\bmp_load.v"
+                    },
+                    {
+                        "sha256":  "C4EF15E1AA769A779F4D1F464C10A71859DEC68106F720FD92ED294E70360016",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\ip\\afifo_8i_32o_1024.v"
+                    },
+                    {
+                        "sha256":  "F129390F060DBA643060794392888B79CE424F3DEB9318697312C908E91A1701",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\ip\\afifo_8i_32o_bram.v"
+                    },
+                    {
+                        "sha256":  "7D1D21A25B9612B7A5A299A69554EC0F126B74F3D38FE4721B11A95DC7E87999",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\app\\frame_sig.v"
+                    },
+                    {
+                        "sha256":  "B47AA2589795826BB0FBE3A2F15A6D189162CDD5A3F1FDD06CCE6B8D552A081D",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\util\\key_debounce.v"
+                    },
+                    {
+                        "sha256":  "24F68EE027FF2DC4EECE550133DF6198702FA3C0EFA30C45D6AD27CD5695CEE5",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\sector_arbiter.v"
+                    },
+                    {
+                        "sha256":  "F5A381AA2215BB144AF3EB04A19B3DF83878286D14C8093C0974AC8D9B9249DB",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\resource_catalog.v"
+                    },
+                    {
+                        "sha256":  "FA2E49BE0CBA0FE719A548DFDDDC2A83D1465F75E8B799ABE215BE538C69EE82",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\sd_spi_byte.v"
+                    },
+                    {
+                        "sha256":  "8E43B022C499621F9DA660E5939D3D91D28B19FF7F35947B287BF52B41E79554",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\sd_init_spi.v"
+                    },
+                    {
+                        "sha256":  "DD1B61DAD5B69318674E8EFC11DBF863CA08B0A4E13D2321A871C6320B9DAE2A",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\sd_block_read.v"
+                    },
+                    {
+                        "sha256":  "524B2E97BF0C8C8423F076EF33370056A45431C81CAA71B2723515727EBAA73A",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\sd_phy.v"
+                    },
+                    {
+                        "sha256":  "F7DB1D0368E5CF4069D62B35DF32778A18866BFF8332FAE1D9ED074B9CA0A511",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\fat32_chain.v"
+                    },
+                    {
+                        "sha256":  "A6201B73A97AD52D5EC7515D05F33F53E871A16E5F1E50378F471F266950B598",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\fat32_mount.v"
+                    },
+                    {
+                        "sha256":  "D257C5BCA7E80621F02C4E1B18107EF9CBA66E05ABE4D823419129C83D693758",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\fat32_scan.v"
+                    },
+                    {
+                        "sha256":  "AF3DEAE8451525AA0689A3E879FBCFE563490DA5B546B7592DB6C3AE1FC8CF7F",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\fat32_sessions.v"
+                    },
+                    {
+                        "sha256":  "707306E56CFA717B9BB27231AD6E43AFD0069B89B58EBE01DEE210208C852B29",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\storage\\storage_top.v"
+                    },
+                    {
+                        "sha256":  "07ED880F0908203A8943B5D8ED044979EDBC615B484ABEBF25A5C39063B752C6",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\ip\\sdram\\global_def.v"
+                    },
+                    {
+                        "sha256":  "767DBDFBD83D42223B77DFA7DEAB42CE8216A8FD6F6CB41B7E7593D9A345BA57",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\ip\\sdram\\sdr_as_ram.enc.v"
+                    },
+                    {
+                        "sha256":  "367E7EDF2092C153D9FB6D98376C5726A3D1D7373756E8FE7256AD9546C90DA5",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\ip\\sdram\\sdr_init_ref.enc.v"
+                    },
+                    {
+                        "sha256":  "C7D7FE07D75F66AA88D9F986B3006319C995162434F104F9990664B374CDFDD2",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\ip\\sdram\\sdr_wrrd.enc.v"
+                    },
+                    {
+                        "sha256":  "8CB7DF5D290A5E6350F998E8F4C19252CC5C82052CE169C8C55665C98BF0C8ED",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\ip\\sdram\\sdram_top.v"
+                    },
+                    {
+                        "sha256":  "57E45A062814673E97773CF6C58FF1629FA45895E30DE9D2C2B6BDD30BD9BB13",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\ip\\video_pll.v"
+                    },
+                    {
+                        "sha256":  "383C466FF89F3027821FA6BCD7F25A24DC41D04EAFCB4C51D5FEDC8209DF3211",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\ip\\pll_sdr.v"
+                    },
+                    {
+                        "sha256":  "77748966850A8F5AF0D77F2CDB08006088BA5E1A31B98391FBA6CC61C5247DA2",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\video\\video_define.v"
+                    },
+                    {
+                        "sha256":  "AFE1F56714EC58D2477BA1717E5A36C5A0DA5FE5C07D70D11AA5ACE710C4B152",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\video\\color_bar.v"
+                    },
+                    {
+                        "sha256":  "1C8FC26C789F87227036BEA034F1AB6FC5633F2AB2684BE422C54687A290FB96",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\video\\video_rgb_to_axis_640x480.v"
+                    },
+                    {
+                        "sha256":  "DE9529321354F04837E051D0EC1681CF44783D4BE3284703A788E081147500BC",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\video\\lane_lvds_10_1.v"
+                    },
+                    {
+                        "sha256":  "416B082B0987001BDBC0A7E20A557CB8FB1DCA34E25DC881E6D28A8CB3CF4300",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\video\\hdmi_phy_warpper.v"
+                    },
+                    {
+                        "sha256":  "867E0B0BDD874BC383D00918C9E1BE3FE01EDF41F343B6A0D73E262776596A63",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\video\\hdmi_1_4b_transmitter_core_wrapper.enc.v"
+                    },
+                    {
+                        "sha256":  "02021BED221CFD4EE2A8A419120FC98D7C645A269576C0158C5ECB1491A306BB",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\top\\skeleton_core.v"
+                    },
+                    {
+                        "sha256":  "42960BF7C49B2C0B018AB2B41C166312B15E92BF94CCF51E18049552CD308D2F",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\top\\skeleton_top.v"
+                    },
+                    {
+                        "sha256":  "A90D5721D38B55702A43A41A9077EF16B7B780377D8E27291C2486FABD59CD38",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\pcm_test_tone.v"
+                    },
+                    {
+                        "sha256":  "63BA0F1E01398E481F1153D73FBBA65E32359614545E9A671055E1F93FC089EE",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\hdmi_audio_acr_gen.v"
+                    },
+                    {
+                        "sha256":  "1C373E7FC50F6C5874A62B97AC8BDE2F44522ABC3A4120459948325179FF2EA5",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\audio_sample_tick.v"
+                    },
+                    {
+                        "sha256":  "DC9EB5279B5C2F6EBE4BB438E83E2F6658D8999F90C914700D6789E0850C876C",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\load\\wav_head.v"
+                    },
+                    {
+                        "sha256":  "2983934356D1E66F85BFB448D560A895A5F0C972AC2383D706D439406C440FEB",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\wav_stream_player.v"
+                    },
+                    {
+                        "sha256":  "D14CBDD7919F3B44D887B8C165B85B93231042E8ABD53CA50ADB3E3CAAA7B3C0",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\audio_mux.v"
+                    },
+                    {
+                        "sha256":  "6D78C523EC1E8C61FECDB558BB2E2BB7B39CAD5DCC6E86AB73D066DA22F03F94",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\px_arb3.v"
+                    },
+                    {
+                        "sha256":  "42B5F96FF84AD84FFF6CC51F707DCF21396E73D4975262C49379557CE24C36DE",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\lyric_pick.v"
+                    },
+                    {
+                        "sha256":  "3952D3C01795715D1AD2A53573353C4810354C5F578EA3A6DA8954362FF28A29",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\lyric_row.v"
+                    },
+                    {
+                        "sha256":  "DF5F2E6ADE35A750008B472E9E24C6832DC6F2AA6FAAE57AA42D9077D96317B0",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\layer_text.v"
+                    },
+                    {
+                        "sha256":  "FD763F5C25204577F50C3DAA135F4FF03AB6DD8323F36C2D2D00B64672703FFB",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\load\\font_load.v"
+                    },
+                    {
+                        "sha256":  "F9D447D2E2D8DB07E90AD40685B6F97DE3466DAE0971E5AC7107366C5EA72A3E",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\layer_fft.v"
+                    },
+                    {
+                        "sha256":  "100BCE210764703E527BF59DB0BF7EA48888F8C86124F341C52708FB8DA7C570",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\spec_fft.v"
+                    },
+                    {
+                        "sha256":  "9ED0FEF38C1BFA3C9B78CE41FE463FDACBC4EBF5B0F548765041974EDC8B80E2",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\spec_bands.v"
+                    },
+                    {
+                        "sha256":  "CAEB314B75AD5054390D7DC1D1806D2F7B3CE78A115ADD1053CC99E05C1E54EF",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\fetch_line_scene.v"
+                    },
+                    {
+                        "sha256":  "FDEABFFAB7BC6FB3E771794474663F4DC27500AAECDB41FD1F46635C4869FA85",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\scene_raster.v"
+                    },
+                    {
+                        "sha256":  "27985C833A3A021F87BE4D354F9CA5B7C53CC487888085900CF4CBEAC2B46B03",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\fetch_writer4.v"
+                    },
+                    {
+                        "sha256":  "80B8CFAA35C8752EFF70DC29B4DC955635C5A1C4A669A8F764A74C3E87B08831",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\scene_fade.v"
+                    },
+                    {
+                        "sha256":  "9F6DC7CAA0F905F413353FF8B10FDA8B44D77B9EF62F85ABA3FA4900855394A1",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\scene_blend.v"
+                    },
+                    {
+                        "sha256":  "B9349547C43C17E64AB8FBF41BCE81BC545CCEF1BE39496B294F18E940066595",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\px_arb5.v"
+                    },
+                    {
+                        "sha256":  "F7EBA27CACE53E7AD1786ADA4919889D36139BAF5CFEF11EFD2E72FA7FBAF457",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\spec_window.v"
+                    },
+                    {
+                        "sha256":  "1D062BA8850A55CD16F6356752F7897DFF7814175871D264A61F2EC168E32BBB",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\spec_bands64.v"
+                    },
+                    {
+                        "sha256":  "A207168F4841A44F510B743CC21FF5DCF1CAEE1897C58FB6A1A16AC08F8FECC3",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\audio\\spec_attack18.v"
+                    },
+                    {
+                        "sha256":  "A969B0EF772640CE704341079118A93810D5EA06EFD937E87784F74804458BFD",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\layer_fft64.v"
+                    },
+                    {
+                        "sha256":  "B372C32491A22E23145FFC8FD3A1A2E87F4F7446111A2527F6EC286AB8195EA2",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\cover_pop.v"
+                    },
+                    {
+                        "sha256":  "E08C714B7E4FFDBD5CBB9D9EDA6E73D24228CDA35F40559F181002439CEE720E",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\cover_pop_geom.v"
+                    },
+                    {
+                        "sha256":  "E6FDF66D74C289D4F084D784C183CFF0D24CDABE19CC45AAEEC0C55A8A6DF848",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\attack_rings.v"
+                    },
+                    {
+                        "sha256":  "4382A3F7FB278E047DFE9C3BD70FFE259AA16B4104E6A9268EC6ABDE8AB0C456",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\osd_controls.v"
+                    },
+                    {
+                        "sha256":  "81606AEE02BB9654AC5BA4822AE8CDA3948AEEC01EE8654065CA1BA778D50253",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\osd_font_rom.v"
+                    },
+                    {
+                        "sha256":  "540FE6378C76B57CFD5E3D936AF66FD4EDB3A67FE2B870EBBA208F5CB8C364E2",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\rtl\\gfx\\osd_layer.v"
+                    },
+                    {
+                        "sha256":  "0156521C418FC4CC1440C6F7B6A834C552F6866AA1DC8A18397AAD4A393AE05C",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\constraints\\skeleton_top.adc"
+                    },
+                    {
+                        "sha256":  "0FE54F2C6242C070286CF409BF059568EEEE633CE173BEF352AE04A1D11DCD42",
+                        "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\constraints\\skeleton_top.sdc"
+                    }
+                ],
+    "route_effort":  "routability",
+    "lut_structure":  "off",
+    "time":  "2026-10-27T20:16:22.3486568+08:00",
+    "script_sha256":  "680F9103D5D01A0BFEA65F96E8ED6F9B36307AF6C1C15400413DB7B4697995C8",
+    "synthesis_tag":  "stage5_font_split_r1",
+    "generate_bitstream":  true,
+    "stage":  "phy",
+    "synthesis_netlist":  {
+                              "sha256":  "BFAC7809405080E68A3298DDA9A59BA7B136605B56C98717B752F3ABF6D5AC4F",
+                              "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_syn\\skeleton_gate.db"
+                          }
+}

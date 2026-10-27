@@ -1,11 +1,21 @@
 {
-  "scope": "阶段4频谱柱高恢复至正常版幅度基准；保留已验证的色彩联动并完成TD实现与bit交付",
+  "active_stage": "stage5_osd",
+  "stage5": {
+    "status": "completed_board_verified",
+    "board_validation": "passed",
+    "bitstream": "prj/td_build/stage5_font_split_r1_seed3_phy/skeleton.bit",
+    "best_synthesis": "prj/td_build/stage5_font_split_r1_syn",
+    "physical_result": "prj/td_build/stage5_font_split_r1_seed3_phy: 9717/9800 Slice; no new timing violations",
+    "report": "output/reports/stage5_osd_status.md",
+    "repair_record": "doc/compile/repair_report.md"
+  },
+  "scope": "阶段5三页OSD按需显示与原始字形绘制，保留阶段1至4音画功能并完成上板验证",
   "target_top": "skeleton_top",
   "status": "completed_board_verified",
   "board_validation": "passed",
   "source": {
     "path": "rtl/top/skeleton_core.v",
-    "sha256": "6727D87B15BFB501819BC4CD6B3365F0359A822576EA90A1BA94B0A8412D03CF"
+    "sha256": "02021BED221CFD4EE2A8A419120FC98D7C645A269576C0158C5ECB1491A306BB"
   },
   "verification": [
     {
@@ -27,17 +37,32 @@
       "run": "spectrum_floor_restore_envelope",
       "status": "PASS",
       "changed_inputs": []
+    },
+    {
+      "run": "stage5_font_split_osd_r1",
+      "status": "PASS",
+      "scenarios": 11
+    },
+    {
+      "run": "stage5_font_split_core_r1",
+      "status": "PASS",
+      "scenarios": 3
+    },
+    {
+      "run": "stage5_font_split_integration_r1",
+      "status": "PASS",
+      "scenarios": 4
     }
   ],
-  "build_directory": "prj\\td_build\\spectrum_floor_restore2_seed4_phy",
+  "build_directory": "prj\\td_build\\stage5_font_split_r1_seed3_phy",
   "bitstream": {
-    "bytes": 638945,
-    "sha256": "6E93038A44314457319687245ED474D826B6775DD2F6299F61979F406DC54FB0",
-    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\spectrum_floor_restore2_seed4_phy\\skeleton.bit"
+    "bytes": 651749,
+    "sha256": "1888055E210DF5EFF9094E9CD27D3F78A201681D646FD0C4F52722B4A1A205E0",
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_seed3_phy\\skeleton.bit"
   },
-  "report": "output/reports/stage4_spectrum_floor_restore.md",
+  "report": "output/reports/stage5_osd_status.md",
   "board_confirmation": {
-    "reported_on": "2026-10-25",
+    "reported_on": "2026-10-27",
     "user_report": "上板没有问题"
   },
   "limitations": [

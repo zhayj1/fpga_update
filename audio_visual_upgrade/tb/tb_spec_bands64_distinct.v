@@ -16,7 +16,7 @@ module tb_spec_bands64_distinct;
 
     integer reads [0:511];
     integer low_reads [0:20];
-    integer i, bar_count=0, read_count=0;
+    integer i, bar_count=0, read_count=0, phase=0, done_count=0;
     reg [7:0] expected_mag, expected_level;
     initial begin
         for(i=0;i<512;i=i+1) reads[i]=0;
@@ -35,11 +35,20 @@ module tb_spec_bands64_distinct;
         frame_stb=1;
         @(negedge clk);
         frame_stb=0;
+        wait(done_count==1);
+        wait(dut.state==0);
+        @(negedge clk); phase=1; bar_count=0; frame_stb=1;
+        @(negedge clk); frame_stb=0;
+        wait(done_count==2);
+        @(negedge clk); rst_n=0;
+        repeat(4) @(negedge clk);
+        rst_n=1; phase=2; bar_count=0; frame_stb=1;
+        @(negedge clk); frame_stb=0;
     end
 
     always @(negedge clk) if(rst_n) begin
         // State 3 is the accumulator's ADD cycle, one visit per consumed bin.
-        if(dut.state===3'd3) begin
+        if(phase==0 && !dut.attack_mode && dut.state===3'd3) begin
             if((^dut.cursor)===1'bx || (^bar_idx)===1'bx ||
                dut.cursor<9'd1 || dut.cursor>9'd256) begin
                 $display("TEST_FAIL invalid band read bar=%0d bin=%0d",bar_idx,dut.cursor);$finish;
@@ -61,6 +70,7 @@ module tb_spec_bands64_distinct;
                 expected_mag=24+bar_idx*7;
                 expected_level=expected_mag-(expected_mag>>3);
             end else expected_level=8'd70;
+            if(phase==1) expected_level=expected_level+(expected_level>>3);
             if(bar_level!==expected_level) begin
                 $display("TEST_FAIL bar %0d level=%0d expected=%0d",bar_idx,bar_level,expected_level);$finish;
             end
@@ -70,6 +80,13 @@ module tb_spec_bands64_distinct;
             if(!bar_stb || bar_idx!==6'd63 || bar_count!=64) begin
                 $display("TEST_FAIL bars_done index=%0d count=%0d",bar_idx,bar_count);$finish;
             end
+            done_count=done_count+1;
+            if(phase==1) begin
+                $display("SCENARIO_PASS bands64_second_frame_smoothing");
+            end else if(phase==2) begin
+                $display("SCENARIO_PASS bands64_reset_history");
+                $display("TEST_PASS");$finish;
+            end else begin
             for(i=0;i<21;i=i+1) if(low_reads[i]!=1) begin
                 $display("TEST_FAIL low bar %0d read count %0d",i,low_reads[i]);$finish;
             end
@@ -85,9 +102,9 @@ module tb_spec_bands64_distinct;
             end
             $display("SCENARIO_PASS nonoverlap_64_bands");
             $display("SCENARIO_PASS bars_done_64");
-            $display("TEST_PASS");$finish;
+            end
         end
     end
-    initial begin #200000; $display("TEST_FAIL bands64 timeout count=%0d",bar_count);$finish;end
+    initial begin #600000; $display("TEST_FAIL bands64 timeout count=%0d",bar_count);$finish;end
 endmodule
 `default_nettype wire
