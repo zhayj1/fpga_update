@@ -1,0 +1,23 @@
+{
+  "dut_top": "work.sdram_arb",
+  "tb_top": "work.tb_timing_arb",
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "rtl/mem/sdram_arb.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/timing_sdram_arb_reference.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_timing_arb.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ]
+}

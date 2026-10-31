@@ -1,0 +1,17 @@
+{
+  "skill": "fpga-workflow",
+  "status": "partial",
+  "files_written": [
+    "rtl/gfx/layer_text_aa.v",
+    "rtl/gfx/osd_blend_palette.dath",
+    "rtl/gfx/osd_layer_small.v",
+    "rtl/gfx/text_row_aa.v",
+    "doc/compile/timing_cleanup_report.md",
+    "output/timing_cleanup_20261030/audio_visual_timing_cleanup.bit"
+  ],
+  "missing_files": [],
+  "timing_clean": false,
+  "verification_level": "functional_simulation_and_routed_bitstream",
+  "reason": "Setup endpoints 152 -> 69; hold 0; board not run.",
+  "evidence": "output/timing_cleanup_20261030/verification_and_build.json"
+}

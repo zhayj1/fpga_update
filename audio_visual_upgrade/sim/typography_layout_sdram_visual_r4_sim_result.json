@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793418771.6187117,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.layer_text_aa",
+    "tb_top": "work.tb_layout_five",
+    "data_files": [
+      "sim/typography_font.mem",
+      "sim/layout_five_lrc.mem",
+      "sim/layout_five_gold.mem",
+      "sim/layout_five_small.mem",
+      "sim/layout_five_info.mem",
+      "rtl/gfx/glyph_blocks.dath"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/text_row_aa.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_text_aa.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_layout_five.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/px_arb5.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/mem/sdram_arb.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_as_ram.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_wrrd.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_init_ref.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/IS42s32200.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdram_top.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/text_sdram_environment.v",
+            "language": "verilog"
+          }
+        ],
+        "defines": [
+          "TEXT_SIM",
+          "SIM_DEVICE_MODEL"
+        ],
+        "include_dirs": [
+          "ip/sdram"
+        ]
+      }
+    ],
+    "tb_parameters": {
+      "REAL_SDRAM": 1
+    }
+  },
+  "expected_scenarios": [
+    "FIX-01-real-layer-contended-pixels",
+    "FIX-02-real-layer-scroll-deadline"
+  ],
+  "timeout_seconds": 300.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/global_def.v": "07ed880f0908203a8943b5d8ed044979edbc615b484abebf25a5c39063b752c6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_as_ram.enc.v": "767dbdfbd83d42223b77dfa7deab42ce8216a8fd6f6cb41b7e7593d9a345ba57",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v": "367e7edf2092c153d9fb6d98376c5726a3d1d7373756e8fe7256ad9546c90da5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_wrrd.enc.v": "c7d7fe07d75f66aa88d9f986b3006319c995162434f104f9990664b374cdfdd2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdram_top.v": "8cb7df5d290a5e6350f998e8f4c19252cc5c82052ce169c8c55665c98bf0c8ed",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/glyph_blocks.dath": "ee9884feffcb2d68209cbc276f156f0a8c4a6b9301987925211e6cfacb478bb0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_text_aa.v": "1986f937d47e16e95ca3d064a2a4aee3a701afc23f88a32a0b3595128843b5ae",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/px_arb5.v": "b9349547c43c17e64ab8fbf41bce81bc545ccef1be39496b294f18e940066595",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/text_row_aa.v": "0b34cda1a378e649fb4c4fdef3c4a3bc3f6363a729d08d158d15da659c978339",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/mem/sdram_arb.v": "cc9ee3b17a3a96c3dc5ab8ed43a73752aa40ecdbb35ad3de278507f9c668c604",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/layout_five_gold.mem": "99c56eefe0fce954941c776e5ecd7aa278a845dafb2f0763ccb0750a46c5fd5f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/layout_five_info.mem": "95441260738327602a64f36574a72f87f94ebcf7918467d25e6c682c21e58553",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/layout_five_lrc.mem": "c77d0730fcd3a3c3f4f5f393702fcc8ce3fc306f4b2efdd9b8783f14873a3fd0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/layout_five_small.mem": "f3776f0d24980aab6bb591f99a71d3495e898fd661b7fca753bc9dae29b6e05d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_layout_sdram.json": "dbdaf75716e90f9bdf83c560eb91971b4c4b5983c45277d9cadaf93a14bb48cf",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/typography_font.mem": "0c52a112e35e06b9d365675c97f4240be430614e7417d55ec6555fb2df92f9df",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram.v": "9bbb66ffde87f457ae406366c87bb9cbe5d2c28871b052d8989d2ff4be2af57d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram32k.v": "d9443cdaffea436c51852fa6e859bb25650f9f87d9d0b276643db16575a75baa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/IS42s32200.v": "6aad09c411b00e319ea6e7ff5a85453eb990532541ae368084406f78a276690b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_layout_sdram.json": "0139ef95199042100d1bb27e793725730f36dec938c065aca9f87c89aa09f92f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v": "bc0b58694cb40e163f81e8b743afe45aa54a6f251189d127b7d7d16bc21b23e0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/text_sdram_environment.v": "070506de67ff93ed54455589764210082b32765ea22ff12284c3c73ff448cd9c"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/4576321b80df46bb93ed2c21c027457c/run.do\""
+  ],
+  "script": "sim/modelsim/4576321b80df46bb93ed2c21c027457c/run.do",
+  "compile_log": "sim/typography_layout_sdram_visual_r4_compile.log",
+  "sim_log": "sim/typography_layout_sdram_visual_r4_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+    "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Too few port connections. Expected 55, found 51.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_title'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_singer'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_sung'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_other'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Too few port connections. Expected 55, found 51.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_title'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_singer'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_sung'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_other'."
+  ],
+  "finished_at": 1793418815.8786905
+}

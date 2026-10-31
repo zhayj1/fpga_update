@@ -1,0 +1,18 @@
+{
+  "dut_top": "work.layer_cover",
+  "tb_top": "work.tb_cover_scene",
+  "libraries": [{"name": "work", "include_dirs": ["rtl/video"], "sources": [
+    {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+    {"path": "rtl/video/color_bar.v", "language": "verilog"},
+    {"path": "rtl/gfx/scene_raster.v", "language": "verilog"},
+    {"path": "rtl/gfx/fetch_writer4.v", "language": "verilog"},
+    {"path": "rtl/gfx/fetch_line_scene.v", "language": "verilog"},
+    {"path": "rtl/gfx/layer_bg.v", "language": "verilog"},
+    {"path": "rtl/gfx/layer_cover.v", "language": "verilog"},
+    {"path": "rtl/gfx/cover_pop.v", "language": "verilog"},
+    {"path": "rtl/gfx/cover_pop_geom.v", "language": "verilog"},
+    {"path": "rtl/gfx/attack_rings.v", "language": "verilog"},
+    {"path": "rtl/gfx/scene_blend.v", "language": "verilog"},
+    {"path": "tb/tb_cover_scene.v", "language": "verilog"}
+  ]}]
+}

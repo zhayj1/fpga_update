@@ -1,0 +1,20 @@
+# End time: 11:53:01 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/8371242c04184343883ff3d172c7885c/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_bmp_downscale -gSMALL=1 -gEXTERNAL=0 
+# Start time: 11:53:01 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_bmp_downscale
+# Loading work.bmp_load
+# Loading work.load_writeback
+# Loading work.afifo_8i_32o_bram
+# Loading work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# SCENARIO_PASS downscale-identity-key-and-backpressure
+# SCENARIO_PASS downscale-rational-and-orientation-matrix
+# SCENARIO_PASS downscale-real-fifo-writeback-addresses
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_downscale.v(256)
+#    Time: 1738841 ns  Iteration: 0  Instance: /tb_bmp_downscale
+# Break in Module tb_bmp_downscale at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_downscale.v line 256
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_downscale.v line 256
+# End time: 11:53:03 on Oct 31,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1

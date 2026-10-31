@@ -1,0 +1,17 @@
+{
+  "dut_top": "work.spec_fft",
+  "tb_top": "work.tb_spectrum_stage1",
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": [],
+      "sources": [
+        {"path": "rtl/audio/spec_window.v", "language": "verilog"},
+        {"path": "rtl/audio/spec_fft.v", "language": "verilog"},
+        {"path": "rtl/audio/spec_bands64.v", "language": "verilog"},
+        {"path": "tb/tb_spectrum_stage1.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

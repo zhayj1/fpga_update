@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793421372.270553,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.osd_layer_small",
+    "tb_top": "work.tb_osd_typography",
+    "data_files": [
+      "sim/typography_osd_golden.mem",
+      "sim/typography_osd_glyphs.mem",
+      "rtl/gfx/osd_youyuan_ch.dath",
+      "rtl/gfx/osd_youyuan_ascii.dath",
+      "rtl/gfx/osd_blend_palette.dath",
+      "rtl/gfx/cover_coverage.dath",
+      "rtl/gfx/visual_palette.dath",
+      "rtl/gfx/osd_youyuan_extra.dath",
+      "rtl/gfx/osd_youyuan_pixel.dath",
+      "rtl/gfx/osd_bcd.dath",
+      "rtl/gfx/osd_bar.dath"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "rtl/gfx/alpha_blend16.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_font_youyuan.v",
+            "language": "verilog",
+            "defines": [
+              "OSD_SIM"
+            ]
+          },
+          {
+            "path": "rtl/gfx/osd_font_pixel.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_numeric_rom.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_layer_small.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_osd_typography.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/cover_coverage.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/visual_palette.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/visual_settings.v",
+            "language": "verilog"
+          }
+        ],
+        "defines": [
+          "OSD_SIM"
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "TYP-05-glyphs",
+    "TYP-05-frames",
+    "TYP-05-state",
+    "FIX-04-osd-normalization-pipeline"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/alpha_blend16.v": "633664c3b5659597d362afeb9e93a0c68d0075371adfdc3d9f138338c042a0b8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/cover_coverage.dath": "e7e09d1a7bacf20f8d29f78d5189d3a21245c15c07f4a85dfcca9f942ba937c6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/cover_coverage.v": "a3194c1a4b05d062eb931c8d6a185b4959f0bab40b0a19e36a62cebbca8fef48",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_bar.dath": "d16ab9d83de8159a8e55d7c5fc2ca29c28b3c2ac21a1f2480f852dbf9c8ef260",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_bcd.dath": "59564572ff3d6a0fac58b4d7ca0ea2800d60bd17406dba2c6cc4701064e69ec8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_blend_palette.dath": "0bacaa0786acddc5a1d8fa86f9eda1e6e498e533d697000e01623e5febda69ab",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_pixel.v": "6df6a854362d9caa29cf524a6797a4cf0913b33e706af957ead0bc8f686d646d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_youyuan.v": "b9b13758852872ed151ae6e3e5a41dec2857ad1044145190b2f5728ee655ef81",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_layer_small.v": "f8088b306466f11f4345338979b11b5e4c93d27d77b1ac64975faa82d586cb08",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_numeric_rom.v": "b20d8cc7706ed9651f84c77618841ce0b410062279a58fe076a1614ddf3d24a3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_ascii.dath": "2965197876c1a0fa386002932f92cb8384550e05be3462f93cdb7ac932cf6d0f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_ch.dath": "b6b2ead6b5b020d986ac3420b47904ab7d287af400ce50fedd3f80f2e01d9b6b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_extra.dath": "f1b37e2a4859b992fdc0dbed19f07f5a53601b919e83b32c5e4ae4d832871450",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_pixel.dath": "7da4c4cc63cd740dae0d3f29b9a09b0629accdd8b2302660ffcccd4a7fd70a4b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/visual_palette.dath": "e272a56689127fd51870167d891eacccbfddd9b00f51f3717ed44d467b816406",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/visual_palette.v": "e265d5f9373ce83c3460cfad0be5fb7270c2255bb1e74e785abe7179cbc4120b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/visual_settings.v": "169bd921ffdcc260e55e27c28a1c94ea8b9d52c47a84a8b7b27244fa1b1398f3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_typography_osd.json": "a80640148baefd5e3220dad054c554156bfc97e63fa05dcab6ddd0a62118cb80",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/typography_osd_glyphs.mem": "0e2945f04adab17331b4b399385e26f022f92cef4e2204356e5cd8ecaefdef9a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/typography_osd_golden.mem": "20bb115df21ecd3f5d1fcb79ff8eb6e37e76b0c0a1f4720f4382b0d8319782e8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram.v": "9bbb66ffde87f457ae406366c87bb9cbe5d2c28871b052d8989d2ff4be2af57d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram32k.v": "d9443cdaffea436c51852fa6e859bb25650f9f87d9d0b276643db16575a75baa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_typography_osd.json": "80badc227a5de375e76f9a9fe73edbcca1ce0de325e1064dee82b31cd3ee5d74",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v": "7864b837a54eea3ca7e349a93dfbe63bd5bad843ac89decb50dbe8701feefb0a"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0382b2323f2f4d8c8c30620621c0a83f/run.do\""
+  ],
+  "script": "sim/modelsim/0382b2323f2f4d8c8c30620621c0a83f/run.do",
+  "compile_log": "sim/typography_osd_final_r1_compile.log",
+  "sim_log": "sim/typography_osd_final_r1_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Too few port connections. Expected 30, found 26.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'color_indices'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'effects'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_index'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_rgb'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Too few port connections. Expected 30, found 26.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'color_indices'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'effects'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_index'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_rgb'."
+  ],
+  "finished_at": 1793421386.9473197
+}

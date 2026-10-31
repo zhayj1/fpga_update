@@ -1,0 +1,37 @@
+# End time: 11:59:41 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 5
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/081705896444414186ca51fbf02c15c1/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_osd_stage5 
+# Start time: 11:59:41 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_osd_stage5
+# Loading work.osd_controls
+# Loading work.osd_layer
+# Loading work.osd_font_rom
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Too few port connections. Expected 17, found 15.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_osd_stage5/keys File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v
+# ** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [PCDPC] - Port size (3) does not match connection size (2) for port 'page'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v(14).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_osd_stage5/keys File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'colors'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'effects'.
+# incase
+# 
+# incase
+# 
+# SCENARIO_PASS osd_short_page
+# SCENARIO_PASS osd_long_toggle
+# SCENARIO_PASS osd_volume_adjust
+# SCENARIO_PASS osd_parameter_bounds
+# SCENARIO_PASS osd_font_and_panel
+# SCENARIO_PASS osd_pixel_alignment
+# SCENARIO_PASS osd_numeric_pages
+# SCENARIO_PASS osd_bar_width
+# SCENARIO_PASS osd_scope_mark
+# SCENARIO_PASS osd_scope_rescale
+# SCENARIO_PASS osd_three_pages
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(291)
+#    Time: 566176 ns  Iteration: 0  Instance: /tb_osd_stage5
+# Break in Module tb_osd_stage5 at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v line 291
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v line 291
+# End time: 11:59:42 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 5

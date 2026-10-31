@@ -1,0 +1,43 @@
+{
+  "dut_top": "work.bmp_load",
+  "dut_parameters": {
+    "EXTERNAL_BACKEND": 0,
+    "DOWNSCALE": 1
+  },
+  "tb_top": "work.tb_bmp_downscale",
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/ip/afifo_8i_32o_1024.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/ip/afifo_8i_32o_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/load/load_writeback.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/load/bmp_load.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_bmp_downscale.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ],
+  "tb_parameters": {
+    "EXTERNAL": 0,
+    "SMALL": 1
+  }
+}

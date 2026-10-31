@@ -19,14 +19,18 @@ $utf8=New-Object System.Text.UTF8Encoding($false)
 $manifest=[System.Collections.Generic.List[object]]::new()
 $prj=Get-Content (Join-Path $template 'skeleton.prj') -Raw -Encoding UTF8
 $order=80
-foreach($source in @('gfx/fetch_line_scene','gfx/scene_raster','gfx/fetch_writer4','gfx/scene_fade','gfx/scene_blend','gfx/px_arb5','audio/spec_window','audio/spec_bands64','audio/spec_attack18','gfx/layer_fft64','gfx/cover_pop','gfx/cover_pop_geom','gfx/attack_rings','gfx/osd_controls','gfx/osd_font_rom','gfx/osd_layer')) {
+foreach($source in @('gfx/fetch_line_scene','gfx/scene_raster','gfx/fetch_writer4','gfx/scene_fade','gfx/scene_blend','gfx/px_arb5','audio/spec_window','audio/spec_bands64','audio/spec_attack18','gfx/layer_fft64','gfx/cover_pop','gfx/cover_pop_geom','gfx/attack_rings','gfx/osd_controls','gfx/osd_font_rom','gfx/osd_layer','gfx/alpha_blend16','gfx/text_row_aa','gfx/layer_text_aa','gfx/osd_font_youyuan','gfx/osd_font_pixel','gfx/osd_numeric_rom','gfx/osd_layer_small','gfx/cover_coverage','gfx/visual_palette','gfx/visual_settings')) {
     $prj=$prj.Replace('</Verilog>',"<File Path=`"../../../rtl/$source.v`"><FileInfo><Attr Name=`"UsedInSyn`" Val=`"true`"/><Attr Name=`"UsedInP&R`" Val=`"true`"/><Attr Name=`"BelongTo`" Val=`"design_1`"/><Attr Name=`"CompileOrder`" Val=`"$order`"/></FileInfo></File></Verilog>")
     $order++
 }
-foreach($fontFile in @('osd_font_ch.dath','osd_font_ascii.dath')) {
+foreach($fontFile in @('osd_font_ch.dath','osd_font_ascii.dath','osd_youyuan_ch.dath','osd_youyuan_ascii.dath','osd_blend_palette.dath','cover_coverage.dath','visual_palette.dath','osd_youyuan_extra.dath','osd_youyuan_pixel.dath','osd_bcd.dath','osd_bar.dath')) {
     $fontData=Join-Path $project "rtl/gfx/$fontFile"
+    Copy-Item -LiteralPath $fontData -Destination (Join-Path $run $fontFile)
     $manifest.Add(@{path=$fontData;sha256=(Get-FileHash -LiteralPath $fontData -Algorithm SHA256).Hash})
 }
+$glyphBlocks=Join-Path $project 'rtl/gfx/glyph_blocks.dath'
+Copy-Item -LiteralPath $glyphBlocks -Destination (Join-Path $run 'glyph_blocks.dath')
+$manifest.Add(@{path=$glyphBlocks;sha256=(Get-FileHash -LiteralPath $glyphBlocks -Algorithm SHA256).Hash})
 $prj=[regex]::Replace($prj,'<File Path="([^"]+)"',{
     param($m)
     $path=[IO.Path]::GetFullPath((Join-Path $template $m.Groups[1].Value)).Replace($baseline,$project)

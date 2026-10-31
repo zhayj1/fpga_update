@@ -2,7 +2,7 @@
 // A single outstanding task owns the file stream and writeback until completion.
 // Image state belongs to eight physical assets (four BG/CV pairs). A two-bit
 // song epoch hides old g2/g3 immediately on a song switch without copying tables.
-module asset_manager (
+module asset_manager #(parameter TYPOGRAPHY=0) (
     input wire clk, input wire rst_n, input wire sd_ready,
     input wire pl_done, input wire pl_busy, input wire [7:0] song,
     input wire [47:0] current_images, input wire current_lrc_valid,
@@ -18,7 +18,7 @@ module asset_manager (
     output reg select_start, output wire [3:0] boot_state,
     output reg task_start, output reg task_raw,
     output reg [7:0] task_index, output reg [20:0] task_base,
-    output reg [31:0] task_bytes, output reg [18:0] task_capacity,
+    output reg [31:0] task_bytes, output reg [19:0] task_capacity,
     output reg [3:0] task_tag, output reg active, output wire probe_active,
     input wire task_done, input wire [3:0] done_tag,
     input wire [7:0] task_error, input wire [15:0] image_w, input wire [15:0] image_h,
@@ -111,12 +111,21 @@ module asset_manager (
     function [20:0] image_base;
         input [2:0] asset;
         begin
+            if (TYPOGRAPHY) begin
+                case(asset)
+                3'd0:image_base=21'h000000;3'd1:image_base=21'h0E1000;
+                3'd2:image_base=21'h038400;3'd3:image_base=21'h0EB8C0;
+                3'd4:image_base=21'h070800;3'd5:image_base=21'h0F6180;
+                3'd6:image_base=21'h0A8C00;3'd7:image_base=21'h100A40;
+                endcase
+            end else begin
             case(asset)
             3'd0:image_base=21'h00000; 3'd1:image_base=21'h70800;
             3'd2:image_base=21'h38400; 3'd3:image_base=21'hA8C00;
             3'd4:image_base=21'h150000;3'd5:image_base=21'h1225A0;
             3'd6:image_base=21'h188400;3'd7:image_base=21'h1C0800;
             endcase
+            end
         end
     endfunction
     // One selector supplies the same task registers for boot, preload and raw files.
@@ -125,12 +134,12 @@ module asset_manager (
     reg [7:0] index_sel;
     reg [20:0] base_sel;
     reg [31:0] bytes_sel;
-    reg [18:0] capacity_sel;
+    reg [19:0] capacity_sel;
     reg [1:0] epoch_sel, physical_sel;
     reg [2:0] image_sel;
     always @* begin
         candidate=1'b0; raw_sel=1'b0; asset_sel=4'd0; index_sel=8'd0;
-        base_sel=21'd0; bytes_sel=32'd0; capacity_sel=19'd230400;
+        base_sel=21'd0; bytes_sel=32'd0; capacity_sel=20'd230400;
         epoch_sel=epoch; physical_sel=rotation; image_sel=3'd0;
         if (state == BOOT) begin
             if (boot_step < 4'd6) begin
@@ -143,16 +152,17 @@ module asset_manager (
                 raw_sel=1'b1;
                 case (boot_step)
                 4'd6: begin
-                    candidate=font_valid; asset_sel=4'd8; index_sel=8'd136;
-                    base_sel=21'hE1000; bytes_sel=font_size; capacity_sel=19'd261696;
+                    candidate=font_valid && (!TYPOGRAPHY || (font_size==32'd3856960)); asset_sel=4'd8; index_sel=8'd136;
+                    base_sel=TYPOGRAPHY ? 21'h10BBB0 : 21'hE1000; bytes_sel=font_size;
+                    capacity_sel=TYPOGRAPHY ? 20'd1000528 : 20'd261696;
                 end
                 4'd7: begin
-                    candidate=asc_valid; asset_sel=4'd9; index_sel=8'd137;
-                    base_sel=21'h120E40; bytes_sel=asc_size; capacity_sel=19'd1536;
+                    candidate=asc_valid && !TYPOGRAPHY; asset_sel=4'd9; index_sel=8'd137;
+                    base_sel=21'h120E40; bytes_sel=asc_size; capacity_sel=20'd1536;
                 end
                 4'd8: begin
                     candidate=current_lrc_valid; asset_sel=4'd10; index_sel=current_lrc;
-                    base_sel=21'h121440; bytes_sel=32'd4448; capacity_sel=19'd1112;
+                    base_sel=TYPOGRAPHY ? 21'h10B300 : 21'h121440; bytes_sel=32'd4448; capacity_sel=20'd1112;
                 end
                 default: candidate=1'b0;
                 endcase
@@ -171,13 +181,14 @@ module asset_manager (
             end else if (round_active && pre_step == 3'd2 && !released && !lrc_prepared) begin
                 candidate=round_lrc_valid && !pl_busy; raw_sel=1'b1;
                 asset_sel=lrc_slot ? 4'd10 : 4'd11; index_sel=round_lrc;
-                base_sel=lrc_slot ? 21'h121440 : 21'hD5C00;
-                bytes_sel=32'd4448; capacity_sel=19'd1112;
+                base_sel=TYPOGRAPHY ? (lrc_slot ? 21'h10B300 : 21'h10B758) :
+                                         (lrc_slot ? 21'h121440 : 21'hD5C00);
+                bytes_sel=32'd4448; capacity_sel=20'd1112;
             end
         end
         if (!raw_sel) begin
             base_sel=image_base(image_sel);
-            capacity_sel=image_sel[0] ? 19'd184320 : 19'd230400;
+            capacity_sel=image_sel[0] ? (TYPOGRAPHY ? 20'd43200 : 20'd184320) : 20'd230400;
             // Protect the currently displayed and the pending display pair.
             if (pinned[image_sel[2:1]]) candidate=1'b0;
         end
@@ -188,7 +199,7 @@ module asset_manager (
             state<=WAIT_CARD; boot_step<=4'd0; epoch<=2'd0; task_epoch<=2'd0;
             select_start<=1'b0; task_start<=1'b0; task_raw<=1'b0;
             task_index<=8'd0; task_base<=21'd0; task_bytes<=32'd0;
-            task_capacity<=19'd0; task_tag<=4'd0; active<=1'b0; target<=4'd0;
+            task_capacity<=20'd0; task_tag<=4'd0; active<=1'b0; target<=4'd0;
             valid<=12'd0; loading<=12'd0;
             ahead_physical<=2'd3; round_images<=48'd0; round_song<=8'd0; last_song<=8'd0;
             round_active<=1'b0; released<=1'b0; need_round<=1'b1; have_round<=1'b0;

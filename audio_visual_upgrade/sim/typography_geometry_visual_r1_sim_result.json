@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793420123.407801,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.tb_geometry_equivalence",
+    "tb_top": "work.tb_geometry_equivalence",
+    "data_files": [],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/scene_raster.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/fetch_line_scene.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_bg.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/layer_bg_reference.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_geometry_equivalence.v",
+            "language": "verilog"
+          }
+        ],
+        "defines": [
+          "OSD_SIM"
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "geometry-all-widths-frames",
+    "geometry-blanking-and-disabled"
+  ],
+  "timeout_seconds": 300.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line_scene.v": "caeb314b75ad5054390d7dc1d1806d2f7b3ce78a115add1053cc99e05c1e54ef",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_bg.v": "2934bbc4a849d3fdccbe7b20ab3048f0988e5312050be5ca65e064128974ee02",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/scene_raster.v": "fdeabffab7bc6fb3e771794474663f4dc27500aaecdb41fd1f46635c4869fa85",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_geometry_equivalence.json": "cb011c68c19e85d0e8187ec9363c4bead94ab1053e9ea8e216ea1fadc8c0882f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram.v": "9bbb66ffde87f457ae406366c87bb9cbe5d2c28871b052d8989d2ff4be2af57d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram32k.v": "d9443cdaffea436c51852fa6e859bb25650f9f87d9d0b276643db16575a75baa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_geometry_equivalence.json": "6c24db64c9a8374b28423787d79e4ddacef0c1754db25c44e5db8017801ba671",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/layer_bg_reference.v": "55af622564817e7835a3ba2f3b1c2f9521fdc06182ba6eb970361f4fb7893f51",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_geometry_equivalence.v": "afeb5a58b19adf8fb4c8717019f9e5404225467e4ebab6e410a2dbfead61f002"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/5e89454f8635491dbdb726704aec1b7f/run.do\""
+  ],
+  "script": "sim/modelsim/5e89454f8635491dbdb726704aec1b7f/run.do",
+  "compile_log": "sim/typography_geometry_visual_r1_compile.log",
+  "sim_log": "sim/typography_geometry_visual_r1_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1793420144.0743291
+}

@@ -13,20 +13,42 @@ module tb_upgrade_core;
     wire sck,cs,mosi,miso,de,av,au,al;
     wire [23:0] rgb;
     wire [7:0] ad,cmd0;
-    skeleton_core #(.SDR_CLK_MHZ(150),.KEY_DEBOUNCE_MS(1),.ROT_MS(100),
+`ifdef BMP_SCALE_FIXTURE
+    localparam integer LOAD_NORMALIZE=1;
+`else
+    // Historical fixture contains undersized images; explicit legacy regression.
+    localparam integer LOAD_NORMALIZE=0;
+`endif
+    skeleton_core #(.BMP_BG_W(8),.BMP_BG_H(6),.BMP_COVER_W(5),.BMP_COVER_H(5),.BMP_DOWNSCALE(LOAD_NORMALIZE),.SDR_CLK_MHZ(150),.KEY_DEBOUNCE_MS(1),.ROT_MS(100),
         .FADE_STEP(9'd128),.en_rot(1'b1),.en_pre(1'b1),.en_a9(1'b1),.en_fft(1'b1)) dut (
         .clk(clk),.rst_n(rst_n),.clk_pix(pix),.clk_pix5x(pix5),.rst_pix(rst_pix),
         .clk_sdr(clk_sdr),.clk_sdr_sft(clk_sft),.rst_sdr(rst_sdr),.key4(key4),
         .sd_sck(sck),.sd_cs_n(cs),.sd_mosi(mosi),.sd_miso(miso),
         .obs_de(de),.obs_rgb(rgb),.obs_axis_valid(av),.obs_axis_user(au),
         .obs_axis_last(al),.obs_axis_data(ad));
+`ifdef BMP_SCALE_FIXTURE
+    // Small targets keep the real SPI/system test practical. Production sizes
+    // and 4096 source counters are exercised by tb_bmp_downscale separately.
+    // Scaled integration fixture shares target geometry with the display core.
+
+    sd_card_model_min #(.IMG_BYTES(262144),.MEM_FILE("sim/fat32_downscale.mem")) card (
+`else
     sd_card_model_min #(.IMG_BYTES(262144),.MEM_FILE("sim/fat32_core.mem")) card (
+`endif
         .sck(sck),.cs_n(cs),.mosi(mosi),.miso(miso),.cmd0_cnt(cmd0));
 
     integer bg_w[0:5],bg_h[0:5],bg_off[0:5],cv_w[0:5],cv_h[0:5],cv_off[0:5];
+`ifdef BMP_SCALE_FIXTURE
+    `include "downscale_fixture.vh"
+`else
     `include "core_fixture.vh"
+`endif
     reg [23:0] pixels[0:PIXEL_COUNT-1];
+`ifdef BMP_SCALE_FIXTURE
+    initial $readmemh("sim/downscale_pixels.mem",pixels);
+`else
     initial $readmemh("sim/core_pixels.mem",pixels);
+`endif
     integer map_bg[0:3],map_cv[0:3];
     integer i,sel,aid;
     integer cur=-1,old=-1,accepts=0,keys=0,rotations=0,ends=0;
@@ -123,8 +145,8 @@ module tb_upgrade_core;
             $display("TEST_FAIL color matrix samples");$finish;
         end
         $display("COLOR_SPOT_PASS");
-        if(dut.u_lyr.C_SUNG!==24'hFF5FCB || dut.u_lyr.C_UNSUNG!==24'hE8E4FF ||
-           dut.u_lyr.C_NEXT!==24'hE8E4FF) begin
+        if(dut.g_legacy_text.u_lyr.C_SUNG!==24'hFF5FCB || dut.g_legacy_text.u_lyr.C_UNSUNG!==24'hE8E4FF ||
+           dut.g_legacy_text.u_lyr.C_NEXT!==24'hE8E4FF) begin
             $display("TEST_FAIL lyric palette parameters");$finish;
         end
         #1000;rst_n=1;rst_pix=0;rst_sdr=0;
@@ -192,14 +214,14 @@ module tb_upgrade_core;
         if(dut.ff_vld) fft_n=fft_n+1;
         if(dut.ly_vld) begin
             text_n=text_n+1;
-            if(!dut.u_lyr.any_ttl) begin
-                if(dut.u_lyr.sel==2'd0 && dut.u_lyr.code==2'd2 && dut.ly_rgb!==24'hFF5FCB) begin
+            if(!dut.g_legacy_text.u_lyr.any_ttl) begin
+                if(dut.g_legacy_text.u_lyr.sel==2'd0 && dut.g_legacy_text.u_lyr.code==2'd2 && dut.ly_rgb!==24'hFF5FCB) begin
                     $display("TEST_FAIL sung lyric color %h",dut.ly_rgb);$finish;
                 end
-                if(dut.u_lyr.sel==2'd0 && dut.u_lyr.code!=2'd2 && dut.ly_rgb!==24'hE8E4FF) begin
+                if(dut.g_legacy_text.u_lyr.sel==2'd0 && dut.g_legacy_text.u_lyr.code!=2'd2 && dut.ly_rgb!==24'hE8E4FF) begin
                     $display("TEST_FAIL unsung lyric color %h",dut.ly_rgb);$finish;
                 end
-                if(dut.u_lyr.sel==2'd1) begin
+                if(dut.g_legacy_text.u_lyr.sel==2'd1) begin
                     next_lyric_n=next_lyric_n+1;
                     if(dut.ly_rgb!==24'hE8E4FF) begin
                         $display("TEST_FAIL second lyric color %h",dut.ly_rgb);$finish;
@@ -231,6 +253,10 @@ module tb_upgrade_core;
                 exp=blend(scene_pixel(old,x,y),scene_pixel(cur,x,y),dut.fade_alpha);
                 exp=color_model(exp,dut.color_rel);
                 if(rgb!==exp) begin
+                    $display("RGB_DIAG bg=%h/%b cv=%h/%b oldbg=%h/%b oldcv=%h/%b ring=%h/%b overlay=%b newbg=%h new=%h old=%h",
+                        dut.bg_rgb,dut.bg_vld,dut.cv_rgb,dut.cv_vld,
+                        dut.obg_rgb,dut.obg_vld,dut.ocv_rgb,dut.ocv_vld,
+                        dut.ring_rgb,dut.ring_vld,dut.overlay_vld_d,dut.new_bg_d,dut.new_image,dut.old_image);
                     $display("TEST_FAIL RGB t=%0t x=%0d y=%0d old=%0d cur=%0d alpha=%0d got=%h expected=%h raw=%h rel=%0d loud=%0d",$time,x,y,old,cur,dut.fade_alpha,rgb,exp,dut.cmp_raw_rgb,dut.color_rel,dut.env_loud_q8);$finish;
                 end
                 checked=checked+1;

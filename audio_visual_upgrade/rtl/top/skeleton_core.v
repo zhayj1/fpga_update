@@ -4,34 +4,21 @@
 //
 // 为什么要拆出 core：
 //   本机 ModelSim **不能**仿真 PLL（`eg_phy_pll.v` 模型不锁定，见附录 A-5），
-//   而 SD 卡读写、SDRAM 往返、彩条、UART 报文这些**恰恰必须仿真**。
+//   而 SD 卡读写、SDRAM 往返和视频合成仍需在 core 中仿真。
 //   ⇒ 把「PLL + PHY + 管脚」留给 `skeleton_top.v`（只做综合/上板），
 //     把「逻辑」放在本模块：TB 直接给 clk/clk_sdr/clk_pix 就能完整仿真。
 //
 // 三个时钟域（各带独立复位）：
 //   · clk_pix(25MHz) + rst_pix(高有效) ：彩条 → RGB→AXIS → HDMI 发射核（出 10bit TMDS 字）
-//   · clk_sdr(150MHz) + clk_sdr_sft + rst_sdr(高有效) ：sdram_top + sdram_arb + 带宽自测 + UART 报文
+//   · clk_sdr + clk_sdr_sft + rst_sdr(高有效) ：sdram_top + sdram_arb
 //   · clk(50MHz) + rst_n(低有效) ：storage_top（SD/FAT32 文件服务，**板上实测就是 50MHz**）
 //   ★ storage_top 保持 50MHz 是刻意的：它是上一轮在 50MHz 下验证过的产品路径，
 //     不要为了省一个时钟域把它搬到 150MHz（会引入未验证的时序风险）。
-//   ★ 跨域只有「SD 状态 → 150MHz 报文」这一处，且报文是**秒级一次**的快照，
-//     采样时 storage_top 状态早已稳定；单比特用 2 级同步器，多比特直接取（并在本文件注明前提）。
-//
-// 判据对应（P0-2）：① 彩条时序/AXIS 流正确；② UART 打印初始化与带宽；③ SDRAM 往返自检 0 错。
+// LED0 使用同步后的 SDRAM 初始化状态。
 //=============================================================================
 module skeleton_core #(
-    parameter integer CLK_HZ     = 50000000,     // storage_top 主时钟；**也是 UART 报文所在时钟**
-    parameter integer SDR_CLK_MHZ= 150,          // clk_sdr 频率（带宽换算用）
-    parameter integer WIN_CYCLES = 200000,       // 带宽窗口（拍 @clk_sdr）：150MHz ⇒ 1.333ms
-    parameter integer RPT_PERIOD = 50000000,     // UART 报文周期（拍 @clk，**50MHz**）：50e6 = 1s
-    // 带宽换算比：KB/s = 字数 × BW_NUM / BW_DEN
-    //   推导：KB/s = 字数 × 4000 × SDR_CLK_MHZ / WIN_CYCLES。**窗口是特意选的**：
-    //   4000×150/200000 = 3 整除 ⇒ BW_NUM=3、**BW_DEN=1**。
-    //   ★ BW_DEN≠1 就等于一个常数除法，TD 会把它做成"乘法器+长加法链"，
-    //     实测把 `字数 → bw_kbps` 顶到 slack -19.704ns / Fmax 37.9MHz（P0-3 报告）。
-    //     **改窗口或频率时必须重算这两个数，并尽量保持 BW_DEN=1。**
-    parameter integer BW_NUM     = 3,
-    parameter integer BW_DEN     = 1,
+    parameter integer CLK_HZ     = 50000000,     // storage_top 主时钟
+    parameter integer SDR_CLK_MHZ= 150,          // clk_sdr 频率
     // ★ A1：KEY4 去抖时间（ms）。板上默认 20ms；仿真里 TB 可传 1 以缩短运行时间。
     parameter integer KEY_DEBOUNCE_MS = 20,
     // ★★ S3-b：音量系数（口径见 `rtl/audio/wav_stream_player.v` 文件头 ✓）
@@ -61,6 +48,11 @@ module skeleton_core #(
     //   ⇒ 按 `cwp_active` 切换：`0`（开机/独占总线）用 `LD_WD_MS` ／ `1`（并发预装）用本值 ✓
     //   ★ 代价：一个 32 位比较器、**0 块 BRAM** ✓
     parameter integer LD_WD_MS_LOOSE  = 200,
+    // Load large BMPs into fixed display geometry. Disable only for legacy
+    // compact simulation fixtures that deliberately contain undersized images.
+    parameter integer BMP_DOWNSCALE = 1,
+    parameter integer BMP_BG_W=640, BMP_BG_H=480,
+    parameter integer BMP_COVER_W=240, BMP_COVER_H=240,
     // ★★★ 2026-10-10：**默认值 = 1（频谱常开）** ✗→✓ —— 这是用户的决定 ✓
     //   【为什么默认必须是 1】参数默认值决定**任何"不显式覆盖"的构建**（尤其 GUI 构建 ✗）
     //     ⇒ 若默认 0，GUI 出来的码流会**没有频谱** ✗（实测用活模板构建：#RAMs=60、#DSPs=4 ✗
@@ -70,6 +62,8 @@ module skeleton_core #(
     parameter en_fft                  = 1'b1,
     parameter en_color_diag           = 1'b0,
     parameter en_osd                  = 1'b0,
+    parameter VISUAL_CONTROLS=0,
+    parameter TYPOGRAPHY              = 1'b0,
     // ★★★ P5/A8（2026-10-10）：**小轮播开关 ＋ 周期**
     //   · `en_rot`：默认 **1**（功能是要用的 ✓）—— 与 `en_fft` 同一套纪律 ✓
     //     ★ 台里**显式给 0** ✓ ⇒ 可做"`en_rot=0` 时 T-01..T-07 逐位不变"的 A/B ✓
@@ -119,8 +113,7 @@ module skeleton_core #(
     input  wire        key2,
     input  wire        key3,
     input  wire        key4,
-    // ---------------- UART / 观测 ----------------
-    output wire        uart_tx,
+    // ---------------- LED / 观测 ----------------
     output wire [3:0]  led,
     // ---------------- 仿真观测（综合时是常数/可忽略，不接管脚）----------------
     output wire [7:0]  obs_axis_data,
@@ -225,8 +218,9 @@ module skeleton_core #(
     wire        lp_px_req, lp_px_ack, lp_px_done, lp_px_valid;
     wire [20:0] lp_px_addr, lp_px_addr_raw;
     reg [1:0] lrc_slot_sync, lrc_ok_sync;
-    localparam [20:0] LRC_SLOT_DELTA = 21'hD5C00 - 21'h121440;
-    wire c2_lrc_addr = (c2_addr_raw >= 21'h121440) && (c2_addr_raw < 21'h121898);
+    localparam [20:0] TEXT_LRC_BASE=TYPOGRAPHY ? 21'h10B300 : 21'h121440;
+    localparam [20:0] LRC_SLOT_DELTA = TYPOGRAPHY ? 21'd1112 : (21'hD5C00 - 21'h121440);
+    wire c2_lrc_addr = (c2_addr_raw >= TEXT_LRC_BASE) && (c2_addr_raw < TEXT_LRC_BASE+21'd1112);
     assign lp_px_addr = lrc_slot_sync[1] ? (lp_px_addr_raw + LRC_SLOT_DELTA) : lp_px_addr_raw;
     assign c2_addr = (lrc_slot_sync[1] && c2_lrc_addr) ?
                      (c2_addr_raw + LRC_SLOT_DELTA) : c2_addr_raw;
@@ -260,7 +254,7 @@ module skeleton_core #(
         .px_ack(c0_ack),.px_done(c0_done),.px_valid(c0_valid));
 
     layer_bg #(.MAX_W(640), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480),
-               .SHARED_RASTER(1),.SHARED_WRITER(1)) u_bg (
+               .SHARED_RASTER(1),.SHARED_WRITER(1),.GEOMETRY_BITS(10)) u_bg (
         .clk_pix (clk_pix), .rst_pix_n (~rst_pix), .hs (cb_hs), .vs (cb_vs), .de (cb_de),
         .en (bg_en),
         .win_x (bg_x), .win_y (bg_y), .win_w (bg_w), .win_h (bg_h),
@@ -277,7 +271,7 @@ module skeleton_core #(
     );
 
     layer_cover #(.MAX_W(320), .LAT(7), .H_ACT_DLY(144), .V_ACT_DLY(35), .V_ACT_LIN(480),
-                  .SHARED_RASTER(1),.SHARED_WRITER(1),.SCALE(1)) u_cv (
+                  .SHARED_RASTER(1),.SHARED_WRITER(1),.SCALE(1),.GEOMETRY_BITS(10)) u_cv (
         .clk_pix (clk_pix), .rst_pix_n (~rst_pix), .hs (cb_hs), .vs (cb_vs), .de (cb_de),
         .en (cv_en), .ch_key (ch_key),
         .win_x (cv_pop_x), .win_y (cv_pop_y), .win_w (cv_pop_w), .win_h (cv_pop_h),
@@ -294,7 +288,7 @@ module skeleton_core #(
         .wr_error(img_err[1]),.wr_en(img_we[1]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
 
-    layer_bg #(.MAX_W(640),.SHARED_RASTER(1),.SHARED_WRITER(1)) u_old_bg (
+    layer_bg #(.MAX_W(640),.SHARED_RASTER(1),.SHARED_WRITER(1),.GEOMETRY_BITS(10)) u_old_bg (
         .clk_pix(clk_pix),.rst_pix_n(~rst_pix),.hs(cb_hs),.vs(cb_vs),.de(cb_de),
         .en(old_enable && obg_en),.win_x(obg_x),.win_y(obg_y),.win_w(obg_w),.win_h(obg_h),
         .img_w(obg_iw),.img_h(obg_ih),.words_per_row(obg_wpr),.slot_base(obg_slot),
@@ -307,7 +301,7 @@ module skeleton_core #(
         .wr_take(img_take[2]),.wr_active(img_active[2]),.wr_done(img_done[2]),
         .wr_error(img_err[2]),.wr_en(img_we[2]),.wr_good(img_good),.wr_addr(img_wr_addr)
     );
-    layer_cover #(.MAX_W(320),.SHARED_RASTER(1),.SHARED_WRITER(1),.SCALE(1)) u_old_cv (
+    layer_cover #(.MAX_W(320),.SHARED_RASTER(1),.SHARED_WRITER(1),.SCALE(1),.GEOMETRY_BITS(10)) u_old_cv (
         .clk_pix(clk_pix),.rst_pix_n(~rst_pix),.hs(cb_hs),.vs(cb_vs),.de(cb_de),
         .en(old_enable && ocv_en),.ch_key(ch_key),
         .win_x(ocv_pop_x),.win_y(ocv_pop_y),.win_w(ocv_pop_w),.win_h(ocv_pop_h),
@@ -330,7 +324,7 @@ module skeleton_core #(
     wire osd_vld;
     wire osd_visible_clk, key_image_next, key_press_legacy;
     wire key_press = key_press_legacy; // Legacy integration TB observation.
-    wire [1:0] osd_page_clk;
+    wire [2:0] osd_page_clk;
     wire [2:0] osd_selected_clk;
     wire [5:0] osd_sensitivity_clk;
     wire [8:0] osd_volume_clk, osd_sat_base_clk, osd_sat_max_clk;
@@ -344,7 +338,7 @@ module skeleton_core #(
     reg [17:0] env_sum;
     reg [7:0]  env_loud_q8, env_rel_q8;
     reg [1:0] osd_visible_sync;
-    reg [1:0] osd_page_s1, osd_page_s2;
+    reg [2:0] osd_page_s1, osd_page_s2;
     reg [2:0] osd_selected_s1, osd_selected_s2;
     reg [5:0] osd_sens_s1, osd_sens_s2;
     reg [8:0] osd_volume_s1, osd_volume_s2;
@@ -373,6 +367,26 @@ module skeleton_core #(
             osd_con_max_s1<=osd_con_max_clk; osd_con_max_s2<=osd_con_max_s1;
         end
     end
+    wire [41:0] visual_colors_clk,visual_indices;
+    wire [4:0] visual_effects_clk,effects;
+    wire [23:0] color_spectrum,color_sung,color_other,color_title,color_singer,color_rings;
+    wire [6:0] swatch_index;
+    wire [23:0] swatch_rgb;
+    generate if(VISUAL_CONTROLS) begin:g_visual_settings
+        visual_settings u_settings(.clk(clk),.rst_n(rst_n),
+            .settings({visual_effects_clk,visual_colors_clk}),
+            .clk_pix(clk_pix),.rst_pix(rst_pix),.frame_tick(fr_start),
+            .swatch_index(swatch_index),.swatch_rgb(swatch_rgb),
+            .spectrum(color_spectrum),.sung(color_sung),.other(color_other),
+            .title(color_title),.singer(color_singer),.rings(color_rings),
+            .effects(effects),.indices(visual_indices));
+    end else begin:g_visual_defaults
+        assign effects=5'b11111;assign visual_indices={6{7'd70}};
+        assign color_spectrum=24'hD97A26;assign color_sung=24'hFF5FCB;
+        assign color_other=24'hE8E4FF;assign color_title=24'hFFFFFF;
+        assign color_singer=24'hBCC4D2;assign color_rings=24'h5EE8ED;
+        assign swatch_rgb=24'd0;
+    end endgenerate
     wire [8:0] gain_pct = osd_volume_s2;
     wire [12:0] gain_scaled = ({4'd0,gain_pct}<<5)+
                               ({4'd0,gain_pct}<<3)+{4'd0,gain_pct};
@@ -465,15 +479,28 @@ module skeleton_core #(
             overlay_rgb_d<=overlay_rgb;
             overlay_text_d<=ly_vld;
             overlay_text_d2<=overlay_text_d;
-            overlay_vld_d<=ly_vld || ff_vld;
+            overlay_vld_d<=(TYPOGRAPHY ? 1'b0 : ly_vld) || ff_vld;
             fade_alpha_d<=fade_alpha;
             scene_de_d<=cb_de; scene_vs_d<=cb_vs; scene_hs_d<=cb_hs;
         end
     end
-    wire [23:0] new_image=cv_vld_d ? cv_rgb_d :
-                          (ring_vld_d ? ring_over(new_bg_d,ring_rgb,ring_alpha_d) : new_bg_d);
-    wire [23:0] old_image=ocv_vld_d ? ocv_rgb_d :
-                          (ring_vld_d ? ring_over(old_bg_d,ring_rgb,ring_alpha_d) : old_bg_d);
+    reg [9:0] ff_x, ff_y;
+    wire [23:0] new_image,old_image;
+    wire [23:0] actual_ring_color=VISUAL_CONTROLS?color_rings:ring_rgb;
+    wire [23:0] new_under=ring_vld_d?ring_over(new_bg_d,actual_ring_color,ring_alpha_d):new_bg_d;
+    wire [23:0] old_under=ring_vld_d?ring_over(old_bg_d,actual_ring_color,ring_alpha_d):old_bg_d;
+    generate if(VISUAL_CONTROLS) begin:g_cover_aa
+        wire [3:0] coverage;
+        cover_coverage u_coverage(.clk(clk_pix),.rst(rst_pix),.de(cb_de),
+            .x(ff_x),.y(ff_y),.level(cover_pop_level),.alpha(coverage));
+        alpha_blend16 #(.USE_DSP(1)) u_new(.background(new_under),.foreground(cv_rgb_d),
+            .alpha(cv_vld_d?coverage:4'd0),.rgb(new_image));
+        alpha_blend16 #(.USE_DSP(1)) u_old(.background(old_under),.foreground(ocv_rgb_d),
+            .alpha(ocv_vld_d?coverage:4'd0),.rgb(old_image));
+    end else begin:g_cover_binary
+        assign new_image=cv_vld_d?cv_rgb_d:new_under;
+        assign old_image=ocv_vld_d?ocv_rgb_d:old_under;
+    end endgenerate
     compositor u_cmp (
         .de (cb_de), .base_rgb (base_rgb),
         .bg_rgb (24'd0), .bg_vld (1'b0),
@@ -481,11 +508,11 @@ module skeleton_core #(
         // ★★ p3-lean 步2b：五层（歌词 > 歌名 > 封面 > 背景 > 底色）
         //   `tt_*`（歌名/歌手层）本轮**接常数 0** ⇒ 并层在步 3 落地（先占位是为了不重复改这个文件与 TB ✓）
         //   `ly_*` 由 §2b 的 `u_lyr` 驱动；**无数据时 `ly_vld` 恒 0 ⇒ 画面逐字节不变** ✓
-        .ly_rgb (ly_rgb), .ly_vld (ly_vld),
+        .ly_rgb (ly_rgb), .ly_vld (TYPOGRAPHY ? 1'b0 : ly_vld),
         // ★★ L1M 并层**已落地**：文本链的输出（歌词 + 歌名/歌手，按扫描行分时 ✓）
         //   **同时**接 `ly` 与 `tt` —— 两带与歌词窗口在扫描行上不重叠 ✓ ⇒ 层序谁高谁低无影响 ✓
         //   （`vld=0` 处透明 ✓；`en_ttl` 在没字库/没表时整带关闭 ⇒ 无数据时画面**逐字节不变** ✓）
-        .tt_rgb (ly_rgb),  .tt_vld (ly_vld),
+        .tt_rgb (ly_rgb),  .tt_vld (TYPOGRAPHY ? 1'b0 : ly_vld),
         // ★★ P4 Stage 3：频谱柱层插在**歌名之下、封面之上**（design :92 的层序 ✓）
         //   本步**真的接上**了（`en_fft=0` 时 `ff_vld` 恒 0 ⇒ 那一级被短路 ⇒ 画面仍**逐位不变** ✓）
         .ff_rgb (ff_rgb), .ff_vld (ff_vld),
@@ -511,12 +538,15 @@ module skeleton_core #(
     function [23:0] color_link_gains;
         input [23:0] src;
         input [9:0] sat_gain, con_gain;
+        // Exact algebra: d*256+d*(gain-256) = d*gain, including
+        // the original 20-bit wrap before contrast clipping. Saturation
+        // output is -1019..1274 for every 10-bit gain; signed 12 bits suffice.
         reg [7:0] r,g,b,lum;
-        reg signed [10:0] sat_delta,con_delta;
-        reg signed [17:0] dr,dg,db;
+        reg signed [10:0] sat_factor,con_factor;
+        reg signed [8:0] dr,dg,db;
         reg signed [19:0] sr,sg,sb;
-        reg signed [19:0] sat_r,sat_g,sat_b;
-        reg signed [19:0] lr,lg,lb;
+        reg signed [11:0] sat_r,sat_g,sat_b;
+        reg signed [11:0] lr,lg,lb;
         reg signed [19:0] cr,cg,cb;
         begin
             r=src[23:16]; g=src[15:8]; b=src[7:0];
@@ -526,28 +556,24 @@ module skeleton_core #(
                  {1'd0,g,7'd0}+{3'd0,g,5'd0}+{4'd0,g,4'd0}+{6'd0,g,2'd0}+
                  {7'd0,g,1'd0}+{8'd0,g}+
                  {4'd0,b,4'd0}+{7'd0,b,1'd0}) >> 8;
-            sat_delta=$signed({1'b0,sat_gain})-11'sd256;
-            con_delta=$signed({1'b0,con_gain})-11'sd256;
-            if (sat_gain==10'd256 && con_gain==10'd256) begin
-                color_link_gains=src;
-            end else begin
+            sat_factor=$signed({1'b0,sat_gain});
+            con_factor=$signed({1'b0,con_gain});
             dr=$signed({1'b0,r})-$signed({1'b0,lum});
             dg=$signed({1'b0,g})-$signed({1'b0,lum});
             db=$signed({1'b0,b})-$signed({1'b0,lum});
-            sr=dr*20'sd256+dr*sat_delta;
-            sg=dg*20'sd256+dg*sat_delta;
-            sb=db*20'sd256+db*sat_delta;
+            sr=dr*sat_factor;
+            sg=dg*sat_factor;
+            sb=db*sat_factor;
             sat_r=$signed({1'b0,lum})+((sr+20'sd128)>>>8);
             sat_g=$signed({1'b0,lum})+((sg+20'sd128)>>>8);
             sat_b=$signed({1'b0,lum})+((sb+20'sd128)>>>8);
             lr=sat_r-20'sd128; lg=sat_g-20'sd128; lb=sat_b-20'sd128;
-            cr=lr*20'sd256+lr*con_delta;
-            cg=lg*20'sd256+lg*con_delta;
-            cb=lb*20'sd256+lb*con_delta;
+            cr=lr*con_factor;
+            cg=lg*con_factor;
+            cb=lb*con_factor;
             color_link_gains={color_clip(20'sd128+((cr+20'sd128)>>>8)),
                         color_clip(20'sd128+((cg+20'sd128)>>>8)),
                         color_clip(20'sd128+((cb+20'sd128)>>>8))};
-            end
         end
     endfunction
     // Retain the previous default mapping for the existing color regression.
@@ -561,7 +587,7 @@ module skeleton_core #(
             color_link=color_link_gains(src,sat_default,con_default);
         end
     endfunction
-    wire [7:0] color_rel = en_fft ? env_rel_q8 : 8'd0;
+    wire [7:0] color_rel = (en_fft && effects[4]) ? env_rel_q8 : 8'd0;
     wire [8:0] sat_range_pct=osd_sat_max_s2-osd_sat_base_s2;
     wire [8:0] con_range_pct=osd_con_max_s2-osd_con_base_s2;
     wire [16:0] sat_rel_product=sat_range_pct*color_rel;
@@ -587,15 +613,56 @@ module skeleton_core #(
     wire [23:0] colorized_rgb = en_osd ?
         color_link_gains(cmp_raw_rgb,sat_gain_cfg,con_gain_cfg) :
         color_link(cmp_raw_rgb,color_rel);
-    assign cmp_rgb = overlay_text_d2 ? cmp_raw_rgb : colorized_rgb;
+    wire [3:0] text_alpha;
+    wire final_vld,final_vs,output_overlay_vld;
+    wire ax_user,ax_valid,ax_last;
+    reg ax_last_fix;
+    wire [23:0] output_overlay_rgb;
+    wire raw_output_overlay_vld,ax_last_use;
+    wire [23:0] raw_output_overlay_rgb;
+    generate if(TYPOGRAPHY) begin : g_text_composition
+        reg [23:0] rgb1,rgb2,rgb3,rgb4,color_q,overlay_q;
+        reg [3:0] a1,a2,a3,a4;
+        reg de_q,vs_q,overlay_vld_q,last_q;
+        always @(posedge clk_pix) begin
+            if(rst_pix) begin
+                rgb1<=0; rgb2<=0; rgb3<=0; rgb4<=0;
+                a1<=0; a2<=0; a3<=0; a4<=0;
+                color_q<=0; overlay_q<=0; overlay_vld_q<=0;
+                de_q<=0; vs_q<=0; last_q<=0;
+            end
+            else begin rgb1<=ly_rgb; rgb2<=rgb1; rgb3<=rgb2;
+                rgb4<=rgb3; a1<=text_alpha; a2<=a1; a3<=a2; a4<=a3;
+                // Separate saturation/contrast from the exact /15 text blend.
+                // Delay every sideband and the final OSD/diagnostic override
+                // by the same clock, preserving the visible pixel coordinates.
+                color_q<=colorized_rgb; de_q<=cmp_vld; vs_q<=cmp_vs;
+                overlay_q<=raw_output_overlay_rgb;
+                overlay_vld_q<=raw_output_overlay_vld; last_q<=ax_last_fix;
+            end
+        end
+        alpha_blend16 #(.USE_DSP(1)) u_text_blend(.background(color_q),.foreground(rgb4),
+            .alpha(a4),.rgb(cmp_rgb));
+        assign final_vld=de_q;
+        assign final_vs=vs_q;
+        assign output_overlay_rgb=overlay_q;
+        assign output_overlay_vld=overlay_vld_q;
+        assign ax_last_use=ax_last | last_q;
+    end else begin : g_legacy_composition
+        assign cmp_rgb=overlay_text_d2 ? cmp_raw_rgb : colorized_rgb;
+        assign final_vld=cmp_vld;
+        assign final_vs=cmp_vs;
+        assign output_overlay_rgb=raw_output_overlay_rgb;
+        assign output_overlay_vld=raw_output_overlay_vld;
+        assign ax_last_use=ax_last | ax_last_fix;
+    end endgenerate
     reg [9:0] de_pix;
-    reg [9:0] ff_x, ff_y;
 
     // ★ 2026-10-02：`ch_key` / `base_rgb` 已改成 **localparam 常量**（原先 reg + initial ⇒
     //   TD 警告 "Initial value omitted on non-DFF net" ⇒ **硬件里根本没有初值** ✗）。
     //   至此本模块**不再有任何 initial 块** —— 所有状态一律由复位给出。
 
-    assign obs_de  = cmp_vld;
+    assign obs_de  = final_vld;
     // The observation port uses the same final pixel as the HDMI stream.
 
     // ★★★ 临时调试开关（2026-10-01）—— **本轮已还原为 0**（诊断结论：纯色帧均匀无网格 ⇒ 帧数据侧问题）
@@ -609,18 +676,18 @@ module skeleton_core #(
     wire [23:0] diag_rgb = diag_loud ?
         ((diag_pos < env_loud_q8[7:1]) ? 24'hD8F36A : 24'h172028) :
         ((diag_pos < color_rel[7:1]) ? 24'h2CE6DF : 24'h172028);
+    assign raw_output_overlay_vld=osd_vld || (en_color_diag && (diag_loud || diag_rel));
+    assign raw_output_overlay_rgb=osd_vld ? osd_rgb : diag_rgb;
     wire [23:0] ax_rgb = FORCE_SOLID ? 24'h2050A0 :
-        (osd_vld ? osd_rgb :
-        ((en_color_diag && (diag_loud || diag_rel)) ? diag_rgb : cmp_rgb));
+        (output_overlay_vld ? output_overlay_rgb : cmp_rgb);
     assign obs_rgb = ax_rgb;
-    wire        ax_user, ax_valid, ax_last;
     wire [23:0] ax_data;
 
     video_rgb_to_axis_640x480 u_ax (
         .I_clk   (clk_pix),
         .I_rst   (rst_pix),
-        .I_vs    (cmp_vs),
-        .I_de    (cmp_vld),
+        .I_vs    (final_vs),
+        .I_de    (final_vld),
         .I_rgb   (ax_rgb),
         .O_video_user  (ax_user),
         .O_video_valid (ax_valid),
@@ -634,7 +701,6 @@ module skeleton_core #(
     //   ⇒ 不为此改厂商原件（保持可追溯），改在**本模块自己重建 last**：
     //      de_pix 在空档清零，DE 首个像素时 pre 值=0，第 640 个像素时 pre 值=639
     //      ⇒ 那时置位，正好落在"最后一个有效拍"（valid 是 de 打一拍）上。
-    reg       ax_last_fix;
     always @(posedge clk_pix) begin
         if (rst_pix) begin
             de_pix      <= 10'd0;
@@ -647,8 +713,6 @@ module skeleton_core #(
             ax_last_fix <= (de_pix == 10'd639);      // ★ 与 valid 对齐的最后一拍
         end
     end
-
-    wire ax_last_use = ax_last | ax_last_fix;        // 原件那份若哪天修好了也不会冲突
 
     // EDID 读触发：复位后等一会儿给一个脉冲（照 L 工程 top 的做法；不需要音频协商也能出图）
     reg [15:0] edid_cnt = 16'd0;
@@ -779,7 +843,7 @@ module skeleton_core #(
     assign obs_axis_last  = ax_last_use;
 
     //=========================================================================
-    // 2) SDRAM：sdram_top（物理层封装）+ sdram_arb + 带宽自测
+    // 2) SDRAM：sdram_top（物理层封装）+ sdram_arb
     //=========================================================================
     wire        sdr_init_done, sdr_ref_vld, sdr_busy, sdr_rd_en;
     wire [31:0] sdr_rd_dout;
@@ -835,34 +899,6 @@ module skeleton_core #(
         .arb_busy(arb_busy), .gnt(gnt)
     );
 
-    wire [31:0] bw_wr_words, bw_rd_words, bw_err_words, bw_kbps, bw_cyc_total;
-    wire        bw_win_tick;
-    wire [15:0] bw_n_burst;
-    // ★ P1：显示通路（px_arb2 + 两图层）已独占 arb 的 px 客户口 ⇒ `bw_selftest` **不再接仲裁**
-    //   （它的请求输出接空线、响应输入接 0 ⇒ 自测件保留但不跑，报文里的 BW 字段如实报 0）。
-    //   要恢复上板自测：把它的 req/addr/len 从下面的 bw_* 线接到 arb，并把本模块的 px 交给它。
-    wire        bw_px_req;
-    wire [20:0] bw_px_addr;
-    wire [15:0] bw_px_len;
-    wire        bw_ld_req;              // ★ 不要写 (open)/()：`default_nettype none` 下报 vlog-2892
-    wire [20:0] bw_ld_addr;
-    wire [15:0] bw_ld_len;
-    wire [31:0] bw_ld_data;
-
-    bw_selftest #(
-        .WIN_CYCLES(WIN_CYCLES), .CLK_MHZ(SDR_CLK_MHZ),
-        .BW_NUM(BW_NUM), .BW_DEN(BW_DEN),
-        .BURST(2048)
-    ) u_bw (
-        .clk(clk_sdr), .rst_n(~rst_sdr), .init_done(sdr_init_done),
-        .px_req(bw_px_req), .px_addr(bw_px_addr), .px_len(bw_px_len), .px_ack(1'b0),
-        .px_done(1'b0), .px_valid(1'b0), .px_data(32'd0),
-        .ld_req(bw_ld_req), .ld_addr(bw_ld_addr), .ld_len(bw_ld_len), .ld_data(bw_ld_data),
-        .ld_rd(1'b0), .ld_ack(1'b0), .ld_done(1'b0),
-        .wr_words(bw_wr_words), .rd_words(bw_rd_words), .err_words(bw_err_words),
-        .bw_kbps(bw_kbps), .win_tick(bw_win_tick), .cyc_total(bw_cyc_total), .n_burst(bw_n_burst)
-    );
-
     //=========================================================================
     // 3) SD 文件服务（50MHz 域，参数保持板上实测值）
     //=========================================================================
@@ -892,13 +928,14 @@ module skeleton_core #(
     wire shared_fifo_full, backend_done;
     wire bm_cfg, ft_cfg, bm_finish, ft_finish, bm_down, ft_down;
     wire [20:0] bm_first, ft_first;
-    wire [18:0] bm_words, ft_words, bm_end_words, ft_end_words;
+    wire [18:0] bm_words, bm_end_words;
+    wire [19:0] ft_words, ft_end_words;
     wire [15:0] bm_wpr, ft_wpr;
     wire task_start, task_raw, task_active, task_probe;
     wire [7:0] task_index;
     wire [20:0] task_base;
     wire [31:0] task_bytes;
-    wire [18:0] task_capacity;
+    wire [19:0] task_capacity;
     wire [3:0] task_tag;
     reg [3:0] parser_tag;
     assign ft_owner = task_raw;
@@ -1024,6 +1061,13 @@ module skeleton_core #(
     wire shape_done;
     wire [9:0] shape_bw, shape_cw;
     wire [8:0] shape_bh, shape_ch;
+    // Successful normalized loads always have these exact target dimensions.
+    // Keep the metadata handshake/commit timing, but avoid re-decoding fixed
+    // geometry through SDRAM, CDC payloads and all four display pipelines.
+    wire [15:0] display_bw=BMP_DOWNSCALE ? BMP_BG_W : {6'd0,shape_bw};
+    wire [15:0] display_bh=BMP_DOWNSCALE ? BMP_BG_H : {7'd0,shape_bh};
+    wire [15:0] display_cw=BMP_DOWNSCALE ? BMP_COVER_W : {6'd0,shape_cw};
+    wire [15:0] display_ch=BMP_DOWNSCALE ? BMP_COVER_H : {7'd0,shape_ch};
     wire view_idle = shadow_ready && !shape_pending && !shape_start &&
                      cmt_sent && (cmt_ack_sync[1] == cmt_tgl);
     assign pinned_slots = (confirmed_valid ? (4'b0001 << confirmed_pair) : 4'd0) |
@@ -1128,7 +1172,7 @@ module skeleton_core #(
     wire pre_act = task_active && !task_raw && (lf_st == LF_DONE);
     wire lrc_rdy_int = task_active && task_raw && (lf_st == LF_DONE);
     assign lrc_rdy = lrc_rdy_int;
-    asset_manager u_assets (
+    asset_manager #(.TYPOGRAPHY(TYPOGRAPHY)) u_assets (
         .clk(clk), .rst_n(rst_n), .sd_ready(sd_ready),
         .pl_done(pl_done), .pl_busy(pl_busy), .song(pl_cur),
         .current_images({pl_cv3,pl_bg3,pl_cv2,pl_bg2,pl_cv1,pl_bg1}),
@@ -1186,18 +1230,21 @@ module skeleton_core #(
         .byte_we(task_raw ? ft_fifo_we : bm_fifo_we),
         .byte_data(task_raw ? ft_fifo_di : bm_fifo_di), .full(shared_fifo_full),
         .cfg_valid(task_raw ? ft_cfg : bm_cfg), .cfg_first(task_raw ? ft_first : bm_first),
-        .cfg_words(task_raw ? ft_words : bm_words), .cfg_wpr(bm_wpr),
+        .cfg_words(task_raw ? ft_words : {1'b0,bm_words}), .cfg_wpr(bm_wpr),
         .cfg_rows(!task_raw), .cfg_down(bm_down),
         .finish_valid(task_raw ? ft_finish : bm_finish),
-        .finish_words(task_raw ? ft_end_words : bm_end_words), .done(backend_done),
+        .finish_words(task_raw ? ft_end_words : {1'b0,bm_end_words}), .done(backend_done),
         .ld_req(ld_req), .ld_addr(ld_addr), .ld_len(ld_len), .ld_data(ld_data),
         .ld_take(ld_take), .ld_ack(ld_ack), .ld_done(ld_done)
     );
 
     bmp_load #(.MAX_W(640), .MAX_H(480), .CLK_HZ(CLK_HZ),
                .WD_MS(LD_WD_MS), .EXTERNAL_BACKEND(1),
+               .DOWNSCALE(BMP_DOWNSCALE),.BG_W(BMP_BG_W),.BG_H(BMP_BG_H),
+               .COVER_W(BMP_COVER_W),.COVER_H(BMP_COVER_H),
                .STREAM_WD_MS(LD_WD_MS_LOOSE)) u_load (
         .clk (clk), .rst_n (rst_n), .start (task_start && !task_raw), .file_index (task_index),
+        .target_cover(task_index[2:0] >= 3'd3 && task_index[2:0] <= 3'd5),
         .slot_base (task_base), .busy (bm_busy), .done (bm_done), .err (bm_err),
         .wd_max (ld_wd_max),
         .img_w (bm_img_w), .img_h (bm_img_h),
@@ -1209,7 +1256,7 @@ module skeleton_core #(
         .ld_req (), .ld_addr (), .ld_len (), .ld_data (),
         .ld_rd (1'b0), .ld_ack (1'b0), .ld_done (1'b0),
         .fifo_full_ext (shared_fifo_full), .backend_done_ext (backend_done && !task_raw),
-        .slot_words(task_capacity), .fifo_flush_ext (bm_fifo_flush),
+        .slot_words(task_capacity[18:0]), .fifo_flush_ext (bm_fifo_flush),
         .fifo_we_ext (bm_fifo_we), .fifo_di_ext (bm_fifo_di),
         .cfg_valid_ext(bm_cfg), .cfg_first_ext(bm_first), .cfg_words_ext(bm_words),
         .cfg_wpr_ext(bm_wpr), .cfg_down_ext(bm_down),
@@ -1299,13 +1346,14 @@ module skeleton_core #(
     //   （所以切组瞬间画面会短暂熄灭，属预期）。
     //=========================================================================
     generate if (en_osd) begin : g_osd_keys
-    osd_controls #(.CLK_HZ(CLK_HZ),.DEBOUNCE_MS(KEY_DEBOUNCE_MS)) u_osd_controls (
+    osd_controls #(.EXTENDED(VISUAL_CONTROLS),.CLK_HZ(CLK_HZ),.DEBOUNCE_MS(KEY_DEBOUNCE_MS)) u_osd_controls (
         .clk(clk),.rst_n(rst_n),.key2(key2),.key3(key3),.key4(key4),
         .visible(osd_visible_clk),.page(osd_page_clk),.selected(osd_selected_clk),
         .image_next(key_image_next),
         .sensitivity(osd_sensitivity_clk),
         .volume(osd_volume_clk),.sat_base(osd_sat_base_clk),.sat_max(osd_sat_max_clk),
-        .con_base(osd_con_base_clk),.con_max(osd_con_max_clk)
+        .con_base(osd_con_base_clk),.con_max(osd_con_max_clk),
+        .colors(visual_colors_clk),.effects(visual_effects_clk)
     );
     assign key_press_legacy=key_image_next;
     end else begin : g_legacy_key
@@ -1315,6 +1363,7 @@ module skeleton_core #(
         );
         assign key_image_next=key_press_legacy;
         assign osd_visible_clk=1'b0;
+        assign visual_colors_clk={6{7'd70}};assign visual_effects_clk=5'b11111;
         assign osd_page_clk=2'd0;
         assign osd_selected_clk=3'd0;
         assign osd_sensitivity_clk=6'd16;
@@ -1417,7 +1466,10 @@ module skeleton_core #(
         //     ⇒ 两者天然一致 ✓（不会出现"装到 A、显示 B" ✗）
         begin
             bg_ix = (g - 3'd1) + rot;
-            bg_base_f = (bg_ix == 2'd1) ? 21'h38400  :
+            bg_base_f = TYPOGRAPHY ? ((bg_ix == 2'd1) ? 21'h038400 :
+                        (bg_ix == 2'd2) ? 21'h070800 :
+                        (bg_ix == 2'd3) ? 21'h0A8C00 : 21'h000000) :
+                        (bg_ix == 2'd1) ? 21'h38400  :
                         (bg_ix == 2'd2) ? 21'h150000 :
                         (bg_ix == 2'd3) ? 21'h188400 : 21'h00000;
         end
@@ -1450,7 +1502,10 @@ module skeleton_core #(
         //   ★ 两个函数**必须用同一个轮转量** ✗ —— 否则"背景换了、封面没换" ✗（板上会看到撕裂 ✓）
         begin
             cv_ix = (g - 3'd1) + rot;
-            cv_base_f = (cv_ix == 2'd1) ? 21'hA8C00  :
+            cv_base_f = TYPOGRAPHY ? ((cv_ix == 2'd1) ? 21'h0EB8C0 :
+                        (cv_ix == 2'd2) ? 21'h0F6180 :
+                        (cv_ix == 2'd3) ? 21'h100A40 : 21'h0E1000) :
+                        (cv_ix == 2'd1) ? 21'hA8C00  :
                         (cv_ix == 2'd2) ? 21'h1225A0 :
                         (cv_ix == 2'd3) ? 21'h1C0800 : 21'h70800;
         end
@@ -1516,15 +1571,15 @@ module skeleton_core #(
             end
             if (shape_done && shape_pending) begin
                 shape_pending<=1'b0; shadow_ready<=1'b1;
-                bg_iw_nx<={6'd0,shape_bw}; bg_w_nx<={6'd0,shape_bw};
-                bg_ih_nx<={7'd0,shape_bh}; bg_h_nx<={7'd0,shape_bh};
-                bg_wpr_nx<=wpr_f({6'd0,shape_bw});
-                bg_x_nx<=cx_f({6'd0,shape_bw}); bg_y_nx<=cy_f({7'd0,shape_bh});
-                cv_iw_nx<={6'd0,shape_cw}; cv_w_nx<={6'd0,shape_cw};
-                cv_ih_nx<={7'd0,shape_ch}; cv_h_nx<={7'd0,shape_ch};
-                cv_wpr_nx<=wpr_f({6'd0,shape_cw});
-                cv_x_nx<=16'd260-({6'd0,shape_cw}>>1);
-                cv_y_nx<=16'd165-({7'd0,shape_ch}>>1);
+                bg_iw_nx<=display_bw; bg_w_nx<=display_bw;
+                bg_ih_nx<=display_bh; bg_h_nx<=display_bh;
+                bg_wpr_nx<=wpr_f(display_bw);
+                bg_x_nx<=cx_f(display_bw); bg_y_nx<=cy_f(display_bh);
+                cv_iw_nx<=display_cw; cv_w_nx<=display_cw;
+                cv_ih_nx<=display_ch; cv_h_nx<=display_ch;
+                cv_wpr_nx<=wpr_f(display_cw);
+                cv_x_nx<=(TYPOGRAPHY ? 16'd160 : 16'd260)-(display_cw>>1);
+                cv_y_nx<=16'd165-(display_ch>>1);
             end
         end
     end
@@ -1658,23 +1713,6 @@ module skeleton_core #(
     // 48k 节拍（与 `u_tone` 内部那一个**同算式、同复位、同 enable** ⇒ 相位逐拍相同 ✓）
     wire        wav_tick;
     wire [31:0] wav_tick_cnt;
-    // 统计跨域（读侧 clk_pix 的水位/欠载 → clk 域报文 ✓）
-    reg         au_req_tgl;
-    reg  [1:0]  au_req_s;
-    reg         au_ack_tgl;
-    // 注：clk 侧的同步/边沿版本是下面的 `au_ack_sr` ✓（本处不再需要中间变量 ✓）
-    reg  [12:0] au_lmin_h;
-    reg  [31:0] au_uc_h;
-    // ★★ 2026-10-04（**板上实测 `AUD N=0` / `ACR N=0` 之后改的口径** ✗→✓）：
-    //   原来那两个数是在 **clk 域**"数 clk_pix 域 40ns 脉冲的边沿"✗，S1b 板上曾是 48000/1000 ✓，
-    //   但 S2 板上双双变 0 ✗，而**同一版源码在仿真里是对的**（`aud_n_last=2341`/`aud_a_last=99` ✓）
-    //   ⇒ 属"**仿真看不见**"的综合差异 ✗（与 `fat32_chain.v` 2026-09-26 那条同类 ✓）。
-    //   ⇒ 改成**在脉冲自己的域（clk_pix）里数** ✓，再随**已验证过的握手**搬过来 ✓
-    //     （那条握手通道板上已被 `AUD WMIN=4084` 证明是好的 ✓✓），搬的是**累计值** ✓，
-    //     报文里再做**两次快照之差** = 本窗数量 ✓（顺便免疫"漏一拍" ✗）。
-    reg  [31:0] au_tick_h, au_acr_h;
-    reg         au_clr;
-
     // ---- `hi` 通道三级消费权 ✓（assign 与声明分离 ⇒ 这四个信号在 §3 例化前已声明 ✓）----
     // ★★ P2/S3-c：索引口三选一 —— 开机装载（`lf_scan` ✓）／ **播放表扫描**（`pl_index` ✓）／
     //   开机完成后音频链（`au_idx` ✓）。三者**互斥**（由 `lf_st` 保证 ✓）⇒ 不冲突 ✓
@@ -1743,7 +1781,7 @@ module skeleton_core #(
         .sample_left  (wp_l), .sample_right (wp_r),
         .sample_raw_left(wp_raw_l), .sample_raw_right(wp_raw_r),
         .gain         (user_gain),
-        .stat_clr     (au_clr),
+        .stat_clr     (1'b0),
         .level_now    (wp_level_now), .level_min (wp_level_min),
         .underrun_cnt (wp_uc), .hold_cnt (wp_hold),
         .primed       (wp_primed), .writer_done (wp_wr_done), .stream_end (wp_end)
@@ -1939,264 +1977,6 @@ module skeleton_core #(
         end
     end
 
-    // ---- 统计跨域（clk_pix → clk）：**稳定数据 + 单比特握手** ✓（本文件 §4 同一套手法 ✓）----
-    //   ★ 为什么不能直接 2FF 打多比特：`level_min/underrun_cnt` 是**计数器** ✗，
-    //     多位同时翻转时会被采到"从没出现过的中间值" ✗（本工程对多比特 CDC 一律按不安全处理 ✓）
-    //   ★ 握手协议：clk 侧翻 `au_req_tgl` → clk_pix 侧**锁存**一组统计并翻 `au_ack_tgl`
-    //     （→ 报文的 clk 侧等到 ack 才读 ✓，此时数据**保证不再变** ✓）+ 同时清窗口 ✓
-    always @(posedge clk_pix) begin
-        if (rst_pix) begin
-            au_req_s <= 2'd0; au_ack_tgl <= 1'b0; au_clr <= 1'b0;
-            au_lmin_h <= 13'd0; au_uc_h <= 32'd0;
-            au_tick_h <= 32'd0; au_acr_h <= 32'd0;
-        end else begin
-            au_req_s <= {au_req_s[0], au_req_tgl};
-            au_clr   <= 1'b0;
-            if (au_req_s[1] != au_ack_tgl) begin
-                au_lmin_h  <= wp_level_min;     // ★ 本拍锁存（`au_clr` 下一拍才生效 ✓）
-                au_uc_h    <= wp_uc;
-                // ★★ 两个**单调计数器**（都在本域 ✓）：测试音的累计节拍 ✓ 与 ACR 的累计包数 ✓
-                //   —— 搬**累计值**、由报文侧做差 ⇒ 本窗数量 ✓（不受"采样漏拍"影响 ✓）
-                au_tick_h  <= aud_tick_cnt;     // = `u_tone.tick_count` ✓（`enable` 恒 1 ⇒ 一直在数 ✓）
-                au_acr_h   <= aud_acr_cnt;      // = `u_acr_gen.acr_count` ✓（自由跑 ✓）
-                au_ack_tgl <= au_req_s[1];
-                au_clr     <= 1'b1;             // ⇒ 播放器"本窗最小水位/欠载"窗口归零 ✓
-            end
-        end
-    end
-
-    //=========================================================================
-    // 4) 跨域：把 150MHz 域的"结果快照"交给 50MHz 域的报文
-    //    ★ 报文**不放 150MHz 域**（P0-3 实测踩到的坑，见文件头）：uart_report 里
-    //      "按索引从 123 字节报文模板取字符"是一条 ~123:1 的 8bit 多路树，
-    //      实测 `u_rpt/sidx_reg[0] → u_rpt/ddig_reg[1]` Data Path Delay **9.72ns**
-    //      （8 级逻辑、64% 是互连），把 sdr_clk 组 Fmax 压到 **101.7MHz**（要 150MHz）。
-    //      ⇒ 搬到 50MHz 域（预算 20ns）就彻底不碍事；而且 `uart_tx` 本来就按 50MHz 写
-    //      （115200 分频 434），报文又恰好与 storage_top 同域 ⇒ **SD 状态零 CDC**。
-    //
-    //    握手：50MHz 侧翻转 `req_tgl` → 150MHz 侧锁存一份快照并翻转 `ack_tgl`
-    //      → 50MHz 侧等到 ack 翻转后才发报文。**源侧在下次请求前不再改那几个寄存器**，
-    //      所以多比特直接读是安全的（"稳定数据 + 握手"，不是裸的多比特 CDC）。
-    //=========================================================================
-    reg        req_tgl;
-    reg [1:0]  req_s;                    // req_tgl → clk_sdr
-    // ★★ P2/S2：**第二路**握手（同一套手法 ✓，方向相反 clk → clk_pix ✓）
-    //   —— 把音频读侧的"本窗最小水位 / 欠载 / 保持"稳到 clk 域给报文 ✓（见 §3.7 末 ✓）
-    reg        ack_tgl;                  // clk_sdr 域
-    reg [1:0]  ack_s;                    // ack_tgl → clk
-    reg [31:0] s_bw, s_wr, s_rd, s_err;
-    reg        s_init, s_vid;
-    reg [15:0] s_burst;
-    reg [17:0] s_busy;                   // ★上板诊断：本窗口仲裁忙拍数
-    reg [15:0] s_ref;                    // ★上板诊断：本窗口 IP 刷新脉冲数
-    // ★ 注意：`sd_err_code` / `sd_dbg_sdhc` **不经过快照**——它们本来就在 clk(50MHz) 域，
-    //   与 uart_report 同域 ⇒ 直连即可。走 sdr 域反而多一次多比特 CDC（没必要，已避免）。
-
-    // ---------------- ★上板诊断计数器（与带宽窗口同一个窗口，用 bw_win_tick 清零）----------------
-    // 上限 = WIN_CYCLES = 200000 ⇒ 18 位够（报文里的十进制打印上限 7 位，不能超）。
-    // 用途：真机 BW 偏低时区分两种原因 —— BUSY 高 ⇒ 器件/IP 慢；BUSY 低 ⇒ 客户或仲裁在空等。
-    reg [17:0] busy_cyc, busy_last;
-    reg [15:0] ref_cnt,  ref_last;
-    reg        ref_d;
-    always @(posedge clk_sdr) begin
-        if (rst_sdr) begin
-            busy_cyc <= 18'd0; ref_cnt <= 16'd0; ref_d <= 1'b0;
-            busy_last <= 18'd0; ref_last <= 16'd0;
-        end else begin
-            if (arb_busy)                        busy_cyc <= busy_cyc + 18'd1;
-            // ★★ 2026-10-03：计数源**换掉** ✗ —— 由"厂商信号 `sdr_ref_vld` 的边沿"（**旁证** ✗）
-            //    改为"**引脚上译码出的 REFRESH 命令**"（**直接证据** ✓✓，与厂商语义无关 ✓）
-            //    `ref_d` 沿用为边沿记忆 ✓；`ref_cnt` 语义 = 本窗**DRAM 引脚上真实的 REFRESH 条数** ✓
-            //    ⇒ 报文 `SDR REF=` 从此是硬数 ✓（原来那个旁证值与 P1 那几版已不可比 ✗）
-            if (sdr_ref_cmd && !ref_d)           ref_cnt  <= ref_cnt + 16'd1;
-            ref_d <= sdr_ref_cmd;
-            if (bw_win_tick) begin               // 窗口结束 ⇒ 锁存"上一整窗"并清零
-                busy_last <= busy_cyc;
-                ref_last  <= ref_cnt;
-                busy_cyc  <= 18'd0;
-                ref_cnt   <= 16'd0;
-            end
-        end
-    end
-
-    // O_video_locked 生在 clk_pix 域 ⇒ 先单比特 2 级同步进 clk_sdr
-    reg [2:0] vid_lk_sr;
-    always @(posedge clk_sdr)
-        if (rst_sdr) vid_lk_sr <= 3'd0; else vid_lk_sr <= {vid_lk_sr[1:0], O_video_locked};
-
-    always @(posedge clk_sdr) begin
-        if (rst_sdr) begin
-            req_s <= 2'd0; ack_tgl <= 1'b0;
-            s_bw <= 32'd0; s_wr <= 32'd0; s_rd <= 32'd0; s_err <= 32'd0;
-            s_init <= 1'b0; s_vid <= 1'b0; s_burst <= 16'd0;
-            s_busy <= 18'd0; s_ref <= 16'd0;
-        end else begin
-            req_s <= {req_s[0], req_tgl};
-            if (req_s[1] != ack_tgl) begin          // 检测到新请求 ⇒ 锁存快照
-                ack_tgl <= req_s[1];
-                s_bw    <= bw_kbps;
-                s_wr    <= bw_wr_words;
-                s_rd    <= bw_rd_words;
-                s_err   <= bw_err_words;
-                s_init  <= sdr_init_done;
-                s_vid   <= vid_lk_sr[2];
-                s_burst <= bw_n_burst;
-                s_busy  <= busy_last;               // ★上一整窗的忙拍数
-                s_ref   <= ref_last;                // ★上一整窗的刷新脉冲数
-            end
-        end
-    end
-
-    //=========================================================================
-    // 5) UART 报文（**50MHz 域** = storage_top 同域；请求→等 ack→发→等忙完）
-    //=========================================================================
-    localparam [2:0] R_IDLE = 3'd0, R_WAIT = 3'd1, R_GO = 3'd2,
-                     R_RUN  = 3'd3, R_DONE = 3'd4;
-    reg [2:0]  r_st;
-    reg [31:0] rpt_cnt;
-    reg        rpt_go;
-    wire       rpt_busy;
-
-    always @(posedge clk) begin
-        if (!rst_n) begin
-            r_st <= R_IDLE; rpt_cnt <= 32'd0; rpt_go <= 1'b0; req_tgl <= 1'b0;
-        end else begin
-            rpt_go <= 1'b0;
-            ack_s    <= {ack_s[0], ack_tgl};
-            // ★★ 2026-10-04：**音频那一路快照已与本状态机解耦** ✗→✓
-            //   （它现在有自己的自由跑 1s 节拍 ✓，见上面的音频快照块 ✓）
-            //   ⇒ 这里不再 `au_req_tgl <= ~au_req_tgl` ✗、也不再等 `au_ack_s` ✗
-            //     —— 理由：挂在报文上会把"发报文的时间"算进窗口 ⇒ 读数偏大 2.1% ✗
-            //     （板上实测 49008 / 1021 ⇒ 除回 1.021 才是 48000 / 1000 ✓）。
-            case (r_st)
-            R_IDLE: begin
-                if (rpt_cnt == RPT_PERIOD[31:0] - 32'd1) begin
-                    rpt_cnt <= 32'd0;
-                    req_tgl    <= ~req_tgl;         // 只请求 sdr 域快照 ✓
-                    r_st    <= R_WAIT;
-                end else begin
-                    rpt_cnt <= rpt_cnt + 32'd1;
-                end
-            end
-            // 只等 sdr 那一路 ✓（音频六字段是"最近一份已完成的窗口" ✓，不参与本次同步 ✓）
-            R_WAIT: if (ack_s[1] == req_tgl) r_st <= R_GO;      // 快照已稳定
-            R_GO:   begin rpt_go <= 1'b1; r_st <= R_RUN; end
-            R_RUN:  if (rpt_busy) r_st <= R_DONE;               // 先看到忙
-            R_DONE: if (!rpt_busy) r_st <= R_IDLE;              // 再看到忙落下
-            default: r_st <= R_IDLE;
-            endcase
-        end
-    end
-
-    //=========================================================================
-    // ★ P1 上板诊断：显示通路独占 arb 的 px 口之后，原来的带宽自测 6 个字段恒为 0 ✗，
-    //   无法定位板上装载 ⇒ 这里把它们改成**装载/分组状态**（都在 clk 域，直接快照 ✓，
-    //   不碰原 sdr 域那 6 个锁存与跨域握手 ✓）。
-    //   ★★ A1（2026-10-03）后字段含义（**按 A1 的实际语义更新** ✗ 旧注释已作废）：
-    //     BW KBPS   ← lf_st      0=等卡就绪 1=扫BG 2=装BG 3=扫CV 4=装CV 5=换下一组 6=开机收口
-    //                            7=开机完成 ✓（**稳态** ✓）  8=**扫播放表**（S3-c ✓，只在开机过渡期 ✓）
-    //     WR WORDS  ← 当前**显示组**的背景宽 ✓（不再是"最后装载"的 ✗）
-    //     RD WORDS  ← 当前**显示组**的背景高 ✓
-    //     ERR WORDS ← {22'd0, lf_found, 6'd0, cv_ok, bg_ok}
-    //                 bit9:8 = **有效组数**(0..3) ✓；bit1:0 = 当前显示组的 {封面,背景} 有效性 ✓
-    //     SDR REF   ← 从卡读到的 KB 数（不涨 ⇒ 文件没开始读；涨到 ~900 ⇒ BG 读完）
-    //     BUSY CYC  ← sd_file_total 扫描看到的文件数
-    //   要恢复带宽自测：把这 6 个输入换回 s_bw/s_wr/s_rd/s_err/s_ref/s_busy 即可。
-    //=========================================================================
-    reg [31:0] d_rd_bytes;
-    always @(posedge clk) begin
-        if (!rst_n)                d_rd_bytes <= 32'd0;
-        else if (lf_st == LF_WAIT) d_rd_bytes <= 32'd0;      // 新一轮装载开始 ⇒ 清零
-        else if (lo_rd_valid)      d_rd_bytes <= d_rd_bytes + 32'd1;
-    end
-
-    wire [31:0] d_st  = {28'd0, lf_st};                  // ★ S3-c：`lf_st` 已是 **4 位** ✗ ⇒ 前缀改 28 ✓
-    // ★★ A1：报**当前显示的那一组**的几何与有效性（不再是"最后一次装载"的 ✗ —— 那已不发生 ✓）
-    wire [15:0] d_bw = bg_iw_nx;
-    wire [15:0] d_bh = bg_ih_nx;
-    wire [1:0]  d_vok = (grp == 3'd2) ? {g_cok[2], g_ok[2]}
-                      : (grp == 3'd3) ? {g_cok[3], g_ok[3]} : {g_cok[1], g_ok[1]};
-    wire [31:0] d_w   = {16'd0, d_bw};
-    wire [31:0] d_h   = {16'd0, d_bh};
-    wire [31:0] d_err = {22'd0, lf_found, 6'd0, d_vok};  // bit9:8=有效组数 ✓；bit1:0={cv_ok,bg_ok} ✓
-    wire [15:0] d_kb  = d_rd_bytes[25:10];                   // 字节 → KB（16 位够：1.3MB=1285KB）
-    wire [17:0] d_ft  = {10'd0, sd_file_total};
-
-    // ★★ 2026-10-02 回退记录：`frame_sig`（帧签名进报文）**已全部移除**。
-    //   原因：接上它之后板上品红区出现**滚动花屏** ✗。时序报告显示装载器 FIFO 的读侧路径
-    //   `u_load/u_fifo/ram_inst/...` 在 125MHz 下本来就违反（9.584ns vs 8ns 预算，-1.864ns ✗），
-    //   新增的 32×32 乘法器 + 逻辑让拥塞更紧、把这条临界路径推过界 ⇒ FIFO 输出被写错
-    //   ⇒ 装载进 SDRAM 的封面数据坏掉 ⇒ 花屏。
-    //   ⇒ 回退到板上验证通过的那版（13:47）；帧签名要重做时，必须先解决那条 FIFO 读路径
-    //     （候选：AFIFO 的 OUTREG_EN="OUTREG" 插一级流水，或换用更短的读通路）。
-    //   板上核对用的期望 S1（PC 侧同口径算，留档备用）：
-    //     组 1 = 4273882265(0xFEBE4499)、组 2 = 4194617033(0xFA04C6C9)、组 3 = 2721522543(0xA237236F)
-
-    // ---------------- ★★ 音频观测计数器（P2/S1，与报文同域 ✓）----------------
-    //   为什么在 **clk(50MHz) 域数单拍脉冲**、而不是直接读 clk_pix 域的计数器：
-    //     `tone_valid/aud_acr_valid` 是 clk_pix(25MHz) 域里**宽 40ns 的单拍脉冲** ✓，
-    //     比 clk 周期(20ns) 宽 ⇒ 单比特、**无多比特 CDC 风险** ✓
-    //
-    //   ★★ 2026-10-04 **上板实测后的两处修正**（原来板上读到 `AUD N=97634` / `ACR N=2034`，
-    //      而期望是 48000 / 1000 ✗ —— 两点都是**诊断口径**的错 ✗，与音频本身无关 ✓）：
-    //     ① **×2.00 的错** ✗：原来"**按电平**计数"（`if (pulse) cnt++`）✗ ——
-    //        40ns 的脉冲**跨两个 50MHz 拍** ⇒ 每个脉冲被数了 **2 次** ✗✗
-    //        ⇒ 改为**边沿检测**（`pulse && !pulse_d`）⇒ 每脉冲恰 1 次 ✓。
-    //        （对照：97634/2 = 48817 ✓、2034/2 = 1017 ✓ —— 两个计数器**同比例** ✓，
-    //          正是"系统性数两次"的指纹 ✓，而不是音频速率真的翻倍 ✗）
-    //     ② **×1.017 的错** ✗：报文窗口原来是 `RPT_PERIOD` **再加上发报文的 ≈15.7ms** ✗
-    //        （`rpt_cnt` 只在 R_IDLE 里数 ✓；181 字节 @115200 ≈ 15.7ms ⇒ 1.0157 ✓ 与实测 1.017 吻合 ✓）
-    //        ⇒ 改为**只在 R_IDLE 期间计数** ✓ ⇒ 窗口**严格** = RPT_PERIOD = 1s ✓
-    //        ⇒ 板上期望值从此是干净的 **48000 / 1000** ✓（不再需要写 48800 这种别扭的数 ✗）。
-    //   ★ 这两条只影响**诊断数字** ✓；音频速率本身由 `tb/tb_audio_tone.v` 逐拍证过（100000 拍恰 192 ✓）。
-    // ★★ 2026-10-04（**第二次上板读数 49008 / 1021** 之后改 ✓）：
-    //   上一版把快照挂在**报文**上 ✗ ⇒ 窗口 = `R_IDLE`(1s) **+ 发报文的时间**(224 字节 @115200
-    //   ≈ 19.5ms + 握手 ≈ 21ms) = **1.021 s** ✗ ⇒ 读数 49008 / 1021 ✗
-    //   （★ 两者相除 = 48.000 ✓、各自 ÷1.021 = **48000.0 / 1000.0** ✓✓
-    //     ⇒ **采样率本来就是精确的** ✓，错的只是"我用什么当一秒" ✗）。
-    //   ⇒ 本版给音频快照一个**自己的自由跑节拍** ✓（周期 = `RPT_PERIOD` ✓，与报文占用**无关** ✓）
-    //     ⇒ 相邻两次快照**严格**相隔 1.000 s ✓ ⇒ 读数恢复成 S1b 那种干净的 **48000 / 1000** ✓✓。
-    //   六字段（N / ACR / ST / WMIN / UC / WERR）都在**同一拍**锁存 ✓ ⇒ 同一份窗口、自洽 ✓
-    reg [31:0] aud_n_last, aud_a_last;
-    reg [31:0] aud_st_last, aud_wmin_last, aud_uc_last, aud_werr_last;
-    reg [31:0] au_per_cnt;                  // clk 域：自由跑的快照节拍 ✓
-    reg [2:0]  au_ack_sr;                   // clk_pix 的 ack → clk：**2 级同步 + 边沿记忆** ✓
-    reg [31:0] au_tick_p, au_acr_p;         // 上一次快照（做差用 ✓）
-    wire       au_snap_new = (au_ack_sr[2] != au_ack_sr[1]);   // 新快照到手 ✓（标准边沿式 ✓）
-
-    always @(posedge clk) begin
-        if (!rst_n) begin
-            au_per_cnt <= 32'd0; au_req_tgl <= 1'b0; au_ack_sr <= 3'd0;
-            au_tick_p <= 32'd0;  au_acr_p   <= 32'd0;
-            aud_n_last <= 32'd0; aud_a_last <= 32'd0;
-            aud_st_last <= 32'd0; aud_wmin_last <= 32'd0;
-            aud_uc_last <= 32'd0; aud_werr_last <= 32'd0;
-        end else begin
-            // ① 快照节拍：**自由跑**、只在复位时归零 ⇒ 窗口严格 = RPT_PERIOD ✓
-            if (au_per_cnt == RPT_PERIOD[31:0] - 32'd1) begin
-                au_per_cnt <= 32'd0;
-                au_req_tgl <= ~au_req_tgl;
-            end else begin
-                au_per_cnt <= au_per_cnt + 32'd1;
-            end
-            // ② ack 翻转 ⇒ 一份**新快照**到手 ⇒ 结算本窗 ✓（六个字段**同一拍**锁存 ⇒ 自洽 ✓）
-            //   ★ `au_ack_tgl` 是"每秒翻一次、翻完就稳住"的**慢速电平** ✓
-            //     ⇒ 2 级同步 + 边沿检测是教科书安全的 ✓（⚠️ 与"数 40ns 脉冲"完全不同 ✗，
-            //       后者在综合后的行为正是本轮回退的原因之一 ✓）
-            au_ack_sr <= {au_ack_sr[1:0], au_ack_tgl};
-            if (au_snap_new) begin
-                aud_n_last <= au_tick_h - au_tick_p;      // 本窗节拍数 ✓（严格 1s ⇒ 应 48000 ✓）
-                aud_a_last <= au_acr_h  - au_acr_p;       // 本窗 ACR 包数 ✓（应 1000 ✓）
-                au_tick_p  <= au_tick_h;
-                au_acr_p   <= au_acr_h;
-                aud_st_last   <= au_wav_sel ? 32'd2 : 32'd1;
-                aud_wmin_last <= {19'd0, au_lmin_h};
-                aud_uc_last   <= au_uc_h;
-                aud_werr_last <= {24'd0, au_werr};
-            end
-        end
-    end
-
     //=========================================================================
     // 2b) ★★ p3-lean 步2b：文本链（**口径 a —— 没有代理**，直接挂 SDRAM ✓）
     //   数据流：`lyric_pick`（每帧读一次 LRC 表、选 3 行）→ 描述符 → `layer_lyric`
@@ -2354,12 +2134,34 @@ module skeleton_core #(
         reg aligned_valid;
         // The scene path has a preparation register plus two blend stages.
         // Match those three stages using the original raster DE and X/Y.
-        always @(posedge clk_pix) begin
-            if (rst_pix) begin aligned_rgb<=0; aligned_valid<=0; end
-            else begin aligned_rgb<=raster_rgb; aligned_valid<=raster_valid; end
+        if(TYPOGRAPHY) begin : g_internal_align
+            // The third stage now splits normalization from OSD drawing.
+            always @(*) begin aligned_rgb=raster_rgb;aligned_valid=raster_valid;end
+        end else begin : g_output_align
+            always @(posedge clk_pix) begin
+                if (rst_pix) begin aligned_rgb<=0; aligned_valid<=0; end
+                else begin aligned_rgb<=raster_rgb; aligned_valid<=raster_valid; end
+            end
         end
         assign osd_rgb=aligned_rgb;
         assign osd_vld=aligned_valid;
+        if(TYPOGRAPHY) begin : g_small
+        osd_layer_small #(.EXTENDED(VISUAL_CONTROLS)) u_osd_layer (
+            .color_indices(visual_indices),.effects(effects),
+            .swatch_index(swatch_index),.swatch_rgb(swatch_rgb),
+            .clk(clk_pix),.rst(rst_pix),.de(cb_de),.x(ff_x),.y(ff_y),
+            .visible(osd_visible_sync[1]),.page(osd_page_s2),
+            .selected(osd_selected_s2),.sensitivity(osd_sens_s2),
+            .volume(osd_volume_s2),.sat_base(osd_sat_base_s2),
+            .sat_max(osd_sat_max_s2),.con_base(osd_con_base_s2),
+            .con_max(osd_con_max_s2),.sat_current(sat_current_pct),
+            .con_current(con_current_pct),.loud(env_loud_q8),
+            .relative(env_rel_q8),.analysis_stb(sa_analysis_stb),
+            .attack_hit(sa_hit),.song_clear(spec_song_clear),
+            .flux(sa_flux),.threshold(sa_threshold),.scope_max(sa_scope_max),
+            .rgb(raster_rgb),.valid(raster_valid)
+        );
+        end else begin : g_legacy
         osd_layer u_osd_layer (
             .clk(clk_pix),.rst(rst_pix),.de(cb_de),.x(ff_x),.y(ff_y),
             .visible(osd_visible_sync[1]),.page(osd_page_s2),
@@ -2373,12 +2175,14 @@ module skeleton_core #(
             .flux(sa_flux),.threshold(sa_threshold),.scope_max(sa_scope_max),
             .rgb(raster_rgb),.valid(raster_valid)
         );
+        end
     end else begin : g_no_osd_picture
         assign osd_rgb=24'd0;
         assign osd_vld=1'b0;
     end endgenerate
 
-    layer_fft64 u_layer_fft (
+    layer_fft64 #(.DYNAMIC_COLORS(VISUAL_CONTROLS)) u_layer_fft (
+        .target_color(color_spectrum),.spike_enable(effects[2]),
         .clk       (clk_pix),
         .rst_n     (~rst_pix & ~spec_song_clear),
         .bar_stb   (sb_bar_stb),
@@ -2391,14 +2195,14 @@ module skeleton_core #(
         .de        (cb_de),                     // ★ 与合成器同一个 `de` ✓
         .x         ({6'd0, ff_x}),              // ★ **当前**活动像素 ✓（不是延迟坐标 ✗）
         .y         ({6'd0, ff_y}),
-        .en        (en_fft),                    // 0 时整层透明
+        .en        (en_fft && effects[3]),                    // 0 时整层透明
         .dout      (ff_rgb),
         .dout_vld  (ff_vld)
     );
 
     cover_pop u_cover_pop (
-        .clk(clk_pix),.rst(rst_pix || spec_song_clear),
-        .frame_tick(fr_start),.hit(sa_hit && en_fft),.level(cover_pop_level)
+        .clk(clk_pix),.rst(rst_pix || spec_song_clear || !effects[1]),
+        .frame_tick(fr_start),.hit(sa_hit && en_fft && effects[1]),.level(cover_pop_level)
     );
     cover_pop_geom u_new_pop_geom (
         .x(cv_x),.y(cv_y),.w(cv_w),.h(cv_h),.level(cover_pop_level),
@@ -2408,9 +2212,9 @@ module skeleton_core #(
         .x(ocv_x),.y(ocv_y),.w(ocv_w),.h(ocv_h),.level(cover_pop_level),
         .out_x(ocv_pop_x),.out_y(ocv_pop_y),.out_w(ocv_pop_w),.out_h(ocv_pop_h)
     );
-    attack_rings u_attack_rings (
-        .clk(clk_pix),.rst(rst_pix || spec_song_clear),
-        .frame_tick(fr_start),.hit(sa_hit && en_fft),
+    attack_rings #(.CENTER_X(TYPOGRAPHY ? 160 : 260),.CENTER_Y(165)) u_attack_rings (
+        .clk(clk_pix),.rst(rst_pix || spec_song_clear || !effects[0]),
+        .frame_tick(fr_start),.hit(sa_hit && en_fft && effects[0]),
         .de(cb_de),.x(ff_x),.y(ff_y),.valid(ring_vld),.rgb(ring_rgb),
         .alpha(ring_alpha)
     );
@@ -2493,6 +2297,8 @@ module skeleton_core #(
     wire [15:0] lp_cur_fc, lp_nxt_fc, lp_n3_fc;
     wire [15:0] lp_cur_cnt, lp_nxt_cnt, lp_n3_cnt;
     wire        lp_cur_vld, lp_nxt_vld, lp_n3_vld;
+    wire [15:0] lp_prev2_fc,lp_prev2_cnt,lp_prev_fc,lp_prev_cnt,lp_n4_fc,lp_n4_cnt;
+    wire lp_prev2_vld,lp_prev_vld,lp_n4_vld;
     wire [15:0] lp_ttl_fc, lp_ttl_cnt, lp_sgr_fc, lp_sgr_cnt;
     wire        lp_ttl_vld, lp_sgr_vld;
     wire [5:0]  lp_off_px;
@@ -2523,9 +2329,9 @@ module skeleton_core #(
         //        而 '-' (0x2D)、空格 (0x20) 在 0x40 以下 ⇒ 完好 ✓ —— 与板上照片**逐字对上** ✓
         //      单元台查不出：TB 里 LRC/ASC 是各自独立的数组 ✗，不存在重叠 ✓
         //      ⇒ 修法：LRC 挪到 **`0x121440`**（紧贴 ASC 之后 ✓，与 BG/CV 各槽无冲突 ✓）
-        .LRC_BASE (21'h121440), .SLOT_MAX (64),
+        .LRC_BASE (TEXT_LRC_BASE), .SLOT_MAX (64),
         .CLK_HZ   (SDR_CLK_MHZ * 1000000), .WD_MS (4),
-        .SC_SAMP  (14400),      .SC_PX (38)
+        .SC_SAMP  (14400),      .SC_PX (TYPOGRAPHY ? 36 : 38), .CONTEXT(TYPOGRAPHY)
     ) u_pick (
         .clk_sdr (clk_sdr), .rst_sdr_n (~rst_sdr),
         .tick (pick_tick), .samp_stb (samp_stb_sdr), .played (played_cnt),
@@ -2535,6 +2341,9 @@ module skeleton_core #(
         .cur_fc (lp_cur_fc), .nxt_fc (lp_nxt_fc), .n3_fc (lp_n3_fc),
         .cur_cnt (lp_cur_cnt), .nxt_cnt (lp_nxt_cnt), .n3_cnt (lp_n3_cnt),
         .cur_vld (lp_cur_vld), .nxt_vld (lp_nxt_vld), .n3_vld (lp_n3_vld),
+        .prev2_fc(lp_prev2_fc),.prev2_cnt(lp_prev2_cnt),.prev2_vld(lp_prev2_vld),
+        .prev_fc(lp_prev_fc),.prev_cnt(lp_prev_cnt),.prev_vld(lp_prev_vld),
+        .n4_fc(lp_n4_fc),.n4_cnt(lp_n4_cnt),.n4_vld(lp_n4_vld),
         .ttl_fc (lp_ttl_fc), .ttl_cnt (lp_ttl_cnt), .ttl_vld (lp_ttl_vld),
         .sgr_fc (lp_sgr_fc), .sgr_cnt (lp_sgr_cnt), .sgr_vld (lp_sgr_vld),
         .off_px (lp_off_px), .scroll_on (lp_scroll_on),
@@ -2568,6 +2377,54 @@ module skeleton_core #(
     end
     wire lyric_enable_pix = lyric_ready_pix_sync[1] & font_ready_pix_sync[1];
     //   `en = lp_tab_ok`：表不可用 ⇒ 整层透明（**也顺带挡住取数** ✓）
+    generate if(TYPOGRAPHY) begin : g_aa_text
+    // Move the text group down 29px: title aligns with the 240px cover at y=45.
+    layer_text_aa #(.V_ACT_DLY(35),.WIN_Y0(118),.WIN_H(167),.ROW_Y0(190),
+        .PITCH(36),.LAST_GAP_TRIM(1),.BOX_X(336),.BOX_W(288),.TTL_Y0(45),.SGR_Y0(77),
+        .DYNAMIC_COLORS(VISUAL_CONTROLS),.FIVE_LINES(1),.LRC_X(296),.LRC_W(336),
+        .LRC_BASE(21'h10B300),.FONT_BASE(21'h10BBB0),
+        .SPP(1200),.HOLD_N(24000),.CLK_HZ(SDR_CLK_MHZ*1000000)) u_lyr (
+        .alpha(text_alpha),
+        .color_title(color_title),.color_singer(color_singer),
+        .color_sung(color_sung),.color_other(color_other),
+        .clk_pix (clk_pix), .rst_pix_n (~rst_pix), .hs (cb_hs), .vs (cb_vs), .de (cb_de),
+        // ★★ p3-lean 步2c-3（**板上抓出**）：没字库就**别画** ✗
+        //   板上实测过：字库没装上时，字形区里还是**第三组背景的图像数据** ⇒
+        //   画出来是"密织状方块" ✗ —— 看上去像渲染 bug，其实只是"没素材" ✗。
+        //   `ft_fok`（FONT 装好）当门 ⇒ 失败时**整层透明（诚实的空白）** ✓，与 `FONT OK=0` 互相印证 ✓
+        // ★★★ P5/A9 S2b（2026-10-11）：**再加 `ft_lok`** ✗→✓ … ★★ **当天晚些时候回退** ✗→✓
+        //   【为什么加】想保证"字幕一定是**当前这首歌**的" ✓
+        //   【★★ 为什么必须撤掉】板上串口日志证明它是**帮凶** ✗：
+        //     切歌风暴 ⇒ 播放表重扫被 SD 读口挤住 ⇒ `pl_lrc_vld` 瞬变 0 ✗
+        //       ⇒ 我的 S2b 立刻把 `ft_lok` 清 0 ✗ ⇒ ★ **整层歌词被关掉、再也回不来** ✓✓
+        //     而**同一份日志**里 `LYR CUR` 还在 0→1→2→3→4 正常推进 ✓
+        //       ⇒ ★ **歌词表是好的、取数也正常** ✓ —— 纯粹是被这一位**误杀** ✗
+        //   【结论】这道门**弊远大于利** ✗：宁可**短暂显示旧的一行** ✓（本就只有几十毫秒 ✓），
+        //     也**绝不能**因为一个瞬态把字幕**永久关掉** ✗✓
+        //     ★ 老口径 `lp_tab_ok & ft_fok` 是**板上验证过**的 ✓ ⇒ 回到它 ✓
+        .en (lyric_enable_pix),
+        // ★★ L1M 并层：歌名/歌手用**同一门槛**（表和字库都得在 ⇒ 否则不出字、诚实的空白 ✓）
+        .en_ttl (lyric_enable_pix),
+        .dout (ly_rgb), .dout_vld (ly_vld), .gap_cnt (ly_gap), .on_cnt (ly_on),
+        .ttl_off (ly_ttl_off),
+        .clk_sdr (clk_sdr), .rst_sdr_n (~rst_sdr), .played (played_cnt),
+        .cur_fc (lp_cur_fc), .nxt_fc (lp_nxt_fc), .n3_fc (lp_n3_fc),
+        .cur_cnt (lp_cur_cnt), .nxt_cnt (lp_nxt_cnt), .n3_cnt (lp_n3_cnt),
+        .cur_vld (lp_cur_vld), .nxt_vld (lp_nxt_vld), .n3_vld (lp_n3_vld),
+        .prev2_fc(lp_prev2_fc),.prev2_cnt(lp_prev2_cnt),.prev2_vld(lp_prev2_vld),
+        .prev_fc(lp_prev_fc),.prev_cnt(lp_prev_cnt),.prev_vld(lp_prev_vld),
+        .n4_fc(lp_n4_fc),.n4_cnt(lp_n4_cnt),.n4_vld(lp_n4_vld),
+        .song_clear(lrc_slot_seen!=lrc_slot_sync[1]),
+        .off_px (lp_off_px), .desc_tgl (lp_desc_tgl),
+        // ★★ L1M 并层：跑马灯时基 + 歌名/歌手描述符（`lyric_pick` 本来就在输出 ✓ 零改动 ✓）
+        .samp_stb (samp_stb_sdr),
+        .ttl_fc (lp_ttl_fc), .ttl_cnt (lp_ttl_cnt), .ttl_vld (lp_ttl_vld),
+        .sgr_fc (lp_sgr_fc), .sgr_cnt (lp_sgr_cnt), .sgr_vld (lp_sgr_vld),
+        .px_req (c2_req), .px_addr (c2_addr_raw), .px_len (c2_len),
+        .px_ack (c2_ack), .px_done (c2_done), .px_data (c2_data), .px_valid (c2_valid)
+    );
+    end else begin : g_legacy_text
+        assign text_alpha=4'd0;
     layer_text #(
         .H_ACT_DLY (144), .V_ACT_DLY (35), .V_ACT_LIN (480),
         .WIN_Y0 (396), .WIN_H (76), .ROW_Y0 (404),
@@ -2610,102 +2467,7 @@ module skeleton_core #(
         .px_req (c2_req), .px_addr (c2_addr_raw), .px_len (c2_len),
         .px_ack (c2_ack), .px_done (c2_done), .px_data (c2_data), .px_valid (c2_valid)
     );
-
-    //=========================================================================
-    // 2c-2) ★★ 歌词链的**板上判据来源**（A7 的旁证 ✓ 全部取自现成信号 ⇒ 零额外硬件 ✓）
-    //   ★ 这是"旧 P3 从没成功过"的直接对策：把文本链的状态变成**可判读的数字**，
-    //     坏了也能从报文看出断在哪一段（装载 / 读表 / 时间轴 / 滚行）✓
-    //   ⚠️ 口径（如实）：这 6 个都是**跨域直采**（`clk_sdr` → 报文所在的 `clk` 域）。
-    //     它们**变化极慢**（每帧/每次换行才动），且报文是秒级快照 ⇒ 与 SD 状态那一处同一口径 ✓；
-    //     但严格说这**不是**规范的 CDC ✗（要严谨就给每个加 2FF + 一次性快照）。
-    //     本步按旧会话同一口径走（已上板验过可用 ✓），并在注释里记明。
-    //=========================================================================
-    wire [31:0] d_font_ok = {31'd0, (ft_fok & ft_aok)};                 // FONT OK=（两件都装好 ✓）
-    wire [15:0] d_lrc_n   = lp_nlines;                                  // LRC N=（表里的行数 ✓）
-    // ★ 0x67 = **本首没有 LRC**（与 `lyric_pick` 的 0x65 表坏 / 0x04 超时**分开** ✓
-    //   —— 旧会话的教训：这两种情况板上表现一样（都没字），但**处理不同** ⇒ 必须能区分 ✓）
-    // ★★★ 2026-10-10 修：同样改用 `pl_lrc_vld` ✗→✓（`pl_lrc_ft == 0` **不能**当"没有 LRC" ✗
-    //   —— 0 是合法索引 ✓，见 `BOARD_LOG_20261010.md` 的 `BGF1=0` 实测 ✓）
-    wire [7:0]  d_lrc_err = pl_lrc_vld ? lp_err : 8'h67;
-    wire [15:0] d_lyr_cur = lp_cur_idx;                                  // LYR CUR=（当前行号 ✓）
-    wire [5:0]  d_lyr_off = lp_off_px;                                   // LYR OFF=（滚行相位 0..38 ✓）
-    wire [31:0] d_aud_t   = sec_cnt;                                     // AUD T=（累计已播秒 ✓）
-
-    uart_report #(
-        .CLK_HZ(CLK_HZ), .BAUD(115200)
-    ) u_rpt (
-        .clk(clk), .rst_n(rst_n), .go(rpt_go),
-        .sdr_init(s_init),
-        .bw_kbps(d_st),                      // ★★ 2026-10-04：标签已改为 **`LF ST=`** ✓（值是 `lf_st`
-                                             //   装载状态号 ✓，7 = 开机三组装完 ✓）；原标签 `BW KBPS=`
-                                             //   是 P0 带宽版的遗留 ✗，会让人误读 ✗
-        .wr_words(d_w),                      // → 标签 **`BG W=`** ✓（当前显示组的**背景宽** ✓）
-        .rd_words(d_h),                      // → 标签 **`BG H=`** ✓（当前显示组的**背景高** ✓）
-        .err_words(d_err),                   // → 标签 **`GRP VLD=`** ✓（有效组数 + cv/bg 成功位 ✓）
-        .sdr_ref(s_ref),                     // → 标签 **`SDR REF=`** ✓（引脚译码的**真刷新条数** ✓）
-                                             //   （旧注释里"预期 ≈51、实测 0~1"是改引脚译码前的旁证口径 ✗，
-                                             //     现在是硬数：实测 **128** ✓ = 200000/1562 ✓）
-        .busy_cyc({15'd0, grp}),             // ★★ → 标签 **`GRP IDX=`** ✓（**当前显示组号** ✓）
-                                             //   原值与 `SD FILES=` **完全重复**（都是文件数 ✗）
-                                             //   ⇒ 腾出来放组号 ✓ —— 之前报文里根本没有"当前是哪一组" ✗
-        .aud_n(aud_n_last),                  // ★★ → 标签 **`AUD N=`** ✓（本窗 48kHz 节拍数 ✓
-                                             //   1 秒应 = 48000 ✓；不动 ⇒ 时基问题 ✓）
-        .aud_acr(aud_a_last),                // ★★ → 标签 **`ACR N=`** ✓（本窗 ACR 包数 ✓
-                                             //   1 秒应 = 1000 ✓；节拍在跑而它不动 ⇒ ACR 问题 ✓）
-        .aud_st  (aud_st_last),              // ★★ P2/S2 → **`AUD ST=`** ✓（2=WAV / 1=测试音 ✓）
-        .aud_wmin(aud_wmin_last),            // ★★ P2/S2 → **`AUD WMIN=`** ✓（本窗最小水位 ✓）
-        .aud_uc  (aud_uc_last),              // ★★ P2/S2 → **`AUD UC=`** ✓（本窗欠载次数 ✓ 应 0 ✓）
-        .wav_err (aud_werr_last),            // ★★ P2/S2 → **`WAV ERR=`** ✓（0 = 素材合规 ✓）
-        .vid_locked(s_vid),
-        .sd_ready(sd_ready),                 // 同域，直接接
-        .sd_fail(sd_fail),
-        .sd_err(sd_err_code),                // ★同域直连（storage_top 也在 clk 域）
-        .sd_hc(sd_dbg_sdhc),                 // ★同域直连
-        .sd_files(sd_file_total),
-        .pl_n    (pl_n),                     // ★★ P2/S3 → **`PL N=`** ✓（可播首数 ✓ A1 判据 ≥1 ✓）
-        .song_cur(pl_cur),                   // ★★ P2/S3 → **`SONG CUR=`** ✓（当前首号 ✓）
-        .pl_err  (pl_err),                   // ★★ P2/S3 → **`PL ERR=`** ✓（首条错误码 ✓ 0 = 全可播 ✓）
-        // ★★ p3-lean 步2c-2：歌词链 6 个字段（P3 的 `FONT OK / LRC N / LRC ERR / LYR CUR / LYR OFF / AUD T`）
-        //   ★ 一律**追加在报文末尾** ⇒ 既有字段下标 0..22 一个都没动 ✓（少一类回归风险 ✓）
-        .font_ok (d_font_ok),
-        .lrc_n   (d_lrc_n),
-        .lrc_err (d_lrc_err),
-        .lyr_cur (d_lyr_cur),
-        .lyr_off (d_lyr_off),
-        .aud_t   (d_aud_t),
-        // ★★ Step 0（并发写探测）三路诊断 —— 板上"LED 不闪"时靠它们**定因** ✓
-        //   `LF ST=`（7 = 收口 ✓）｜`BGF1=`（= 0 ⇒ 探针索引门被挡 ✗）｜`CWP N=`（= 0 ⇒ 探针没跑 ✓）
-        .lf_st   (lf_st),
-        .pl_bg1  (pl_bg1),
-        .cwp_n   (cwp_cnt),
-        // ★★★ P5/A9（2026-10-10）**现场取证**：`A9=XXXXXXXX`（打包 ✓ 见 `uart_report.v` 端口注释）
-        //   【为什么必须加】板上反复出现"循环没发生 ／ 花屏" ✗，而**仿真测不到** ✗
-        //     （集成台的 WAV 播不完 ⇒ `au_end_pulse` 永不触发 ✓）
-        //     ⇒ 每次上板只能靠猜 ✗ ⇒ 用一个数把"切歌触发了吗、卡在第几步"一次说清 ✓
-        //   位域：[1:0]=`slot_rot` ／ [4:2]=`au_st` ／ [7:5]=`pre_stv`
-        //         [15:8]=`pre_n` ／ [23:16]=`sw_cnt`（切歌触发次数 ✓）
-        // ★★★ 2026-10-11 **诊断瘦身** ✗→✓（用户问："没改几行，为什么片数涨这么多" ✓）
-        //   【实测账】加完整 `A9=` 那一步：**9,451 → 9,698 片（+247 ✗ = +2.5% ✗）**
-        //     而它**逻辑极少** ✓（几个计数器 ＋ 一根拼接 ✓）—— 贵在哪 ✗？
-        //   【真因】旧拼接把 **9 个来自全芯片各处**的信号（`au_st`/`pre_stv`/`pre_n`/
-        //     `sw_cnt`/`ft_fok`/`ft_lok`/`lp_tab_ok`/`pl_lrc_vld`/`pre_busy` ✓）
-        //     **拉到同一个点** ✗ ⇒ ★ 在 95%+ 占用下"拉线"本身爆拥塞 ✗
-        //     ⇒ 工具加缓冲/复制逻辑 ⇒ ★ **涨的不是逻辑，是布线** ✓✓
-        //   【瘦身口径】只留**现场真的用得上**的五项 ✓（其余全砍 ⇒ 长线随之消失 ✓）：
-        //     [1:0]   `slot_rot`    轮转量 ✓        [4:2]   `au_st`  音频状态 ✓
-        //     [7:5]   `pre_stv`     预装步骤 ✓      [11:8]  `pre_n[3:0]` 预装笔数 ✓
-        //     [19:12] `sw_cnt[7:0]` 切歌次数 ✓（★ 8 位够看"风暴" ✓）
-        //   ★ 砍掉的 `ft_fok`/`ft_lok`/`lp_tab_ok`/`pl_lrc_vld`/`pre_busy`：
-        //     它们的结论**已经定案** ✓（`ft_lok` 那道门已撤 ✓、`pre_busy` 已由 `[PRE]` 台判据覆盖 ✓）
-        //     ⇒ 留在报文里**只花钱不办事** ✗
-        .a9_pack ({11'd0, sw_cnt[7:0], pre_n[3:0], pre_stv, 1'b0, au_st, slot_rot}),
-        // ★★ L1D：`LYR GAP=`（板上判"行头被啃" ✓ 见 `doc/evidence/p3_lean_s2c2_blindspot.md` §6.5 ✓）
-        .lyr_gap (ly_gap),
-        // ★★ L1M-b：`TTL OFF=`（板上判"歌名跑马灯在不在走" ✓；0 = 没走 ✗）
-        .ttl_off (ly_ttl_off),
-        .tx(uart_tx),
-        .busy(rpt_busy)
-    );
+    end endgenerate
 
     //=========================================================================
     // 6) LED / 观测（都在 50MHz 域，跨域信号已同步）
@@ -2717,7 +2479,12 @@ module skeleton_core #(
         else begin hb <= hb + 25'd1; lk_sr <= {lk_sr[1:0], O_video_locked}; end
     end
 
-    assign led[0] = s_init;                  // SDRAM 初始化完成（快照）
+    reg [1:0] sdr_init_sync;
+    always @(posedge clk) begin
+        if (!rst_n) sdr_init_sync <= 2'b00;
+        else        sdr_init_sync <= {sdr_init_sync[0], sdr_init_done};
+    end
+    assign led[0] = sdr_init_sync[1];        // SDRAM 初始化完成
     assign led[1] = lk_sr[2];                // HDMI 核锁定
     assign led[2] = sd_ready;                // SD 文件表就绪（同域）
     assign led[3] = en_cwp ? cwp_phase : hb[24];   // ★ en_cwp=1 ⇒ "探针正在写"（防假阴性 ✓）；否则心跳

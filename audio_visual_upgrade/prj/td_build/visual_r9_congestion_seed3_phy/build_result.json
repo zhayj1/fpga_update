@@ -1,0 +1,11 @@
+{
+  "stage": "phy",
+  "bitstream": {
+    "sha256": "7EBE67672B356B45DCEFED25F7134388F49B9E23F77F1BFDE865635EB3D6FFA1",
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\visual_r9_congestion_seed3_phy\\skeleton.bit",
+    "bytes": 690161
+  },
+  "status": "BUILD_COMPLETE",
+  "completed": "2026-10-31T12:38:36.8962106+08:00",
+  "inputs_unchanged": true
+}

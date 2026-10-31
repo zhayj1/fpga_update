@@ -1,0 +1,8 @@
+[
+  "downscale-identity-key-and-backpressure",
+  "downscale-rational-and-orientation-matrix",
+  "downscale-source-limit-and-destination-bounds",
+  "downscale-reject-no-upscale-ratio-and-overflow",
+  "downscale-truncation-error-watchdog-recovery",
+  "downscale-reset-recovery"
+]

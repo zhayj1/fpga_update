@@ -59,6 +59,13 @@ module tb_layer_fft64;
     endtask
     initial begin
         #100; rst_n=1;
+        // The first scene can appear before any complete FFT bank exists.
+        point(157,1,0);point(250,501,0);point(477,501,0);
+        @(negedge clk);de=0;bar_idx=0;bar_level=200;bar_stb=1;
+        @(negedge clk);bar_stb=0;frame_stb=1;
+        @(negedge clk);frame_stb=0;
+        point(477,1,0);point(157,501,0);
+        $display("SCENARIO_PASS no_spectrum_before_complete_bank");
         @(negedge clk); bar_idx=50;bar_level=200;bar_stb=1;
         @(negedge clk);bar_stb=0;bars_done=1;
         @(negedge clk);bars_done=0;frame_stb=1;
@@ -109,6 +116,11 @@ module tb_layer_fft64;
         point(250,501,0);
         point(301,501,1);
         $display("SCENARIO_PASS spike_decay");
+        @(negedge clk);de=0;rst_n=0;
+        repeat(3) @(negedge clk);
+        rst_n=1;
+        point(301,501,0);point(477,1,0);
+        $display("SCENARIO_PASS reset_hides_previous_spectrum_bank");
         $display("TEST_PASS");$finish;
     end
     initial begin #2000000;$display("TEST_FAIL display timeout");$finish;end

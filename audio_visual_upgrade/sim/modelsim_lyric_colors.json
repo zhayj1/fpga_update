@@ -1,0 +1,15 @@
+{
+  "dut_top": "work.layer_text",
+  "tb_top": "work.tb_layer_text_colors",
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {"path": "rtl/gfx/lyric_row.v", "language": "verilog"},
+        {"path": "rtl/gfx/layer_text.v", "language": "verilog"},
+        {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+        {"path": "tb/tb_layer_text_colors.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

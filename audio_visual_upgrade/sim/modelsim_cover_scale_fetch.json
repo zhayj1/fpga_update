@@ -1,0 +1,9 @@
+{
+  "dut_top": "work.fetch_line_scene",
+  "tb_top": "work.tb_cover_scale_fetch",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+    {"path": "rtl/gfx/fetch_line_scene.v", "language": "verilog"},
+    {"path": "tb/tb_cover_scale_fetch.v", "language": "verilog"}
+  ]}]
+}

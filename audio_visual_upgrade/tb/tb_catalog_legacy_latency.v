@@ -179,7 +179,7 @@ module tb_resource_catalog;
         choose(8'd0); expect_selection(8'd0, 8'd0, 8'd0, 8'h60);
         reset_catalog;
         write_entry({8'h53,8'h30,8'h31,8'h42,8'h47,8'h31,8'h20,8'h20,8'h42,8'h4d,8'h50},
-                    2'd0, 32'd921655, 32'd20);
+                    2'd0, 32'd67108865, 32'd20);
         add_song(1, 0);
         choose(8'd0); expect_selection(8'd0, 8'd0, 8'd0, 8'h64);
         if (dut.valid[8] !== 1'b0) begin

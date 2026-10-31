@@ -1,0 +1,12 @@
+version: TYP2
+top_module: skeleton_top
+scope: Existing typography path and shared loader count expansion
+specification: doc/spec/full_font_behavior_spec.md
+unchanged_interfaces: [skeleton_top, layer_text_aa, text_row_aa, bmp_load, sdram_arb]
+changed_ports:
+  - {module: asset_manager, ports: task_capacity, direction: output, width: 20, clock: clk, reset: rst_n, protocol: task_start_to_task_done_stable}
+  - {module: font_load, ports: slot_words, direction: input, width: 20, clock: clk, reset: rst_n, protocol: start_to_done_stable}
+  - {module: font_load, ports: 'cfg_words_ext,finish_words_ext', direction: output, width: 20, clock: clk, reset: rst_n, protocol: bundled_data_held_to_backend_done}
+  - {module: load_writeback, ports: 'cfg_words,finish_words', direction: input, width: 20, clock: clk, reset: rst_n, protocol: toggle_mailbox_to_clk_sdr}
+existing_port_definitions: RTL module declarations remain authoritative for unchanged ports
+acceptance: [FULL-01, FULL-02, FULL-03, FULL-04, FULL-05]

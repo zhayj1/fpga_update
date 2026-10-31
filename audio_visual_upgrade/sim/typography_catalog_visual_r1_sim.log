@@ -1,0 +1,22 @@
+# End time: 11:49:25 on Oct 31,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/631651964b29418497292f3858c355d3/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_catalog_matrix 
+# Start time: 11:49:25 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_catalog_matrix
+# Loading work.resource_catalog
+# SCENARIO_PASS catalog-all-song-field-masks
+# SCENARIO_PASS catalog-all-start-indices
+# SCENARIO_PASS catalog-first-wins-and-error-priority
+# SCENARIO_PASS catalog-large-bmp-file-limit
+# SCENARIO_PASS catalog-clear-cancels-selection
+# SCENARIO_PASS catalog-sparse-all-start-indices
+# SCENARIO_PASS catalog-concurrent-ports-and-busy-start
+# SCENARIO_PASS catalog-all-phase-cancellation
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_catalog_matrix.v(294)
+#    Time: 1010040 ns  Iteration: 1  Instance: /tb_catalog_matrix
+# Break in Module tb_catalog_matrix at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_catalog_matrix.v line 294
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_catalog_matrix.v line 294
+# End time: 11:49:26 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1

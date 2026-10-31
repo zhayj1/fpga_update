@@ -1,0 +1,87 @@
+{
+  "dut_top": "work.tb_visual_controls",
+  "tb_top": "work.tb_visual_controls",
+  "data_files": [
+    "sim/typography_osd_golden.mem",
+    "sim/typography_osd_glyphs.mem",
+    "rtl/gfx/osd_youyuan_ch.dath",
+    "rtl/gfx/osd_youyuan_ascii.dath",
+    "rtl/gfx/osd_blend_palette.dath",
+    "rtl/gfx/cover_coverage.dath",
+    "rtl/gfx/visual_palette.dath",
+    "rtl/gfx/osd_youyuan_extra.dath",
+    "sim/cover_coverage_golden.mem",
+    "rtl/gfx/osd_youyuan_pixel.dath",
+    "rtl/gfx/osd_bcd.dath",
+    "rtl/gfx/osd_bar.dath"
+  ],
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "rtl/gfx/alpha_blend16.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_font_youyuan.v",
+          "language": "verilog",
+          "defines": [
+            "OSD_SIM"
+          ]
+        },
+        {
+          "path": "rtl/gfx/osd_font_pixel.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_numeric_rom.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_layer_small.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/cover_coverage.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/visual_palette.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/visual_settings.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_fft64.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_controls.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_visual_controls.v",
+          "language": "verilog"
+        }
+      ],
+      "defines": [
+        "OSD_SIM"
+      ]
+    }
+  ]
+}

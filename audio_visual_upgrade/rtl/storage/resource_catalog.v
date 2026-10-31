@@ -30,8 +30,9 @@ module resource_catalog #(
     output wire font_valid, asc_valid,
     output reg [31:0] font_size, asc_size
 );
-    localparam [31:0] BG_MAX = 32'd921654;
-    localparam [31:0] CV_MAX = 32'd732121;
+    // Source BMPs are normalized by bmp_load before entering display slots.
+    localparam [31:0] BG_MAX = 32'd67108864;
+    localparam [31:0] CV_MAX = 32'd67108864;
     localparam [7:0] FONT_ID = 8'd136, ASC_ID = 8'd137;
     reg [63:0] descriptor [0:137];
     reg [137:0] seen, valid;
@@ -116,13 +117,21 @@ module resource_catalog #(
         input [2:0] field;
         begin key = (number << 3) + {5'd0, field}; end
     endfunction
+    // Reduce each song's fixed fields before selecting a song. Selecting
+    // seven independent bits from the whole 138-bit directory replicated
+    // large mux trees; these masks retain all fields and selection timing.
+    wire [16:0] bg_ready,cv_ready,song_ready;
+    genvar song;
+    generate for(song=0;song<=16;song=song+1) begin:g_ready
+        assign bg_ready[song]=&valid[song*8+:3];
+        assign cv_ready[song]=&valid[song*8+3+:3];
+        assign song_ready[song]=bg_ready[song] && cv_ready[song] &&
+            valid[song*8+6] && !too_large[song];
+    end endgenerate
     function playable;
         input [7:0] number;
         begin
-            playable = valid[key(number,3'd0)] && valid[key(number,3'd1)] &&
-                       valid[key(number,3'd2)] && valid[key(number,3'd3)] &&
-                       valid[key(number,3'd4)] && valid[key(number,3'd5)] &&
-                       valid[key(number,3'd6)] && !too_large[number];
+            playable = song_ready[number];
         end
     endfunction
 
@@ -167,10 +176,8 @@ module resource_catalog #(
             end else if (select_busy) begin
                 if (exists[cursor] && !playable(cursor8) && pl_err == 8'd0) begin
                     if (too_large[cursor]) pl_err <= 8'h64;
-                    else if (!(valid[key(cursor8,3'd0)] && valid[key(cursor8,3'd1)] &&
-                               valid[key(cursor8,3'd2)])) pl_err <= 8'h60;
-                    else if (!(valid[key(cursor8,3'd3)] && valid[key(cursor8,3'd4)] &&
-                               valid[key(cursor8,3'd5)])) pl_err <= 8'h61;
+                    else if (!bg_ready[cursor]) pl_err <= 8'h60;
+                    else if (!cv_ready[cursor]) pl_err <= 8'h61;
                     else pl_err <= 8'h62;
                 end
                 if (playable(cursor8)) begin

@@ -1,0 +1,41 @@
+{
+  "dut_top": "work.text_row_aa",
+  "tb_top": "work.tb_full_font_rows",
+  "data_files": [
+    "sim/typography_font.mem",
+    "sim/full_font_codes.mem",
+    "sim/full_font_widths.mem",
+    "sim/full_font_rows.mem",
+    "rtl/gfx/glyph_blocks.dath"
+  ],
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/text_row_aa.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/px_arb5.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_full_font_rows.v",
+          "language": "verilog"
+        }
+      ],
+      "defines": [
+        "TEXT_SIM"
+      ]
+    }
+  ]
+}

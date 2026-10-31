@@ -1,0 +1,47 @@
+{
+  "dut_top": "work.tb_geometry_equivalence",
+  "tb_top": "work.tb_geometry_equivalence",
+  "data_files": [],
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/scene_raster.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/fetch_line_scene.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_bg.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/layer_bg_reference.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_geometry_equivalence.v",
+          "language": "verilog"
+        }
+      ],
+      "defines": [
+        "OSD_SIM"
+      ]
+    }
+  ]
+}

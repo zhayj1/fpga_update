@@ -4,7 +4,7 @@
 module layer_bg #(
     parameter integer MAX_W=640, LAT=7, H_ACT_DLY=144,
     parameter integer V_ACT_DLY=35, V_ACT_LIN=480,
-    parameter integer SHARED_RASTER=0,SHARED_WRITER=0,SCALE=0
+    parameter integer SHARED_RASTER=0,SHARED_WRITER=0,SCALE=0,GEOMETRY_BITS=16
 )(
     input wire clk_pix, rst_pix_n, hs, vs, de, en,
     input wire [15:0] win_x,win_y,win_w,win_h,img_w,img_h,words_per_row,
@@ -38,25 +38,33 @@ module layer_bg #(
     end else begin: g_scan_local
         scene_raster u_scan(.clk_pix(clk_pix),.rst_pix_n(rst_pix_n),.hs(hs),.vs(vs),.de(de),.state(raster));
     end endgenerate
-    wire [15:0] y=vln-V_ACT_DLY;
+    // Board geometry is bounded by the 640x480 viewport. Keep one extra
+    // bit for endpoint sums; the reusable default retains the full interface.
+    localparam integer G=GEOMETRY_BITS;
+    wire [G-1:0] wx=win_x[G-1:0],wy=win_y[G-1:0];
+    wire [G-1:0] ww=win_w[G-1:0],wh=win_h[G-1:0];
+    wire [G-1:0] iw=img_w[G-1:0],ih=img_h[G-1:0];
+    wire [G-1:0] y=vln-V_ACT_DLY;
     wire active=(vln>=V_ACT_DLY && vln<V_ACT_DLY+V_ACT_LIN);
-    wire geometry_ok=en && win_w!=0 && win_h!=0 && img_w!=0 && img_w<=MAX_W &&
+    wire geometry_ok=en && ww!=0 && wh!=0 && iw!=0 && iw<=MAX_W &&
                      words_per_row!=0 && frame_seen;
-    wire line_ok=geometry_ok && active && y>=win_y && y<win_y+win_h &&
-                 (SCALE || y-win_y<img_h);
-    wire [16:0] go_at=H_ACT_DLY+{1'b0,win_x};
+    wire [G:0] bottom={1'b0,wy}+{1'b0,wh};
+    wire [G:0] right_edge={1'b0,wx}+{1'b0,ww};
+    wire [G-1:0] source_row=y-wy;
+    wire line_ok=geometry_ok && active && y>=wy && {1'b0,y}<bottom &&
+                 (SCALE || source_row<ih);
+    wire [G:0] go_at=H_ACT_DLY+{1'b0,wx};
     wire go_now=line_ok && lcnt==go_at-LAT;
-    wire [15:0] source_row=y-win_y;
-    wire before_first=(vln==V_ACT_DLY+win_y-1) && win_y<V_ACT_LIN;
-    wire next_ok=line_ok && y+16'd1<V_ACT_LIN && source_row+16'd1<win_h &&
-                 (SCALE || source_row+16'd1<img_h);
+    wire before_first=(vln==V_ACT_DLY+wy-1) && wy<V_ACT_LIN;
+    wire next_ok=line_ok && {1'b0,y}+1<V_ACT_LIN && {1'b0,source_row}+1<{1'b0,wh} &&
+                 (SCALE || {1'b0,source_row}+1<{1'b0,ih});
     wire want_first=geometry_ok && before_first && lcnt>=17'd24;
     wire want_next=next_ok && lcnt>=go_at+17'd2;
     wire [8:0] target_row=want_first ? 9'd0 : source_row[8:0]+9'd1;
     reg [20:0] row_addr;
-    reg [16:0] row_phase;
-    wire [16:0] row_sum=row_phase+{1'b0,img_h};
-    wire row_advance=!SCALE || row_sum>={1'b0,win_h};
+    reg [G:0] row_phase;
+    wire [G:0] row_sum=row_phase+{1'b0,ih};
+    wire row_advance=!SCALE || row_sum>={1'b0,wh};
     wire [20:0] next_addr=row_addr+(row_advance ? {5'd0,words_per_row} : 21'd0);
     reg sent;
     reg req_toggle;
@@ -74,7 +82,7 @@ module layer_bg #(
     assign slot_free=fl_ready;
     wire issue=(want_first || want_next) && !sent && mailbox_free && ready_sync[1];
     wire [23:0] expect_tag={frame_id,source_row[8:0]};
-    wire [8:0] min_row=(active && y>=win_y) ?
+    wire [8:0] min_row=(active && y>=wy) ?
                        source_row[8:0]+((lcnt>go_at) ? 9'd1 : 9'd0) : 9'd0;
     wire [23:0] fl_px;
     wire fl_vld,fl_err,line_done;
@@ -98,7 +106,7 @@ module layer_bg #(
             if (vln==0 && lcnt==17'd16) begin row_addr<=slot_base; row_phase<=0; end
             else if (hs_f && line_ok) begin
                 row_addr<=next_addr;
-                if(SCALE) row_phase<=row_advance ? row_sum-{1'b0,win_h} : row_sum;
+                if(SCALE) row_phase<=row_advance ? row_sum-{1'b0,wh} : row_sum;
             end
             if (issue) begin
                 req_addr<=want_first ? slot_base : next_addr;
@@ -107,7 +115,7 @@ module layer_bg #(
             end
             if (go_now) stream_busy<=1;
             if (line_done) stream_busy<=0;
-            if (de && line_ok && xcnt>=win_x && xcnt<win_x+win_w && !fl_vld) gap_c<=gap_c+1'b1;
+            if (de && line_ok && xcnt>=wx && xcnt<right_edge && !fl_vld) gap_c<=gap_c+1'b1;
         end
     end
     always @(posedge clk_sdr) begin
@@ -138,7 +146,7 @@ module layer_bg #(
         .shared_addr(wr_addr),.next_bank(next_bank)
     );
     assign dout=fl_px;
-    assign dout_vld=de && line_ok && xcnt>=win_x && xcnt<win_x+win_w && fl_vld;
+    assign dout_vld=de && line_ok && xcnt>=wx && xcnt<right_edge && fl_vld;
     assign gap_cnt=gap_c;
     assign ferr_cnt=ferr_c;
 endmodule

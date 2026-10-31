@@ -79,13 +79,13 @@ module font_load #(
     input  wire        ld_ack,
     input  wire        ld_done,
     input wire fifo_full_ext, input wire backend_done_ext,
-    input wire [18:0] slot_words,
+    input wire [19:0] slot_words,
     output wire fifo_flush_ext, output wire fifo_we_ext,
     output wire [7:0] fifo_di_ext,
     output wire cfg_valid_ext, output wire [20:0] cfg_first_ext,
-    output wire [18:0] cfg_words_ext, output wire [15:0] cfg_wpr_ext,
+    output wire [19:0] cfg_words_ext, output wire [15:0] cfg_wpr_ext,
     output wire cfg_down_ext,
-    output wire finish_valid_ext, output wire [18:0] finish_words_ext
+    output wire finish_valid_ext, output wire [19:0] finish_words_ext
 );
 
     //=========================================================================
@@ -111,10 +111,11 @@ module font_load #(
     //      ⇒ 总字数是 **4 的倍数** ⇒ **每一次突发都是 4 的倍数** ✓（不需要 write mask ✓）
     //      FONT 1,046,784 本来就是 16 的倍数 ⇒ **一个补零字节都不多** ✓
     //=========================================================================
-    wire [31:0] nbytes_pad_w = (byte_len + 32'd15) & 32'hFFFFFFF0;
-    wire [18:0] words_tgt_w  = nbytes_pad_w[20:2];              // 261,696 ⇒ 19 bit 够 ✓
-    wire        len_ovf_w    = (nbytes_pad_w[31:21] != 11'd0);  // 超过 2^21 字的槽空间 ⇒ 报错 ✓
-    wire [21:0] enda_w       = {1'b0, slot_base} + {3'd0, words_tgt_w};
+    wire [32:0] nbytes_sum_w = {1'b0,byte_len} + 33'd15;
+    wire [31:0] nbytes_pad_w = {nbytes_sum_w[31:4],4'd0};
+    wire [19:0] words_tgt_w  = nbytes_pad_w[21:2]; // TYP2 complete font exceeds 2 MiB
+    wire        len_ovf_w    = nbytes_sum_w[32] || (nbytes_pad_w[31:22] != 10'd0);
+    wire [21:0] enda_w       = {1'b0, slot_base} + {2'd0, words_tgt_w};
     wire        par_bad_w    = (byte_len == 32'd0) | len_ovf_w | (enda_w > 22'd2097152) |
                               (EXTERNAL_BACKEND && words_tgt_w > slot_words);
 
@@ -130,10 +131,10 @@ module font_load #(
     reg  [5:0]  frst_cnt;
     reg  [31:0] rd_bytes;            // 从 lo 吃掉的**文件**字节数
     reg  [31:0] wr_bytes;            // 推进 FIFO 的字节数（含补零 ✓）
-    reg  [18:0] words_tgt;           // 目标字数（4 的倍数 ✓）
-    reg  [18:0] a_words;
+    reg  [19:0] words_tgt;           // 目标字数（4 的倍数 ✓）
+    reg  [19:0] a_words;
     reg  [20:0] cfg_first;
-    reg  [18:0] cfg_words;
+    reg  [19:0] cfg_words;
 
     reg  [7:0]  err_hold;
     reg         eof_seen;
@@ -208,8 +209,8 @@ module font_load #(
             nbytes <= 32'd0;
             lo_open <= 1'b0; lo_open_index <= 8'd0;
             frst_cnt <= 6'd0; rd_bytes <= 32'd0; wr_bytes <= 32'd0;
-            words_tgt <= 19'd0; a_words <= 19'd0;
-            cfg_first <= 21'd0; cfg_words <= 19'd0;
+            words_tgt <= 20'd0; a_words <= 20'd0;
+            cfg_first <= 21'd0; cfg_words <= 20'd0;
             eof_seen <= 1'b0; wd <= 32'd0; gave_up <= 1'b0; open_wait <= 2'd0;
             bidle_pend <= 1'b0;
             cfg_valid_int <= 1'b0; finish_valid_int <= 1'b0; cfg_issued <= 1'b0;
@@ -334,11 +335,11 @@ module font_load #(
             //-----------------------------------------------------------------
             F_END: begin
                 if (!cfg_issued) begin
-                    cfg_first <= 21'd0; cfg_words <= 19'd0;
+                    cfg_first <= 21'd0; cfg_words <= 20'd0;
                     cfg_valid_int <= 1'b1; cfg_issued <= 1'b1;
                 end
                 busy      <= 1'b1;
-                a_words   <= wr_bytes[20:2];
+                a_words   <= wr_bytes[21:2];
                 finish_valid_int <= 1'b1;
                 st        <= F_DRAIN;
             end

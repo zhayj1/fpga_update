@@ -1,0 +1,20 @@
+# End time: 11:53:06 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/684af11295fd4487b6e66e593a916183/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_full_font_load 
+# Start time: 11:53:06 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_full_font_load
+# Loading work.font_load
+# Loading work.load_writeback
+# Loading work.afifo_8i_32o_bram
+# Loading work.fifo_cross_domain_addr_process_al_afifo_8i_32o_1024
+# FULL_LOAD_WORDS 964240 BURSTS 7534 CYCLES 3857026
+# SCENARIO_PASS FULL-03-real-file-over-2MiB
+# SCENARIO_PASS FULL-03-padding-bounds-short-file-recovery
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_full_font_load.v(124)
+#    Time: 77152760 ns  Iteration: 1  Instance: /tb_full_font_load
+# Break in Module tb_full_font_load at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_full_font_load.v line 124
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_full_font_load.v line 124
+# End time: 11:53:29 on Oct 31,2026, Elapsed time: 0:00:23
+# Errors: 0, Warnings: 1

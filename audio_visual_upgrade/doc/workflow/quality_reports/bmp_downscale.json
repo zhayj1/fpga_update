@@ -1,0 +1,186 @@
+{
+  "status": "completed",
+  "files_written": [
+    "rtl/load/bmp_load.v",
+    "rtl/storage/resource_catalog.v",
+    "rtl/top/skeleton_core.v",
+    "rtl/gfx/layer_fft64.v",
+    "tb/tb_bmp_downscale.v",
+    "doc/spec/bmp_downscale_behavior_spec.md"
+  ],
+  "missing_files": [],
+  "reason": "Current source evidence checked; timing_clean=False",
+  "verification_level": "routed_bitstream_and_simulation",
+  "evidence": {
+    "unit": {
+      "status": "PASS",
+      "changed_inputs": [],
+      "scenarios": [
+        "downscale-identity-key-and-backpressure",
+        "downscale-rational-and-orientation-matrix",
+        "downscale-source-limit-and-destination-bounds",
+        "downscale-reject-no-upscale-ratio-and-overflow",
+        "downscale-truncation-error-watchdog-recovery",
+        "downscale-reset-recovery"
+      ],
+      "result": "sim/downscale_unit_r2_sim_result.json",
+      "compile_log": "sim/downscale_unit_r2_compile.log",
+      "sim_log": "sim/downscale_unit_r2_sim.log",
+      "duration_seconds": 92.55
+    },
+    "writeback": {
+      "status": "PASS",
+      "changed_inputs": [],
+      "scenarios": [
+        "downscale-identity-key-and-backpressure",
+        "downscale-rational-and-orientation-matrix",
+        "downscale-real-fifo-writeback-addresses"
+      ],
+      "result": "sim/downscale_writeback_r2_sim_result.json",
+      "compile_log": "sim/downscale_writeback_r2_compile.log",
+      "sim_log": "sim/downscale_writeback_r2_sim.log",
+      "duration_seconds": 5.19
+    },
+    "legacy": {
+      "status": "PASS",
+      "changed_inputs": [],
+      "scenarios": [
+        "bmp-padding-and-orientation-matrix",
+        "bmp-maximum-image-and-backpressure",
+        "bmp-header-full-width-and-error-priority",
+        "bmp-truncated-stream-and-recovery",
+        "bmp-watchdog-and-reset"
+      ],
+      "result": "sim/downscale_legacy_r1_sim_result.json",
+      "compile_log": "sim/downscale_legacy_r1_compile.log",
+      "sim_log": "sim/downscale_legacy_r1_sim.log",
+      "duration_seconds": 8.68
+    },
+    "catalog": {
+      "status": "PASS",
+      "changed_inputs": [],
+      "scenarios": [
+        "catalog-all-song-field-masks",
+        "catalog-all-start-indices",
+        "catalog-first-wins-and-error-priority",
+        "catalog-large-bmp-file-limit",
+        "catalog-clear-cancels-selection",
+        "catalog-sparse-all-start-indices",
+        "catalog-concurrent-ports-and-busy-start",
+        "catalog-all-phase-cancellation"
+      ],
+      "result": "sim/downscale_catalog_r1_sim_result.json",
+      "compile_log": "sim/downscale_catalog_r1_compile.log",
+      "sim_log": "sim/downscale_catalog_r1_sim.log",
+      "duration_seconds": 4.15
+    },
+    "system": {
+      "status": "PASS",
+      "changed_inputs": [],
+      "scenarios": [
+        "real_spi_boot_and_layout",
+        "key_and_timer_fade_pixels",
+        "natural_song_end_fade_and_slot_protection",
+        "pcm_and_video_stream_integrity"
+      ],
+      "result": "sim/downscale_system_r3_sim_result.json",
+      "compile_log": "sim/downscale_system_r3_compile.log",
+      "sim_log": "sim/downscale_system_r3_sim.log",
+      "duration_seconds": 383.47
+    },
+    "board": {
+      "status": "COMPILE_PASS",
+      "changed_inputs": [],
+      "scenarios": [],
+      "result": "sim/downscale_board_compile_r2_sim_result.json",
+      "compile_log": "sim/downscale_board_compile_r2_compile.log",
+      "sim_log": null,
+      "duration_seconds": 27.35
+    },
+    "fft_init": {
+      "status": "PASS",
+      "changed_inputs": [],
+      "scenarios": [
+        "no_spectrum_before_complete_bank",
+        "colored_64_bar_geometry",
+        "no_swap_during_bar_write",
+        "frame_bank_atomic_swap",
+        "local_spike_and_white_cap",
+        "spike_decay",
+        "reset_hides_previous_spectrum_bank"
+      ],
+      "result": "sim/downscale_fft_init_r1_sim_result.json",
+      "compile_log": "sim/downscale_fft_init_r1_compile.log",
+      "sim_log": "sim/downscale_fft_init_r1_sim.log",
+      "duration_seconds": 4.53
+    }
+  },
+  "implementation": {
+    "authorization": "用户：继续综合布局布线",
+    "synthesis": "prj/td_build/bmp_downscale_r1_syn",
+    "baseline": "prj/td_build/uartless_r1_seed1_phy",
+    "selected_physical": "prj/td_build/bmp_downscale_r1_seed3_phy",
+    "report": "doc/compile/bmp_downscale_implementation_report.md",
+    "evidence": "doc/compile/bmp_downscale_implementation_result.json",
+    "constraints": {
+      "constraints/skeleton_top.adc": "2ca00ba4e33e5df108bd29bd4d178b26fa0d6a135feff011e556b790187b2291",
+      "constraints/skeleton_top.sdc": "0fe54f2c6242c070286cf409bf059568eeee633ce173bef352ae04a1d11dcd42"
+    },
+    "bitstream": {
+      "sha256": "6D415526C16E01255C466C3C082DE798D37E4867D1CD3560F52B3C36643656A3",
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed3_phy\\skeleton.bit",
+      "bytes": 651749
+    },
+    "resources": {
+      "lut": 17738,
+      "registers": 10858,
+      "bram9k": 55,
+      "bram32k": 6,
+      "dsp": 24,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9420
+    },
+    "timing_clean": false,
+    "setup_wns_ns": -5.565,
+    "setup_violations": 73,
+    "hold_wns_ns": 0.024,
+    "hold_violations": 0,
+    "additional_non_shifted_setup_endpoints": 9,
+    "board_validation": "not_run",
+    "attempts": [
+      {
+        "seed": 1,
+        "directory": "prj/td_build/bmp_downscale_r1_seed1_phy",
+        "status": "BUILD_COMPLETE"
+      },
+      {
+        "seed": 3,
+        "directory": "prj/td_build/bmp_downscale_r1_seed3_phy",
+        "status": "BUILD_COMPLETE"
+      },
+      {
+        "seed": 2,
+        "directory": "prj/td_build/bmp_downscale_r1_seed2_phy",
+        "status": "BUILD_COMPLETE"
+      },
+      {
+        "seed": 4,
+        "directory": "prj/td_build/bmp_downscale_r1_seed4_phy",
+        "status": "BUILD_COMPLETE"
+      }
+    ],
+    "timing_retry": {
+      "initial_seed": 1,
+      "retry_seeds": [
+        3,
+        2,
+        4
+      ],
+      "automatic_retries_used": 3,
+      "outcome": "additional_setup_violations_remain"
+    },
+    "next_step": "依据实际负裕量路径优化结构，重新验证；当前停止继续换种子",
+    "selection_reason": "优先比较非移相路径的最差setup裕量，再比较总负裕量与Slice；未改源码或约束"
+  }
+}

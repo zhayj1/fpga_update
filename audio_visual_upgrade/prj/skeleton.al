@@ -541,7 +541,11 @@
                     <Attr Name="CompileOrder" Val="83" />
                 </FileInfo>
             </File>
-        </Verilog>
+        <File Path="../rtl/gfx/alpha_blend16.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="130"/></FileInfo></File><File Path="../rtl/gfx/text_row_aa.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="131"/></FileInfo></File><File Path="../rtl/gfx/layer_text_aa.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="132"/></FileInfo></File><File Path="../rtl/gfx/osd_font_youyuan.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="133"/></FileInfo></File><File Path="../rtl/gfx/osd_layer_small.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="134"/></FileInfo></File><File Path="../rtl/gfx/cover_coverage.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="135"/></FileInfo></File>
+<File Path="../rtl/gfx/visual_palette.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="136"/></FileInfo></File>
+<File Path="../rtl/gfx/visual_settings.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="137"/></FileInfo></File>
+<File Path="../rtl/gfx/osd_font_pixel.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="138"/></FileInfo></File>
+<File Path="../rtl/gfx/osd_numeric_rom.v"><FileInfo><Attr Name="UsedInSyn" Val="true"/><Attr Name="UsedInP&amp;R" Val="true"/><Attr Name="BelongTo" Val="design_1"/><Attr Name="CompileOrder" Val="139"/></FileInfo></File></Verilog>
         <ADC_FILE>
             <File Path="../constraints/skeleton_top.adc">
                 <FileInfo>

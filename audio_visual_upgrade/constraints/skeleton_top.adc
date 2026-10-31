@@ -2,7 +2,7 @@
 #
 # 出处（都在本仓库里核过，不是猜的）：
 #   clk=R7 / rst_n=A2 / HDMI C3,G5,F1,E1      ← music_screen/constraints/pin.adc（APUG092 参考）
-#   uart_tx=D12 / led[0..3]=A4,A3,C10,B12 / SD=A14,A13,A12,B14 ← sd_fal_2_check/con/board_top.adc
+#   led[0..3]=A4,A3,C10,B12 / SD=A14,A13,A12,B14 ← sd_fal_2_check/con/board_top.adc
 #   ★ SDRAM 是**片内**的（EG_PHY_SDRAM_2M_32）⇒ 这里**不需要**任何 SDRAM 管脚约束
 #   ★ KEY4=C1 ← 《HX4S20开发板手册-HDL版2410.pdf》"按键引脚分配"表（用户 2026-10-01 提供截图）：
 #       KEY1=A2  KEY2=B2  KEY3=B1  KEY4=C1
@@ -19,7 +19,6 @@ set_pin_assignment	{ rst_n        }	{ LOCATION = A2;  IOSTANDARD = LVCMOS33; PUL
 set_pin_assignment	{ key4         }	{ LOCATION = C1;  IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
 set_pin_assignment	{ key2         }	{ LOCATION = B2;  IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
 set_pin_assignment	{ key3         }	{ LOCATION = B1;  IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
-set_pin_assignment	{ uart_tx      }	{ LOCATION = D12; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
 set_pin_assignment	{ sd_sck       }	{ LOCATION = A14; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
 set_pin_assignment	{ sd_mosi      }	{ LOCATION = A13; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }
 set_pin_assignment	{ sd_cs_n      }	{ LOCATION = A12; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = NONE; }

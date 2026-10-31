@@ -1,0 +1,18 @@
+# End time: 12:15:28 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/5e89454f8635491dbdb726704aec1b7f/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_geometry_equivalence 
+# Start time: 12:15:28 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_geometry_equivalence
+# Loading work.layer_bg_reference
+# Loading work.fetch_line_scene
+# Loading work.layer_bg
+# SCENARIO_PASS geometry-all-widths-frames
+# SCENARIO_PASS geometry-blanking-and-disabled
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_geometry_equivalence.v(111)
+#    Time: 20366440 ns  Iteration: 1  Instance: /tb_geometry_equivalence
+# Break in Module tb_geometry_equivalence at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_geometry_equivalence.v line 111
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_geometry_equivalence.v line 111
+# End time: 12:15:43 on Oct 31,2026, Elapsed time: 0:00:15
+# Errors: 0, Warnings: 1

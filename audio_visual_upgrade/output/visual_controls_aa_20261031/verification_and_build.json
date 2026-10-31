@@ -1,0 +1,802 @@
+{
+  "generated": "2026-10-31T12:41:03.726248+08:00",
+  "status": "completed_implementation_timing_unmet",
+  "tests": {
+    "visual_mailbox_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_visual_mailbox_r1_sim_result.json",
+      "scenarios": [
+        "VIS-AA-four-sizes",
+        "VIS-CDC-colors-effects",
+        "VIS-gradient-and-spikes",
+        "VIS-buttons-five-pages"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "visual_core_normalized_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_visual_core_normalized_r1_sim_result.json",
+      "scenarios": [
+        "VIS-filter-exact-arithmetic",
+        "VIS-core-composition",
+        "VIS-core-AA-fade-rings",
+        "VIS-core-axis",
+        "VIS-core-memory-map",
+        "VIS-core-text-colors"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1175): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1769): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1175): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1769): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1175): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1769): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'."
+      ]
+    },
+    "visual_osd_final_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_visual_osd_final_r1_sim_result.json",
+      "scenarios": [
+        "VIS-OSD-pages-glyphs-palette",
+        "VIS-OSD-effects-on-off",
+        "VIS-OSD-boundary-latency"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "osd_final_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_osd_final_r1_sim_result.json",
+      "scenarios": [
+        "TYP-05-glyphs",
+        "TYP-05-frames",
+        "TYP-05-state",
+        "FIX-04-osd-normalization-pipeline"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Too few port connections. Expected 30, found 26.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'color_indices'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'effects'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_index'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_rgb'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Too few port connections. Expected 30, found 26.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'color_indices'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'effects'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_index'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_rgb'."
+      ]
+    },
+    "geometry_visual_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_geometry_visual_r1_sim_result.json",
+      "scenarios": [
+        "geometry-all-widths-frames",
+        "geometry-blanking-and-disabled"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "numeric_visual_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_numeric_visual_r1_sim_result.json",
+      "scenarios": [
+        "numeric-full-input-range"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "font_pixel_visual_r2": {
+      "status": "PASS",
+      "evidence": "sim/typography_font_pixel_visual_r2_sim_result.json",
+      "scenarios": [
+        "all-glyph-pixels-exact"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "controls_shared_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_controls_shared_r1_sim_result.json",
+      "scenarios": [
+        "osd_short_page",
+        "osd_long_toggle",
+        "osd_volume_adjust",
+        "osd_parameter_bounds",
+        "osd_font_and_panel",
+        "osd_pixel_alignment",
+        "osd_numeric_pages",
+        "osd_bar_width",
+        "osd_scope_mark",
+        "osd_scope_rescale",
+        "osd_three_pages"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Too few port connections. Expected 17, found 15.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [PCDPC] - Port size (3) does not match connection size (2) for port 'page'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v(14).",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'colors'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'effects'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Too few port connections. Expected 17, found 15.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [PCDPC] - Port size (3) does not match connection size (2) for port 'page'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v(14).",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'colors'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'effects'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Too few port connections. Expected 17, found 15.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [PCDPC] - Port size (3) does not match connection size (2) for port 'page'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v(14).",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'colors'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v(13): [TFMPC] - Missing connection for port 'effects'."
+      ]
+    },
+    "catalog_visual_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_catalog_visual_r1_sim_result.json",
+      "scenarios": [
+        "catalog-all-song-field-masks",
+        "catalog-all-start-indices",
+        "catalog-first-wins-and-error-priority",
+        "catalog-large-bmp-file-limit",
+        "catalog-clear-cancels-selection",
+        "catalog-sparse-all-start-indices",
+        "catalog-concurrent-ports-and-busy-start",
+        "catalog-all-phase-cancellation"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "catalog_legacy_visual_r5": {
+      "status": "PASS",
+      "evidence": "sim/typography_catalog_legacy_visual_r5_sim_result.json",
+      "scenarios": [
+        "catalog-single-and-descriptors",
+        "catalog-wrap",
+        "catalog-last-only",
+        "catalog-rejection"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "layout_sdram_visual_r4": {
+      "status": "PASS",
+      "evidence": "sim/typography_layout_sdram_visual_r4_sim_result.json",
+      "scenarios": [
+        "FIX-01-real-layer-contended-pixels",
+        "FIX-02-real-layer-scroll-deadline"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Too few port connections. Expected 55, found 51.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_title'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_singer'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_sung'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_other'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Too few port connections. Expected 55, found 51.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_title'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_singer'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_sung'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_other'."
+      ]
+    },
+    "full_load_visual_r4": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_load_visual_r4_sim_result.json",
+      "scenarios": [
+        "FULL-03-real-file-over-2MiB",
+        "FULL-03-padding-bounds-short-file-recovery"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "bmp_writeback_visual_r4": {
+      "status": "PASS",
+      "evidence": "sim/typography_bmp_writeback_visual_r4_sim_result.json",
+      "scenarios": [
+        "downscale-identity-key-and-backpressure",
+        "downscale-rational-and-orientation-matrix",
+        "downscale-real-fifo-writeback-addresses"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ]
+    },
+    "legacy_system_normalized_r1": {
+      "status": "PASS",
+      "evidence": "sim/typography_legacy_system_normalized_r1_sim_result.json",
+      "scenarios": [
+        "real_spi_boot_and_layout",
+        "key_and_timer_fade_pixels",
+        "natural_song_end_fade_and_slot_protection",
+        "pcm_and_video_stream_integrity"
+      ],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Too few port connections. Expected 29, found 19.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'key2'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'key3'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Too few port connections. Expected 29, found 19.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'key2'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'key3'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'."
+      ]
+    },
+    "board_visual_final_r1": {
+      "status": "COMPILE_PASS",
+      "evidence": "sim/typography_board_visual_final_r1_sim_result.json",
+      "scenarios": [],
+      "input_hashes_current": true,
+      "warnings": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/video_pll.v(68): [PCDPC] - Port size (5) does not match connection size (1) for port 'load_reg'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_pll.v(25).",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/pll_sdr.v(99): [PCDPC] - Port size (5) does not match connection size (1) for port 'load_reg'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_pll.v(25).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Too few port connections. Expected 29, found 23.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_de'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_rgb'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'."
+      ]
+    }
+  },
+  "scenario_count": 55,
+  "baseline": {
+    "resources": {
+      "lut": 18083,
+      "registers": 11336,
+      "bram9k": 57,
+      "bram32k": 9,
+      "dsp": 25,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9665
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -205.473,
+    "setup_violations": 69,
+    "hold_wns_ns": 0.021,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.57,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": 0.69,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.024,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_spec_fft/ramread0_syn_27.clkb",
+        "worst_end": "u_core/u_spec_fft/bin_mag_reg[3]_syn_4.b[1]"
+      },
+      "clk -> clk": {
+        "setup_ns": 2.132,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.021,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_sd/u_scan/ft_name_reg[23]_syn_4.clk",
+        "worst_end": "u_core/u_sd/u_ft/too_large_reg[10]_syn_7.a[1]"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": -0.406,
+        "setup_tns_ns": -1.291,
+        "setup_violations": 5,
+        "hold_ns": 0.118,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/u_row/state_reg[2]_syn_12.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/u_row/word1_reg[21]_syn_4.ce"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 2.258,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_pick/cur_cnt_reg[2]_syn_4.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/line_changed_q_reg_syn_5.a[1]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": 0.102,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_old_cv/u_img/req_words_reg[3]_syn_4.clk",
+        "worst_end": "u_core/u_bg/u_fl/rdy_tag_reg[12]_syn_4.ce"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 5.283,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.239,
+        "hold_violations": 0,
+        "worst_start": "al_1710.clk",
+        "worst_end": "u_hdmi_phy/u2_lane_lvds_8_1/S_shift_data_reg[5]_syn_4.d[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -1.477,
+        "setup_tns_ns": -26.102,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[19]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  },
+  "current": {
+    "resources": {
+      "lut": 17753,
+      "registers": 11631,
+      "bram9k": 57,
+      "bram32k": 14,
+      "dsp": 28,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9536
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -200.687,
+    "setup_violations": 64,
+    "hold_wns_ns": 0.024,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.31,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": 2.48,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.024,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_cover_aa$u_coverage/u_rom_syn_1.clkb",
+        "worst_end": "u_core/u_blend/pg_reg[14]_syn_4.mi[0]"
+      },
+      "clk -> clk": {
+        "setup_ns": 2.123,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.037,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_sd/u_scan/ft_name_reg[37]_syn_4.clk",
+        "worst_end": "u_core/u_sd/u_ft/ramread0_syn_44.cea"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": 0.147,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.13,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/u_row/state_reg[0]_syn_34.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/u_row/time_mid_lt_reg_syn_42.a[1]"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 3.43,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_cv/u_img/u_fl/rdy_tag_reg[0]_syn_4.clk",
+        "worst_end": "u_core/u_cv/u_img/u_fl/cons_tgl_reg_syn_83.c[1]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": 2.633,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/req_toggle_reg_syn_5.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/u_row/skip_words_reg[1]_syn_16.ce"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 5.991,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.23,
+        "hold_violations": 0,
+        "worst_start": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_1d_reg_syn_5.clk",
+        "worst_end": "u_hdmi_phy/u1_lane_lvds_8_1/S_shift_data_reg[0]_syn_4.d[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -1.431,
+        "setup_tns_ns": -22.607,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[17]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  },
+  "ordinary_setup_endpoints": 0,
+  "timing_clean": false,
+  "synthesis_result": {
+    "status": "BUILD_COMPLETE",
+    "bitstream": null,
+    "completed": "2026-10-31T12:35:07.4712051+08:00",
+    "inputs_unchanged": true,
+    "stage": "syn"
+  },
+  "physical_result": {
+    "stage": "phy",
+    "bitstream": {
+      "sha256": "7EBE67672B356B45DCEFED25F7134388F49B9E23F77F1BFDE865635EB3D6FFA1",
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\visual_r9_congestion_seed3_phy\\skeleton.bit",
+      "bytes": 690161
+    },
+    "status": "BUILD_COMPLETE",
+    "completed": "2026-10-31T12:38:36.8962106+08:00",
+    "inputs_unchanged": true
+  },
+  "warnings": {
+    "syn": {
+      "current": [
+        "HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed",
+        "HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed",
+        "HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed",
+        "HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed",
+        "HDL-5001 WARNING: Contains anonymous inst(s) and/or net(s) that have not been renamed",
+        "HDL-5007 WARNING: actual bit length ** differs from formal bit length *** for port '**' in <project>/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(LINE)",
+        "HDL-5007 WARNING: actual bit length ** differs from formal bit length *** for port '**' in <project>/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(LINE)",
+        "HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in <project>/ip/sdram/sdr_init_ref.enc.v(LINE)",
+        "HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in <project>/ip/sdram/sdr_init_ref.enc.v(LINE)",
+        "HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in <project>/ip/sdram/sdr_wrrd.enc.v(LINE)",
+        "HDL-5007 WARNING: concatenation with an unsized literal will be treated as 32 bits in <project>/ip/sdram/sdr_wrrd.enc.v(LINE)",
+        "HDL-5314 WARNING: net 'tw_rom' does not have a driver in <project>/rtl/audio/spec_fft.v(LINE)",
+        "HDL-5317 WARNING: input port '**' is not connected on this instance in <project>/ip/sdram/sdr_as_ram.enc.v(LINE)",
+        "PRJ-5611 WARNING: <project>/rtl/app/asset_manager.v and <project>/rtl/app/carousel.v have the same CompileOrder value.",
+        "PRJ-5611 WARNING: <project>/rtl/app/carousel.v and <project>/rtl/app/cw_probe.v have the same CompileOrder value.",
+        "PRJ-5611 WARNING: <project>/rtl/app/cw_probe.v and <project>/rtl/app/bw_selftest.v have the same CompileOrder value.",
+        "PRJ-5611 WARNING: <project>/rtl/load/bmp_load.v and <project>/rtl/load/load_writeback.v have the same CompileOrder value.",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_aa_text$u_lyr/u_line\" in <project>/rtl/gfx/layer_text_aa.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_aa_text$u_lyr/u_line\" in <project>/rtl/gfx/layer_text_aa.v(LINE) / pin \"beb[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_osd_picture$g_small$u_osd_layer/u_palette\" in <project>/rtl/gfx/osd_layer_small.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_osd_picture$g_small$u_osd_layer/u_palette\" in <project>/rtl/gfx/osd_layer_small.v(LINE) / pin \"beb[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_visual_settings$u_settings/u_palette/u_rom\" in <project>/rtl/gfx/visual_palette.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_visual_settings$u_settings/u_palette/u_rom\" in <project>/rtl/gfx/visual_palette.v(LINE) / pin \"beb[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[0]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[10]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[11]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[12]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[13]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[14]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[15]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[16]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[17]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[18]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[19]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[1]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[20]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[21]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[22]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[23]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[24]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[25]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[26]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[27]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[28]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[29]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[2]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[30]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[31]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[3]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[4]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[5]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[6]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[7]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[8]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_rd_dout_reg[9]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE) / pin \"clk\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_sd/u_chain/u_fbuf\" in <project>/rtl/storage/fat32_chain.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_sd/u_chain/u_fbuf\" in <project>/rtl/storage/fat32_chain.v(LINE) / pin \"beb[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_spec_fft/ramread0_syn_N\" in <project>/rtl/audio/spec_fft.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_spec_fft/ramread0_syn_N\" in <project>/rtl/audio/spec_fft.v(LINE) / pin \"beb[0]\"",
+        "SYN-5013 WARNING: Undriven net: model \"skeleton_top\" / net \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_init_ref_ba[0]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE)",
+        "SYN-5013 WARNING: Undriven net: model \"skeleton_top\" / net \"u_core/u_phy/u2_ram/u2_wrrd/Sdr_init_ref_ba[1]\" in <project>/ip/sdram/sdr_wrrd.enc.v(LINE)",
+        "SYN-5025 WARNING: Using 0 for all undriven pins and nets",
+        "SYN-5025 WARNING: Using 0 for all undriven pins and nets",
+        "SYN-5025 WARNING: Using 0 for all undriven pins and nets",
+        "SYN-6562 WARNING: The init value of \"u_core/g_aa_text$u_lyr/u_line(<project>/rtl/gfx/layer_text_aa.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_bg/u_fl/u_linebuf(<project>/rtl/gfx/fetch_line_scene.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_cv/u_img/u_fl/u_linebuf(<project>/rtl/gfx/fetch_line_scene.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_hdmi/u_hdmi_edid_wrapper/u_iic_master_wrapper/u_iic_transmitter_controller/u_iic_w11_d1024_fifo/u_logic_ramfifo_syn_N(<project>/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u_hdmi_island_data_gen/U_audio_sample_packet_2_channel/u_w96_d1024_fifo/u_logic_ramfifo_syn_N(<project>/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u_video_axi_stream_receiver/u_w24_d1024_fifo/u_logic_ramfifo_syn_N(<project>/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_layer_fft/ramread0_syn_N(<project>/rtl/gfx/layer_fft64.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_old_bg/u_fl/u_linebuf(<project>/rtl/gfx/fetch_line_scene.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_old_cv/u_img/u_fl/u_linebuf(<project>/rtl/gfx/fetch_line_scene.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_sd/u_chain/u_fbuf(<project>/rtl/storage/fat32_chain.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_sd/u_files/u_sectors(<project>/rtl/storage/fat32_sessions.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_spec_bands/ramread1_syn_N(<project>/rtl/audio/spec_bands64.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_spec_fft/ramread0_syn_N(<project>/rtl/audio/spec_fft.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_spec_window/ramread0_syn_N(<project>/rtl/audio/spec_window.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_wav/u_ram(<project>/rtl/audio/wav_stream_player.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6562 WARNING: The init value of \"u_core/u_writeback/u_fifo/u_ram(<project>/rtl/ip/afifo_8i_32o_bram.v(LINE))\" will be ignored since gate eram_init is set to off",
+        "SYN-6577 WARNING: The clock signal \"u_core/u_phy/u2_ram/SDRAM_CLK\" is added with the synthetic instruction (keep/mark_debug/dont_touch/max_fanout), which may create additional logic on this net"
+      ],
+      "added": [
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_visual_settings$u_settings/u_palette/u_rom\" in <project>/rtl/gfx/visual_palette.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/g_visual_settings$u_settings/u_palette/u_rom\" in <project>/rtl/gfx/visual_palette.v(LINE) / pin \"beb[0]\""
+      ],
+      "removed": [
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_assets/u_geometry\" in <project>/rtl/app/asset_manager.v(LINE) / pin \"bea[0]\"",
+        "SYN-5011 WARNING: Undriven pin: model \"skeleton_top\" / inst \"u_core/u_assets/u_geometry\" in <project>/rtl/app/asset_manager.v(LINE) / pin \"beb[0]\"",
+        "SYN-6562 WARNING: The init value of \"u_core/u_assets/u_geometry(<project>/rtl/app/asset_manager.v(LINE))\" will be ignored since gate eram_init is set to off"
+      ]
+    },
+    "phy": {
+      "current": [
+        "PHY-7002 CRITICAL-WARNING: Instance u_core/u_phy/sdram location (12, 12) is not honored. Cell's initial location is not legal at the beginning of ECO placement, and will be moved during placement. Please verify user location constraints through the adc file.",
+        "PHY-7002 CRITICAL-WARNING: Instance u_core/u_phy/sdram location (164, 288) is not honored. Cell's initial location is not legal at the beginning of ECO placement, and will be moved during placement. Please verify user location constraints through the adc file.",
+        "PRJ-5611 WARNING: <project>/rtl/app/asset_manager.v and <project>/rtl/app/carousel.v have the same CompileOrder value.",
+        "PRJ-5611 WARNING: <project>/rtl/app/carousel.v and <project>/rtl/app/cw_probe.v have the same CompileOrder value.",
+        "PRJ-5611 WARNING: <project>/rtl/app/cw_probe.v and <project>/rtl/app/bw_selftest.v have the same CompileOrder value.",
+        "PRJ-5611 WARNING: <project>/rtl/load/bmp_load.v and <project>/rtl/load/load_writeback.v have the same CompileOrder value."
+      ],
+      "added": [],
+      "removed": []
+    }
+  },
+  "warning_review": "New synthesis BYTE_ENABLE=0 ROM bea/beb warnings match the vendor-model convention; both pins are explicitly tied to zero. Remaining optional-output/TB stub/novopt warnings retained. Physical location/timing warnings are not suppressed.",
+  "bitstream": {
+    "path": "output/visual_controls_aa_20261031/audio_visual_controls_aa.bit",
+    "bytes": 690161,
+    "sha256": "7ebe67672b356b45dcefed25f7134388f49b9e23f77f1bfde865635eb3d6ffa1"
+  },
+  "sd_package": {
+    "path": "output/visual_controls_aa_20261031/S01_cover_aa.zip",
+    "sha256": "f5197a9b78bfb87950a9c2c7ac90bd43cbb5f04346fecb340b21e2353d123cbf",
+    "assets": [
+      {
+        "file": "S01CV1.BMP",
+        "sha256": "b801e5ea2b69d1d16156e08d8a4aa6c1cffa1895dd04285f6cc1b499969ed04b"
+      },
+      {
+        "file": "S01CV2.BMP",
+        "sha256": "ba908895b9fd2867613edb848e320646a7a3b482215d185d89da0d263788c6ae"
+      },
+      {
+        "file": "S01CV3.BMP",
+        "sha256": "7a87afb3bbfdab3c791d2d7c5ec5039785f61c05ad540cd4f8ab6b15038a6b79"
+      }
+    ],
+    "font_update_required": false
+  },
+  "board_validation": "not_run",
+  "validation_limits": [
+    "Contour antialiasing only; internal photograph downscaling retains its original sampling algorithm.",
+    "SD/FAT integration uses small normalized targets, legacy typography and an HDMI stub. Production geometry/AA/text/OSD and font SDRAM are checked in focused regressions.",
+    "No post-route simulation or board download. Existing timing deficits are reported explicitly."
+  ],
+  "capacity_attempts": [
+    {
+      "tag": "visual_r3_congestion_seed3_phy",
+      "mslice": 5085,
+      "lslice": 5086,
+      "status": "capacity_failed"
+    },
+    {
+      "tag": "visual_r6_congestion_seed3_phy",
+      "mslice": 5008,
+      "lslice": 5008,
+      "status": "capacity_failed"
+    },
+    {
+      "tag": "visual_r9_congestion_seed3_phy",
+      "status": "BUILD_COMPLETE"
+    }
+  ]
+}

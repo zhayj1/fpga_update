@@ -2,6 +2,7 @@
 // Button state is kept in the 50 MHz domain. Values change only on a debounced
 // press, so the pixel domain can take a two-flop snapshot of each value.
 module osd_controls #(
+    parameter integer EXTENDED=0,
     parameter integer CLK_HZ = 50000000,
     parameter integer DEBOUNCE_MS = 20,
     parameter integer LONG_MS = 600,
@@ -10,12 +11,18 @@ module osd_controls #(
     input wire clk, rst_n,
     input wire key2, key3, key4,
     output reg visible,
-    output reg [1:0] page,
+    output reg [2:0] page,
     output reg [2:0] selected,
     output reg image_next,
     output reg [5:0] sensitivity,
-    output reg [8:0] volume, sat_base, sat_max, con_base, con_max
+    output reg [8:0] volume, sat_base, sat_max, con_base, con_max,
+    output reg [41:0] colors, output reg [4:0] effects
 );
+    function [6:0] next_color;
+        input [6:0] current;input up;
+        begin next_color=up ? (current==70?7'd0:current+7'd1) :
+                             (current==0?7'd70:current-7'd1);end
+    endfunction
     localparam integer MS_TICKS=(CLK_HZ/1000 < 1) ? 1 : CLK_HZ/1000;
     localparam integer MW=(MS_TICKS<2) ? 1 : $clog2(MS_TICKS);
     localparam integer DW=(DEBOUNCE_MS<2) ? 1 : $clog2(DEBOUNCE_MS+1);
@@ -32,6 +39,32 @@ module osd_controls #(
     reg was_down, long_done;
     wire minus = minus_press && !plus_press;
     wire plus = plus_press && !minus_press;
+
+    // Only one OSD item changes per press. Share its arithmetic before
+    // decoding the destination register, retaining all original limit checks.
+    reg [6:0] selected_color;
+    reg [8:0] selected_value;
+    always @* begin
+        case(selected)
+        0:selected_color=colors[6:0];
+        1:selected_color=colors[13:7];
+        2:selected_color=colors[20:14];
+        3:selected_color=colors[27:21];
+        4:selected_color=colors[34:28];
+        5:selected_color=colors[41:35];
+        default:selected_color=7'd70;
+        endcase
+        case(selected)
+        1:selected_value=sat_base;
+        2:selected_value=sat_max;
+        3:selected_value=con_base;
+        4:selected_value=con_max;
+        default:selected_value=volume;
+        endcase
+        if(!visible) selected_value=volume;
+    end
+    wire [6:0] adjusted_color=next_color(selected_color,plus);
+    wire [8:0] adjusted_value=selected_value+(plus ? 9'd1 : 9'h1ff);
 
     always @(posedge clk) begin
         if (!rst_n) begin
@@ -72,6 +105,7 @@ module osd_controls #(
             image_next<=1'b0; sensitivity<=6'd16;
             volume<=9'd100; sat_base<=9'd100; sat_max<=9'd180;
             con_base<=9'd100; con_max<=9'd135;
+            colors<={6{7'd70}};effects<=5'b11111;
             held<=0; idle_ms<=0; was_down<=0; long_done<=0;
         end else begin
             image_next<=1'b0;
@@ -97,7 +131,12 @@ module osd_controls #(
                 if (!visible) image_next<=1'b1;
                 else if (page==2'd0) page<=2'd1;
                 else if (page==2'd1) begin page<=2'd2; selected<=3'd0; end
-                else if (selected==3'd4) begin page<=2'd0; selected<=3'd0; end
+                else if (EXTENDED && page==3) begin
+                    if(selected==5) begin page<=4;selected<=0;end
+                    else selected<=selected+3'd1;
+                end else if(selected==3'd4) begin
+                    page<=(EXTENDED && page==2)?3'd3:3'd0;selected<=0;
+                end
                 else selected<=selected+3'd1;
                 idle_ms<=0;
             end
@@ -106,39 +145,50 @@ module osd_controls #(
                     visible<=1'b1;
                     page<=2'd2;
                     selected<=3'd0;
-                    if (minus && volume>9'd0) volume<=volume-9'd1;
-                    if (plus && volume<9'd100) volume<=volume+9'd1;
+                    if (minus && volume>9'd0) volume<=adjusted_value;
+                    if (plus && volume<9'd100) volume<=adjusted_value;
                 end else if (page==2'd0) begin
                     if (minus && sensitivity>6'd2) sensitivity<=sensitivity-6'd1;
                     if (plus && sensitivity<6'd40) sensitivity<=sensitivity+6'd1;
                 end else if (page==2'd2) begin
                     case (selected)
                     3'd0: begin
-                        if (minus && volume>9'd0) volume<=volume-9'd1;
-                        if (plus && volume<9'd100) volume<=volume+9'd1;
+                        if (minus && volume>9'd0) volume<=adjusted_value;
+                        if (plus && volume<9'd100) volume<=adjusted_value;
                     end
                     3'd1: begin
-                        if (minus && sat_base>9'd60) sat_base<=sat_base-9'd1;
+                        if (minus && sat_base>9'd60) sat_base<=adjusted_value;
                         if (plus && sat_base<9'd150 && sat_base<sat_max)
-                            sat_base<=sat_base+9'd1;
+                            sat_base<=adjusted_value;
                     end
                     3'd2: begin
                         if (minus && sat_max>9'd100 && sat_max>sat_base)
-                            sat_max<=sat_max-9'd1;
-                        if (plus && sat_max<9'd260) sat_max<=sat_max+9'd1;
+                            sat_max<=adjusted_value;
+                        if (plus && sat_max<9'd260) sat_max<=adjusted_value;
                     end
                     3'd3: begin
-                        if (minus && con_base>9'd80) con_base<=con_base-9'd1;
+                        if (minus && con_base>9'd80) con_base<=adjusted_value;
                         if (plus && con_base<9'd130 && con_base<con_max)
-                            con_base<=con_base+9'd1;
+                            con_base<=adjusted_value;
                     end
                     3'd4: begin
                         if (minus && con_max>9'd100 && con_max>con_base)
-                            con_max<=con_max-9'd1;
-                        if (plus && con_max<9'd170) con_max<=con_max+9'd1;
+                            con_max<=adjusted_value;
+                        if (plus && con_max<9'd170) con_max<=adjusted_value;
                     end
                     default: selected<=3'd0;
                     endcase
+                end else if(EXTENDED && page==3) begin
+                    case(selected)
+                    0:colors[6:0]<=adjusted_color;
+                    1:colors[13:7]<=adjusted_color;
+                    2:colors[20:14]<=adjusted_color;
+                    3:colors[27:21]<=adjusted_color;
+                    4:colors[34:28]<=adjusted_color;
+                    5:colors[41:35]<=adjusted_color;
+                    endcase
+                end else if(EXTENDED && page==4) begin
+                    effects[selected]<=plus;
                 end
             end
         end

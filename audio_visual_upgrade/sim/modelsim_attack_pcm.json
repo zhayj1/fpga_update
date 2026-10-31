@@ -1,0 +1,17 @@
+{
+  "dut_top": "work.spec_fft",
+  "tb_top": "work.tb_attack_pcm",
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": [],
+      "sources": [
+        {"path": "rtl/audio/spec_fft.v", "language": "verilog"},
+        {"path": "rtl/audio/spec_bands64.v", "language": "verilog"},
+        {"path": "rtl/audio/spec_attack18.v", "language": "verilog"},
+        {"path": "tb/tb_attack_pcm.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

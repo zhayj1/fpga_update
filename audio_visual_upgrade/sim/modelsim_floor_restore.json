@@ -8,7 +8,17 @@
   "data_files": [
     "sim/fat32_core.mem",
     "sim/core_pixels.mem",
-    "tb/core_fixture.vh"
+    "tb/core_fixture.vh",
+    "rtl/gfx/osd_youyuan_ch.dath",
+    "rtl/gfx/osd_youyuan_ascii.dath",
+    "rtl/gfx/glyph_blocks.dath",
+    "rtl/gfx/osd_blend_palette.dath",
+    "rtl/gfx/cover_coverage.dath",
+    "rtl/gfx/visual_palette.dath",
+    "rtl/gfx/osd_youyuan_extra.dath",
+    "rtl/gfx/osd_youyuan_pixel.dath",
+    "rtl/gfx/osd_bcd.dath",
+    "rtl/gfx/osd_bar.dath"
   ],
   "libraries": [
     {
@@ -20,9 +30,14 @@
         "tb"
       ],
       "defines": [
-        "SIM_DEVICE_MODEL"
+        "SIM_DEVICE_MODEL",
+        "TEXT_SIM"
       ],
       "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
         {
           "path": "rtl/storage/fat32_sessions.v",
           "language": "verilog"
@@ -313,6 +328,50 @@
         },
         {
           "path": "tb/tb_upgrade_core.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/alpha_blend16.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/text_row_aa.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_text_aa.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_font_youyuan.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_font_pixel.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_numeric_rom.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_layer_small.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/cover_coverage.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/visual_palette.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/visual_settings.v",
           "language": "verilog"
         }
       ]

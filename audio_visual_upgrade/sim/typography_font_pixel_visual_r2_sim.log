@@ -1,0 +1,24 @@
+# End time: 12:18:48 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/2ebb1bcc4cd04e0bb2a573370a2e96db/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_font_pixel 
+# Start time: 12:18:48 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_font_pixel
+# Loading work.osd_font_youyuan
+# Loading work.osd_font_pixel
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# SCENARIO_PASS all-glyph-pixels-exact
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_pixel.v(16)
+#    Time: 327686 ns  Iteration: 0  Instance: /tb_font_pixel
+# Break in Module tb_font_pixel at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_pixel.v line 16
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_pixel.v line 16
+# End time: 12:18:49 on Oct 31,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 1

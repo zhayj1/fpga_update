@@ -1,0 +1,389 @@
+{
+  "status": "BUILD_COMPLETE",
+  "generated": "2026-10-30T12:18:13.710576+08:00",
+  "format": "TYP2",
+  "font_bytes": 3856960,
+  "glyph_count": 7540,
+  "free_sdram_bytes": 145152,
+  "bitstream": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\typography_full_r1_congestion_seed3_phy\\skeleton.bit",
+    "sha256": "4BE042262FAD8A3F725DBCEBDACDCF2ABC33ECE789CD9CED601BE105CB08C9B0",
+    "bytes": 654077
+  },
+  "card_package": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\typography_full_20261030\\card_typography_full.zip",
+    "sha256": "813d9dc6b9d2c208dcb6cda22300e852a200cf28035f661b0da7c6be0fc3d230"
+  },
+  "synthesis": "typography_full_r1_syn",
+  "physical": "typography_full_r1_congestion_seed3_phy",
+  "current": {
+    "resources": {
+      "lut": 18125,
+      "registers": 11146,
+      "bram9k": 55,
+      "bram32k": 7,
+      "dsp": 27,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9721
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -333.047,
+    "setup_violations": 185,
+    "hold_wns_ns": 0.024,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.63,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": -3.206,
+        "setup_tns_ns": -62.479,
+        "setup_violations": 44,
+        "hold_ns": 0.024,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_blend/rgb_reg[12]_syn_4.clk",
+        "worst_end": "u_core/u_ax/O_video_data_reg[22]_syn_4.d[1]"
+      },
+      "clk -> clk": {
+        "setup_ns": 0.46,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.032,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_sd/u_scan/ft_name_reg[18]_syn_3.clk",
+        "worst_end": "u_core/u_sd/u_ft/too_large_reg[9]_syn_10.a[0]"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": -2.45,
+        "setup_tns_ns": -74.483,
+        "setup_violations": 76,
+        "hold_ns": 0.086,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/u_row/code_reg[8]_syn_4.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/u_row/sub0_syn_68.mi[0]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": -0.012,
+        "setup_tns_ns": -0.012,
+        "setup_violations": 1,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/line_y_reg[1]_syn_4.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/c_fc_reg[7]_syn_3.ce"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 2.422,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_cv/u_img/u_fl/rdy_tag_reg[13]_syn_4.clk",
+        "worst_end": "u_core/u_old_cv/u_img/u_fl/rdy_seen_reg_syn_8.a[0]"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 5.275,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.239,
+        "hold_violations": 0,
+        "worst_start": "al_1599.clk",
+        "worst_end": "al_1637.mi[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -0.964,
+        "setup_tns_ns": -17.993,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "al_1593.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[31]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  },
+  "previous_typ1": {
+    "resources": {
+      "lut": 18048,
+      "registers": 11228,
+      "bram9k": 55,
+      "bram32k": 7,
+      "dsp": 27,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9697
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -474.167,
+    "setup_violations": 282,
+    "hold_wns_ns": 0.03,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.57,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": -4.694,
+        "setup_tns_ns": -126.9,
+        "setup_violations": 49,
+        "hold_ns": 0.03,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_blend/rgb_reg[18]_syn_4.clk",
+        "worst_end": "u_core/u_ax/O_video_data_reg[6]_syn_4.d[0]"
+      },
+      "clk -> clk": {
+        "setup_ns": -2.039,
+        "setup_tns_ns": -51.887,
+        "setup_violations": 68,
+        "hold_ns": 0.086,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_load/open_wait_reg[0]_syn_7.clk",
+        "worst_end": "u_core/u_load/bi_comp_i_reg[18]_syn_4.ce"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": -2.141,
+        "setup_tns_ns": -94.466,
+        "setup_violations": 101,
+        "hold_ns": 0.078,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/u_row/failure_reg[1]_syn_486.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/u_row/failure_reg[3]_syn_16.a[1]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": 0.092,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/line_y_reg[10]_syn_4.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/u_row/state_reg[1]_syn_55.mi[1]"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 0.915,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_old_cv/u_img/u_fl/rdy_tag_reg[22]_syn_4.clk",
+        "worst_end": "u_core/u_old_cv/u_img/u_fl/rdy_seen_reg_syn_8.d[0]"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 5.87,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.23,
+        "hold_violations": 0,
+        "worst_start": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_2d_reg_syn_5.clk",
+        "worst_end": "u_hdmi_phy/u1_lane_lvds_8_1/S_shift_data_reg[0]_syn_4.d[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -1.132,
+        "setup_tns_ns": -22.834,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/u2_ram/u1_init_ref/sdr_init_cnt_reg[1]_syn_3.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[14]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  },
+  "timing_clean": false,
+  "simulation_scenario_count": 34,
+  "asset_scenario_count": 4,
+  "tests": {
+    "row": {
+      "status": "PASS",
+      "evidence": "sim/typography_row_full_r6_sim_result.json",
+      "compile_log": "sim/typography_row_full_r6_compile.log",
+      "sim_log": "sim/typography_row_full_r6_sim.log",
+      "scenarios": [
+        "TYP-03-pixels",
+        "TYP-03-invalid",
+        "TYP-03-recovery"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 1,
+      "elapsed_seconds": 8.26
+    },
+    "full_rows": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_rows_full_r6_sim_result.json",
+      "compile_log": "sim/typography_full_rows_full_r6_compile.log",
+      "sim_log": "sim/typography_full_rows_full_r6_sim.log",
+      "scenarios": [
+        "FULL-02-all-7540-glyphs-two-sizes",
+        "FULL-02-image-contention-deadline"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 1,
+      "elapsed_seconds": 5.86
+    },
+    "full_sdram": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_sdram_full_r6_sim_result.json",
+      "compile_log": "sim/typography_full_sdram_full_r6_compile.log",
+      "sim_log": "sim/typography_full_sdram_full_r6_sim.log",
+      "scenarios": [
+        "FULL-04-real-sdram-all-glyphs-100MHz",
+        "FULL-04-real-sdram-contention-deadline"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 3,
+      "elapsed_seconds": 22.16
+    },
+    "full_load": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_load_full_r5_sim_result.json",
+      "compile_log": "sim/typography_full_load_full_r5_compile.log",
+      "sim_log": "sim/typography_full_load_full_r5_sim.log",
+      "scenarios": [
+        "FULL-03-real-file-over-2MiB",
+        "FULL-03-padding-bounds-short-file-recovery"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 1,
+      "elapsed_seconds": 29.14
+    },
+    "layer": {
+      "status": "PASS",
+      "evidence": "sim/typography_layer_full_r5_sim_result.json",
+      "compile_log": "sim/typography_layer_full_r5_compile.log",
+      "sim_log": "sim/typography_layer_full_r5_sim.log",
+      "scenarios": [
+        "TYP-04-pixels",
+        "TYP-04-scroll",
+        "TYP-04-deadline"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 1,
+      "elapsed_seconds": 11.71
+    },
+    "core": {
+      "status": "PASS",
+      "evidence": "sim/typography_core_full_final_sim_result.json",
+      "compile_log": "sim/typography_core_full_final_compile.log",
+      "sim_log": "sim/typography_core_full_final_sim.log",
+      "scenarios": [
+        "TYP-06-composition",
+        "TYP-06-osd-alignment",
+        "FULL-04-core-memory-map-and-lyric-slots"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 32,
+      "elapsed_seconds": 29.69
+    },
+    "assets": {
+      "status": "PASS",
+      "evidence": "sim/typography_assets_full_r3_sim_result.json",
+      "compile_log": "sim/typography_assets_full_r3_compile.log",
+      "sim_log": "sim/typography_assets_full_r3_sim.log",
+      "scenarios": [
+        "TYP-06-font-loading",
+        "TYP-06-song-assets"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 1,
+      "elapsed_seconds": 5.39
+    },
+    "bmp_writeback": {
+      "status": "PASS",
+      "evidence": "sim/typography_bmp_writeback_full_r2_sim_result.json",
+      "compile_log": "sim/typography_bmp_writeback_full_r2_compile.log",
+      "sim_log": "sim/typography_bmp_writeback_full_r2_sim.log",
+      "scenarios": [
+        "downscale-identity-key-and-backpressure",
+        "downscale-rational-and-orientation-matrix",
+        "downscale-real-fifo-writeback-addresses"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 1,
+      "elapsed_seconds": 6.52
+    },
+    "font_legacy": {
+      "status": "PASS",
+      "evidence": "sim/typography_font_legacy_full_r2_sim_result.json",
+      "compile_log": "sim/typography_font_legacy_full_r2_compile.log",
+      "sim_log": "sim/typography_font_legacy_full_r2_sim.log",
+      "scenarios": [
+        "FF-01",
+        "FF-02",
+        "FF-03",
+        "FF-04",
+        "FF-05",
+        "FF-06",
+        "FF-07",
+        "FF-08",
+        "FF-09",
+        "FF-10"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 15,
+      "elapsed_seconds": 13.03
+    },
+    "legacy_system": {
+      "status": "PASS",
+      "evidence": "sim/typography_legacy_system_full_final_sim_result.json",
+      "compile_log": "sim/typography_legacy_system_full_final_compile.log",
+      "sim_log": "sim/typography_legacy_system_full_final_sim.log",
+      "scenarios": [
+        "real_spi_boot_and_layout",
+        "key_and_timer_fade_pixels",
+        "natural_song_end_fade_and_slot_protection",
+        "pcm_and_video_stream_integrity"
+      ],
+      "input_hashes_current": true,
+      "warning_count": 25,
+      "elapsed_seconds": 408.7
+    },
+    "board": {
+      "status": "COMPILE_PASS",
+      "evidence": "sim/typography_board_full_r5_sim_result.json",
+      "compile_log": "sim/typography_board_full_r5_compile.log",
+      "sim_log": null,
+      "scenarios": [],
+      "input_hashes_current": true,
+      "warning_count": 23,
+      "elapsed_seconds": 19.98
+    }
+  },
+  "max_contended_row_cycles_100MHz": 3148,
+  "all_build_inputs_current": true,
+  "all_test_inputs_current": true,
+  "routing_attempts": [
+    {
+      "tag": "typography_full_r1_seed3_phy",
+      "status": "FAILED",
+      "reason": "One x23y59_local6 conflict between reset nets"
+    },
+    {
+      "tag": "typography_full_r1_congestion_seed3_phy",
+      "seed": 3,
+      "effort": "routability",
+      "status": "BUILD_COMPLETE"
+    }
+  ],
+  "board_validation": "not_run_for_TYP2",
+  "validation_limits": [
+    "SDRAM controller/device functional model and full-font loader tested; TYP2 SD/FAT end-to-end boot not simulated.",
+    "Legacy SD/FAT/audio/image regression uses TYPOGRAPHY=0; TYP2 memory map independently checked in core and asset tests.",
+    "No post-route timing simulation or new-board download performed."
+  ],
+  "delivery_bitstream": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\typography_full_20261030\\audio_visual_full_font.bit",
+    "bytes": 654077,
+    "sha256": "4BE042262FAD8A3F725DBCEBDACDCF2ABC33ECE789CD9CED601BE105CB08C9B0"
+  }
+}

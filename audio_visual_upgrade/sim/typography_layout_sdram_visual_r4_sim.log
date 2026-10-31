@@ -1,0 +1,32 @@
+# End time: 11:53:00 on Oct 31,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 6
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/4576321b80df46bb93ed2c21c027457c/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_layout_five -gREAL_SDRAM=1 
+# Start time: 11:53:00 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_layout_five
+# Loading work.layer_text_aa
+# Loading work.text_row_aa
+# Loading work.text_sdram_environment
+# Loading work.px_arb5
+# Loading work.sdram_arb
+# Loading work.sdram_top
+# Loading work.sdr_as_ram
+# Loading work.sdr_init_ref
+# Loading work.IS42s32200
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Too few port connections. Expected 55, found 51.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_layout_five/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_text_aa.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_title'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_singer'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_sung'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(22): [TFMPC] - Missing connection for port 'color_other'.
+# incase
+# 
+# SCENARIO_PASS FIX-01-real-layer-contended-pixels
+# SCENARIO_PASS FIX-02-real-layer-scroll-deadline
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v(184)
+#    Time: 79866040 ns  Iteration: 1  Instance: /tb_layout_five
+# Break in Module tb_layout_five at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v line 184
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v line 184
+# End time: 11:53:35 on Oct 31,2026, Elapsed time: 0:00:35
+# Errors: 0, Warnings: 6

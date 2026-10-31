@@ -1,0 +1,11 @@
+{
+  "skill": "fpga-workflow",
+  "status": "completed",
+  "verification_level": "functional_simulation_and_routed_bitstream",
+  "report": "doc/compile/full_font_report.md",
+  "timing_clean": false,
+  "board_validated": false,
+  "evidence": "output/typography_full_20261030/verification_and_build.json",
+  "missing_files": [],
+  "reason": "Complete GB2312+ASCII font and matching bit generated; see explicit STA and board limitations."
+}

@@ -25,7 +25,7 @@ module tb_bmp_capacity;
     reg exp_down;
 
     bmp_load #(.EXTERNAL_BACKEND(1),.CLK_HZ(50000000),.WD_MS(1)) dut (
-        .clk(clk),.rst_n(rst_n),.start(start),.file_index(8'd23),.slot_base(base),
+        .clk(clk),.rst_n(rst_n),.start(start),.target_cover(1'b0),.file_index(8'd23),.slot_base(base),
         .busy(busy),.done(done),.err(err),.img_w(img_w),.img_h(img_h),
         .lo_open(lo_open),.lo_open_index(lo_index),.lo_open_busy(1'b0),
         .lo_rd_valid(valid),.lo_rd_data(data),.lo_rd_ready(lo_ready),.lo_want(lo_want),

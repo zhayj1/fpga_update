@@ -1,0 +1,10 @@
+{
+  "dut_top": "work.cover_pop",
+  "tb_top": "work.tb_cover_pop",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/gfx/cover_pop.v", "language": "verilog"},
+    {"path": "rtl/gfx/cover_pop_geom.v", "language": "verilog"},
+    {"path": "rtl/gfx/attack_rings.v", "language": "verilog"},
+    {"path": "tb/tb_cover_pop.v", "language": "verilog"}
+  ]}]
+}

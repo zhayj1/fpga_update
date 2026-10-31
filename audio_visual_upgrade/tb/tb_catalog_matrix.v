@@ -175,18 +175,18 @@ module tb_catalog_matrix #(
         $display("SCENARIO_PASS catalog-all-start-indices");
 
         reset_catalog;
-        put(1, 0, 32'd921655, 32'd99);
+        put(1, 0, 32'd67108865, 32'd99);
         fill_song(1);
         fill_song(2);
         choose(8'd0); check_selection(1, 2, 2, 8'h64);
         reset_catalog;
-        put(1, 3, 32'd732122, 32'd99);
+        put(1, 3, 32'd67108865, 32'd99);
         fill_song(1);
         choose(8'd0); check_selection(0, 0, 0, 8'h64);
         reset_catalog;
         fill_song(1);
-        put(1, 0, 32'd921655, 32'd99);
-        put(1, 3, 32'd732122, 32'd99);
+        put(1, 0, 32'd67108865, 32'd99);
+        put(1, 3, 32'd67108865, 32'd99);
         choose(8'd0); check_selection(1, 1, 1, 8'd0);
         @(negedge clk); rd_index = 8'd8;
         @(negedge clk);
@@ -194,10 +194,19 @@ module tb_catalog_matrix #(
             fail("duplicate replaced first entry");
         reset_catalog;
         put(1, 0, 32'd128, 32'd1);
-        put(2, 0, 32'd921655, 32'd2);
+        put(2, 0, 32'd67108865, 32'd2);
         fill_song(16);
         choose(8'd0); check_selection(1, 16, 16, 8'h60);
         $display("SCENARIO_PASS catalog-first-wins-and-error-priority");
+
+        reset_catalog;
+        for (field=0;field<7;field=field+1)
+            put(1,field,(field<6)?32'd67108864:32'd128,100+field);
+        choose(8'd0);check_selection(1,1,1,8'd0);
+        @(negedge clk);rd_index=8'd8;
+        @(negedge clk);
+        if(!rd_valid || rd_size!==32'd67108864) fail("large source descriptor");
+        $display("SCENARIO_PASS catalog-large-bmp-file-limit");
 
         @(negedge clk); select_start = 1'b1;
         @(negedge clk); select_start = 1'b0;

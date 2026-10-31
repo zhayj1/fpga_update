@@ -1,0 +1,26 @@
+# End time: 12:29:39 on Oct 31,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/53a23125890b41669c96b284772b37d8/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_visual_controls 
+# Start time: 12:29:39 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_visual_controls
+# Loading work.cover_coverage
+# Loading work.visual_settings
+# Loading work.visual_palette
+# Loading work.layer_fft64
+# Loading work.osd_controls
+# incase
+# 
+# incase
+# 
+# SCENARIO_PASS VIS-AA-four-sizes
+# SCENARIO_PASS VIS-CDC-colors-effects
+# SCENARIO_PASS VIS-gradient-and-spikes
+# SCENARIO_PASS VIS-buttons-five-pages
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_controls.v(141)
+#    Time: 6278440 ns  Iteration: 1  Instance: /tb_visual_controls
+# Break in Module tb_visual_controls at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_controls.v line 141
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_controls.v line 141
+# End time: 12:29:41 on Oct 31,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 1

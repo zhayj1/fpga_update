@@ -1,5 +1,5 @@
 {
-  "active_stage": "stage5_osd",
+  "active_stage": "visual_controls_aa",
   "stage5": {
     "status": "completed_board_verified",
     "board_validation": "passed",
@@ -9,79 +9,1651 @@
     "report": "output/reports/stage5_osd_status.md",
     "repair_record": "doc/compile/repair_report.md"
   },
-  "scope": "阶段5三页OSD按需显示与原始字形绘制，保留阶段1至4音画功能并完成上板验证",
+  "scope": "S01 contour only; AA, six color selectors and five effect toggles; simulation, synthesis and physical implementation authorized",
   "target_top": "skeleton_top",
-  "status": "completed_board_verified",
-  "board_validation": "passed",
-  "source": {
-    "path": "rtl/top/skeleton_core.v",
-    "sha256": "02021BED221CFD4EE2A8A419120FC98D7C645A269576C0158C5ECB1491A306BB"
-  },
-  "verification": [
-    {
-      "run": "spectrum_floor_restore_wav",
-      "status": "PASS",
-      "changed_inputs": []
-    },
-    {
-      "run": "spectrum_floor_restore_core",
-      "status": "PASS",
-      "changed_inputs": []
-    },
-    {
-      "run": "spectrum_floor_restore_board_compile",
-      "status": "COMPILE_PASS",
-      "changed_inputs": []
-    },
-    {
-      "run": "spectrum_floor_restore_envelope",
-      "status": "PASS",
-      "changed_inputs": []
-    },
-    {
-      "run": "stage5_font_split_osd_r1",
-      "status": "PASS",
-      "scenarios": 11
-    },
-    {
-      "run": "stage5_font_split_core_r1",
-      "status": "PASS",
-      "scenarios": 3
-    },
-    {
-      "run": "stage5_font_split_integration_r1",
-      "status": "PASS",
-      "scenarios": 4
-    }
-  ],
-  "build_directory": "prj\\td_build\\stage5_font_split_r1_seed3_phy",
-  "bitstream": {
-    "bytes": 651749,
-    "sha256": "1888055E210DF5EFF9094E9CD27D3F78A201681D646FD0C4F52722B4A1A205E0",
-    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\stage5_font_split_r1_seed3_phy\\skeleton.bit"
-  },
-  "report": "output/reports/stage5_osd_status.md",
-  "board_confirmation": {
-    "reported_on": "2026-10-27",
-    "user_report": "上板没有问题"
-  },
+  "status": "completed_implementation_timing_unmet",
+  "board_validation": "not_run_for_visual_controls_aa",
+  "report": "doc/compile/visual_controls_aa_report.md",
   "limitations": [
-    "实卡FFT探针为45个音乐采样窗",
-    "整机TMDS发射核采用stub",
-    "既有SDRAM负时序按用户口径保留"
+    "64 existing SDRAM phase-shift interface setup endpoints remain; all other reported clock groups and hold checks pass.",
+    "New bitstream has not been downloaded or verified on hardware."
   ],
   "repair_record": [
     {
-      "area": "包络回落断言",
-      "attempt": 1,
-      "cause": "测试阈值未计入整数平滑小于16的死区",
-      "change": "响度回落上限36改45；青条回落上限40未变"
+      "area": "TB取字变量名",
+      "attempts": 1,
+      "cause": "small是Verilog保留字",
+      "change": "改为small_sel",
+      "status": "verified",
+      "failure": "sim/typography_row_r1_compile_compile.log"
     },
     {
-      "area": "自检配置",
-      "attempt": 1,
-      "cause": "旧core配置缺少阶段3依赖",
-      "change": "采用完整板级依赖"
+      "area": "TB逐字高亮边界",
+      "attempts": 1,
+      "cause": "独立参考把追梦G的宽度误填为62，真实24+24+17=65",
+      "change": "按真实字宽修正TB边界，RTL未改",
+      "status": "verified",
+      "failure": "sim/typography_layer_r1_sim.log"
+    },
+    {
+      "area": "OSD字模路径配置",
+      "attempts": 1,
+      "cause": "runner读取library级defines，source级OSD_SIM未生效",
+      "change": "将OSD_SIM移到library配置",
+      "status": "verified",
+      "failure": "sim/typography_osd_r1_sim.log"
+    },
+    {
+      "area": "OSD对比基准条末像素",
+      "attempts": 1,
+      "cause": "缩小后的901定点系数在130%时仅175像素",
+      "change": "系数902，极值176像素，保留全部像素断言",
+      "status": "verified",
+      "failure": "sim/typography_osd_r2_sim.log"
     }
-  ]
+  ],
+  "bmp_downscale": {
+    "spec": "doc/spec/bmp_downscale_behavior_spec.md",
+    "sources": {
+      "rtl/load/bmp_load.v": "6aab3c71665c756ffd3038105b391d186c3e3f717a8297fd58e3f54b34d0afed",
+      "rtl/top/skeleton_core.v": "8ded89ee4d2cd9453f6c5838ffe2ee4747d0fd694c4f5e84456b30ecf1102fdf",
+      "rtl/storage/resource_catalog.v": "5a0d607a535e4e09bc8b01c37d39bccf3eee2f441b9ab177756007cccd27cda7",
+      "rtl/gfx/layer_fft64.v": "d0431875f5da2e857a359bb6a91458c2f0f328ae4948e0c9e93e04b2560002f7"
+    },
+    "stages": {
+      "requirements": "completed",
+      "architecture": "completed",
+      "rtl": "completed",
+      "tb": "completed",
+      "simulation": "completed",
+      "physical": "completed"
+    },
+    "evidence": {
+      "unit": {
+        "status": "PASS",
+        "changed_inputs": [],
+        "scenarios": [
+          "downscale-identity-key-and-backpressure",
+          "downscale-rational-and-orientation-matrix",
+          "downscale-source-limit-and-destination-bounds",
+          "downscale-reject-no-upscale-ratio-and-overflow",
+          "downscale-truncation-error-watchdog-recovery",
+          "downscale-reset-recovery"
+        ],
+        "result": "sim/downscale_unit_r2_sim_result.json",
+        "compile_log": "sim/downscale_unit_r2_compile.log",
+        "sim_log": "sim/downscale_unit_r2_sim.log",
+        "duration_seconds": 92.55
+      },
+      "writeback": {
+        "status": "PASS",
+        "changed_inputs": [],
+        "scenarios": [
+          "downscale-identity-key-and-backpressure",
+          "downscale-rational-and-orientation-matrix",
+          "downscale-real-fifo-writeback-addresses"
+        ],
+        "result": "sim/downscale_writeback_r2_sim_result.json",
+        "compile_log": "sim/downscale_writeback_r2_compile.log",
+        "sim_log": "sim/downscale_writeback_r2_sim.log",
+        "duration_seconds": 5.19
+      },
+      "legacy": {
+        "status": "PASS",
+        "changed_inputs": [],
+        "scenarios": [
+          "bmp-padding-and-orientation-matrix",
+          "bmp-maximum-image-and-backpressure",
+          "bmp-header-full-width-and-error-priority",
+          "bmp-truncated-stream-and-recovery",
+          "bmp-watchdog-and-reset"
+        ],
+        "result": "sim/downscale_legacy_r1_sim_result.json",
+        "compile_log": "sim/downscale_legacy_r1_compile.log",
+        "sim_log": "sim/downscale_legacy_r1_sim.log",
+        "duration_seconds": 8.68
+      },
+      "catalog": {
+        "status": "PASS",
+        "changed_inputs": [],
+        "scenarios": [
+          "catalog-all-song-field-masks",
+          "catalog-all-start-indices",
+          "catalog-first-wins-and-error-priority",
+          "catalog-large-bmp-file-limit",
+          "catalog-clear-cancels-selection",
+          "catalog-sparse-all-start-indices",
+          "catalog-concurrent-ports-and-busy-start",
+          "catalog-all-phase-cancellation"
+        ],
+        "result": "sim/downscale_catalog_r1_sim_result.json",
+        "compile_log": "sim/downscale_catalog_r1_compile.log",
+        "sim_log": "sim/downscale_catalog_r1_sim.log",
+        "duration_seconds": 4.15
+      },
+      "system": {
+        "status": "PASS",
+        "changed_inputs": [],
+        "scenarios": [
+          "real_spi_boot_and_layout",
+          "key_and_timer_fade_pixels",
+          "natural_song_end_fade_and_slot_protection",
+          "pcm_and_video_stream_integrity"
+        ],
+        "result": "sim/downscale_system_r3_sim_result.json",
+        "compile_log": "sim/downscale_system_r3_compile.log",
+        "sim_log": "sim/downscale_system_r3_sim.log",
+        "duration_seconds": 383.47
+      },
+      "board": {
+        "status": "COMPILE_PASS",
+        "changed_inputs": [],
+        "scenarios": [],
+        "result": "sim/downscale_board_compile_r2_sim_result.json",
+        "compile_log": "sim/downscale_board_compile_r2_compile.log",
+        "sim_log": null,
+        "duration_seconds": 27.35
+      },
+      "fft_init": {
+        "status": "PASS",
+        "changed_inputs": [],
+        "scenarios": [
+          "no_spectrum_before_complete_bank",
+          "colored_64_bar_geometry",
+          "no_swap_during_bar_write",
+          "frame_bank_atomic_swap",
+          "local_spike_and_white_cap",
+          "spike_decay",
+          "reset_hides_previous_spectrum_bank"
+        ],
+        "result": "sim/downscale_fft_init_r1_sim_result.json",
+        "compile_log": "sim/downscale_fft_init_r1_compile.log",
+        "sim_log": "sim/downscale_fft_init_r1_sim.log",
+        "duration_seconds": 4.53
+      }
+    },
+    "repairs": [
+      {
+        "area": "TB超时常量",
+        "attempts": 2,
+        "cause": "32位无尺寸常量溢出，延时表达式需括号",
+        "status": "fixed"
+      },
+      {
+        "area": "TB复位场景",
+        "attempts": 1,
+        "cause": "手动启动未刷新预期目标配置",
+        "status": "fixed"
+      },
+      {
+        "area": "频谱首次出图",
+        "attempts": 2,
+        "cause": "更早的首屏遇到未初始化的频谱RAM；独立测试复现，增加active_valid",
+        "status": "verified"
+      }
+    ],
+    "limitations": [
+      "实现完成但时序未收敛：既有64个移相SDRAM违例外，新增9个setup违例端点；未上板",
+      "整机仿真使用缩小的目标尺寸及HDMI stub；生产尺寸由装载器逐像素测试覆盖",
+      "共享SD读取完整原图，最大尺寸不保证预加载赶上播放切换"
+    ],
+    "implementation": {
+      "authorization": "用户：继续综合布局布线",
+      "synthesis": "prj/td_build/bmp_downscale_r1_syn",
+      "baseline": "prj/td_build/uartless_r1_seed1_phy",
+      "selected_physical": "prj/td_build/bmp_downscale_r1_seed3_phy",
+      "report": "doc/compile/bmp_downscale_implementation_report.md",
+      "evidence": "doc/compile/bmp_downscale_implementation_result.json",
+      "constraints": {
+        "constraints/skeleton_top.adc": "2ca00ba4e33e5df108bd29bd4d178b26fa0d6a135feff011e556b790187b2291",
+        "constraints/skeleton_top.sdc": "0fe54f2c6242c070286cf409bf059568eeee633ce173bef352ae04a1d11dcd42"
+      },
+      "bitstream": {
+        "sha256": "6D415526C16E01255C466C3C082DE798D37E4867D1CD3560F52B3C36643656A3",
+        "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed3_phy\\skeleton.bit",
+        "bytes": 651749
+      },
+      "resources": {
+        "lut": 17738,
+        "registers": 10858,
+        "bram9k": 55,
+        "bram32k": 6,
+        "dsp": 24,
+        "pll": 2,
+        "gclk": 4,
+        "slices": 9420
+      },
+      "timing_clean": false,
+      "setup_wns_ns": -5.565,
+      "setup_violations": 73,
+      "hold_wns_ns": 0.024,
+      "hold_violations": 0,
+      "additional_non_shifted_setup_endpoints": 9,
+      "board_validation": "not_run",
+      "attempts": [
+        {
+          "seed": 1,
+          "directory": "prj/td_build/bmp_downscale_r1_seed1_phy",
+          "status": "BUILD_COMPLETE"
+        },
+        {
+          "seed": 3,
+          "directory": "prj/td_build/bmp_downscale_r1_seed3_phy",
+          "status": "BUILD_COMPLETE"
+        },
+        {
+          "seed": 2,
+          "directory": "prj/td_build/bmp_downscale_r1_seed2_phy",
+          "status": "BUILD_COMPLETE"
+        },
+        {
+          "seed": 4,
+          "directory": "prj/td_build/bmp_downscale_r1_seed4_phy",
+          "status": "BUILD_COMPLETE"
+        }
+      ],
+      "timing_retry": {
+        "initial_seed": 1,
+        "retry_seeds": [
+          3,
+          2,
+          4
+        ],
+        "automatic_retries_used": 3,
+        "outcome": "additional_setup_violations_remain"
+      },
+      "next_step": "依据实际负裕量路径优化结构，重新验证；当前停止继续换种子",
+      "selection_reason": "优先比较非移相路径的最差setup裕量，再比较总负裕量与Slice；未改源码或约束"
+    }
+  },
+  "task_history": [
+    {
+      "active_stage": "bmp_downscale",
+      "scope": "BMP加载时缩小；用户于2026-10-29授权继续综合、布局布线和生成bit；不下载",
+      "status": "completed_implementation_timing_unmet",
+      "board_validation": "not_run_for_current_sources",
+      "report": "doc/compile/bmp_downscale_run_report.md",
+      "limitations": [
+        "实卡FFT探针为45个音乐采样窗",
+        "整机TMDS发射核采用stub",
+        "既有SDRAM负时序按用户口径保留"
+      ],
+      "repair_record": [
+        {
+          "area": "包络回落断言",
+          "attempt": 1,
+          "cause": "测试阈值未计入整数平滑小于16的死区",
+          "change": "响度回落上限36改45；青条回落上限40未变"
+        },
+        {
+          "area": "自检配置",
+          "attempt": 1,
+          "cause": "旧core配置缺少阶段3依赖",
+          "change": "采用完整板级依赖"
+        }
+      ]
+    },
+    {
+      "active_stage": "typography",
+      "scope": "用户批准的华文琥珀/幼圆、16级抗锯齿和紧凑OSD；已完成综合、布局布线和bitgen，不下载",
+      "status": "completed_implementation_timing_unmet",
+      "board_validation": "not_run_for_typography",
+      "report": "doc/compile/typography_implementation_report.md",
+      "limitations": [
+        "已完成综合/布局布线和bit生成；Slice 9697/9800，setup WNS -5.565 ns；未下载上板",
+        "新模式未运行真实SD/FAT到新字库整机fixture；通过真实字库逐行取数/双时钟文字层、字库装载控制、顶层混合专项组合验证。",
+        "整机回归使用TYPOGRAPHY=0旧字库、小尺寸BMP目标和HDMI stub；覆盖原SPI/FAT/SDRAM、切歌、PCM和视频链。",
+        "新模式顶层专项force图层像素及控制参数，验证真实颜色/渐变/文字混色/OSD流水；存储与取字分别由其他专项覆盖。",
+        "新增或修改LRC后须重新生成字库；当前包仅含全部现用字符及验证字符，不是完整GB2312/ASCII字库。",
+        "已ack读事务永久不返回done时，取字引擎停在DRAIN直到系统复位；超时/取消后不复用仍在途事务。",
+        "gap_cnt仅统计HS时mailbox尚未ack次数，不能作为完整缺行计数。",
+        "当前bit布局布线通过但全局setup未收敛；Slice使用率98.95%，后续逻辑改动余量很小。"
+      ]
+    },
+    {
+      "active_stage": "layout_text_repair",
+      "scope": "Left cover, right title/singer and five lyric rows; 14-character window with per-sentence marquee and smooth vertical transitions. Preserve font and effects.",
+      "status": "completed_implementation_timing_unmet",
+      "board_validation": "repair_not_board_tested",
+      "report": "doc/compile/layout_textfix_report.md",
+      "limitations": [
+        "Board symptoms have not been re-tested with this candidate.",
+        "No post-route timing simulation, new-layout SD/FAT-to-HDMI boot or board download performed.",
+        "The real SDRAM contention tests cover the simulated arbitration phases, not all possible phases.",
+        "The core composition test drives controlled layer pixels; storage and full-layer checks are separate.",
+        "Legacy SD/FAT/audio integration uses TYPOGRAPHY=0 and reduced image targets; complete-font and new layout checked separately.",
+        "Existing LRC1 limits remain: 64 lines, 488 records, 19 characters per sentence and 24 for title/singer.",
+        "Global setup timing is not closed; see clock-group results.",
+        "6 setup endpoints remain outside the pre-existing shifted-SDRAM groups, including the text data capture and title descriptor paths.",
+        "The three automatic structural repairs are exhausted; further RTL/route retries are stopped pending a new authorized repair round or materially new evidence."
+      ]
+    },
+    {
+      "active_stage": "layout_text_shift",
+      "scope": "Translate title, singer and lyrics down 29px; align title window y=45 with static 240px cover top.",
+      "status": "completed_implementation_timing_unmet",
+      "board_validation": "not_run_for_text_shift",
+      "report": "doc/compile/layout_textshift_report.md",
+      "limitations": [
+        "Targeted layer/core regressions; no full new-layout SD boot or post-route simulation.",
+        "Previous text-repair structural retry budget remains exhausted; this run changes coordinates only.",
+        "Setup timing is not closed."
+      ]
+    }
+  ],
+  "typography": {
+    "spec": "doc/spec/typography_behavior_spec.md",
+    "interface_version": "TYP1/1",
+    "stages": {
+      "requirements": "completed",
+      "architecture": "completed",
+      "rtl": "completed",
+      "tb": "completed",
+      "compile": "completed",
+      "simulation": "completed",
+      "physical": "completed"
+    },
+    "physical_stage": "completed_timing_unmet",
+    "evidence": {
+      "blend": {
+        "status": "PASS",
+        "result": "sim/typography_blend_r1_sim_result.json",
+        "compile_log": "sim/typography_blend_r1_compile.log",
+        "sim_log": "sim/typography_blend_r1_sim.log",
+        "scenarios": [
+          "TYP-02"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 5.4,
+        "unique_warning_count": 1,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/4eef9970600649049f3635da20d55339/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.alpha_blend16"
+      },
+      "row": {
+        "status": "PASS",
+        "result": "sim/typography_row_r2_sim_result.json",
+        "compile_log": "sim/typography_row_r2_compile.log",
+        "sim_log": "sim/typography_row_r2_sim.log",
+        "scenarios": [
+          "TYP-03-pixels",
+          "TYP-03-invalid",
+          "TYP-03-recovery"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 12.33,
+        "unique_warning_count": 1,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/1857ffe413d3427d83ed7f438796ca65/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.text_row_aa"
+      },
+      "layer": {
+        "status": "PASS",
+        "result": "sim/typography_layer_r2_sim_result.json",
+        "compile_log": "sim/typography_layer_r2_compile.log",
+        "sim_log": "sim/typography_layer_r2_sim.log",
+        "scenarios": [
+          "TYP-04-pixels",
+          "TYP-04-scroll",
+          "TYP-04-deadline"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 35.71,
+        "unique_warning_count": 1,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/3c61c6fbed0d46afb6fc17d6b79af0f1/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.layer_text_aa"
+      },
+      "osd": {
+        "status": "PASS",
+        "result": "sim/typography_osd_r3_sim_result.json",
+        "compile_log": "sim/typography_osd_r3_compile.log",
+        "sim_log": "sim/typography_osd_r3_sim.log",
+        "scenarios": [
+          "TYP-05-glyphs",
+          "TYP-05-frames",
+          "TYP-05-state"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 24.44,
+        "unique_warning_count": 1,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/ce09015f33fb4e2f9ea01a9678a6f4ff/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.osd_layer_small"
+      },
+      "core": {
+        "status": "PASS",
+        "result": "sim/typography_core_r1_sim_result.json",
+        "compile_log": "sim/typography_core_r1_compile.log",
+        "sim_log": "sim/typography_core_r1_sim.log",
+        "scenarios": [
+          "TYP-06-composition",
+          "TYP-06-osd-alignment"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 41.14,
+        "unique_warning_count": 32,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/58c89d790bfe4635a7ee2e85b2376edd/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.tb_typography_core"
+      },
+      "assets": {
+        "status": "PASS",
+        "result": "sim/typography_assets_r1_sim_result.json",
+        "compile_log": "sim/typography_assets_r1_compile.log",
+        "sim_log": "sim/typography_assets_r1_sim.log",
+        "scenarios": [
+          "TYP-06-font-loading",
+          "TYP-06-song-assets"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 6.92,
+        "unique_warning_count": 1,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/83e2a1a5a4ec4621952abc712a1fd258/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.asset_manager"
+      },
+      "controls": {
+        "status": "PASS",
+        "result": "sim/typography_controls_r1_sim_result.json",
+        "compile_log": "sim/typography_controls_r1_compile.log",
+        "sim_log": "sim/typography_controls_r1_sim.log",
+        "scenarios": [
+          "osd_short_page",
+          "osd_long_toggle",
+          "osd_volume_adjust",
+          "osd_font_and_panel",
+          "osd_pixel_alignment",
+          "osd_numeric_pages",
+          "osd_bar_width",
+          "osd_scope_mark",
+          "osd_three_pages",
+          "osd_parameter_bounds",
+          "osd_scope_rescale"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 17.74,
+        "unique_warning_count": 1,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0b0b304f4efb4d55aa24244e5f057364/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.tb_osd_stage5"
+      },
+      "legacy_system": {
+        "status": "PASS",
+        "result": "sim/typography_legacy_system_sim_result.json",
+        "compile_log": "sim/typography_legacy_system_compile.log",
+        "sim_log": "sim/typography_legacy_system_sim.log",
+        "scenarios": [
+          "real_spi_boot_and_layout",
+          "key_and_timer_fade_pixels",
+          "natural_song_end_fade_and_slot_protection",
+          "pcm_and_video_stream_integrity"
+        ],
+        "changed_inputs": [],
+        "duration_seconds": 582.05,
+        "unique_warning_count": 25,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/e5e5cbbba6074f9087812b99b5a495a9/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.skeleton_core"
+      },
+      "board": {
+        "status": "COMPILE_PASS",
+        "result": "sim/typography_board_final_sim_result.json",
+        "compile_log": "sim/typography_board_final_compile.log",
+        "sim_log": null,
+        "scenarios": [],
+        "changed_inputs": [],
+        "duration_seconds": 70.45,
+        "unique_warning_count": 23,
+        "command": [
+          "D:/modeltech64_10.6e/win64/vsim.exe",
+          "-c",
+          "-do",
+          "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/be3f38e4576f4b5eb4648053a4e5e16e/run.do\""
+        ],
+        "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+        "config_top": "work.skeleton_top"
+      }
+    },
+    "repairs": [
+      {
+        "area": "TB取字变量名",
+        "attempts": 1,
+        "cause": "small是Verilog保留字",
+        "change": "改为small_sel",
+        "status": "verified",
+        "failure": "sim/typography_row_r1_compile_compile.log"
+      },
+      {
+        "area": "TB逐字高亮边界",
+        "attempts": 1,
+        "cause": "独立参考把追梦G的宽度误填为62，真实24+24+17=65",
+        "change": "按真实字宽修正TB边界，RTL未改",
+        "status": "verified",
+        "failure": "sim/typography_layer_r1_sim.log"
+      },
+      {
+        "area": "OSD字模路径配置",
+        "attempts": 1,
+        "cause": "runner读取library级defines，source级OSD_SIM未生效",
+        "change": "将OSD_SIM移到library配置",
+        "status": "verified",
+        "failure": "sim/typography_osd_r1_sim.log"
+      },
+      {
+        "area": "OSD对比基准条末像素",
+        "attempts": 1,
+        "cause": "缩小后的901定点系数在130%时仅175像素",
+        "change": "系数902，极值176像素，保留全部像素断言",
+        "status": "verified",
+        "failure": "sim/typography_osd_r2_sim.log"
+      }
+    ],
+    "modules": [
+      {
+        "name": "alpha_blend16",
+        "path": "rtl/gfx/alpha_blend16.v",
+        "dependencies": [],
+        "status": "completed"
+      },
+      {
+        "name": "text_row_aa",
+        "path": "rtl/gfx/text_row_aa.v",
+        "dependencies": [],
+        "status": "completed"
+      },
+      {
+        "name": "layer_text_aa",
+        "path": "rtl/gfx/layer_text_aa.v",
+        "dependencies": [
+          "text_row_aa",
+          "EG_LOGIC_BRAM"
+        ],
+        "status": "completed"
+      },
+      {
+        "name": "osd_font_youyuan",
+        "path": "rtl/gfx/osd_font_youyuan.v",
+        "dependencies": [
+          "EG_LOGIC_BRAM"
+        ],
+        "status": "completed"
+      },
+      {
+        "name": "osd_layer_small",
+        "path": "rtl/gfx/osd_layer_small.v",
+        "dependencies": [
+          "osd_font_youyuan",
+          "alpha_blend16"
+        ],
+        "status": "completed"
+      }
+    ],
+    "integration": [
+      "rtl/top/skeleton_core.v",
+      "rtl/top/skeleton_top.v",
+      "rtl/app/asset_manager.v"
+    ],
+    "verification_summary": "output/typography_implementation_20261029/verification_summary.json",
+    "blocking_reason": null,
+    "next_step": "保存旧bit后使用配套字库卡包烧录验证；先处理setup时序再考虑量产",
+    "implementation": {
+      "status": "BUILD_COMPLETE",
+      "tool": "Tang Dynasty 6.2.168116",
+      "device": "EG4S20BG256",
+      "synthesis": "prj/td_build/typography_dspall1_syn",
+      "physical": "prj/td_build/typography_dspall1_seed3_phy",
+      "seed": 3,
+      "drc": "PASS",
+      "bitstream": {
+        "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\typography_dspall1_seed3_phy\\skeleton.bit",
+        "bytes": 654077,
+        "sha256": "f6e80a3c53b325ec3cf2954d8a482c1c1870c793508b65837286ac63778cc804"
+      },
+      "resources": {
+        "slices": 9697,
+        "slice_total": 9800,
+        "lut": 18048,
+        "lut_total": 19600,
+        "registers": 11228,
+        "register_total": 19600,
+        "bram9k": 55,
+        "bram9k_total": 64,
+        "bram32k": 7,
+        "bram32k_total": 16,
+        "dsp": 27,
+        "dsp_total": 29,
+        "pll": 2,
+        "pll_total": 4,
+        "gclk": 4,
+        "gclk_total": 16
+      },
+      "timing": {
+        "sta_coverage_percent": 96.57,
+        "setup_wns_ns": -5.565,
+        "setup_tns_ns": -474.167,
+        "setup_violations": 282,
+        "hold_wns_ns": 0.03,
+        "hold_tns_ns": 0.0,
+        "hold_violations": 0,
+        "timing_clean": false,
+        "groups": {
+          "video_clk -> video_clk": {
+            "setup_wns_ns": -4.694,
+            "setup_tns_ns": -126.9,
+            "setup_violations": 49
+          },
+          "clk -> clk": {
+            "setup_wns_ns": -2.039,
+            "setup_tns_ns": -51.887,
+            "setup_violations": 68
+          },
+          "sdr_clk -> sdr_clk": {
+            "setup_wns_ns": -2.141,
+            "setup_tns_ns": -94.466,
+            "setup_violations": 101
+          },
+          "video_clk -> sdr_clk": {
+            "setup_wns_ns": 0.092,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0
+          },
+          "sdr_clk -> video_clk": {
+            "setup_wns_ns": 0.915,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0
+          },
+          "hdmi_5x_clk -> hdmi_5x_clk": {
+            "setup_wns_ns": 5.87,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0
+          },
+          "sdr_clk -> sdr_clk_sft": {
+            "setup_wns_ns": -1.132,
+            "setup_tns_ns": -22.834,
+            "setup_violations": 32
+          },
+          "sdr_clk_sft -> sdr_clk": {
+            "setup_wns_ns": -5.565,
+            "setup_tns_ns": -178.08,
+            "setup_violations": 32
+          }
+        }
+      },
+      "optimization": {
+        "alpha_blend_exact_difference": true,
+        "dsp_mapped_blenders": 2,
+        "functional_checks": [
+          "blend:dspblend1",
+          "osd:dsp_osd_run1",
+          "core:dsp_all_core1",
+          "board:dsp_all_board1"
+        ],
+        "initial_mslice": 5051,
+        "areaopt_mslice": 4938,
+        "final_mslice": null
+      },
+      "validation": {
+        "downloaded": true,
+        "board_validation": "User reports working after replacing FONT.HZK, then missing lines after lyric 8; subset generator bug confirmed. TYP2 not yet tested on board.",
+        "simulation_baseline": "Historical 29 typography scenarios PASS; old asset coverage claim invalidated by shared LRC line-count parser bug (8 vs 45).",
+        "final_source_inputs_unchanged": true
+      },
+      "reports": {
+        "route_qor": "prj/td_build/typography_dspall1_seed3_phy/route.qor",
+        "timing": "prj/td_build/typography_dspall1_seed3_phy/final_timing.rpt",
+        "area": "prj/td_build/typography_dspall1_seed3_phy/skeleton_phy.area",
+        "build_result": "prj/td_build/typography_dspall1_seed3_phy/build_result.json",
+        "report": "doc/compile/typography_implementation_report.md"
+      }
+    },
+    "asset_coverage_correction": "Original subset font only covered first 8 lyric lines. Superseded by independently checked TYP2 complete repertoire; see output/typography_full_20261030/asset_check.json."
+  },
+  "full_font": {
+    "request": "Complete GB2312 + printable ASCII, no per-song font rebuild",
+    "format": "TYP2",
+    "status": "completed",
+    "specification": "doc/spec/full_font_behavior_spec.md",
+    "stages": {
+      "architecture": "completed",
+      "assets": "completed",
+      "rtl": "completed",
+      "verification": "completed",
+      "implementation": "completed"
+    },
+    "repairs": [
+      {
+        "problem": "24-character title misses 4800-cycle deadline with four image clients",
+        "attempts": 2,
+        "classification": "RTL performance",
+        "evidence": "sim/typography_full_rows_full_r1_sim.log",
+        "fix": "Use fixed CJK slots to remove all CJK directory transactions, retaining 16-level pixels. Reserve 169 unused slots (83,824 bytes); 145,152 SDRAM bytes remain. Cached LRC pair and 8-word crossing read retained.",
+        "status": "verified; see final current-source evidence",
+        "additional_evidence": "sim/typography_full_sdram_full_r2_sim.log"
+      },
+      {
+        "problem": "Full loader TB missing vendor FIFO address helper",
+        "attempts": 1,
+        "classification": "compile configuration",
+        "evidence": "sim/typography_full_load_full_r1_compile.log",
+        "fix": "Add existing afifo_8i_32o_1024.v dependency",
+        "status": "verified; see final current-source evidence"
+      },
+      {
+        "problem": "Real SDRAM test rejected first header",
+        "attempts": 1,
+        "classification": "TB shifted clock phase",
+        "evidence": "sim/typography_full_sdram_full_r1_sim.log",
+        "fix": "Match existing verified SDRAM TB: shifted clock leads system clock by quarter-cycle, rather than lagging it",
+        "status": "verified; see final current-source evidence"
+      },
+      {
+        "problem": "Verilog-2001 forward declaration rejected under default_nettype none",
+        "attempts": 1,
+        "classification": "RTL declaration order",
+        "evidence": "sim/typography_row_full_r3_compile.log",
+        "fix": "Declare cjk and compact-index wires after code and directory_index",
+        "status": "verified; see final current-source evidence"
+      },
+      {
+        "problem": "Local reset nets share x23y59_local6 after detailed routing",
+        "attempts": 1,
+        "classification": "physical routing congestion",
+        "evidence": "prj/td_build/typography_full_r1_seed3_phy/console.log",
+        "fix": "Same synthesis and seed 3; explicit route effort=routability, addressing the one remaining local-resource conflict",
+        "status": "verified; see final current-source evidence"
+      }
+    ],
+    "next_step": "用户将新TYP2 bit与完整FONT.HZK配套上板；全工程setup仍需后续结构优化",
+    "implementation": {
+      "status": "BUILD_COMPLETE",
+      "generated": "2026-10-30T12:18:13.710576+08:00",
+      "format": "TYP2",
+      "font_bytes": 3856960,
+      "glyph_count": 7540,
+      "free_sdram_bytes": 145152,
+      "bitstream": {
+        "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\typography_full_r1_congestion_seed3_phy\\skeleton.bit",
+        "sha256": "4BE042262FAD8A3F725DBCEBDACDCF2ABC33ECE789CD9CED601BE105CB08C9B0",
+        "bytes": 654077
+      },
+      "card_package": {
+        "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\typography_full_20261030\\card_typography_full.zip",
+        "sha256": "813d9dc6b9d2c208dcb6cda22300e852a200cf28035f661b0da7c6be0fc3d230"
+      },
+      "synthesis": "typography_full_r1_syn",
+      "physical": "typography_full_r1_congestion_seed3_phy",
+      "current": {
+        "resources": {
+          "lut": 18125,
+          "registers": 11146,
+          "bram9k": 55,
+          "bram32k": 7,
+          "dsp": 27,
+          "pll": 2,
+          "gclk": 4,
+          "slices": 9721
+        },
+        "setup_wns_ns": -5.565,
+        "setup_tns_ns": -333.047,
+        "setup_violations": 185,
+        "hold_wns_ns": 0.024,
+        "hold_violations": 0,
+        "sta_coverage_percent": 96.63,
+        "groups": {
+          "video_clk -> video_clk": {
+            "setup_ns": -3.206,
+            "setup_tns_ns": -62.479,
+            "setup_violations": 44,
+            "hold_ns": 0.024,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_blend/rgb_reg[12]_syn_4.clk",
+            "worst_end": "u_core/u_ax/O_video_data_reg[22]_syn_4.d[1]"
+          },
+          "clk -> clk": {
+            "setup_ns": 0.46,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0,
+            "hold_ns": 0.032,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_sd/u_scan/ft_name_reg[18]_syn_3.clk",
+            "worst_end": "u_core/u_sd/u_ft/too_large_reg[9]_syn_10.a[0]"
+          },
+          "sdr_clk -> sdr_clk": {
+            "setup_ns": -2.45,
+            "setup_tns_ns": -74.483,
+            "setup_violations": 76,
+            "hold_ns": 0.086,
+            "hold_violations": 0,
+            "worst_start": "u_core/g_aa_text$u_lyr/u_row/code_reg[8]_syn_4.clk",
+            "worst_end": "u_core/g_aa_text$u_lyr/u_row/sub0_syn_68.mi[0]"
+          },
+          "video_clk -> sdr_clk": {
+            "setup_ns": -0.012,
+            "setup_tns_ns": -0.012,
+            "setup_violations": 1,
+            "hold_ns": 0.244,
+            "hold_violations": 0,
+            "worst_start": "u_core/g_aa_text$u_lyr/line_y_reg[1]_syn_4.clk",
+            "worst_end": "u_core/g_aa_text$u_lyr/c_fc_reg[7]_syn_3.ce"
+          },
+          "sdr_clk -> video_clk": {
+            "setup_ns": 2.422,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0,
+            "hold_ns": 0.244,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_cv/u_img/u_fl/rdy_tag_reg[13]_syn_4.clk",
+            "worst_end": "u_core/u_old_cv/u_img/u_fl/rdy_seen_reg_syn_8.a[0]"
+          },
+          "hdmi_5x_clk -> hdmi_5x_clk": {
+            "setup_ns": 5.275,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0,
+            "hold_ns": 0.239,
+            "hold_violations": 0,
+            "worst_start": "al_1599.clk",
+            "worst_end": "al_1637.mi[0]"
+          },
+          "sdr_clk -> sdr_clk_sft": {
+            "setup_ns": -0.964,
+            "setup_tns_ns": -17.993,
+            "setup_violations": 32,
+            "hold_ns": 5.001,
+            "hold_violations": 0,
+            "worst_start": "al_1593.clk",
+            "worst_end": "u_core/u_phy/sdram.dq[31]"
+          },
+          "sdr_clk_sft -> sdr_clk": {
+            "setup_ns": -5.565,
+            "setup_tns_ns": -178.08,
+            "setup_violations": 32,
+            "hold_ns": 9.43,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_phy/sdram.dq[0]",
+            "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+          }
+        }
+      },
+      "previous_typ1": {
+        "resources": {
+          "lut": 18048,
+          "registers": 11228,
+          "bram9k": 55,
+          "bram32k": 7,
+          "dsp": 27,
+          "pll": 2,
+          "gclk": 4,
+          "slices": 9697
+        },
+        "setup_wns_ns": -5.565,
+        "setup_tns_ns": -474.167,
+        "setup_violations": 282,
+        "hold_wns_ns": 0.03,
+        "hold_violations": 0,
+        "sta_coverage_percent": 96.57,
+        "groups": {
+          "video_clk -> video_clk": {
+            "setup_ns": -4.694,
+            "setup_tns_ns": -126.9,
+            "setup_violations": 49,
+            "hold_ns": 0.03,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_blend/rgb_reg[18]_syn_4.clk",
+            "worst_end": "u_core/u_ax/O_video_data_reg[6]_syn_4.d[0]"
+          },
+          "clk -> clk": {
+            "setup_ns": -2.039,
+            "setup_tns_ns": -51.887,
+            "setup_violations": 68,
+            "hold_ns": 0.086,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_load/open_wait_reg[0]_syn_7.clk",
+            "worst_end": "u_core/u_load/bi_comp_i_reg[18]_syn_4.ce"
+          },
+          "sdr_clk -> sdr_clk": {
+            "setup_ns": -2.141,
+            "setup_tns_ns": -94.466,
+            "setup_violations": 101,
+            "hold_ns": 0.078,
+            "hold_violations": 0,
+            "worst_start": "u_core/g_aa_text$u_lyr/u_row/failure_reg[1]_syn_486.clk",
+            "worst_end": "u_core/g_aa_text$u_lyr/u_row/failure_reg[3]_syn_16.a[1]"
+          },
+          "video_clk -> sdr_clk": {
+            "setup_ns": 0.092,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0,
+            "hold_ns": 0.244,
+            "hold_violations": 0,
+            "worst_start": "u_core/g_aa_text$u_lyr/line_y_reg[10]_syn_4.clk",
+            "worst_end": "u_core/g_aa_text$u_lyr/u_row/state_reg[1]_syn_55.mi[1]"
+          },
+          "sdr_clk -> video_clk": {
+            "setup_ns": 0.915,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0,
+            "hold_ns": 0.244,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_old_cv/u_img/u_fl/rdy_tag_reg[22]_syn_4.clk",
+            "worst_end": "u_core/u_old_cv/u_img/u_fl/rdy_seen_reg_syn_8.d[0]"
+          },
+          "hdmi_5x_clk -> hdmi_5x_clk": {
+            "setup_ns": 5.87,
+            "setup_tns_ns": 0.0,
+            "setup_violations": 0,
+            "hold_ns": 0.23,
+            "hold_violations": 0,
+            "worst_start": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_2d_reg_syn_5.clk",
+            "worst_end": "u_hdmi_phy/u1_lane_lvds_8_1/S_shift_data_reg[0]_syn_4.d[0]"
+          },
+          "sdr_clk -> sdr_clk_sft": {
+            "setup_ns": -1.132,
+            "setup_tns_ns": -22.834,
+            "setup_violations": 32,
+            "hold_ns": 5.001,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_phy/u2_ram/u1_init_ref/sdr_init_cnt_reg[1]_syn_3.clk",
+            "worst_end": "u_core/u_phy/sdram.dq[14]"
+          },
+          "sdr_clk_sft -> sdr_clk": {
+            "setup_ns": -5.565,
+            "setup_tns_ns": -178.08,
+            "setup_violations": 32,
+            "hold_ns": 9.43,
+            "hold_violations": 0,
+            "worst_start": "u_core/u_phy/sdram.dq[0]",
+            "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+          }
+        }
+      },
+      "timing_clean": false,
+      "simulation_scenario_count": 34,
+      "asset_scenario_count": 4,
+      "tests": {
+        "row": {
+          "status": "PASS",
+          "evidence": "sim/typography_row_full_r6_sim_result.json",
+          "compile_log": "sim/typography_row_full_r6_compile.log",
+          "sim_log": "sim/typography_row_full_r6_sim.log",
+          "scenarios": [
+            "TYP-03-pixels",
+            "TYP-03-invalid",
+            "TYP-03-recovery"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 1,
+          "elapsed_seconds": 8.26
+        },
+        "full_rows": {
+          "status": "PASS",
+          "evidence": "sim/typography_full_rows_full_r6_sim_result.json",
+          "compile_log": "sim/typography_full_rows_full_r6_compile.log",
+          "sim_log": "sim/typography_full_rows_full_r6_sim.log",
+          "scenarios": [
+            "FULL-02-all-7540-glyphs-two-sizes",
+            "FULL-02-image-contention-deadline"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 1,
+          "elapsed_seconds": 5.86
+        },
+        "full_sdram": {
+          "status": "PASS",
+          "evidence": "sim/typography_full_sdram_full_r6_sim_result.json",
+          "compile_log": "sim/typography_full_sdram_full_r6_compile.log",
+          "sim_log": "sim/typography_full_sdram_full_r6_sim.log",
+          "scenarios": [
+            "FULL-04-real-sdram-all-glyphs-100MHz",
+            "FULL-04-real-sdram-contention-deadline"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 3,
+          "elapsed_seconds": 22.16
+        },
+        "full_load": {
+          "status": "PASS",
+          "evidence": "sim/typography_full_load_full_r5_sim_result.json",
+          "compile_log": "sim/typography_full_load_full_r5_compile.log",
+          "sim_log": "sim/typography_full_load_full_r5_sim.log",
+          "scenarios": [
+            "FULL-03-real-file-over-2MiB",
+            "FULL-03-padding-bounds-short-file-recovery"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 1,
+          "elapsed_seconds": 29.14
+        },
+        "layer": {
+          "status": "PASS",
+          "evidence": "sim/typography_layer_full_r5_sim_result.json",
+          "compile_log": "sim/typography_layer_full_r5_compile.log",
+          "sim_log": "sim/typography_layer_full_r5_sim.log",
+          "scenarios": [
+            "TYP-04-pixels",
+            "TYP-04-scroll",
+            "TYP-04-deadline"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 1,
+          "elapsed_seconds": 11.71
+        },
+        "core": {
+          "status": "PASS",
+          "evidence": "sim/typography_core_full_final_sim_result.json",
+          "compile_log": "sim/typography_core_full_final_compile.log",
+          "sim_log": "sim/typography_core_full_final_sim.log",
+          "scenarios": [
+            "TYP-06-composition",
+            "TYP-06-osd-alignment",
+            "FULL-04-core-memory-map-and-lyric-slots"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 32,
+          "elapsed_seconds": 29.69
+        },
+        "assets": {
+          "status": "PASS",
+          "evidence": "sim/typography_assets_full_r3_sim_result.json",
+          "compile_log": "sim/typography_assets_full_r3_compile.log",
+          "sim_log": "sim/typography_assets_full_r3_sim.log",
+          "scenarios": [
+            "TYP-06-font-loading",
+            "TYP-06-song-assets"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 1,
+          "elapsed_seconds": 5.39
+        },
+        "bmp_writeback": {
+          "status": "PASS",
+          "evidence": "sim/typography_bmp_writeback_full_r2_sim_result.json",
+          "compile_log": "sim/typography_bmp_writeback_full_r2_compile.log",
+          "sim_log": "sim/typography_bmp_writeback_full_r2_sim.log",
+          "scenarios": [
+            "downscale-identity-key-and-backpressure",
+            "downscale-rational-and-orientation-matrix",
+            "downscale-real-fifo-writeback-addresses"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 1,
+          "elapsed_seconds": 6.52
+        },
+        "font_legacy": {
+          "status": "PASS",
+          "evidence": "sim/typography_font_legacy_full_r2_sim_result.json",
+          "compile_log": "sim/typography_font_legacy_full_r2_compile.log",
+          "sim_log": "sim/typography_font_legacy_full_r2_sim.log",
+          "scenarios": [
+            "FF-01",
+            "FF-02",
+            "FF-03",
+            "FF-04",
+            "FF-05",
+            "FF-06",
+            "FF-07",
+            "FF-08",
+            "FF-09",
+            "FF-10"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 15,
+          "elapsed_seconds": 13.03
+        },
+        "legacy_system": {
+          "status": "PASS",
+          "evidence": "sim/typography_legacy_system_full_final_sim_result.json",
+          "compile_log": "sim/typography_legacy_system_full_final_compile.log",
+          "sim_log": "sim/typography_legacy_system_full_final_sim.log",
+          "scenarios": [
+            "real_spi_boot_and_layout",
+            "key_and_timer_fade_pixels",
+            "natural_song_end_fade_and_slot_protection",
+            "pcm_and_video_stream_integrity"
+          ],
+          "input_hashes_current": true,
+          "warning_count": 25,
+          "elapsed_seconds": 408.7
+        },
+        "board": {
+          "status": "COMPILE_PASS",
+          "evidence": "sim/typography_board_full_r5_sim_result.json",
+          "compile_log": "sim/typography_board_full_r5_compile.log",
+          "sim_log": null,
+          "scenarios": [],
+          "input_hashes_current": true,
+          "warning_count": 23,
+          "elapsed_seconds": 19.98
+        }
+      },
+      "max_contended_row_cycles_100MHz": 3148,
+      "all_build_inputs_current": true,
+      "all_test_inputs_current": true,
+      "routing_attempts": [
+        {
+          "tag": "typography_full_r1_seed3_phy",
+          "status": "FAILED",
+          "reason": "One x23y59_local6 conflict between reset nets"
+        },
+        {
+          "tag": "typography_full_r1_congestion_seed3_phy",
+          "seed": 3,
+          "effort": "routability",
+          "status": "BUILD_COMPLETE"
+        }
+      ],
+      "board_validation": "not_run_for_TYP2",
+      "validation_limits": [
+        "SDRAM controller/device functional model and full-font loader tested; TYP2 SD/FAT end-to-end boot not simulated.",
+        "Legacy SD/FAT/audio/image regression uses TYPOGRAPHY=0; TYP2 memory map independently checked in core and asset tests.",
+        "No post-route timing simulation or new-board download performed."
+      ]
+    },
+    "board_validation": "passed_user_report",
+    "board_validation_evidence": "User: 上板没有问题，现在布局改动一下 (before layout changes)."
+  },
+  "layout_five": {
+    "status": "failed",
+    "spec": "doc/spec/layout_five_behavior_spec.md",
+    "scope": "Left cover, right title/singer and five lyric rows; 14-character window with per-sentence marquee and smooth vertical transitions. Preserve font and effects.",
+    "stages": {
+      "architecture": "completed",
+      "rtl": "completed",
+      "verification": "completed",
+      "implementation": "completed"
+    },
+    "board_validation": "failed_user_report",
+    "repairs": [
+      {
+        "problem": "physical_mslice_capacity",
+        "initial_failure": "prj/td_build/layout_five_r2_congestion_seed3_phy/console.log",
+        "initial_mslice": 4935,
+        "limit": 4900,
+        "automatic_retries_used": 2,
+        "attempts": [
+          {
+            "tag": "layout_five_r4_congestion_seed3_phy",
+            "mslice": 4934,
+            "lslice": 4933,
+            "status": "FAILED",
+            "change": "bounded text-row counters and indices; 10-bit raster coordinates; shared 32px lyric-slot selection"
+          },
+          {
+            "tag": "layout_five_r5",
+            "status": "SYNTHESIS_COMPLETE_NOT_ROUTED",
+            "change": "share synchronous pixel-address and geometric-mask datapath; remove duplicate wrap arithmetic",
+            "logical_lut": 13113,
+            "physical_lut": 18083,
+            "macro_slices": 2476
+          },
+          {
+            "tag": "layout_five_r6_congestion_seed3_phy",
+            "status": "BUILD_COMPLETE",
+            "change": "circular origin for six sentence phase/width slots; preserve phase across eight successive transitions; share pixel-address and geometric-mask datapath",
+            "logical_lut": 12997,
+            "physical_lut": 17973,
+            "macro_slices": 2479,
+            "mslice": 4896,
+            "lslice": 4895,
+            "slices": 9791,
+            "route_lut": 18375,
+            "bit_generated": true
+          }
+        ],
+        "outcome": "capacity_met_after_second_structural_retry; setup timing remains unmet"
+      }
+    ],
+    "next_step": "修复取字地址时序并验证真实SDRAM争用下的整层五行截止。",
+    "evidence_current_at_last_update": true,
+    "verification_runs": {
+      "layout": "r9",
+      "layer": "layout_r5",
+      "core": "layout_r5",
+      "board": "layout_r6"
+    },
+    "evidence": "output/layout_five_20261030/verification_and_build.json",
+    "sources": {
+      "rtl/top/skeleton_core.v": "d21b688b7c7d33d5699980f76b68f714df20593d4665ad434ea49606bcb24f40",
+      "rtl/gfx/lyric_pick.v": "77fe929fa833ff9ddb7fbd775ce4c887d9d073da3f62696b8a81ee4b40c61808",
+      "rtl/gfx/attack_rings.v": "a16de338e5b3532ee9c0ce48e64f17e9badd2e1f020b5ff3ce35298906a0c794",
+      "rtl/gfx/text_row_aa.v": "654c8bb47599be7729ebe24193856d429162a70bf941f677a457973cd337bc01",
+      "rtl/gfx/layer_text_aa.v": "c91ba9d3295c0081d709e6e9dce6fe4ffedb93b339a9fbc330049ad130dbfa19"
+    },
+    "timing_clean": false,
+    "board_validation_evidence": "歌词和歌名稳定显示错误并叠加花屏闪烁，OSD和歌手正常。"
+  },
+  "layout_text_repair": {
+    "status": "completed_implementation_timing_unmet",
+    "symptoms": "歌词和歌名稳定显示错误并叠加花屏闪烁，OSD和歌手正常。",
+    "initial_bit": "output/layout_five_20261030/audio_visual_layout_five.bit",
+    "repair_attempts_used": 3,
+    "maximum_automatic_repairs": 3,
+    "stages": {
+      "analysis": "completed",
+      "rtl": "completed",
+      "verification": "completed",
+      "implementation": "completed"
+    },
+    "root_cause_status": "STA confirmed glyph address, text control and video composition long paths in the failed build. Three repairs shortened these paths; text receive enable and title descriptor paths still violate setup. The connection between STA defects and reported board symptoms has not been re-tested on hardware.",
+    "attempts": [
+      {
+        "number": 1,
+        "physical": "prj/td_build/textfix_r2_congestion_seed3_phy",
+        "change": "Two byte lookup ROM replaces long glyph address arithmetic; remove word-load bubble.",
+        "outcome": "BUILD_COMPLETE; Slice9757, LUT18287, BRAM9K57; row domain -1.633ns, video -3.880ns; remaining relevant violations require repair.",
+        "integration_repair": "First synthesis textfix_r1 could not find ROM file. TEXT_SIM uses source-relative path; TD copies and opens glyph_blocks.dath at run root. textfix_r2 synthesis and physical succeeded."
+      },
+      {
+        "number": 2,
+        "change": "Remove terminal-pixel gate from word mux; remaining-pixel counter; byte timestamp comparison pipeline; capture crossing controls before compare; separate color transform and exact text blend with aligned sidebands.",
+        "outcome": "BUILD_COMPLETE; Slice9720 LUT18316 FF11280 BRAM9K57 DSP27; video -1.253ns, SDR -2.673ns, SDR->video +2.000ns, video->SDR +0.110ns; setup116, hold0.",
+        "integration_repair": "ModelSim initially rejected forward declarations of ax_last/ax_last_fix in the generate block; declarations moved before use. core textfix_r5 and strengthened AX checker textfix_r6 both passed; no extra structural retry.",
+        "physical": "prj/td_build/textfix_r3_congestion_seed3_phy"
+      },
+      {
+        "number": 3,
+        "change": "Pipeline OSD normalization by moving the existing alignment stage before drawing; pre-register character legality and descriptor mismatch; register writeback address operands, transfer address and remaining-count accounting.",
+        "basis": "textfix_r3 final_timing.rpt: OSD normalization -1.253ns; writeback shared add/sub -2.673ns; title descriptor -0.330ns; glyph legality -0.322ns.",
+        "outcome": "BUILD_COMPLETE; Slice9701 LUT18234 FF11339 BRAM9K57/32K7 DSP27; video +1.592ns, SDR -0.722ns, SDR->video -0.223ns, video->SDR +0.878ns; setup70 (64 shifted-SDRAM plus 6 other endpoints), hold0; 52 functional scenarios and board elaboration passed with current input hashes.",
+        "synthesis": "prj/td_build/textfix_r4_syn",
+        "physical": "prj/td_build/textfix_r4_congestion_seed3_phy",
+        "remaining_paths_evidence": "doc/compile/layout_textfix_remaining_paths.json",
+        "outcome_status": "automatic_budget_exhausted_timing_unmet"
+      }
+    ],
+    "remaining_paths": [
+      {
+        "group": "sdr_clk -> sdr_clk",
+        "slack_ns": -0.722,
+        "start": "u_core/g_aa_text$u_lyr/u_row/state_reg[3]_syn_15.clk",
+        "end": "u_core/g_aa_text$u_lyr/u_row/word2_reg[13]_syn_4.ce",
+        "data_ns": 10.47,
+        "cell_ns": 1.62,
+        "net_ns": 8.85
+      },
+      {
+        "group": "sdr_clk -> sdr_clk",
+        "slack_ns": -0.17,
+        "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+        "end": "u_core/u_arb/settle_reg[4]_syn_7.a[0]",
+        "data_ns": 9.89,
+        "cell_ns": 3.705,
+        "net_ns": 6.185
+      },
+      {
+        "group": "sdr_clk -> sdr_clk",
+        "slack_ns": -0.17,
+        "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+        "end": "u_core/u_arb/settle_reg[4]_syn_7.a[1]",
+        "data_ns": 9.89,
+        "cell_ns": 3.705,
+        "net_ns": 6.185
+      },
+      {
+        "group": "sdr_clk -> sdr_clk",
+        "slack_ns": -0.046,
+        "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+        "end": "u_core/u_arb/settle_reg[1]_syn_7.a[0]",
+        "data_ns": 9.694,
+        "cell_ns": 3.705,
+        "net_ns": 5.989
+      },
+      {
+        "group": "sdr_clk -> sdr_clk",
+        "slack_ns": -0.046,
+        "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+        "end": "u_core/u_arb/settle_reg[1]_syn_7.a[1]",
+        "data_ns": 9.694,
+        "cell_ns": 3.705,
+        "net_ns": 5.989
+      },
+      {
+        "group": "sdr_clk -> video_clk",
+        "slack_ns": -0.223,
+        "start": "u_core/u_pick/ttl_cnt_reg[2]_syn_4.clk",
+        "end": "u_core/g_aa_text$u_lyr/s_tv_reg_syn_5.a[1]",
+        "data_ns": 9.986,
+        "cell_ns": 3.75,
+        "net_ns": 6.236
+      }
+    ],
+    "automatic_repairs_exhausted": true,
+    "evidence": "output/layout_textfix_20261030/verification_and_build.json",
+    "timing_clean": false,
+    "board_validation": "not_run",
+    "additional_non_shifted_setup_endpoints": 6,
+    "next_step": "等待新一轮结构修复授权或实质新信息，处理取字接收使能、描述符校验跨域路径和仲裁器计数比较；当前bit仅为验证候选。"
+  },
+  "layout_text_shift": {
+    "offset_y": 29,
+    "title_y": 45,
+    "singer_y": 77,
+    "lyric_rows_y": [
+      118,
+      150,
+      182,
+      214,
+      246
+    ],
+    "lyric_clip_y": [
+      118,
+      269
+    ],
+    "status": "completed_implementation_timing_unmet",
+    "previous_repair": "layout_text_repair",
+    "previous_build_evidence": "output/layout_textfix_20261030/verification_and_build.json",
+    "previous_core_and_layout_evidence_current": false,
+    "evidence": "output/layout_textshift_20261030/verification_and_build.json",
+    "bitstream": {
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\layout_textshift_20261030\\audio_visual_layout_textshift.bit",
+      "bytes": 656405,
+      "sha256": "4623685fcb72beca289324f86129e358ff747255306755f8e5b4f55164bd8e4b"
+    },
+    "timing_clean": false
+  },
+  "lyric_spacing": {
+    "status": "completed_implementation_timing_unmet",
+    "row_tops": [
+      118,
+      154,
+      190,
+      226,
+      261
+    ],
+    "row_height": 24,
+    "gaps": [
+      36,
+      36,
+      36,
+      35
+    ],
+    "clip_y": [
+      118,
+      284
+    ],
+    "scroll_phase_max": 36,
+    "previous_package": "output/layout_textshift_20261030/verification_and_build.json",
+    "previous_affected_evidence_current": false,
+    "timing_clean": false,
+    "evidence": "output/lyric_spacing_20261030/verification_and_build.json",
+    "bitstream": {
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\lyric_spacing_20261030\\audio_visual_lyric_spacing.bit",
+      "bytes": 656405,
+      "sha256": "9399e0feafe02e366fcacc4f753cb74f772ae69309c2506dc1259a319031afd8"
+    },
+    "synthesis": "lyricspace_r1_syn",
+    "physical": "lyricspace_r1_congestion_seed3_phy",
+    "timing_regressed": true,
+    "setup_violations": 152,
+    "setup_wns_ns": -6.136,
+    "hold_violations": 0,
+    "board_validation": "not_run",
+    "next_step": "Candidate board validation; resolve reported OSD/glyph/descriptor negative-slack paths before timing acceptance."
+  },
+  "timing_cleanup": {
+    "status": "completed_implementation_timing_unmet",
+    "authorization": "用户：违例太多了，消除一下",
+    "new_budget_reason": "Explicit authorization for a new timing repair round after lyric spacing implementation.",
+    "baseline": "lyricspace_r1_congestion_seed3_phy",
+    "baseline_setup_violations": 152,
+    "structural_attempts_started": 4,
+    "automatic_retries_after_first_failure": 3,
+    "max_retries": 3,
+    "preserved_previous_retry_records": true,
+    "attempt": "timingclean_r4",
+    "acceptance": [
+      "unchanged pixels and latency",
+      "complete font and layout regressions",
+      "routed setup and hold analysis without timing exceptions"
+    ],
+    "r1_result": {
+      "setup_violations": 69,
+      "non_shifted_setup_endpoints": 5,
+      "setup_wns_ns": -5.565,
+      "hold_violations": 0,
+      "physical": "timingclean_r1_congestion_seed3_phy"
+    },
+    "stage": "finished",
+    "synthesis": "timingclean_r1_syn",
+    "physical": "timingclean_r1_congestion_seed3_phy",
+    "r2_functional_regression": "PASS",
+    "arb_equivalence_transactions": 129,
+    "pick_boundary_combinations": 385,
+    "r2_result": {
+      "setup_violations": 123,
+      "non_shifted_setup_endpoints": 59,
+      "setup_wns_ns": -5.565,
+      "hold_violations": 0,
+      "slices": 9773,
+      "physical": "timingclean_r2_congestion_seed3_phy",
+      "selected": false,
+      "reason": "Request-path terminal-index precomputation adds routing pressure and new critical paths."
+    },
+    "r3_functional_regression": "PASS",
+    "r3_result": {
+      "setup_violations": 93,
+      "non_shifted_setup_endpoints": 29,
+      "setup_wns_ns": -5.565,
+      "hold_violations": 0,
+      "slices": 9640,
+      "physical": "timingclean_r3_congestion_seed3_phy",
+      "selected": false
+    },
+    "r4_functional_regression": "PASS",
+    "fft_exact_pixel_comparisons": 1709568,
+    "timing_clean": false,
+    "setup_violations": 69,
+    "non_shifted_setup_endpoints": 5,
+    "hold_violations": 0,
+    "report": "doc/compile/timing_cleanup_report.md",
+    "evidence": "output/timing_cleanup_20261030/verification_and_build.json",
+    "bitstream": {
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\timing_cleanup_20261030\\audio_visual_timing_cleanup.bit",
+      "bytes": 665717,
+      "sha256": "74eae6d6e8736d2304d594be93591817e9fdb4eee1eec561e312b5a96054e779"
+    },
+    "board_validation": "not_run",
+    "selected_attempt": 1,
+    "automatic_retry_budget_exhausted": true,
+    "next_step": "Review remaining paths in timing_cleanup_report; verify SDRAM hard-IP interface timing model and sampling contract. Automatic retry budget exhausted."
+  },
+  "osd_bottom_right": {
+    "status": "completed_implementation_timing_unmet",
+    "specification": "doc/spec/osd_bottom_right_behavior_spec.md",
+    "report": "doc/compile/osd_bottom_right_report.md",
+    "evidence": "output/osd_bottom_right_20261030/verification_and_build.json",
+    "stages": {
+      "rtl": "completed",
+      "simulation": "completed",
+      "synthesis": "completed",
+      "physical": "completed",
+      "board": "pending"
+    },
+    "timing_clean": false,
+    "previous_implementation_evidence": "historical_before_osd_translation",
+    "bitstream": {
+      "path": "output/osd_bottom_right_20261030/audio_visual_osd_bottom_right.bit",
+      "bytes": 665717,
+      "sha256": "58bfc66ca85e42400f6e950dc1c5b51e84a1bfde94e16a20eb7c04a71ed26c4a"
+    },
+    "board_validation": "not_run"
+  },
+  "visual_controls_aa": {
+    "status": "completed_implementation_timing_unmet",
+    "specification": "doc/spec/visual_controls_aa.md",
+    "scope": "S01 contour only; AA, six color selectors and five effect toggles; simulation, synthesis and physical implementation authorized",
+    "stages": {
+      "rtl": "completed",
+      "simulation": "completed",
+      "synthesis": "completed",
+      "physical": "completed",
+      "board": "passed_user_report"
+    },
+    "repairs": [
+      {
+        "issue": "ff_x/ff_y forward declaration",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_board_visual_r4_sim_result.json"
+      },
+      {
+        "issue": "FFT gradient quotient maximum is five",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_visual_r2_sim_result.json"
+      },
+      {
+        "issue": "new text colors connected to legacy instead of AA instance",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_visual_core_visual_r3_sim_result.json"
+      },
+      {
+        "issue": "OSD TB configuration missing tb_top",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_visual_osd_visual_r4_sim_result.json"
+      },
+      {
+        "issue": "legacy OSD TB glyph/page port widths",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_osd_visual_r4_sim_result.json"
+      },
+      {
+        "issue": "catalog legacy config referenced obsolete neighboring TB",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_catalog_legacy_visual_r5_sim_result.json"
+      },
+      {
+        "issue": "arithmetic reference test called missing clip helper",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "sim/typography_visual_core_math_r2_sim_result.json"
+      },
+      {
+        "issue": "4-bit ROM physical minimum width exceeded 32K capacity",
+        "repair": 1,
+        "status": "verified",
+        "evidence": "output/visual_controls_aa_20261031/verification_and_build.json"
+      },
+      {
+        "issue": "one-off edit helper default GBK decoding interrupted UTF-8 source edits",
+        "repair": 1,
+        "status": "fixed",
+        "evidence": "sim/typography_visual_core_narrow_r1_sim_result.json"
+      }
+    ],
+    "previous_retry_records_preserved": true,
+    "evidence": "output/visual_controls_aa_20261031/verification_and_build.json",
+    "optimizations": [
+      "Per-song catalog readiness reduction before selection; 88 LUT saved in synthesis",
+      "One shared selected-color update and one shared numeric-setting increment/decrement; functional regressions passed, visual_r3 synthesis running",
+      "Exact color filter algebra; 212992 original-formula comparisons plus integrated frame passed",
+      "10-bit board geometry; 2036640 cycles matched original for scaled/unscaled layers",
+      "Direct glyph-pixel ROM; 32768 samples match original, two nibbles per byte avoid physical BRAM minimum-width waste",
+      "Exact OSD BCD and bar-width ROMs; original three-page and new-page pixel regressions passed",
+      "Share normalized target dimensions between successful BMP loader and display; fixed output geometry removes redundant metadata datapaths. Original BMP_DOWNSCALE=0 remains dynamic."
+    ],
+    "synthesis_r2": {
+      "lut": 18795,
+      "ff": 12000,
+      "bram9k": 60,
+      "bram32k": 13,
+      "dsp": 28,
+      "timing_closed": false
+    },
+    "next_step": "Review reported static timing deficits; user reported successful board validation with matching S01 assets on 2026-10-31.",
+    "physical_capacity": {
+      "first_failure": "visual_r3_congestion_seed3_phy",
+      "mslices": 5085,
+      "lslices": 5086,
+      "limit_per_type": 4900,
+      "automatic_retries_used": 2,
+      "next_repair": null,
+      "attempts": [
+        {
+          "tag": "visual_r3_congestion_seed3_phy",
+          "mslice": 5085,
+          "lslice": 5086,
+          "result": "capacity_fail"
+        },
+        {
+          "tag": "visual_r6_congestion_seed3_phy",
+          "mslice": 5008,
+          "lslice": 5008,
+          "result": "capacity_fail"
+        },
+        {
+          "tag": "visual_r9_congestion_seed3_phy",
+          "mslice_after_place": 4769,
+          "lslice_after_place": 4767,
+          "result": "BUILD_COMPLETE"
+        }
+      ],
+      "outcome": "capacity_met"
+    },
+    "synthesis_final": {
+      "tag": "visual_r9_syn",
+      "lut": 17196,
+      "ff": 11624,
+      "bram9k": 57,
+      "bram32k": 14,
+      "dsp": 28
+    },
+    "report": "doc/compile/visual_controls_aa_report.md",
+    "bitstream": {
+      "path": "output/visual_controls_aa_20261031/audio_visual_controls_aa.bit",
+      "bytes": 690161,
+      "sha256": "7ebe67672b356b45dcefed25f7134388f49b9e23f77f1bfde865635eb3d6ffa1"
+    },
+    "timing_clean": false,
+    "board_validation": "passed_user_report",
+    "selected_synthesis": "visual_r9_syn",
+    "selected_physical": "visual_r9_congestion_seed3_phy",
+    "setup_violations": 64,
+    "non_shifted_setup_endpoints": 0,
+    "hold_violations": 0
+  }
 }

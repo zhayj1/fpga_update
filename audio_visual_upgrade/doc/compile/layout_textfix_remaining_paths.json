@@ -1,0 +1,56 @@
+[
+  {
+    "group": "sdr_clk -> sdr_clk",
+    "slack_ns": -0.722,
+    "start": "u_core/g_aa_text$u_lyr/u_row/state_reg[3]_syn_15.clk",
+    "end": "u_core/g_aa_text$u_lyr/u_row/word2_reg[13]_syn_4.ce",
+    "data_ns": 10.47,
+    "cell_ns": 1.62,
+    "net_ns": 8.85
+  },
+  {
+    "group": "sdr_clk -> sdr_clk",
+    "slack_ns": -0.17,
+    "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+    "end": "u_core/u_arb/settle_reg[4]_syn_7.a[0]",
+    "data_ns": 9.89,
+    "cell_ns": 3.705,
+    "net_ns": 6.185
+  },
+  {
+    "group": "sdr_clk -> sdr_clk",
+    "slack_ns": -0.17,
+    "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+    "end": "u_core/u_arb/settle_reg[4]_syn_7.a[1]",
+    "data_ns": 9.89,
+    "cell_ns": 3.705,
+    "net_ns": 6.185
+  },
+  {
+    "group": "sdr_clk -> sdr_clk",
+    "slack_ns": -0.046,
+    "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+    "end": "u_core/u_arb/settle_reg[1]_syn_7.a[0]",
+    "data_ns": 9.694,
+    "cell_ns": 3.705,
+    "net_ns": 5.989
+  },
+  {
+    "group": "sdr_clk -> sdr_clk",
+    "slack_ns": -0.046,
+    "start": "u_core/u_arb/n_reg[7]_syn_4.clk",
+    "end": "u_core/u_arb/settle_reg[1]_syn_7.a[1]",
+    "data_ns": 9.694,
+    "cell_ns": 3.705,
+    "net_ns": 5.989
+  },
+  {
+    "group": "sdr_clk -> video_clk",
+    "slack_ns": -0.223,
+    "start": "u_core/u_pick/ttl_cnt_reg[2]_syn_4.clk",
+    "end": "u_core/g_aa_text$u_lyr/s_tv_reg_syn_5.a[1]",
+    "data_ns": 9.986,
+    "cell_ns": 3.75,
+    "net_ns": 6.236
+  }
+]

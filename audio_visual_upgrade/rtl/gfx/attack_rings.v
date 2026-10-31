@@ -4,7 +4,9 @@
 // or framebuffer. frame_tick must precede DE by at least 21 clocks.
 // Raster contract: x starts at zero and advances once per DE clock; y is
 // stable for at least two blank clocks before DE. Output has no pixel delay.
-module attack_rings(
+module attack_rings #(
+    parameter integer CENTER_X=260, CENTER_Y=165
+)(
     input wire clk,rst,frame_tick,hit,de,
     input wire [9:0] x,y,
     output wire valid,
@@ -76,7 +78,7 @@ module attack_rings(
     endfunction
     wire [25:0] model=ring_model(refresh_age);
     integer i;
-    wire [8:0] dy=(y>=10'd165) ? y-10'd165 : 10'd165-y;
+    wire [8:0] dy=(y>=CENTER_Y) ? y-CENTER_Y : CENTER_Y-y;
     // (x+1-c)^2 = (x-c)^2 + 2*(x-c) + 1. The initial
     // value is prepared throughout horizontal blanking, so x=0 is exact.
     reg [17:0] dx2;
@@ -84,22 +86,23 @@ module attack_rings(
     // x can reach 639, so use eleven bits for the doubled coordinate.
     wire [10:0] twice_x={x,1'b0};
     always @(posedge clk) begin
-        if(rst) begin dx2<=18'd67600; dy2<=18'd27225; end
+        if(rst) begin dx2<=CENTER_X*CENTER_X; dy2<=CENTER_Y*CENTER_Y; end
         else begin
             if(!de) begin
-                dx2<=18'd67600;
+                dx2<=CENTER_X*CENTER_X;
                 // y is stable for the horizontal blanking interval and for
                 // the following active line, so calculate its square once.
                 dy2<=dy*dy;
             end
-            else if(x<10'd260) dx2<=dx2-(11'd519-twice_x);
-            else dx2<=dx2+(twice_x-11'd519);
+            else if(x<CENTER_X) dx2<=dx2-((2*CENTER_X-1)-twice_x);
+            else dx2<=dx2+(twice_x-(2*CENTER_X-1));
         end
     end
     // The monitor expands x by 6/5. Compare 36*dx^2+25*dy^2
     // against 25*r^2, so its physical ring remains circular.
-    wire [22:0] dist=({5'd0,dx2}<<5)+({5'd0,dx2}<<2)+
-                     ({5'd0,dy2}<<4)+({5'd0,dy2}<<3)+{5'd0,dy2};
+    // Moving the center left increases the far-right distance beyond 23 bits.
+    wire [23:0] dist=({6'd0,dx2}<<5)+({6'd0,dx2}<<2)+
+                     ({6'd0,dy2}<<4)+({6'd0,dy2}<<3)+{6'd0,dy2};
     wire [3:0] match_ring;
     genvar k;
     generate for(k=0;k<4;k=k+1) begin: g_ring

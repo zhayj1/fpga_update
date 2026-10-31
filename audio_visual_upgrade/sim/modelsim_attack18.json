@@ -1,0 +1,15 @@
+{
+  "dut_top": "work.spec_attack18",
+  "tb_top": "work.tb_spec_attack18",
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": [],
+      "sources": [
+        {"path": "rtl/audio/spec_attack18.v", "language": "verilog"},
+        {"path": "tb/tb_spec_attack18.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

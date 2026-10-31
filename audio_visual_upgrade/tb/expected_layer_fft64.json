@@ -1,7 +1,9 @@
 [
+  "no_spectrum_before_complete_bank",
   "colored_64_bar_geometry",
   "no_swap_during_bar_write",
   "frame_bank_atomic_swap",
   "local_spike_and_white_cap",
-  "spike_decay"
+  "spike_decay",
+  "reset_hides_previous_spectrum_bank"
 ]

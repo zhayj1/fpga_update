@@ -13,14 +13,13 @@
 //     lock 逻辑过了；lock 只能上板看 LED（led[1]=视频核 locked）。
 //
 // 管脚依据（都在本仓库里核过，别猜）：
-//   clk=R7、rst_n=A2、uart_tx=D12、led[0..3]=A4/A3/C10/B12、SD=A14/A13/A12/B14
+//   clk=R7、rst_n=A2、led[0..3]=A4/A3/C10/B12、SD=A14/A13/A12/B14
 //   HDMI: CLK_P=C3、D0_P=G5、D1_P=F1、D2_P=E1、DDC_SCL=P2、DDC_SDA=R2
 //   SDRAM 是片内的（EG_PHY_SDRAM_2M_32）⇒ **不需要任何 SDRAM 管脚约束**
 //=============================================================================
 module skeleton_top (
     input  wire       clk,           // R7  50MHz
     input  wire       rst_n,         // A2  低有效（板上与按键共用，有上拉）
-    output wire       uart_tx,       // D12 → 板载 CH340 的 RXD
     output wire       sd_sck,        // A14
     output wire       sd_cs_n,       // A12
     output wire       sd_mosi,       // A13
@@ -67,13 +66,10 @@ module skeleton_top (
     wire       vid_locked;
 
     // ---------------- ② 逻辑核心（可仿真部分）----------------
-    // Match the physical PLL and global_def.v. Keep BW_DEN=1 to avoid a
-    // constant divider: 4000 * 100 / WIN_CYCLES(200000) = 2.
     skeleton_core #(
         .SDR_CLK_MHZ (100),
-        .BW_NUM      (2),
         .en_color_diag(1'b0),
-        .en_osd(1'b1)
+        .en_osd(1'b1), .TYPOGRAPHY(1'b1), .VISUAL_CONTROLS(1'b1)
     ) u_core (
         .clk_pix      (clk_pix),
         .clk_pix5x    (clk_pix5x),
@@ -97,7 +93,6 @@ module skeleton_top (
         .key2            (key2),
         .key3            (key3),
         .key4            (key4),
-        .uart_tx         (uart_tx),
         .led             (led)
         // obs_axis_* 是给仿真看的观测口，上板不接 ⇒ 整行不写（不能写 () ）
     );

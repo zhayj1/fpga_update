@@ -1,0 +1,695 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793421202.4395585,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.tb_visual_core",
+    "dut_parameters": {},
+    "tb_parameters": {},
+    "auxiliary_tops": [],
+    "data_files": [
+      "sim/fat32_core.mem",
+      "sim/core_pixels.mem",
+      "tb/core_fixture.vh",
+      "rtl/gfx/osd_font_ch.dath",
+      "rtl/gfx/osd_font_ascii.dath",
+      "rtl/gfx/osd_youyuan_ch.dath",
+      "rtl/gfx/osd_youyuan_ascii.dath",
+      "sim/typography_osd_golden.mem",
+      "rtl/gfx/glyph_blocks.dath",
+      "rtl/gfx/osd_blend_palette.dath",
+      "rtl/gfx/cover_coverage.dath",
+      "rtl/gfx/visual_palette.dath",
+      "rtl/gfx/osd_youyuan_extra.dath",
+      "sim/cover_coverage_golden.mem",
+      "rtl/gfx/osd_youyuan_pixel.dath",
+      "rtl/gfx/osd_bcd.dath",
+      "rtl/gfx/osd_bar.dath"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "include_dirs": [
+          "ip/sdram",
+          "rtl/video",
+          "rtl/storage",
+          "tb"
+        ],
+        "defines": [
+          "SIM_DEVICE_MODEL",
+          "OSD_SIM",
+          "TEXT_SIM"
+        ],
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/fat32_sessions.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/app/asset_manager.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/load_writeback.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/sd_spi_byte.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/sd_init_spi.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/sd_block_read.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/sd_phy.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/fat32_mount.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/fat32_chain.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/fat32_scan.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/fat32_read.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/resource_catalog.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/sector_arbiter.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/storage/storage_top.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/video/color_bar.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/video/video_rgb_to_axis_640x480.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/hdmi_1_4b_transmitter_core_wrapper_stub.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/mem/sdram_arb.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_as_ram.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_wrrd.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdr_init_ref.enc.v",
+            "language": "verilog"
+          },
+          {
+            "path": "ip/sdram/sdram_top.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/IS42s32200.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_sdram_2m_32.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_glbl.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/fetch_line.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/scene_raster.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/fetch_writer4.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_bg.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_cover.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/lyric_row.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/lyric_pick.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_text.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/compositor.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/px_arb2.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/px_arb3.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/util/uart_tx.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/app/uart_report.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/app/bw_selftest.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/app/cw_probe.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/app/carousel.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/video_pll.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/pll_sdr.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/afifo_8i_32o_1024.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/afifo_8i_32o_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/bmp_load.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/util/key_debounce.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/app/frame_sig.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/audio_sample_tick.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/pcm_test_tone.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/hdmi_audio_acr_gen.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/wav_head.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/wav_stream_player.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/audio_mux.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/font_load.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/top/skeleton_core.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_fft.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/spec_fft.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/spec_bands.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/spec_window.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/spec_bands64.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/audio/spec_attack18.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_fft64.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/cover_pop.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/cover_pop_geom.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/attack_rings.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/fetch_line_scene.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/scene_fade.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/scene_blend.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/px_arb5.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/sd_card_model_min.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_controls.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_font_rom.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_layer.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_visual_core.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/alpha_blend16.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/text_row_aa.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/layer_text_aa.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_font_youyuan.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_font_pixel.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_numeric_rom.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_layer_small.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/cover_coverage.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/visual_palette.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/visual_settings.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ],
+    "tb_top": "work.tb_visual_core"
+  },
+  "expected_scenarios": [
+    "VIS-core-composition",
+    "VIS-core-AA-fade-rings",
+    "VIS-core-axis",
+    "VIS-core-memory-map",
+    "VIS-core-text-colors",
+    "VIS-filter-exact-arithmetic"
+  ],
+  "timeout_seconds": 300.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/global_def.v": "07ed880f0908203a8943b5d8ed044979edbc615b484abebf25a5c39063b752c6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_as_ram.enc.v": "767dbdfbd83d42223b77dfa7deab42ce8216a8fd6f6cb41b7e7593d9a345ba57",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v": "367e7edf2092c153d9fb6d98376c5726a3d1d7373756e8fe7256ad9546c90da5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_wrrd.enc.v": "c7d7fe07d75f66aa88d9f986b3006319c995162434f104f9990664b374cdfdd2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdram_top.v": "8cb7df5d290a5e6350f998e8f4c19252cc5c82052ce169c8c55665c98bf0c8ed",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v": "edad0d126134adc3aea4ab6cdd59bfd4bf5bb49514df61709bc0d532d68e830f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/bw_selftest.v": "8faacd5713def6fa3f95143f060fd015a93ffb48e36bb020fc3bcfe59b6fae3c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/carousel.v": "3a9369802190400af1f3e07b773f29906c5100641b232b83f37e2f8d70bcb620",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/cw_probe.v": "6718f5a1da1ce5a675007f1181d8c8b3098a3a5730cede242bdafcd5627e8dd6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/frame_sig.v": "7d1d21a25b9612b7a5a299a69554ec0f126b74f3d38fe4721b11a95dc7e87999",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/uart_report.v": "54855708eca536f5b63a47d231df9117307b298b8c92f8f6a2fc366f063698de",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/audio_mux.v": "d14cbdd7919f3b44d887b8c165b85b93231042e8abd53ca50adb3e3caaa7b3c0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/audio_sample_tick.v": "1c373e7fc50f6c5874a62b97ac8bde2f44522abc3a4120459948325179ff2ea5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/hdmi_audio_acr_gen.v": "63ba0f1e01398e481f1153d73fbba65e32359614545e9a671055e1f93fc089ee",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/pcm_test_tone.v": "a90d5721d38b55702a43a41a9077ef16b7b780377d8e27291c2486fabd59cd38",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/spec_attack18.v": "a207168f4841a44f510b743cc21ff5dcf1caee1897c58fb6a1a16ac08f8fecc3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/spec_bands.v": "9ed0fef38c1bfa3c9b78ce41fe463fdacbc4ebf5b0f548765041974edc8b80e2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/spec_bands64.v": "1d062ba8850a55cd16f6356752f7897dff7814175871d264a61f2ec168e32bbb",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/spec_fft.v": "100bce210764703e527bf59db0bf7ea48888f8c86124f341c52708fb8da7c570",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/spec_window.v": "f7eba27cace53e7ad1786ada4919889d36139baf5cfef11efd2e72fa7fbaf457",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v": "2983934356d1e66f85bfb448d560a895a5f0c972ac2383d706d439406c440feb",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/alpha_blend16.v": "633664c3b5659597d362afeb9e93a0c68d0075371adfdc3d9f138338c042a0b8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/attack_rings.v": "a16de338e5b3532ee9c0ce48e64f17e9badd2e1f020b5ff3ce35298906a0c794",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/compositor.v": "619e161171d1b6a7a8a059afbac76648d9f09683d6c622bebdc95e151a56e20e",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/cover_coverage.dath": "e7e09d1a7bacf20f8d29f78d5189d3a21245c15c07f4a85dfcca9f942ba937c6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/cover_coverage.v": "a3194c1a4b05d062eb931c8d6a185b4959f0bab40b0a19e36a62cebbca8fef48",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/cover_pop.v": "b372c32491a22e23145ffc8fd3a1a2e87f4f7446111a2527f6ec286ab8195ea2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/cover_pop_geom.v": "e08c714b7e4ffdbd5cbb9d9eda6e73d24228cda35f40559f181002439cee720e",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line.v": "7670b2a0ffb665379463dba9d93b7c984f81d02ef5d81c813e91462e1f976728",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_line_scene.v": "caeb314b75ad5054390d7dc1d1806d2f7b3ce78a115add1053cc99e05c1e54ef",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/fetch_writer4.v": "27985c833a3a021f87be4d354f9ca5b7c53cc487888085900cf4cbeac2b46b03",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/glyph_blocks.dath": "ee9884feffcb2d68209cbc276f156f0a8c4a6b9301987925211e6cfacb478bb0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_bg.v": "2934bbc4a849d3fdccbe7b20ab3048f0988e5312050be5ca65e064128974ee02",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_cover.v": "dd3db321065baf50bd6a61463b607f46fbacc7dead865f42d511565d08dd6f77",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_fft.v": "f9d447d2e2d8db07e90ad40685b6f97de3466dae0971e5ac7107366c5ea72a3e",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_fft64.v": "1f79acec21eea7ae07a15467cad1f40a948c504af2e48f562deb5adf7872fe9a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_text.v": "df5f2e6ade35a750008b472e9e24c6832dc6f2aa6faae57aa42d9077d96317b0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/layer_text_aa.v": "1986f937d47e16e95ca3d064a2a4aee3a701afc23f88a32a0b3595128843b5ae",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_pick.v": "77fe929fa833ff9ddb7fbd775ce4c887d9d073da3f62696b8a81ee4b40c61808",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/lyric_row.v": "3952d3c01795715d1ad2a53573353c4810354c5f578ea3a6da8954362ff28a29",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_bar.dath": "d16ab9d83de8159a8e55d7c5fc2ca29c28b3c2ac21a1f2480f852dbf9c8ef260",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_bcd.dath": "59564572ff3d6a0fac58b4d7ca0ea2800d60bd17406dba2c6cc4701064e69ec8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_blend_palette.dath": "0bacaa0786acddc5a1d8fa86f9eda1e6e498e533d697000e01623e5febda69ab",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_controls.v": "22cccb1c4315996a863b087b149856dc077a98a7b87933494eafe9c16368d2aa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_ascii.dath": "4063f65531897688e6bed43e67e5cd05949fb9c276997cd0dd49333f99b48338",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_ch.dath": "e2a6f1b16b9120bf80856d6771588b632174e787bcac9c55957763257b6dd7e4",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_pixel.v": "6df6a854362d9caa29cf524a6797a4cf0913b33e706af957ead0bc8f686d646d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_rom.v": "81606aee02bb9654ac5ba4822ae8cda3948aeec01ee8654065ca1ba778d50253",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_font_youyuan.v": "b9b13758852872ed151ae6e3e5a41dec2857ad1044145190b2f5728ee655ef81",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_layer.v": "540fe6378c76b57cfd5e3d936af66fd4edb3a67fe2b870ebba208f5cb8c364e2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_layer_small.v": "f8088b306466f11f4345338979b11b5e4c93d27d77b1ac64975faa82d586cb08",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_numeric_rom.v": "b20d8cc7706ed9651f84c77618841ce0b410062279a58fe076a1614ddf3d24a3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_ascii.dath": "2965197876c1a0fa386002932f92cb8384550e05be3462f93cdb7ac932cf6d0f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_ch.dath": "b6b2ead6b5b020d986ac3420b47904ab7d287af400ce50fedd3f80f2e01d9b6b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_extra.dath": "f1b37e2a4859b992fdc0dbed19f07f5a53601b919e83b32c5e4ae4d832871450",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_youyuan_pixel.dath": "7da4c4cc63cd740dae0d3f29b9a09b0629accdd8b2302660ffcccd4a7fd70a4b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/px_arb2.v": "03f92175ac11023d4497fdbea8df4325cf48eaf53d47d4d795e0a563f6d17c0d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/px_arb3.v": "6d78c523ec1e8c61fecdb558bb2e2bb7b39cad5dcc6e86ab73d066da22f03f94",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/px_arb5.v": "b9349547c43c17e64ab8fbf41bce81bc545ccef1be39496b294f18e940066595",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/scene_blend.v": "9f6dc7caa0f905f413353ff8b10fda8b44d77b9ef62f85aba3fa4900855394a1",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/scene_fade.v": "80b8cfaa35c8752eff70dc29b4dc955635c5a1c4a669a8f764a74c3e87b08831",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/scene_raster.v": "fdeabffab7bc6fb3e771794474663f4dc27500aaecdb41fd1f46635c4869fa85",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/text_row_aa.v": "0b34cda1a378e649fb4c4fdef3c4a3bc3f6363a729d08d158d15da659c978339",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/visual_palette.dath": "e272a56689127fd51870167d891eacccbfddd9b00f51f3717ed44d467b816406",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/visual_palette.v": "e265d5f9373ce83c3460cfad0be5fb7270c2255bb1e74e785abe7179cbc4120b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/visual_settings.v": "169bd921ffdcc260e55e27c28a1c94ea8b9d52c47a84a8b7b27244fa1b1398f3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_1024.v": "c4ef15e1aa769a779f4d1f464c10a71859dec68106f720fd92ed294e70360016",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_bram.v": "f129390f060dba643060794392888b79ce424f3deb9318697312c908e91a1701",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/pll_sdr.v": "383c466ff89f3027821fa6bcd7f25a24dc41d04eafcb4c51d5fedc8209df3211",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/video_pll.v": "57e45a062814673e97773cf6c58ff1629fa45895e30de9d2c2b6bdd30bd9bb13",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/bmp_load.v": "f671f2ad2ab4f453bc6362a65cb9a2c0e81cf976717b43402ea3009778a81639",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/font_load.v": "8272464f212f8c710e4945e95850f0e830f6944d80e12da6f59654ccf52d1752",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/load_writeback.v": "f3c4ddf9609b9ef815c540a0a29e5cbfd7e59efb7ba9f4566f33dcf536ddd411",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/wav_head.v": "dc9eb5279b5c2f6ebe4bb438e83e2f6658d8999f90c914700d6789e0850c876c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/mem/sdram_arb.v": "cc9ee3b17a3a96c3dc5ab8ed43a73752aa40ecdbb35ad3de278507f9c668c604",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_chain.v": "f7db1d0368e5cf4069d62b35df32778a18866bff8332fae1d9ed074b9ca0a511",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_mount.v": "a6201b73a97ad52d5ec7515d05f33f53e871a16e5f1e50378f471f266950b598",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_read.v": "46012888a3e34db1d39b2510e9eec6c95a9b32828c894099ce1b5427f7db5398",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_scan.v": "d257c5bca7e80621f02c4e1b18107ef9cba66e05abe4d823419129c83d693758",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/fat32_sessions.v": "af3deae8451525aa0689a3e879fbcfe563490da5b546b7592db6c3ae1fc8cf7f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/file_table.v": "568d19ae45ef9e59aa78a06dbb9acada9a699fd7b224371a27a87d8cadd25716",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/resource_catalog.v": "df29667bbe3e7168d930a30ac623f7f38a9934410db90a965dfbe8ea981e6c6b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/sd_block_read.v": "dd1b61dad5b69318674e8efc11dbf863ca08b0a4e13d2321a871c6320b9dae2a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/sd_init_spi.v": "8e43b022c499621f9da660e5939d3d91d28b19ff7f35947b287bf52b41e79554",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/sd_phy.v": "524b2e97bf0c8c8423f076ef33370056a45431c81caa71b2723515727ebaa73a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/sd_spi_byte.v": "fa2e49be0cba0fe719a548dfdddc2a83d1465f75e8b799abe215be538c69ee82",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/sector_arbiter.v": "24f68ee027ff2dc4eece550133df6198702fa3c0efa30c45d6ad27cd5695cee5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/storage/storage_top.v": "707306e56cfa717b9bb27231ad6e43afd0069b89b58ebe01dee210208c852b29",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v": "840c8f6d3f6dcc93b4965b099041d5bde028cb6cd988f8865a2de5300e3b7828",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/util/key_debounce.v": "b47aa2589795826bb0fbe3a2f15a6d189162cdd5a3f1fdd06cce6b8d552a081d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/util/uart_tx.v": "74470a353c1995f840df0fb1ddd0a39991841b6dec6727c82b94da340a661700",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/color_bar.v": "afe1f56714ec58d2477ba1717e5a36c5a0da5fe5c07d70d11aa5ace710c4b152",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/hdmi_1_4b_transmitter_core_wrapper.enc.v": "867e0b0bdd874bc383d00918c9e1be3fe01edf41f343b6a0d73e262776596a63",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/hdmi_phy_warpper.v": "416b082b0987001bdbc0a7e20a557cb8fb1dca34e25dc881e6d28a8cb3cf4300",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/lane_lvds_10_1.v": "de9529321354f04837e051d0ec1681cf44783d4be3284703a788e081147500bc",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/video_define.v": "77748966850a8f5af0d77f2cdb08006088ba5e1a31b98391fba6cc61c5247da2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/video/video_rgb_to_axis_640x480.v": "1c8fc26c789f87227036bea034f1ab6fc5633f2ab2684be422c54687a290fb96",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/core_pixels.mem": "4e15916b96f1d6eceb34695d9d8d57635f0104e2592b9e7665833d65ef4d38ff",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/cover_coverage_golden.mem": "ed48260ab1aeacbf3b71f8948a5e3a8a0ee12daa2ba9ffc03116faadf06ba389",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/fat32_core.mem": "414b6f91253cf79b0b2df83c86dc7fa1828c120f5eba6a6cebf8ff02b238baf2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_visual_core.json": "8808951c276b53a0e7768f80e20e11384edd9ee7d13bd4e8149cdcbb76f24082",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/typography_osd_golden.mem": "20bb115df21ecd3f5d1fcb79ff8eb6e37e76b0c0a1f4720f4382b0d8319782e8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram.v": "9bbb66ffde87f457ae406366c87bb9cbe5d2c28871b052d8989d2ff4be2af57d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram32k.v": "d9443cdaffea436c51852fa6e859bb25650f9f87d9d0b276643db16575a75baa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_glbl.v": "95b5fed81000f5844a5a3b110a5b8e82d59a941e6f0715015e38884192ee4fb7",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_sdram_2m_32.v": "1786189e069c30bfb4fac258315159068492722f309072f1bbb5f2bf765d27e5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/IS42s32200.v": "6aad09c411b00e319ea6e7ff5a85453eb990532541ae368084406f78a276690b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/core_fixture.vh": "8fb78cbe25da48c0b99c49fff77c437642628f8d65cffa04bd43c10479b95fe2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/downscale_fixture.vh": "5f0607acb2032693dfc4fa76dcdde139f4a8bd92ad5c652e18aadc983e933a48",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_visual_core.json": "4706210ae52c592a1bf80e5345d807ccf6f94a247c551494a498c8f9140a2920",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/hdmi_1_4b_transmitter_core_wrapper_stub.v": "b2293309102215aa63de5497c949fe76c7bb5e02e8eee301758e20070ccbde9a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/layer_bg_reference.v": "55af622564817e7835a3ba2f3b1c2f9521fdc06182ba6eb970361f4fb7893f51",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/sd_card_model_min.v": "effbe265b38668f68cf4d4b2c6142fc77e860223ce12dd94469f083755acb280",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_alpha_blend16.v": "0cbfa7e7ad6ff3238076b04b89e1b2bd322196bb217fabc777b377b0a34c778a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_attack_pcm.v": "2af74cc6a59b3883121338e9bc83cff8badd005fd144a2944c50366d5c680b17",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_attack_spike.v": "6bbc2c098467dffeffb4227407c8bbf3326d1ad182bba8242c7c2bc2af3e6d96",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_capacity.v": "ab9794400b533387ba34386e9df87d4990cfccf4a5bc1f78f59ac5d9abc5c18c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_downscale.v": "be0c646a61046fb4cf4212ea82382abdd99d7c49158b59b277fb8f0ea3031cbf",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_catalog_legacy_latency.v": "75bdffef9ff0da005b1159b3ac3a0f89428f62bcb4c8159b1b984d384d032ba8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_catalog_matrix.v": "e3ed2b9b5fcc2d0c408ca6f455cf915c3e0ba2427434ffcc9fb2ebd350d0d7a6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_color_envelope.v": "2a610fbaa5331c2fe72a529fcd2811a2e3537a84bfef05c3a8bdbca11693a992",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_color_wav_probe.v": "4ef2ac0ca43ffb3fc7484a5818625a8e007f1b96ce6ce810cbe1d5a9ef5e8fce",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_cover_pop.v": "a5a7fb77a2ad97da4e6166d05ce9a65d79630abcd72017d34816f16822af62b2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_cover_scale_fetch.v": "4cdd63fc24789d0fc21bdf2b0167b3eda7d139a6412cc0f3001d50a90e29b207",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_cover_scale_rows.v": "4dbd18869429494a9e67fc35a8f395f52d1c0a18c9d6f25c13d490a0c55163ce",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_cover_scene.v": "68fb25f27d27de0d85c2f07a477d4b5c013579d40888fcc07ed4626b8d0703d2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory.v": "55d3b77182d629954db511dd3ef8b3b61ac645f48abcce540ea3c4da3dc56116",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_display_memory_trace.v": "ae9154a76321f0b6931ee1c2585128373d8029f99729afe6fa2701866c528881",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_recovery.v": "40ae7abc4ae7670f7f4b94883a46594e26ea6872d8b8c2201653b2dea396df6b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_fetch_writer4.v": "98965b6215b3641fa2bd136b7aeda5a4d9fce3991c28bdc5cbf29912535f8260",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v": "29532577ac28202b496771ce5bb2160b392911a29d834094ab9c0a172e95e896",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_pixel.v": "483d5595355d4dd07d6cd2b3a87aa04ef3a93b45dad81a52e413501c6060aa9a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_full_font_load.v": "62beb367266eee57c98ec00c522beba4f86fa6646d32c637e9496815f3612e1a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_full_font_rows.v": "e287ead71710622b75b018983a87408bdec4d0657d404f83c97c926ab5f13c5f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_full_font_sdram.v": "3bbd66222acee4d010197713cce7dfe2a1845fffc39185dece3a46266cbd8860",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_geometry_equivalence.v": "afeb5a58b19adf8fb4c8717019f9e5404225467e4ebab6e410a2dbfead61f002",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layer_fft64.v": "21354f01fedb40f348224c8f7c8eeefd292d7716014c3de9393e560827592464",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layer_text_aa.v": "fe041fdbc899d29688cc14954717012c4bd504aad27345dd35f562ec8fd56a86",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layer_text_colors.v": "9ce9c0483ff0646a69e8944d4aa381c4d058b0571a3bb72811a8e32447ea9c99",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layer_text_scroll.v": "1c03556b539477b1335799826cc2704a929961a0750608189fb85c78ab3f50b7",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five.v": "bc0b58694cb40e163f81e8b743afe45aa54a6f251189d127b7d7d16bc21b23e0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five_pick.v": "6991ee0e3a392b75d18a3a7f6f10c2c53387fe2bbd2052bb5ca5ae0cf0268613",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_layout_five_rings.v": "b16751337333a8e55559e1d5b7ee1cc84a15a4ceac7a55a268d98b6be436f726",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_bounds.v": "e4dca5145aadde4afd94e96ea60b267e151124f0fba28f9bb09bb8f638f94bd2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_pick_area.v": "fa8eb189f4bfc66feb89203277a0a6dc9a1df6d84b198a0731ae4c512bc46882",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_lyric_row_area.v": "fd0f43b6b5b6a9a005f273db1e7dafce3c66be328e4a478fdfcaa8e38a2a9a41",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_core.v": "908b59600d9ae5e315d09539da31b60b019f90d2c3ff55e74a8921d6a0aeb1b3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_numeric.v": "bf4c48b1c87c24892b8ac56300ba321ec297d3e10f7ba383738cf9f9bb281e43",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_stage5.v": "45a5e1c22278c9f770da73a57bb3937479ce0dfb20524629b14909f80b22e01e",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v": "7864b837a54eea3ca7e349a93dfbe63bd5bad843ac89decb50dbe8701feefb0a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scan_capacity.v": "f877de8d400285248cea8cc29777ef971ab47f8a9735b24875910d34df13b409",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_scene.v": "a725a821f75f189af360618fa195dfc9fa17d636b4007582bbdf883808d92f0f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_spec_attack18.v": "5153542d94f0134cd40be1593207f0c79130ffa9c6e76e7c90c6b169dd6374f0",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_spec_attack_bands.v": "95975c604341c002ebfeddaa9f9c228debf830e61239d37359939a4cc6db8bae",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_spec_bands64_distinct.v": "998a8fb023fc4d507233adfbb59db88fe2664f7bc1c8af2465edb7038f949f0b",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_spectrum_stage1.v": "34758bd8f99205d12e3d72f03097c777b258d1cdc41a89caa997367f40adf3ca",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_text_row_aa.v": "a2fd71b3da2b479880bccffbf6ee8000325cdf7ee25d2598b527a00f102ed44c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_timing_arb.v": "2af393ef29d2ba4516ffe5a1a1ef45a81c3b3e60f25b143e4ee0cfe364579f71",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_timing_descriptors.v": "8e76fbfa3f6c6a0e335d933ecf032fc7561856c639a1b85ff8dd6e38d41101b8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_timing_fft.v": "d2329b55af1dcfdf89cdbb927dfd66684ea493722c6786c90eaba89fada4baa5",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_assets.v": "e68d9a14c3030c45fea70988a6a92c8ee13ee55e7fbc572ad0640699174839c6",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v": "d9f410076151fb668b0f4b563e1a56a4a2e5fb28b7a521422f8ec4ff901f002c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v": "635e3c52f4f7a05799bc5d26755695ad086c2abfec358aa1c2bb3981ec1c452a",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_controls.v": "932a30908529130d9bbed577e68dae8f21d0f29ea19cd5ad6c5ff9e6fc1288da",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v": "a4665c9505b4b232491905dce83d77253c679fd1bc6f52d4b91684384681477c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_osd.v": "3b51d80f5a7f858d346203589c2afde96c44ebea45bcdc550e72222d65da5c45",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/text_sdram_environment.v": "070506de67ff93ed54455589764210082b32765ea22ff12284c3c73ff448cd9c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/timing_fft_reference.v": "db87e8a32da7729c7449664bb7170cb6f52a751b0f4d21270ac03b0b4e47037e",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/timing_sdram_arb_reference.v": "929fcb5863251cfcb84b594b9134307c467b2d1c424d4d4ad8139fe38c8fc171"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/323b06808a2a4e1abfbc5da1db93742f/run.do\""
+  ],
+  "script": "sim/modelsim/323b06808a2a4e1abfbc5da1db93742f/run.do",
+  "compile_log": "sim/typography_visual_core_normalized_r1_compile.log",
+  "sim_log": "sim/typography_visual_core_normalized_r1_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+    "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+    "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1175): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+    "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1769): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+    "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1175): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+    "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1769): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_visual_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Too few port connections. Expected 77, found 72.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'lo_stall'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1078): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+    "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1175): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Too few port connections. Expected 12, found 10.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'busy'.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1755): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+    "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1769): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+    "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Too few port connections. Expected 13, found 12.",
+    "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1790): [TFMPC] - Missing connection for port 'wav_ready'."
+  ],
+  "finished_at": 1793421249.4280393
+}

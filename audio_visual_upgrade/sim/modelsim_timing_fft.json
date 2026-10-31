@@ -1,0 +1,8 @@
+{
+  "dut_top": "work.layer_fft64", "tb_top": "work.tb_timing_fft",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/gfx/layer_fft64.v", "language": "verilog"},
+    {"path": "tb/timing_fft_reference.v", "language": "verilog"},
+    {"path": "tb/tb_timing_fft.v", "language": "verilog"}
+  ]}]
+}

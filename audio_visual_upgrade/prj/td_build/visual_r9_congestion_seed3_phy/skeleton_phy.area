@@ -1,0 +1,248 @@
+standard
+***Report Model: skeleton_top Device: EG4S20BG256***
+
+IO Statistics
+#IO                        19   out of    188   10.11%
+  #input                    6
+  #output                  12
+  #inout                    1
+
+Utilization Statistics
+#lut                    17753   out of  19600   90.58%
+#reg                    11631   out of  19600   59.34%
+#le                     18430
+  #lut only              6799   out of  18430   36.89%
+  #reg only               677   out of  18430    3.67%
+  #lut&reg              10954   out of  18430   59.44%
+#bram                      57   out of     64   89.06%
+  #bram9k                  57
+  #fifo9k                   0
+#bram32k                   14   out of     16   87.50%
+#dsp                       28   out of     29   96.55%
+#pad                       23   out of    188   12.23%
+  #ireg                     3
+  #oreg                    12
+  #treg                     1
+#pll                        2   out of      4   50.00%
+#gclk                       4   out of     16   25.00%
+
+
+Detailed IO Report
+
+      Name         Direction    Location    IOStandard    IOType    DriveStrength    PullType     PackReg   
+       clk           INPUT         R7        LVCMOS33      PAD           N/A          PULLUP       NONE     
+      key2           INPUT         B2        LVCMOS33      PAD           N/A          PULLUP       IREG     
+      key3           INPUT         B1        LVCMOS33      PAD           N/A          PULLUP       IREG     
+      key4           INPUT         C1        LVCMOS33      PAD           N/A          PULLUP       IREG     
+      rst_n          INPUT         A2        LVCMOS33      PAD           N/A          PULLUP       NONE     
+     sd_miso         INPUT        B14        LVCMOS33      PAD           N/A          PULLUP       NONE     
+   HDMI_CLK_P       OUTPUT         C3         LVDS33       PAD           NA            NONE        DDRX1    
+  HDMI_CLK_P(n)     OUTPUT         C2         LVDS33       PAD           NA            NONE        NONE     
+    HDMI_D0_P       OUTPUT         G5         LVDS33       PAD           NA            NONE        DDRX1    
+  HDMI_D0_P(n)      OUTPUT         G6         LVDS33       PAD           NA            NONE        NONE     
+    HDMI_D1_P       OUTPUT         F1         LVDS33       PAD           NA            NONE        DDRX1    
+  HDMI_D1_P(n)      OUTPUT         F2         LVDS33       PAD           NA            NONE        NONE     
+    HDMI_D2_P       OUTPUT         E1         LVDS33       PAD           NA            NONE        DDRX1    
+  HDMI_D2_P(n)      OUTPUT         D1         LVDS33       PAD           NA            NONE        NONE     
+  HDMI_DDC_SCL      OUTPUT         P2        LVCMOS33      PAD            8           PULLUP       OREG     
+     led[3]         OUTPUT        B12        LVCMOS33      PAD            8            NONE        OREG     
+     led[2]         OUTPUT        C10        LVCMOS33      PAD            8            NONE        OREG     
+     led[1]         OUTPUT         A3        LVCMOS33      PAD            8            NONE        OREG     
+     led[0]         OUTPUT         A4        LVCMOS33      PAD            8            NONE        OREG     
+     sd_cs_n        OUTPUT        A12        LVCMOS33      PAD            8            NONE        OREG     
+     sd_mosi        OUTPUT        A13        LVCMOS33      PAD            8            NONE        OREG     
+     sd_sck         OUTPUT        A14        LVCMOS33      PAD            8            NONE        OREG     
+  HDMI_DDC_SDA       INOUT         R2        LVCMOS33      PAD            8           PULLUP       TREG     
+       dm0          OUTPUT        S14        LVCMOS25      PAD            8            NONE        OREG     
+       cke          OUTPUT        S18        LVCMOS25      PAD            8            NONE        NONE     
+      we_n          OUTPUT        S19        LVCMOS25      PAD            8            NONE        OREG     
+      cas_n         OUTPUT        S20        LVCMOS25      PAD            8            NONE        OREG     
+      ras_n         OUTPUT        S21        LVCMOS25      PAD            8            NONE        OREG     
+      cs_n          OUTPUT        S22        LVCMOS25      PAD            8            NONE        NONE     
+     addr[9]        OUTPUT        S23        LVCMOS25      PAD            8            NONE        OREG     
+     addr[8]        OUTPUT        S24        LVCMOS25      PAD            8            NONE        OREG     
+     addr[7]        OUTPUT        S25        LVCMOS25      PAD            8            NONE        OREG     
+     addr[6]        OUTPUT        S26        LVCMOS25      PAD            8            NONE        OREG     
+     addr[5]        OUTPUT        S27        LVCMOS25      PAD            8            NONE        OREG     
+     addr[4]        OUTPUT        S28        LVCMOS25      PAD            8            NONE        OREG     
+       dm2          OUTPUT        S29        LVCMOS25      PAD            8            NONE        OREG     
+       dm3          OUTPUT        S61        LVCMOS25      PAD            8            NONE        OREG     
+     addr[3]        OUTPUT        S64        LVCMOS25      PAD            8            NONE        OREG     
+     addr[2]        OUTPUT        S65        LVCMOS25      PAD            8            NONE        OREG     
+     addr[1]        OUTPUT        S66        LVCMOS25      PAD            8            NONE        OREG     
+     addr[0]        OUTPUT        S67        LVCMOS25      PAD            8            NONE        OREG     
+    addr[10]        OUTPUT        S68        LVCMOS25      PAD            8            NONE        OREG     
+      ba[0]         OUTPUT        S69        LVCMOS25      PAD            8            NONE        OREG     
+      ba[1]         OUTPUT        S70        LVCMOS25      PAD            8            NONE        OREG     
+       clk          OUTPUT        S73        LVCMOS25      PAD            8            NONE        NONE     
+       dm1          OUTPUT        S76        LVCMOS25      PAD            8            NONE        OREG     
+      dq[0]          INOUT         S1        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[6]          INOUT        S11        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[7]          INOUT        S12        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[1]          INOUT         S2        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[23]          INOUT        S31        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[22]          INOUT        S32        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[21]          INOUT        S35        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[20]          INOUT        S36        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[19]          INOUT        S37        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[18]          INOUT        S38        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[17]          INOUT        S41        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[16]          INOUT        S42        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[31]          INOUT        S48        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[30]          INOUT        S49        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[2]          INOUT         S5        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[29]          INOUT        S52        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[28]          INOUT        S53        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[27]          INOUT        S54        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[26]          INOUT        S55        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[25]          INOUT        S58        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[24]          INOUT        S59        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[3]          INOUT         S6        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[4]          INOUT         S7        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[8]          INOUT        S78        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[9]          INOUT        S79        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+      dq[5]          INOUT         S8        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[10]          INOUT        S82        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[11]          INOUT        S83        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[12]          INOUT        S84        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[13]          INOUT        S85        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[14]          INOUT        S88        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+     dq[15]          INOUT        S89        LVCMOS25      PAD            8           PULLUP     IREG;OREG  
+
+Report Clock Domain Luts:
+
+------------------------------------------------------------------------------------------------------------------
+  Index   |  Name         |  Frequency   |  LUT As Logic   |  LUT As Shifter   |  LUT As Dram   |  BRAM   |  DSP
+------------------------------------------------------------------------------------------------------------------
+  #1      |  clk          |  50MHz       |  3311           |  0                |  0             |  13     |  0
+  #2      |  hdmi_5x_clk  |  125MHz      |  17             |  0                |  0             |  0      |  0
+  #3      |  sdr_clk      |  100MHz      |  1131           |  0                |  0             |  17     |  0
+  #4      |  video_clk    |  25MHz       |  4188           |  0                |  33            |  60     |  28
+------------------------------------------------------------------------------------------------------------------
+
+Clock Resource Statistics
+Index     ClockNet                                    Type               DriverType         Driver                      Fanout
+#1        u_pll_vid/clk0_buf                          Global             pll                u_pll_vid/pll_inst.clkc0    3267
+#2        clk_dup_1                                   Global             io                 clk_syn_2.di                2550
+#3        u_pll_sdr/clk1_buf                          Global             pll                u_pll_sdr/pll_inst.clkc1    1482
+#4        u_hdmi_phy/u0_lane_lvds_8_1/I_serial_clk    Global             pll                u_pll_vid/pll_inst.clkc1    31
+#5        u_pll_sdr/clk2_buf                          Global             pll                u_pll_sdr/pll_inst.clkc2    0
+#6        u_pll_sdr/clk0_buf                          Global             pll                u_pll_sdr/pll_inst.clkc0    0
+
+Report Hierarchy Area:
++-------------------------------------------------------------------------------------------------------------------------------------------------------+
+|Instance                                    |Module                                              |le      |lut     |ripple  |seq     |bram    |dsp     |
++-------------------------------------------------------------------------------------------------------------------------------------------------------+
+|top                                         |skeleton_top                                        |18430   |15472   |2281    |11647   |71      |28      |
+|  u_core                                    |skeleton_core                                       |18267   |15310   |2281    |11548   |71      |28      |
+|    g_aa_text$u_lyr                         |layer_text_aa                                       |1872    |1477    |239     |1235    |3       |0       |
+|      u_row                                 |text_row_aa                                         |679     |587     |53      |438     |2       |0       |
+|    g_cover_aa$u_coverage                   |cover_coverage                                      |76      |44      |32      |20      |2       |0       |
+|    g_cover_aa$u_new                        |alpha_blend16                                       |160     |85      |75      |11      |0       |2       |
+|    g_cover_aa$u_old                        |alpha_blend16                                       |150     |90      |60      |29      |0       |1       |
+|    g_osd_keys$u_osd_controls               |osd_controls                                        |257     |221     |32      |171     |0       |0       |
+|    g_osd_picture$g_small$u_osd_layer       |osd_layer_small                                     |738     |649     |64      |412     |10      |2       |
+|      u_font                                |osd_font_pixel                                      |7       |7       |0       |1       |4       |0       |
+|      u_numeric                             |osd_numeric_rom                                     |0       |0       |0       |0       |3       |0       |
+|    g_text_composition$u_text_blend         |alpha_blend16                                       |162     |81      |81      |25      |0       |2       |
+|    g_visual_settings$u_settings            |visual_settings                                     |327     |262     |0       |312     |3       |0       |
+|      u_palette                             |visual_palette                                      |20      |20      |0       |9       |3       |0       |
+|    u_acr_gen                               |hdmi_audio_acr_gen                                  |23      |19      |4       |16      |0       |0       |
+|    u_arb                                   |sdram_arb                                           |251     |216     |25      |198     |0       |0       |
+|    u_assets                                |asset_manager                                       |215     |214     |0       |133     |0       |0       |
+|    u_attack_rings                          |attack_rings                                        |429     |370     |59      |279     |0       |1       |
+|    u_ax                                    |video_rgb_to_axis_640x480                           |22      |22      |0       |22      |0       |0       |
+|    u_bars                                  |color_bar                                           |57      |41      |14      |29      |0       |0       |
+|    u_bg                                    |layer_bg                                            |258     |222     |31      |176     |4       |0       |
+|      u_fl                                  |fetch_line_scene                                    |166     |148     |17      |110     |4       |0       |
+|    u_blend                                 |scene_blend                                         |133     |81      |45      |76      |0       |2       |
+|    u_cmp                                   |compositor                                          |18      |18      |0       |7       |0       |0       |
+|    u_cover_pop                             |cover_pop                                           |6       |6       |0       |4       |0       |0       |
+|    u_cv                                    |layer_cover                                         |327     |257     |70      |206     |2       |0       |
+|      u_img                                 |layer_bg                                            |327     |257     |70      |206     |2       |0       |
+|        u_fl                                |fetch_line_scene                                    |192     |161     |31      |128     |2       |0       |
+|    u_fade                                  |scene_fade                                          |52      |47      |4       |39      |0       |0       |
+|    u_fload                                 |font_load                                           |277     |220     |29      |172     |0       |0       |
+|    u_hdmi                                  |hdmi_1_4b_transmitter_core_wrapper                  |1558    |1433    |75      |1331    |16      |0       |
+|      u0_reset_sync                         |hdmi_1_4b_tx_reset_sync                             |6       |3       |0       |5       |0       |0       |
+|      u_hdmi_edid_wrapper                   |hdmi_edid_wrapper                                   |250     |224     |26      |164     |2       |0       |
+|        u_hdmi_edid_read_controller         |hdmi_edid_read_controller                           |13      |7       |6       |10      |0       |0       |
+|        u_iic_master_wrapper                |iic_master_wrapper                                  |237     |217     |20      |154     |2       |0       |
+|          u_iic_bit_transmitter             |iic_bit_transmitter                                 |89      |79      |10      |41      |0       |0       |
+|          u_iic_transmitter_controller      |iic_transmitter_controller                          |148     |138     |10      |113     |2       |0       |
+|            u_iic_w11_d1024_fifo            |iic_w11_d1024_fifo                                  |57      |57      |0       |57      |2       |0       |
+|      u_hdmi_tx_controller_wrapper          |hdmi_tx_controller_wrapper                          |1302    |1206    |49      |1162    |14      |0       |
+|        u0_hdmi_tmds_encode                 |hdmi_tmds_encode                                    |170     |135     |12      |146     |0       |0       |
+|        u1_hdmi_tmds_encode                 |hdmi_tmds_encode                                    |135     |121     |12      |110     |0       |0       |
+|        u2_hdmi_tmds_encode                 |hdmi_tmds_encode                                    |133     |121     |12      |104     |0       |0       |
+|        u_hdmi_data_distribution            |hdmi_data_distribution                              |28      |24      |0       |28      |0       |0       |
+|        u_hdmi_island_data_assemble         |hdmi_island_data_assemble                           |360     |352     |0       |357     |0       |0       |
+|        u_hdmi_island_data_gen              |hdmi_island_data_gen                                |335     |326     |5       |294     |11      |0       |
+|          U_audio_sample_packet_2_channel   |audio_sample_packet_2_channel                       |226     |217     |5       |192     |11      |0       |
+|            u_w96_d1024_fifo                |w96_d1024_fifo                                      |48      |44      |0       |48      |11      |0       |
+|            u_BCH_32_24_encode              |BCH_32_24_encode                                    |2       |2       |0       |2       |0       |0       |
+|            u_BCH_64_56_encode              |BCH_64_56_encode                                    |10      |10      |0       |7       |0       |0       |
+|          u_audio_clock_regeneration_packet |audio_clock_regeneration_packet                     |4       |4       |0       |3       |0       |0       |
+|        u_hdmi_video_data_assemble          |hdmi_video_data_assemble                            |38      |32      |0       |38      |0       |0       |
+|        u_hdmi_video_source                 |hdmi_video_source                                   |54      |46      |8       |37      |0       |0       |
+|        u_video_axi_stream_receiver         |video_axi_stream_receiver                           |49      |49      |0       |48      |3       |0       |
+|          u_w24_d1024_fifo                  |w24_d1024_fifo                                      |47      |47      |0       |47      |3       |0       |
+|    u_image_raster                          |scene_raster                                        |74      |54      |19      |40      |0       |0       |
+|    u_image_writer                          |fetch_writer4                                       |123     |106     |17      |58      |0       |0       |
+|    u_layer_fft                             |layer_fft64                                         |244     |161     |83      |102     |1       |0       |
+|    u_load                                  |bmp_load                                            |1059    |922     |128     |653     |0       |0       |
+|    u_old_bg                                |layer_bg                                            |217     |195     |22      |169     |4       |0       |
+|      u_fl                                  |fetch_line_scene                                    |145     |128     |17      |107     |4       |0       |
+|    u_old_cv                                |layer_cover                                         |340     |266     |74      |195     |2       |0       |
+|      u_img                                 |layer_bg                                            |340     |266     |74      |195     |2       |0       |
+|        u_fl                                |fetch_line_scene                                    |192     |161     |31      |116     |2       |0       |
+|    u_phy                                   |sdram_top                                           |364     |306     |15      |347     |0       |0       |
+|      u2_ram                                |sdr_as_ram                                          |337     |289     |5       |328     |0       |0       |
+|        u1_init_ref                         |sdr_init_ref                                        |67      |55      |5       |59      |0       |0       |
+|        u2_wrrd                             |sdr_wrrd                                            |270     |234     |0       |269     |0       |0       |
+|    u_pick                                  |lyric_pick                                          |563     |489     |42      |487     |0       |0       |
+|    u_pxa                                   |px_arb5                                             |38      |38      |0       |30      |0       |0       |
+|    u_rot                                   |carousel                                            |54      |46      |8       |33      |0       |0       |
+|    u_sd                                    |storage_top                                         |3614    |3316    |190     |2349    |7       |0       |
+|      u_chain                               |fat32_chain                                         |203     |177     |14      |135     |2       |0       |
+|      u_files                               |fat32_sessions                                      |635     |580     |55      |358     |1       |0       |
+|      u_ft                                  |resource_catalog                                    |639     |627     |12      |353     |4       |0       |
+|      u_mount                               |fat32_mount                                         |780     |637     |49      |591     |0       |0       |
+|      u_scan                                |fat32_scan                                          |537     |511     |25      |414     |0       |0       |
+|      u_sd_phy                              |sd_phy                                              |532     |503     |29      |318     |0       |0       |
+|        u_byte                              |sd_spi_byte                                         |92      |87      |5       |61      |0       |0       |
+|    u_spec_attack                           |spec_attack18                                       |425     |312     |107     |222     |2       |0       |
+|    u_spec_bands                            |spec_bands64                                        |352     |330     |22      |155     |1       |1       |
+|    u_spec_fft                              |spec_fft                                            |657     |515     |142     |228     |6       |5       |
+|    u_spec_window                           |spec_window                                         |120     |90      |30      |67      |2       |0       |
+|    u_tone                                  |pcm_test_tone                                       |66      |56      |10      |38      |0       |0       |
+|      u_tick                                |audio_sample_tick                                   |34      |24      |10      |18      |0       |0       |
+|    u_wav                                   |wav_stream_player                                   |335     |298     |37      |184     |4       |2       |
+|    u_wav_head                              |wav_head                                            |331     |292     |26      |188     |0       |0       |
+|    u_writeback                             |load_writeback                                      |448     |400     |43      |315     |2       |0       |
+|      u_fifo                                |afifo_8i_32o_bram                                   |196     |176     |20      |132     |2       |0       |
+|        rd_to_wr_cross_inst                 |fifo_cross_domain_addr_process_al_afifo_8i_32o_1024 |30      |30      |0       |30      |0       |0       |
+|        wr_to_rd_cross_inst                 |fifo_cross_domain_addr_process_al_afifo_8i_32o_1024 |32      |32      |0       |32      |0       |0       |
+|  u_hdmi_phy                                |hdmi_phy_wrapper                                    |41      |40      |0       |41      |0       |0       |
+|    u0_lane_lvds_8_1                        |lane_lvds_10_1                                      |17      |17      |0       |17      |0       |0       |
+|    u1_lane_lvds_8_1                        |lane_lvds_10_1                                      |10      |10      |0       |10      |0       |0       |
+|    u2_lane_lvds_8_1                        |lane_lvds_10_1                                      |12      |11      |0       |12      |0       |0       |
+|    u3_lane_lvds_8_1                        |lane_lvds_10_1                                      |2       |2       |0       |2       |0       |0       |
+|  u_pll_sdr                                 |pll_sdr                                             |2       |2       |0       |0       |0       |0       |
+|  u_pll_vid                                 |video_pll                                           |0       |0       |0       |0       |0       |0       |
++-------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+DataNet Average Fanout:
+
+   Index     Fanout     Nets   
+    #1          1       15898  
+    #2          2       5215   
+    #3          3       2044   
+    #4          4       1246   
+    #5        5-10      1727   
+    #6        11-50      767   
+    #7       51-100      61    
+    #8       101-500      2    
+    #9        >500        3    
+  Average     2.71             

@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793418776.0161493,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.bmp_load",
+    "dut_parameters": {
+      "EXTERNAL_BACKEND": 0,
+      "DOWNSCALE": 1
+    },
+    "tb_top": "work.tb_bmp_downscale",
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/afifo_8i_32o_1024.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/ip/afifo_8i_32o_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/load_writeback.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/load/bmp_load.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_bmp_downscale.v",
+            "language": "verilog"
+          }
+        ]
+      }
+    ],
+    "tb_parameters": {
+      "EXTERNAL": 0,
+      "SMALL": 1
+    }
+  },
+  "expected_scenarios": [
+    "downscale-identity-key-and-backpressure",
+    "downscale-rational-and-orientation-matrix",
+    "downscale-real-fifo-writeback-addresses"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_1024.v": "c4ef15e1aa769a779f4d1f464c10a71859dec68106f720fd92ed294e70360016",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/afifo_8i_32o_bram.v": "f129390f060dba643060794392888b79ce424f3deb9318697312c908e91a1701",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/bmp_load.v": "f671f2ad2ab4f453bc6362a65cb9a2c0e81cf976717b43402ea3009778a81639",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/load/load_writeback.v": "f3c4ddf9609b9ef815c540a0a29e5cbfd7e59efb7ba9f4566f33dcf536ddd411",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_bmp_downscale_writeback.json": "7ceef9b89f01c0d735c9d0f463c013ee8e46e41c836dde7574669e3745f151c4",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_bmp_downscale_writeback.json": "deb622e4dd22413477bc552274cc6f889e0bd5bfed5f731cd10797a981df445d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_bmp_downscale.v": "be0c646a61046fb4cf4212ea82382abdd99d7c49158b59b277fb8f0ea3031cbf"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/8371242c04184343883ff3d172c7885c/run.do\""
+  ],
+  "script": "sim/modelsim/8371242c04184343883ff3d172c7885c/run.do",
+  "compile_log": "sim/typography_bmp_writeback_visual_r4_compile.log",
+  "sim_log": "sim/typography_bmp_writeback_visual_r4_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1793418783.5387368
+}

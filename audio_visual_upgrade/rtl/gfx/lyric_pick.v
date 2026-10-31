@@ -53,7 +53,8 @@ module lyric_pick #(
     parameter integer CLK_HZ   = 100000000,
     parameter integer WD_MS    = 4,             // 取表看门狗（100MHz 下 4ms ✓）
     parameter integer SC_SAMP  = 14400,         // 滚行窗口 = 0.3s @48kHz ✓
-    parameter integer SC_PX    = 38             // 滚行总位移 = PITCH ✓
+    parameter integer SC_PX    = 38,            // 滚行总位移 = PITCH ✓
+    parameter integer CONTEXT = 0              // previous two / third future for five-row viewport
 )(
     input  wire        clk_sdr,
     input  wire        rst_sdr_n,
@@ -73,6 +74,8 @@ module lyric_pick #(
     output reg  [15:0] cur_fc,  nxt_fc,  n3_fc,     // 首个字记录号 ✓
     output reg  [15:0] cur_cnt, nxt_cnt, n3_cnt,    // 本行字数 ✓
     output reg         cur_vld, nxt_vld, n3_vld,
+    output reg [15:0]  prev2_fc, prev2_cnt, prev_fc, prev_cnt, n4_fc, n4_cnt,
+    output reg         prev2_vld, prev_vld, n4_vld,
 
     // ★★ P3/S6-2：表头**字 5 / 6** 的歌名/歌手素材（`{cnt[31:16], fc[15:0]}` ✓）
     //   那 136 字突发**本来就覆盖字 0..135** ⇒ 顺手读回来，**零额外流量** ✓
@@ -121,10 +124,16 @@ module lyric_pick #(
     reg  [15:0] nl_t;                  // 表头里的行数（字 4 高半 ✓）
     reg  [23:0] pend_s;                // 偶数字（= 槽的 samples ✓）暂存，等下一个奇数字配对 ✓
     reg         pend_hit;              // 偶数字拍预比较，奇数字拍只使用结果
-    reg  [55:0] sl_c, sl_n, sl_3;      // 三行行槽 = {samples[23:0], fc[15:0], cnt[15:0]} ✓
+    localparam integer FC_W=CONTEXT ? 9 : 16, CNT_W=CONTEXT ? 5 : 16;
+    localparam integer SLOT_W=24+FC_W+CNT_W;
+    reg [SLOT_W-1:0] sl_c,sl_n,sl_3;
     reg  [15:0] wi_c;                  // cur 行号 ✓
     reg  [1:0]  want;                  // 命中后还要收几个"后续行"（2 ⇒ 收 nxt、1 ⇒ 收 n3 ✓）
     reg         c_v, n_v, n3_v;        // 本次扫描的中间有效位 ✓
+    // Only bounded first/count fields are needed for history, not timestamps.
+    reg [8:0] p2_fc, p_fc, f4_fc;
+    reg [4:0] p2_cnt, p_cnt, f4_cnt;
+    reg p2_v, p_v, f4_v;
     reg         bad;                   // 表坏（magic 或行数 ✓）
     reg         wd_e;                  // 读超时 / 突发被截短 ✓
     reg  [ACC_W-1:0] acc;              // 只需容纳窗口阈值及单次增量
@@ -140,7 +149,9 @@ module lyric_pick #(
     wire        ok_w    = ~bad & ~wd_e;                 // 本次结果可用 ✓
     wire [6:0]  sidx7   = wc[7:1] - 7'd4;               // 本字对应的槽号 = (wc-8)>>1 ✓（0..63 ✓）
     wire [5:0]  sidx    = sidx7[5:0];
-    wire [55:0] slot_in = {pend_s, px_data[15:0], px_data[31:16]};   // ★ 字节序：
+    wire [SLOT_W-1:0] slot_in = {pend_s, px_data[FC_W-1:0], px_data[16 +: CNT_W]};
+    wire slot_valid=px_data[31:16]!=0 && px_data[31:16]<=19 &&
+                    ({1'b0,px_data[15:0]}+{1'b0,px_data[31:16]}<=17'd488);
     //   工具侧槽 = [samples 4B][first_char 2B][count 2B] ⇒ 偶数字 = samples、
     //   奇数字低半 = first_char ✓ 高半 = count ✓（表结构 v2 ✓ 已对 golden 核过 ✓）
     wire        in_win  = nxt_vld && (nxt_s > played) && (played >= win_start);
@@ -160,6 +171,10 @@ module lyric_pick #(
             cur_fc <= 16'd0; nxt_fc <= 16'd0; n3_fc <= 16'd0;
             cur_cnt <= 16'd0; nxt_cnt <= 16'd0; n3_cnt <= 16'd0;
             cur_vld <= 1'b0; nxt_vld <= 1'b0; n3_vld <= 1'b0;
+            prev2_fc<=0; prev2_cnt<=0; prev_fc<=0; prev_cnt<=0; n4_fc<=0; n4_cnt<=0;
+            prev2_vld<=0; prev_vld<=0; n4_vld<=0;
+            p2_fc<=0; p2_cnt<=0; p_fc<=0; p_cnt<=0; f4_fc<=0; f4_cnt<=0;
+            p2_v<=0; p_v<=0; f4_v<=0;
             ttl_fc <= 16'd0; ttl_cnt <= 16'd0; ttl_vld <= 1'b0;
             sgr_fc <= 16'd0; sgr_cnt <= 16'd0; sgr_vld <= 1'b0;
             ttl_fc_r <= 16'd0; ttl_cnt_r <= 16'd0; ttl_vld_r <= 1'b0;
@@ -231,6 +246,8 @@ module lyric_pick #(
                     pend_s <= 24'd0;
                     pend_hit <= 1'b0;
                     sl_c   <= 56'd0; sl_n <= 56'd0; sl_3 <= 56'd0; wi_c <= 16'd0;
+                    p2_fc<=0; p2_cnt<=0; p_fc<=0; p_cnt<=0; f4_fc<=0; f4_cnt<=0;
+                    p2_v<=0; p_v<=0; f4_v<=0;
                     err    <= 8'h00;
                     st     <= S_REQ;
                 end
@@ -281,14 +298,24 @@ module lyric_pick #(
                     end else begin                             // ---- 奇数字：fc | cnt ----
                         if (!bad && ({10'd0, sidx} < nl_t)) begin
                             if (pend_hit) begin                 // 命中（后面的会覆盖前面的 ✓ 取最后 ✓）
+                                if(CONTEXT) begin
+                                    p2_fc<=p_fc; p2_cnt<=p_cnt; p2_v<=p_v;
+                                    p_fc<=sl_c[CNT_W +: FC_W];p_cnt<=sl_c[CNT_W-1:0];
+                                    p_v<=c_v;
+                                    f4_v<=0;
+                                end
                                 sl_c <= slot_in;
                                 wi_c <= {10'd0, sidx};
-                                c_v  <= 1'b1;
-                                want <= 2'd2;                  // 之后两行 = nxt / n3 ✓
+                                c_v  <= !CONTEXT || slot_valid;
+                                want <= CONTEXT ? 2'd3 : 2'd2;
                                 n_v  <= 1'b0; n3_v <= 1'b0;
                             end else if (want != 2'd0) begin   // 非命中且还欠后续行 ⇒ 收下 ✓
-                                if (want == 2'd2) begin sl_n <= slot_in; n_v  <= 1'b1; end
-                                else              begin sl_3 <= slot_in; n3_v <= 1'b1; end
+                                if (want == (CONTEXT ? 2'd3 : 2'd2)) begin sl_n <= slot_in; n_v<=!CONTEXT || slot_valid; end
+                                else if(want == (CONTEXT ? 2'd2 : 2'd1)) begin sl_3 <= slot_in; n3_v<=!CONTEXT || slot_valid; end
+                                else if(CONTEXT) begin
+                                    f4_fc<=px_data[8:0]; f4_cnt<=px_data[20:16];
+                                    f4_v<=slot_valid;
+                                end
                                 want <= want - 2'd1;
                             end
                         end
@@ -312,14 +339,20 @@ module lyric_pick #(
                 cur_idx <= wi_c;
                 nxt_idx <= wi_c + 16'd1;
                 n3_idx  <= wi_c + 16'd2;
-                cur_s   <= sl_c[55:32]; cur_fc <= sl_c[31:16]; cur_cnt <= sl_c[15:0];
-                nxt_s   <= sl_n[55:32]; nxt_fc <= sl_n[31:16]; nxt_cnt <= sl_n[15:0];
-                win_start <= (sl_n[55:32] > SC_SAMP[23:0])
-                           ? sl_n[55:32] - SC_SAMP[23:0] : 24'd0;
-                n3_s    <= sl_3[55:32]; n3_fc  <= sl_3[31:16]; n3_cnt  <= sl_3[15:0];
+                cur_s<=sl_c[SLOT_W-1 -:24];cur_fc<=sl_c[CNT_W +:FC_W];cur_cnt<=sl_c[CNT_W-1:0];
+                nxt_s<=sl_n[SLOT_W-1 -:24];nxt_fc<=sl_n[CNT_W +:FC_W];nxt_cnt<=sl_n[CNT_W-1:0];
+                win_start <= (sl_n[SLOT_W-1 -:24] > SC_SAMP[23:0])
+                           ? sl_n[SLOT_W-1 -:24] - SC_SAMP[23:0] : 24'd0;
+                n3_s<=sl_3[SLOT_W-1 -:24];n3_fc<=sl_3[CNT_W +:FC_W];n3_cnt<=sl_3[CNT_W-1:0];
                 cur_vld <= ok_w & c_v;
                 nxt_vld <= ok_w & n_v;
                 n3_vld  <= ok_w & n3_v;
+                prev2_fc<={7'd0,p2_fc}; prev2_cnt<={11'd0,p2_cnt};
+                prev_fc<={7'd0,p_fc}; prev_cnt<={11'd0,p_cnt};
+                n4_fc<={7'd0,f4_fc}; n4_cnt<={11'd0,f4_cnt};
+                prev2_vld<=CONTEXT && ok_w && p2_v;
+                prev_vld<=CONTEXT && ok_w && p_v;
+                n4_vld<=CONTEXT && ok_w && f4_v;
                 // ★★ 字 5 / 6 = 歌名 / 歌手素材（表坏/超时就当没有 ⇒ 该层整层透明 ✓ 不黑屏 ✓）
                 ttl_fc  <= ttl_fc_r;  ttl_cnt <= ttl_cnt_r;  ttl_vld <= ok_w & ttl_vld_r;
                 sgr_fc  <= sgr_fc_r;  sgr_cnt <= sgr_cnt_r;  sgr_vld <= ok_w & sgr_vld_r;

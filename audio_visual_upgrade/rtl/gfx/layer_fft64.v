@@ -1,6 +1,6 @@
 `default_nettype none
 // 64 ten-pixel pitch bars. Data banks exchange only at vertical frame start.
-module layer_fft64 (
+module layer_fft64 #(parameter integer DYNAMIC_COLORS=0) (
     input wire clk, rst_n,
     input wire bar_stb, bars_done,
     input wire [5:0] bar_idx,
@@ -9,13 +9,14 @@ module layer_fft64 (
     input wire attack_hit,
     input wire [4:0] attack_band,
     input wire de, en,
+    input wire [23:0] target_color,input wire spike_enable,
     input wire [15:0] x, y,
     output wire [23:0] dout,
     output wire dout_vld
 );
     reg [7:0] heights [0:127];
     reg [7:0] read_height;
-    reg active_bank, pending_ready, building;
+    reg active_bank, pending_ready, building, active_valid;
     reg pending_hit;
     reg [4:0] pending_band;
     reg [5:0] spike_center;
@@ -32,7 +33,7 @@ module layer_fft64 (
     end
     always @(posedge clk or negedge rst_n) begin
         if(!rst_n) begin
-            active_bank<=0; pending_ready<=0; building<=0;
+            active_bank<=0; pending_ready<=0; building<=0; active_valid<=0;
             scan_bar<=0; scan_phase<=0;
             pending_hit<=0; pending_band<=0;
             spike_center<=0; spike_strength<=0;
@@ -46,9 +47,12 @@ module layer_fft64 (
                 else spike_strength<=spike_strength-(spike_strength>>3)-
                                       (spike_strength>>5)-8'd1;
             end
-            if(attack_hit) begin
+            if(attack_hit && (!DYNAMIC_COLORS || spike_enable)) begin
                 pending_hit<=1;
                 pending_band<=attack_band;
+            end
+            if(DYNAMIC_COLORS && !spike_enable) begin
+                pending_hit<=0;spike_strength<=0;
             end
             if(bar_stb) begin
                 if(bar_idx==0) begin building<=1; pending_ready<=0; end
@@ -57,6 +61,7 @@ module layer_fft64 (
             if(frame_stb && pending_ready && !building && !bar_stb) begin
                 active_bank<=~active_bank;
                 pending_ready<=0;
+                active_valid<=1;
             end
             if(!de) begin scan_bar<=0; scan_phase<=0; end
             else if(scan_phase==4'd9) begin
@@ -237,6 +242,24 @@ module layer_fft64 (
             endcase
         end
     endfunction
+    // Bresenham recurrence gives round((255-target)*bar/63) exactly.
+    // It updates once per 10-pixel bar: no multiplier, divider or gradient ROM.
+    wire [23:0] gradient;
+    genvar c;
+    generate for(c=0;c<3;c=c+1) begin:g_gradient
+        reg [7:0] value;
+        reg [5:0] error;
+        wire [8:0] sum={3'd0,error}+{1'b0,~target_color[c*8+:8]};
+        wire [2:0] q=sum>=315?3'd5:sum>=252?3'd4:sum>=189?3'd3:sum>=126?3'd2:sum>=63?3'd1:3'd0;
+        wire [8:0] multiple=({6'd0,q}<<6)-{6'd0,q};
+        always @(posedge clk) begin
+            if(!rst_n || !de) begin value<=255;error<=31;end
+            else if(scan_phase==9 && scan_bar<63) begin
+                value<=value-{5'd0,q};error<=sum-multiple;
+            end
+        end
+        assign gradient[c*8+:8]=value;
+    end endgenerate
     wire [7:0] level=read_height;
     wire [7:0] h=height(level);
     wire [5:0] spike_distance=(scan_bar>=spike_center)?
@@ -257,7 +280,9 @@ module layer_fft64 (
               (y>={6'd0,bar_top}) && (y<=16'd477);
     wire cap_pixel=de && en && within_x && (pixel_height!=0) &&
                    (y>={6'd0,cap_top}) && (y<{6'd0,bar_top});
-    assign dout_vld=body || cap_pixel;
-    assign dout=(cap_pixel && bright_cap)?24'hFFFFFF:color(scan_bar,cap_pixel);
+    // RAM is deliberately not reset. Hide it until a complete bank is latched,
+    // including when a new image becomes visible before the first FFT result.
+    assign dout_vld=active_valid && (body || cap_pixel);
+    assign dout=(cap_pixel && bright_cap)?24'hFFFFFF:(DYNAMIC_COLORS?gradient:color(scan_bar,cap_pixel));
 endmodule
 `default_nettype wire

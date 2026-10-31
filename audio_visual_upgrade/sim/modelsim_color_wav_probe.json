@@ -1,0 +1,16 @@
+{
+  "dut_top": "work.spec_fft",
+  "tb_top": "work.tb_color_wav_probe",
+  "data_files": ["sim/color_wav_probe.mem"],
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": [],
+      "sources": [
+        {"path": "rtl/audio/spec_fft.v", "language": "verilog"},
+        {"path": "tb/tb_color_wav_probe.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 {
   "format": "audio_visual_upgrade_bringup_card_v1",
-  "purpose": "新工程上板小样；PC 静态预览不代表实拍",
+  "purpose": "Board-verified S01 standard cover and full TYP2 Chinese font",
   "cover_window": {
-    "x": 140,
+    "x": 40,
     "y": 45,
     "w": 240,
     "h": 240,
-    "center_x": 260,
+    "center_x": 160,
     "center_y": 165,
     "color_key": "FF00FF"
   },
@@ -27,8 +27,8 @@
     {
       "name": "FONT.HZK",
       "resource_id": 136,
-      "bytes": 1046784,
-      "sha256": "e8cd2c6f0138232ca87ae695c595638e620588bda605495e6082a64362e81909"
+      "bytes": 3856960,
+      "sha256": "6b399399d46dee95717d1fdefefa5cbcc97839c56ecbfd31d092dc77cfa2d3c2"
     },
     {
       "name": "S01.LRC",
@@ -64,19 +64,19 @@
       "name": "S01CV1.BMP",
       "resource_id": 11,
       "bytes": 172854,
-      "sha256": "3f011a26ffa3bdcc6711c28f835c852371da3885d1b4075eeb4581499de4af7d"
+      "sha256": "b801e5ea2b69d1d16156e08d8a4aa6c1cffa1895dd04285f6cc1b499969ed04b"
     },
     {
       "name": "S01CV2.BMP",
       "resource_id": 12,
       "bytes": 172854,
-      "sha256": "1f0e20a44b08b50cd0c46926133d1278dbe786715d950220d2997598be2efdfb"
+      "sha256": "ba908895b9fd2867613edb848e320646a7a3b482215d185d89da0d263788c6ae"
     },
     {
       "name": "S01CV3.BMP",
       "resource_id": 13,
       "bytes": 172854,
-      "sha256": "e1764065f7904db8475f3341c08a7e2df01c251c06da8948f24c3834ad09e519"
+      "sha256": "7a87afb3bbfdab3c791d2d7c5ec5039785f61c05ad540cd4f8ab6b15038a6b79"
     },
     {
       "name": "S02.LRC",
@@ -210,7 +210,7 @@
       "key": "FF00FF",
       "mask": "circle",
       "crop": "center-square",
-      "display_correction": "horizontal 5/6"
+      "display_correction": "horizontal 5/6; four-pixel edge color extension for 16-level contour AA"
     },
     {
       "file": "S01CV2.BMP",
@@ -229,7 +229,7 @@
         1510,
         1525
       ],
-      "display_correction": "horizontal 5/6"
+      "display_correction": "horizontal 5/6; four-pixel edge color extension for 16-level contour AA"
     },
     {
       "file": "S01CV3.BMP",
@@ -248,7 +248,7 @@
         1500,
         1460
       ],
-      "display_correction": "horizontal 5/6"
+      "display_correction": "horizontal 5/6; four-pixel edge color extension for 16-level contour AA"
     },
     {
       "song": 2,
@@ -332,5 +332,6 @@
     }
   ],
   "artwork_preview": "assets_out/S01_card_art_preview.png",
-  "cover_circle_correction": "S01 photos horizontal 5/6; S02 source mask already narrow"
+  "cover_circle_correction": "S01 uses 240x240 canvas, horizontal 5/6 display compensation and four-pixel edge color extension; S02 remains legacy sample material",
+  "font_format": "TYP2 full GB2312/ASCII, 7540 glyphs"
 }

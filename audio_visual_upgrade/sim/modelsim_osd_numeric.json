@@ -1,0 +1,38 @@
+{
+  "dut_top": "work.tb_osd_numeric",
+  "tb_top": "work.tb_osd_numeric",
+  "data_files": [
+    "rtl/gfx/osd_bcd.dath",
+    "rtl/gfx/osd_bar.dath"
+  ],
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_numeric_rom.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_osd_numeric.v",
+          "language": "verilog"
+        }
+      ],
+      "defines": [
+        "OSD_SIM"
+      ]
+    }
+  ]
+}

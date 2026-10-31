@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "reason": "All planned scenarios passed",
+  "backend": "modelsim",
+  "started_at": 1793420701.7753708,
+  "compile_exit_code": 0,
+  "sim_exit_code": 0,
+  "vcd_generated": false,
+  "vcd_path": null,
+  "tool_version": "Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018",
+  "config": {
+    "dut_top": "work.tb_osd_numeric",
+    "tb_top": "work.tb_osd_numeric",
+    "data_files": [
+      "rtl/gfx/osd_bcd.dath",
+      "rtl/gfx/osd_bar.dath"
+    ],
+    "libraries": [
+      {
+        "name": "work",
+        "sources": [
+          {
+            "path": "sim/vendor/eg4/eg_logic_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram.v",
+            "language": "verilog"
+          },
+          {
+            "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+            "language": "verilog"
+          },
+          {
+            "path": "rtl/gfx/osd_numeric_rom.v",
+            "language": "verilog"
+          },
+          {
+            "path": "tb/tb_osd_numeric.v",
+            "language": "verilog"
+          }
+        ],
+        "defines": [
+          "OSD_SIM"
+        ]
+      }
+    ]
+  },
+  "expected_scenarios": [
+    "numeric-full-input-range"
+  ],
+  "timeout_seconds": 180.0,
+  "input_hashes": {
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_bar.dath": "d16ab9d83de8159a8e55d7c5fc2ca29c28b3c2ac21a1f2480f852dbf9c8ef260",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_bcd.dath": "59564572ff3d6a0fac58b4d7ca0ea2800d60bd17406dba2c6cc4701064e69ec8",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_numeric_rom.v": "b20d8cc7706ed9651f84c77618841ce0b410062279a58fe076a1614ddf3d24a3",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_osd_numeric.json": "866b651637336a5bf0be0d3cc363542a8536501e0e21d14b4505c4c9bd32de6f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim_run.py": "e5e623c5289d3e27a59e2da8503aa33775aa806665fabd3f1353fd256575a66f",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/run.py": "fb726a64a897a7ed69bfa80a0511eade0aed5c84d13baaa4a59c15668270e1f2",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_logic_bram.v": "c492c2d713156aafc881e4c54d6926c34d957931fa550d3d1ceb861b7fb88a2c",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram.v": "9bbb66ffde87f457ae406366c87bb9cbe5d2c28871b052d8989d2ff4be2af57d",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_bram32k.v": "d9443cdaffea436c51852fa6e859bb25650f9f87d9d0b276643db16575a75baa",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/expected_osd_numeric.json": "b0ca86d88368dbb6365841c87555807689353bbc1d1f865bbb10b2db74711ace",
+    "D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_numeric.v": "bf4c48b1c87c24892b8ac56300ba321ec297d3e10f7ba383738cf9f9bb281e43"
+  },
+  "command": [
+    "D:\\modeltech64_10.6e\\win64\\vsim.exe",
+    "-c",
+    "-do",
+    "do \"D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/b7c5959a4d8a432c8f6756bac955644a/run.do\""
+  ],
+  "script": "sim/modelsim/b7c5959a4d8a432c8f6756bac955644a/run.do",
+  "compile_log": "sim/typography_numeric_visual_r1_compile.log",
+  "sim_log": "sim/typography_numeric_visual_r1_sim.log",
+  "batch_exit_code": 0,
+  "warning_lines": [
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.",
+    "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+  ],
+  "finished_at": 1793420706.9075778
+}

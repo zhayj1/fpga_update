@@ -1,0 +1,385 @@
+{
+  "tests": {
+    "row": {
+      "status": "PASS",
+      "evidence": "sim/typography_row_textfix_r7_sim_result.json",
+      "compile_log": "sim/typography_row_textfix_r7_compile.log",
+      "sim_log": "sim/typography_row_textfix_r7_sim.log",
+      "scenarios": [
+        "TYP-03-pixels",
+        "TYP-03-invalid",
+        "TYP-03-recovery"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 5.36
+    },
+    "full_rows": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_rows_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_full_rows_textfix_r8_compile.log",
+      "sim_log": "sim/typography_full_rows_textfix_r8_sim.log",
+      "scenarios": [
+        "FULL-02-all-7540-glyphs-two-sizes",
+        "FULL-02-image-contention-deadline"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 7.96
+    },
+    "full_sdram": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_sdram_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_full_sdram_textfix_r8_compile.log",
+      "sim_log": "sim/typography_full_sdram_textfix_r8_sim.log",
+      "scenarios": [
+        "FULL-04-real-sdram-all-glyphs-100MHz",
+        "FULL-04-real-sdram-contention-deadline"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 27.42
+    },
+    "layout": {
+      "status": "PASS",
+      "evidence": "sim/typography_layout_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_layout_textfix_r8_compile.log",
+      "sim_log": "sim/typography_layout_textfix_r8_sim.log",
+      "scenarios": [
+        "LAY-02-pixels",
+        "LAY-04-vertical",
+        "LAY-03-marquee",
+        "LAY-05-deadline",
+        "LAY-02-boundaries",
+        "LAY-03-phase-rotation"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 47.69
+    },
+    "layout_sdram": {
+      "status": "PASS",
+      "evidence": "sim/typography_layout_sdram_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_layout_sdram_textfix_r8_compile.log",
+      "sim_log": "sim/typography_layout_sdram_textfix_r8_sim.log",
+      "scenarios": [
+        "FIX-01-real-layer-contended-pixels",
+        "FIX-02-real-layer-scroll-deadline"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 51.34
+    },
+    "layer": {
+      "status": "PASS",
+      "evidence": "sim/typography_layer_textfix_r7_sim_result.json",
+      "compile_log": "sim/typography_layer_textfix_r7_compile.log",
+      "sim_log": "sim/typography_layer_textfix_r7_sim.log",
+      "scenarios": [
+        "TYP-04-pixels",
+        "TYP-04-scroll",
+        "TYP-04-deadline"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 15.4
+    },
+    "core": {
+      "status": "PASS",
+      "evidence": "sim/typography_core_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_core_textfix_r8_compile.log",
+      "sim_log": "sim/typography_core_textfix_r8_sim.log",
+      "scenarios": [
+        "TYP-06-composition",
+        "TYP-06-osd-alignment",
+        "FIX-03-axis-pixel-valid-last",
+        "FULL-04-core-memory-map-and-lyric-slots"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1134): [PCDPC] - Port size (1) does not match connection size (32) for port 'enable_preload'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/app/asset_manager.v(15).",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1725): [PCDPC] - Port size (1) does not match connection size (32) for port 'continuous'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/audio/wav_stream_player.v(66).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1746): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Too few port connections. Expected 29, found 14.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1746): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'sd_cs_n'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'sd_mosi'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_typography_core.v(19): [TFMPC] - Missing connection for port 'sd_sck'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 44.81
+    },
+    "board": {
+      "status": "COMPILE_PASS",
+      "evidence": "sim/typography_board_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_board_textfix_r8_compile.log",
+      "sim_log": null,
+      "scenarios": [],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/pll_sdr.v(99): [PCDPC] - Port size (5) does not match connection size (1) for port 'load_reg'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_pll.v(25).",
+        "** Warning: (vsim-3015) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/ip/video_pll.v(68): [PCDPC] - Port size (5) does not match connection size (1) for port 'load_reg'. The port definition is at: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/vendor/eg4/eg_phy_pll.v(25).",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1746): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Too few port connections. Expected 29, found 23.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1746): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_last'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_user'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_axis_valid'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_de'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_top.v(73): [TFMPC] - Missing connection for port 'obs_rgb'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 31.91
+    },
+    "osd": {
+      "status": "PASS",
+      "evidence": "sim/typography_osd_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_osd_textfix_r8_compile.log",
+      "sim_log": "sim/typography_osd_textfix_r8_sim.log",
+      "scenarios": [
+        "TYP-05-glyphs",
+        "TYP-05-frames",
+        "TYP-05-state",
+        "FIX-04-osd-normalization-pipeline"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 8.48
+    },
+    "layout_pick": {
+      "status": "PASS",
+      "evidence": "sim/typography_layout_pick_r2_sim_result.json",
+      "compile_log": "sim/typography_layout_pick_r2_compile.log",
+      "sim_log": "sim/typography_layout_pick_r2_sim.log",
+      "scenarios": [
+        "LAY-01-context64",
+        "LAY-01-edges",
+        "LAY-01-errors",
+        "LAY-01-scroll-reset"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 4.48
+    },
+    "layout_rings": {
+      "status": "PASS",
+      "evidence": "sim/typography_layout_rings_r3_sim_result.json",
+      "compile_log": "sim/typography_layout_rings_r3_compile.log",
+      "sim_log": "sim/typography_layout_rings_r3_sim.log",
+      "scenarios": [
+        "LAY-06-rings"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 4.86
+    },
+    "full_load": {
+      "status": "PASS",
+      "evidence": "sim/typography_full_load_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_full_load_textfix_r8_compile.log",
+      "sim_log": "sim/typography_full_load_textfix_r8_sim.log",
+      "scenarios": [
+        "FULL-03-real-file-over-2MiB",
+        "FULL-03-padding-bounds-short-file-recovery"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 37.27
+    },
+    "assets": {
+      "status": "PASS",
+      "evidence": "sim/typography_assets_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_assets_textfix_r8_compile.log",
+      "sim_log": "sim/typography_assets_textfix_r8_sim.log",
+      "scenarios": [
+        "TYP-06-font-loading",
+        "TYP-06-song-assets"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 7.5
+    },
+    "bmp_writeback": {
+      "status": "PASS",
+      "evidence": "sim/typography_bmp_writeback_textfix_r7_sim_result.json",
+      "compile_log": "sim/typography_bmp_writeback_textfix_r7_compile.log",
+      "sim_log": "sim/typography_bmp_writeback_textfix_r7_sim.log",
+      "scenarios": [
+        "downscale-identity-key-and-backpressure",
+        "downscale-rational-and-orientation-matrix",
+        "downscale-real-fifo-writeback-addresses"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 5.73
+    },
+    "font_legacy": {
+      "status": "PASS",
+      "evidence": "sim/typography_font_legacy_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_font_legacy_textfix_r8_compile.log",
+      "sim_log": "sim/typography_font_legacy_textfix_r8_sim.log",
+      "scenarios": [
+        "FF-01",
+        "FF-02",
+        "FF-03",
+        "FF-04",
+        "FF-05",
+        "FF-06",
+        "FF-07",
+        "FF-08",
+        "FF-09",
+        "FF-10"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Too few port connections. Expected 42, found 29.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'backend_done_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_down_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_first_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_valid_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_words_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'cfg_wpr_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_di_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_flush_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_full_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'fifo_we_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_valid_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'finish_words_ext'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_font_load_area.v(99): [TFMPC] - Missing connection for port 'slot_words'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 16.34
+    },
+    "legacy_system": {
+      "status": "PASS",
+      "evidence": "sim/typography_legacy_system_textfix_r8_sim_result.json",
+      "compile_log": "sim/typography_legacy_system_textfix_r8_compile.log",
+      "sim_log": "sim/typography_legacy_system_textfix_r8_sim.log",
+      "scenarios": [
+        "real_spi_boot_and_layout",
+        "key_and_timer_fade_pixels",
+        "natural_song_end_fade_and_slot_protection",
+        "pcm_and_video_stream_integrity"
+      ],
+      "input_hashes_current": true,
+      "changed_inputs": [],
+      "warning_lines": [
+        "** Warning: (vlog-2121) <protected>(<protected>): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vlog-2121) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/ip/sdram/sdr_init_ref.enc.v(207): Illegal concatenation of an unsized constant. Will treat it as a 32-bit value.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Too few port connections. Expected 77, found 72.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Too few port connections. Expected 12, found 10.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1746): [TFMPC] - Too few port connections. Expected 13, found 12.",
+        "** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Too few port connections. Expected 29, found 19.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'dbg_arb_busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'dbg_arb_ow'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'hi_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'lo_rd_err_code'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1037): [TFMPC] - Missing connection for port 'lo_stall'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Missing connection for port 'busy'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1711): [TFMPC] - Missing connection for port 'hdr_bytes'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/top/skeleton_core.v(1746): [TFMPC] - Missing connection for port 'wav_ready'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'IO_ddc_sda'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch0_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch1_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ch2_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_clk_tmds_data'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_ddc_scl'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'O_video_locked'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'key2'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'key3'.",
+        "** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_upgrade_core.v(23): [TFMPC] - Missing connection for port 'led'.",
+        "** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt."
+      ],
+      "elapsed_seconds": 396.44
+    }
+  },
+  "rom": {
+    "status": "PASS",
+    "glyphs": 7540,
+    "rom_words": 512,
+    "sha256": "ee9884feffcb2d68209cbc276f156f0a8c4a6b9301987925211e6cfacb478bb0",
+    "unchanged_font": {
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\output\\typography_full_20261030\\sd_card\\FONT.HZK",
+      "bytes": 3856960,
+      "sha256": "6b399399d46dee95717d1fdefefa5cbcc97839c56ecbfd31d092dc77cfa2d3c2"
+    }
+  }
+}

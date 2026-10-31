@@ -45,12 +45,20 @@ module bmp_load #(
     parameter integer EXTERNAL_BACKEND = 0,
     // Zero preserves the caller's wd_max for every phase. A mailbox-based
     // reader needs a separate, bounded wait for complete SD/FAT transactions.
-    parameter integer STREAM_WD_MS = 0
+    parameter integer STREAM_WD_MS = 0,
+    // Normalize while consuming the source stream; no source row/frame RAM.
+    parameter integer DOWNSCALE = 0,
+    parameter integer SRC_MAX_W = 4096,
+    parameter integer SRC_MAX_H = 4096,
+    parameter integer BG_W = 640, parameter integer BG_H = 480,
+    parameter integer COVER_W = 240, parameter integer COVER_H = 240,
+    parameter integer MAX_FILE_BYTES = 67108864
 )(
     // ---------------- 控制/状态（clk 域，与 storage_top / load_sched 同域）----------------
     input  wire        clk,
     input  wire        rst_n,
     input  wire        start,           // 脉冲：启动一次装载（busy 期间被忽略）
+    input  wire        target_cover,    // DOWNSCALE: sampled with accepted start
     input  wire [7:0]  file_index,      // 文件表索引（start 前 ≥2 拍建立，保持到 done）
     input  wire [20:0] slot_base,       // 目标槽基址（32bit 字地址）
     output reg         busy,
@@ -107,10 +115,21 @@ module bmp_load #(
     localparam integer WD_MAX = (CLK_HZ / 1000) * WD_MS;   // 看门狗上限（拍）
     // Only counters used after the complete header checks may use these
     // bounds. Keep header fields, geometry checks and error-path CFG full width.
-    localparam integer ROW_BYTE_W = (MAX_W >= 21845) ? 16 :
-                                    ((MAX_W > 0) ? $clog2(MAX_W * 3 + 1) : 1);
-    localparam integer ROW_COUNT_W = (MAX_H >= 65535) ? 16 :
-                                     ((MAX_H > 0) ? $clog2(MAX_H + 1) : 1);
+    function integer count_width;
+        input integer maximum;
+        integer value;
+        begin
+            value=maximum; count_width=0;
+            while(value>0) begin count_width=count_width+1; value=value/2; end
+            if(count_width==0) count_width=1;
+        end
+    endfunction
+    localparam integer SOURCE_W = DOWNSCALE ? SRC_MAX_W : MAX_W;
+    localparam integer SOURCE_H = DOWNSCALE ? SRC_MAX_H : MAX_H;
+    localparam integer ROW_BYTE_W = count_width(SOURCE_W * 3);
+    localparam integer ROW_COUNT_W = count_width(SOURCE_H);
+    localparam integer X_PHASE_W = count_width(SOURCE_W * 2);
+    localparam integer Y_PHASE_W = count_width(SOURCE_H * 2);
 
     // A 侧状态（clk 域）
     localparam [3:0] A_IDLE  = 4'd0,
@@ -178,6 +197,15 @@ module bmp_load #(
     reg  [1:0] pbleft, padb_r;       // BMP row padding 0..3 bytes
     reg  [3:0] zleft, padz_r;        // SDRAM row padding 0..15 bytes
     reg  [ROW_COUNT_W-1:0] row_cnt, h_r; // 0..MAX_H, after header validation
+    reg cover_r;
+    reg [X_PHASE_W-1:0] x_phase;
+    reg [Y_PHASE_W-1:0] y_phase;
+    wire [15:0] target_w = cover_r ? COVER_W : BG_W;
+    wire [15:0] target_h = cover_r ? COVER_H : BG_H;
+    wire [X_PHASE_W-1:0] x_step = {target_w,1'b0};
+    wire [Y_PHASE_W-1:0] y_step = {target_h,1'b0};
+    wire keep_row = !DOWNSCALE || (y_phase < y_step);
+    wire keep_pixel = !DOWNSCALE || (x_phase < x_step);
     reg  [20:0] cfg_first;           // ↓ 发布给 B 侧（跨域，稳定数据）
     reg  [15:0] cfg_wpr;
     reg  [18:0] cfg_words;           // 本次图像总字数 = H*words_per_row（B 侧的收口基准）
@@ -216,9 +244,9 @@ module bmp_load #(
         load_writeback u_writeback (
             .clk(clk), .rst_n(rst_n), .clk_sdr(clk_sdr), .rst_sdr_n(rst_sdr_n),
             .flush(fifo_flush), .byte_we(fifo_we), .byte_data(fifo_di), .full(fifo_full),
-            .cfg_valid(cfg_valid_int), .cfg_first(cfg_first), .cfg_words(cfg_words),
+            .cfg_valid(cfg_valid_int), .cfg_first(cfg_first), .cfg_words({1'b0,cfg_words}),
             .cfg_wpr(cfg_wpr), .cfg_rows(1'b1), .cfg_down(cfg_bu),
-            .finish_valid(finish_valid_int), .finish_words(a_words), .done(backend_done),
+            .finish_valid(finish_valid_int), .finish_words({1'b0,a_words}), .done(backend_done),
             .ld_req(ld_req), .ld_addr(ld_addr), .ld_len(ld_len), .ld_data(ld_data),
             .ld_take(ld_rd), .ld_ack(ld_ack), .ld_done(ld_done)
         );
@@ -251,14 +279,18 @@ module bmp_load #(
     wire [31:0] hmag_w = bi_height_i[31] ? (~bi_height_i + 32'd1) : bi_height_i;
     wire [31:0] w3_w   = {bi_width_i[30:0], 1'b0} + bi_width_i;         // *3
     wire [31:0] stb_w  = (w3_w + 32'd3)  & 32'hFFFFFFFC;                // BMP 行跨距（4B 对齐）
-    wire [31:0] sts_w  = (w3_w + 32'd15) & 32'hFFFFFFF0;                // SDRAM 行跨距（16B 对齐）
+    wire [31:0] dest_w3 = DOWNSCALE ? (cover_r ? COVER_W*3 : BG_W*3) : w3_w;
+    wire [31:0] sts_w  = (dest_w3 + 32'd15) & 32'hFFFFFFF0;              // destination stride
     wire [15:0] wpr_w  = sts_w[17:2];                                   // 行字数
     // Alignment differences are modular: even malformed 32-bit widths produce
     // the same 0..3 / 0..15 result as the former twelve-bit subtractors.
     wire [1:0] padb_w = 2'd0 - w3_w[1:0];
-    wire [3:0] padz_w = 4'd0 - w3_w[3:0];
+    wire [3:0] padz_w = 4'd0 - dest_w3[3:0];
     wire        bu_w   = (bi_height_i[31] == 1'b0);                     // 正高 ⇒ bottom-up
-    wire [31:0] span_w = hmag_w * {16'd0, wpr_w};                       // 槽内总字数（唯一乘法 ✓）
+    // Select constant target spans so enabled normalization needs no multiplier.
+    wire [31:0] span_w = DOWNSCALE ?
+        (cover_r ? COVER_H*((COVER_W*3+15)/16)*4 : BG_H*((BG_W*3+15)/16)*4) :
+        hmag_w * {16'd0, wpr_w};
     wire [21:0] enda_w = {1'b0, slot_base} + span_w[21:0];              // 槽尾（开区间）
     wire [20:0] first_w = bu_w ? (slot_base + span_w[20:0] - {5'd0, wpr_w}) : slot_base;
 
@@ -287,13 +319,18 @@ module bmp_load #(
         if      ((magic_b0 != 8'h42) || (magic_b1 != 8'h4D)) hchk_err = 8'h01; // 'B','M'
         else if (bi_size_i != 32'd40)                        hchk_err = 8'h01; // 非 BMP3
         else if (bi_width_i[31] || (bi_width_i == 32'd0))    hchk_err = 8'h01;
-        else if (bi_width_i > MAX_W)                         hchk_err = 8'h02;
+        else if (bi_width_i > SOURCE_W)                      hchk_err = 8'h02;
         else if (bi_height_i == 32'd0)                       hchk_err = 8'h01;
-        else if (hmag_s > MAX_H)                             hchk_err = 8'h06;
+        else if (hmag_s > SOURCE_H)                          hchk_err = 8'h06;
         else if (bi_planes_i != 16'd1)                       hchk_err = 8'h05;
         else if (bi_bpp_i    != 16'd24)                      hchk_err = 8'h05;
         else if (bi_comp_i   != 32'd0)                       hchk_err = 8'h05;
         else if (bf_off_i < 32'd54)                          hchk_err = 8'h01;
+        else if (DOWNSCALE && file_size > MAX_FILE_BYTES)    hchk_err = 8'h09;
+        else if (DOWNSCALE && (bi_width_i < {16'd0,target_w} ||
+                                hmag_s < {16'd0,target_h})) hchk_err = 8'h08;
+        else if (DOWNSCALE && (cover_r ? bi_width_i != hmag_s :
+                                  w3_s != (hmag_s << 2)))   hchk_err = 8'h07;
         else if (enda_s > 22'd2097152)                       hchk_err = 8'h02; // 槽越界（2^21 字）
     end
 
@@ -318,7 +355,7 @@ module bmp_load #(
     //   就是这语义），而本模块当时并不取它 ⇒ **每像素丢 1 字节**，整幅图逐字节漂移
     //   （在纯色区看不出来，一进花纹区就大面积不符）。TB 的 BURST 追踪一击定位。
     wire px_push    = (st == A_PIX) && (px == PX_PUSH) && !fifo_full;
-    wire zpad_push  = (st == A_ZPAD) && (zleft != 4'd0) && !fifo_full;
+    wire zpad_push  = (st == A_ZPAD) && keep_row && (zleft != 4'd0) && !fifo_full;
     wire [7:0] px_byte = (pcnt == 2'd0) ? px_r : ((pcnt == 2'd1) ? px_g : px_b);
 
     //   ★ 同一类错误的第二个实例：`A_PAD` 在 `pbleft==0` 时**本拍不取字节**就直接去 A_ZPAD，
@@ -361,6 +398,7 @@ module bmp_load #(
             bi_planes_i <= 16'd0; bi_bpp_i <= 16'd0; bi_comp_i <= 32'd0;
             skip_left <= 32'd0; rd_bytes <= 32'd0; wr_bytes <= 21'd0;
             row_bytes <= 0; pbleft <= 2'd0; zleft <= 4'd0; row_cnt <= 0;
+            cover_r <= 1'b0; x_phase <= 0; y_phase <= 0;
             w3_r <= 0; h_r <= 0;
             padb_r <= 2'd0; padz_r <= 4'd0;
             cfg_first <= 21'd0; cfg_wpr <= 16'd0; cfg_words <= 19'd0;
@@ -400,6 +438,7 @@ module bmp_load #(
             A_IDLE: begin
                 busy <= 1'b0;
                 if (start) begin
+                    cover_r <= target_cover;
                     busy      <= 1'b1;
                     done      <= 1'b0;
                     err       <= 8'h00;
@@ -509,7 +548,7 @@ module bmp_load #(
                 cfg_words <= span_s[18:0];
                 cfg_bu    <= bu_s;
                 cfg_valid_int <= 1'b1; cfg_issued <= 1'b1;
-                if (hchk_err != 8'h00 || (EXTERNAL_BACKEND && span_s > {13'd0,slot_words})) begin
+                if (hchk_err != 8'h00 || ((EXTERNAL_BACKEND || DOWNSCALE) && span_s > {13'd0,slot_words})) begin
                     err_hold <= hchk_err != 8'h00 ? hchk_err : 8'h02;
                     st <= A_END;
                     gave_up <= 1'b1;
@@ -518,8 +557,12 @@ module bmp_load #(
                     h_r           <= hmag_s[ROW_COUNT_W-1:0];
                     padb_r        <= padb_s;
                     padz_r        <= padz_s;
-                    img_w         <= bi_width_i[15:0];
-                    img_h         <= hmag_s[15:0];
+                    img_w         <= DOWNSCALE ? target_w : bi_width_i[15:0];
+                    img_h         <= DOWNSCALE ? target_h : hmag_s[15:0];
+                    x_phase       <= bi_width_i[X_PHASE_W-1:0];
+                    // Complement the tie at an exact source-row boundary when
+                    // reading bottom-up; both orientations sample the same y.
+                    y_phase       <= hmag_s[Y_PHASE_W-1:0] - (bu_s ? 1'b1 : 1'b0);
                     skip_left     <= bf_off_i - 32'd54;
                     pbleft        <= padb_s;
                     zleft         <= padz_s;
@@ -554,11 +597,10 @@ module bmp_load #(
                     // 推 3 个字节：先 R，再 G，最后 B（`fifo_we`/`fifo_di` 组合，见 2.3）
                     if (px_push) begin
                         wr_bytes  <= wr_bytes  + 21'd1;
-                        row_bytes <= row_bytes + 1'b1;
                         if (pcnt == 2'd2) begin
                             pcnt <= 2'd0;
                             px   <= PX_B;
-                            if ((row_bytes + 1'b1) == w3_r) st <= A_PAD;  // 本行像素推完
+                            if (row_bytes == w3_r) st <= A_PAD;
                         end else begin
                             pcnt <= pcnt + 2'd1;
                         end
@@ -571,10 +613,23 @@ module bmp_load #(
                     err_hold <= 8'h03; st <= A_END; gave_up <= 1'b1;
                 end else if (lo_rd_valid & lo_rd_ready) begin
                     rd_bytes <= rd_bytes + 32'd1;
+                    row_bytes <= row_bytes + 1'b1;
                     case (px)
                     PX_B: begin px_b <= lo_rd_data; px <= PX_G; end
                     PX_G: begin px_g <= lo_rd_data; px <= PX_R; end
-                    default: begin px_r <= lo_rd_data; px <= PX_PUSH; pcnt <= 2'd0; end
+                    default: begin
+                        px_r <= lo_rd_data; pcnt <= 2'd0;
+                        if (DOWNSCALE) begin
+                            if (keep_pixel)
+                                x_phase <= x_phase + (bi_width_i << 1) - x_step;
+                            else x_phase <= x_phase - x_step;
+                        end
+                        if (keep_row && keep_pixel) px <= PX_PUSH;
+                        else begin
+                            px <= PX_B;
+                            if ((row_bytes + 1'b1) == w3_r) st <= A_PAD;
+                        end
+                    end
                     endcase
                 end
             end
@@ -599,11 +654,16 @@ module bmp_load #(
             // 补 8'h00 到 16B 边界（0~12 个字节 ⇒ 0~3 个字）
             A_ZPAD: begin
                 busy <= 1'b1;
-                if (zleft == 4'd0) begin
+                if (zleft == 4'd0 || !keep_row) begin
                     if ((row_cnt + 1'b1) >= h_r) begin
                         st <= A_END;                                 // 全部行完成
                     end else begin
                         row_cnt   <= row_cnt + 1'b1;
+                        x_phase <= bi_width_i[X_PHASE_W-1:0];
+                        if (DOWNSCALE) begin
+                            if (keep_row) y_phase <= y_phase + (hmag_s << 1) - y_step;
+                            else y_phase <= y_phase - y_step;
+                        end
                         row_bytes <= 0;
                         pbleft    <= padb_r;
                         zleft     <= padz_r;

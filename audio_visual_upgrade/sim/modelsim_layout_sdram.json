@@ -1,0 +1,85 @@
+{
+  "dut_top": "work.layer_text_aa",
+  "tb_top": "work.tb_layout_five",
+  "data_files": [
+    "sim/typography_font.mem",
+    "sim/layout_five_lrc.mem",
+    "sim/layout_five_gold.mem",
+    "sim/layout_five_small.mem",
+    "sim/layout_five_info.mem",
+    "rtl/gfx/glyph_blocks.dath"
+  ],
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/text_row_aa.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_text_aa.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_layout_five.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/px_arb5.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/mem/sdram_arb.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdr_as_ram.enc.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdr_wrrd.enc.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdr_init_ref.enc.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/IS42s32200.v",
+          "language": "verilog"
+        },
+        {
+          "path": "ip/sdram/sdram_top.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/text_sdram_environment.v",
+          "language": "verilog"
+        }
+      ],
+      "defines": [
+        "TEXT_SIM",
+        "SIM_DEVICE_MODEL"
+      ],
+      "include_dirs": [
+        "ip/sdram"
+      ]
+    }
+  ],
+  "tb_parameters": {
+    "REAL_SDRAM": 1
+  }
+}

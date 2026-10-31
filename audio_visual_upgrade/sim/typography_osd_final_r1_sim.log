@@ -1,0 +1,41 @@
+# End time: 12:36:19 on Oct 31,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 6
+# vsim -modelsimini D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/sim/modelsim/0382b2323f2f4d8c8c30620621c0a83f/modelsim.ini -onfinish stop -novopt "+notimingchecks" -L work work.tb_osd_typography 
+# Start time: 12:36:19 on Oct 31,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Loading work.tb_osd_typography
+# Loading work.osd_layer_small
+# Loading work.osd_numeric_rom
+# Loading work.osd_font_pixel
+# Loading work.osd_font_youyuan
+# ** Warning: (vsim-3017) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Too few port connections. Expected 30, found 26.
+#    Time: 0 ps  Iteration: 0  Instance: /tb_osd_typography/dut File: D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/rtl/gfx/osd_layer_small.v
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'color_indices'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'effects'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_index'.
+# ** Warning: (vsim-3722) D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(17): [TFMPC] - Missing connection for port 'swatch_rgb'.
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# incase
+# 
+# SCENARIO_PASS TYP-05-glyphs
+# SCENARIO_PASS TYP-05-frames
+# SCENARIO_PASS TYP-05-state
+# SCENARIO_PASS FIX-04-osd-normalization-pipeline
+# TEST_PASS
+# ** Note: $finish    : D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v(150)
+#    Time: 19030716 ns  Iteration: 0  Instance: /tb_osd_typography
+# Break in Module tb_osd_typography at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v line 150
+# Stopped at D:/Verilog_teacher/guoyi/pro/audio_visual_upgrade/tb/tb_osd_typography.v line 150
+# End time: 12:36:26 on Oct 31,2026, Elapsed time: 0:00:07
+# Errors: 0, Warnings: 6
