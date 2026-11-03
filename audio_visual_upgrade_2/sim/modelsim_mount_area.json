@@ -1,0 +1,9 @@
+{
+  "dut_top": "work.fat32_mount",
+  "tb_top": "work.tb_fat32_mount_pipeline",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/storage/fat32_mount.v", "language": "verilog"},
+    {"path": "../music_screen_area_opt/tb/reference/fat32_mount_before_pipeline.v", "language": "verilog"},
+    {"path": "../music_screen_area_opt/tb/tb_fat32_mount_pipeline.v", "language": "verilog"}
+  ]}]
+}

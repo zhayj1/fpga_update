@@ -1,0 +1,26 @@
+{
+  "skill": "fpga-workflow",
+  "status": "partial",
+  "files_written": [
+    "rtl/gfx/glyph_blocks.dath",
+    "rtl/load/load_writeback.v",
+    "rtl/top/skeleton_core.v",
+    "rtl/gfx/text_row_aa.v",
+    "rtl/gfx/layer_text_aa.v",
+    "rtl/gfx/osd_layer_small.v",
+    "tb/text_sdram_environment.v",
+    "tb/tb_layout_five.v",
+    "tb/tb_typography_core.v",
+    "scripts/generate_glyph_blocks.py",
+    "scripts/report_layout_textfix.py",
+    "doc/spec/layout_five_behavior_spec.md",
+    "doc/compile/layout_textfix_report.md",
+    "output/layout_textfix_20261030/audio_visual_layout_textfix.bit"
+  ],
+  "missing_files": [],
+  "verification_level": "functional_simulation_and_routed_bitstream",
+  "timing_clean": false,
+  "board_validated": false,
+  "evidence": "output/layout_textfix_20261030/verification_and_build.json",
+  "reason": "Functional and build checks pass; board validation pending; remaining STA limits recorded."
+}

@@ -1,0 +1,42 @@
+{
+  "dut_top": "work.layer_spectrum_ring",
+  "tb_top": "work.tb_circular_spectrum",
+  "data_files": [
+    "rtl/gfx/spectrum_angles.dath",
+    "sim/circular_geometry_golden.mem"
+  ],
+  "libraries": [
+    {
+      "name": "work",
+      "defines": [
+        "OSD_SIM"
+      ],
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/attack_rings.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/layer_spectrum_ring.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_circular_spectrum.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+    "inputs_unchanged":  true,
+    "completed":  "2026-11-03T10:53:23.0606791+08:00",
+    "bitstream":  {
+                      "path":  "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade_2\\prj\\td_build\\sat60_200_r8_phy_seed5_phy\\skeleton.bit",
+                      "sha256":  "D4091955D4534FCE9102A5513E7211205A002FD34CC08C492F1E57ED9B127E5A",
+                      "bytes":  701801
+                  },
+    "status":  "BUILD_COMPLETE",
+    "stage":  "phy"
+}

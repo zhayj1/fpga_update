@@ -1,0 +1,15 @@
+{
+  "dut_top": "work.font_load",
+  "tb_top": "work.tb_font_load",
+  "data_files": ["card/FONT.HZK", "card/ASC.HZK",
+    "../music_screen_area_opt/sim/golden/FONT_slot.mem",
+    "../music_screen_area_opt/sim/golden/ASC_slot.mem"],
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/load/load_writeback.v", "language": "verilog"},
+    {"path": "rtl/ip/afifo_8i_32o_1024.v", "language": "verilog"},
+    {"path": "rtl/ip/afifo_8i_32o_bram.v", "language": "verilog"},
+    {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+    {"path": "rtl/load/font_load.v", "language": "verilog"},
+    {"path": "tb/tb_font_load_area.v", "language": "verilog"}
+  ]}]
+}

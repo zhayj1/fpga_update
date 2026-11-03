@@ -1,0 +1,19 @@
+{
+  "dut_top": "work.attack_rings",
+  "tb_top": "work.tb_layout_five_rings",
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "rtl/gfx/attack_rings.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_layout_five_rings.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ]
+}

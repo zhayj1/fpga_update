@@ -1,0 +1,15 @@
+{
+  "dut_top": "work.layer_fft64",
+  "tb_top": "work.tb_layer_fft64",
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": [],
+      "sources": [
+        {"path": "rtl/gfx/layer_fft64.v", "language": "verilog"},
+        {"path": "tb/tb_layer_fft64.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "dut_top": "work.fat32_scan",
+  "tb_top": "work.tb_scan_capacity",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/storage/fat32_scan.v", "language": "verilog"},
+    {"path": "tb/tb_scan_capacity.v", "language": "verilog"}
+  ]}]
+}

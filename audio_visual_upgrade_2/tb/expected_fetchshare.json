@@ -1,0 +1,9 @@
+[
+ "fourway_fullwidth_and_text_fairness",
+ "short_and_overlong_bursts_rejected",
+ "zero_and_oversized_commands",
+ "late_row_discard_and_recovery",
+ "old_frame_and_disabled_cache_discard",
+ "double_bank_read_write_overlap",
+ "reset_during_burst_and_recovery"
+]

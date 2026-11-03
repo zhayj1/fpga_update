@@ -1,0 +1,7 @@
+[
+  "bmp-padding-and-orientation-matrix",
+  "bmp-maximum-image-and-backpressure",
+  "bmp-header-full-width-and-error-priority",
+  "bmp-truncated-stream-and-recovery",
+  "bmp-watchdog-and-reset"
+]

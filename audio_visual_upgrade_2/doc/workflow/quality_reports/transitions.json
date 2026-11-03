@@ -1,0 +1,263 @@
+{
+  "status": "implementation_complete_timing_violations",
+  "verification_level": "simulation_and_implementation",
+  "missing_files": [],
+  "evidence": "output/transitions_timing/verification_and_build.json",
+  "scenario_pass_occurrences": 77,
+  "unique_scenario_count": 69,
+  "implementation_pass": true,
+  "timing_clean": false,
+  "final_sta": {
+    "resources": {
+      "lut": 18174,
+      "registers": 11799,
+      "bram9k": 64,
+      "bram32k": 16,
+      "dsp": 29,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9757
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -229.383,
+    "setup_violations": 94,
+    "hold_wns_ns": 0.024,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.38,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": 0.721,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.027,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_attack_rings/dy2_reg[5]_syn_3.clk",
+        "worst_end": "u_core/mult2_syn_2.b[10]"
+      },
+      "clk -> clk": {
+        "setup_ns": 0.476,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.024,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_sd/u_scan/ft_name_reg[13]_syn_4.clk",
+        "worst_end": "u_core/u_sd/u_ft/nx_song_reg[2]_syn_193.a[0]"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": -1.854,
+        "setup_tns_ns": -28.253,
+        "setup_violations": 30,
+        "hold_ns": 0.105,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/ws_reg[1]_syn_4.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/hold_empty_reg_syn_20.d[0]"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 2.032,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.205,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_old_bg/u_fl/rdy_tag_reg[22]_syn_4.clk",
+        "worst_end": "u_core/u_old_bg/u_fl/rd_buf_reg_syn_56.b[0]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": 0.083,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_bg/u_fl/px_out_b1[19]_syn_7.clk",
+        "worst_end": "u_core/u_spec_bands/mux35_syn_515.ce"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 6.092,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.23,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u1_hdmi_tmds_encode/add18_syn_74.clk",
+        "worst_end": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_reg_syn_5.c[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -1.524,
+        "setup_tns_ns": -23.05,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[17]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  },
+  "board_validation": "not_run",
+  "limitations": [
+    "最终STA setup 94个、hold 0个违例；其中普通路径setup 30个，WNS -5.565ns。",
+    "未下载上板；生成bit和功能仿真通过不能代替硬件验证。",
+    "SD/FAT/音视频系统回归沿用缩放夹具与150MHz参数，不替代实际100MHz SDRAM板级验证。",
+    "全部BRAM及DSP仍满载；新转场没有增加RAM或DSP。"
+  ],
+  "timing_retry_budget": {
+    "trigger": "New final STA evidence after first resource-fitting build r7 seed3: 30 non-shifted setup endpoints, WNS -1.854ns, primarily layer_text_aa descriptor path; baseline seed2 had zero non-shifted violations",
+    "initial_failure": "transitions_r7_seed3_phy",
+    "automatic_retries_used": 3,
+    "maximum": 3,
+    "outcome": "exhausted",
+    "attempts": [
+      {
+        "tag": "transitions_r7_seed3_phy",
+        "source_snapshot": "output/transitions_timing/layer_text_aa_r7.v",
+        "recorded_inputs_verified": true,
+        "status": "BUILD_COMPLETE",
+        "mslice": 4879,
+        "lslice": 4878,
+        "errors": [],
+        "physical": {
+          "resources": {
+            "lut": 18174,
+            "registers": 11799,
+            "bram9k": 64,
+            "bram32k": 16,
+            "dsp": 29,
+            "pll": 2,
+            "gclk": 4,
+            "slices": 9757
+          },
+          "setup_wns_ns": -5.565,
+          "setup_tns_ns": -229.383,
+          "setup_violations": 94,
+          "hold_wns_ns": 0.024,
+          "hold_violations": 0,
+          "sta_coverage_percent": 96.38,
+          "groups": {
+            "video_clk -> video_clk": {
+              "setup_ns": 0.721,
+              "setup_tns_ns": 0.0,
+              "setup_violations": 0,
+              "hold_ns": 0.027,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_attack_rings/dy2_reg[5]_syn_3.clk",
+              "worst_end": "u_core/mult2_syn_2.b[10]"
+            },
+            "clk -> clk": {
+              "setup_ns": 0.476,
+              "setup_tns_ns": 0.0,
+              "setup_violations": 0,
+              "hold_ns": 0.024,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_sd/u_scan/ft_name_reg[13]_syn_4.clk",
+              "worst_end": "u_core/u_sd/u_ft/nx_song_reg[2]_syn_193.a[0]"
+            },
+            "sdr_clk -> sdr_clk": {
+              "setup_ns": -1.854,
+              "setup_tns_ns": -28.253,
+              "setup_violations": 30,
+              "hold_ns": 0.105,
+              "hold_violations": 0,
+              "worst_start": "u_core/g_aa_text$u_lyr/ws_reg[1]_syn_4.clk",
+              "worst_end": "u_core/g_aa_text$u_lyr/hold_empty_reg_syn_20.d[0]"
+            },
+            "sdr_clk -> video_clk": {
+              "setup_ns": 2.032,
+              "setup_tns_ns": 0.0,
+              "setup_violations": 0,
+              "hold_ns": 0.205,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_old_bg/u_fl/rdy_tag_reg[22]_syn_4.clk",
+              "worst_end": "u_core/u_old_bg/u_fl/rd_buf_reg_syn_56.b[0]"
+            },
+            "video_clk -> sdr_clk": {
+              "setup_ns": 0.083,
+              "setup_tns_ns": 0.0,
+              "setup_violations": 0,
+              "hold_ns": 0.244,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_bg/u_fl/px_out_b1[19]_syn_7.clk",
+              "worst_end": "u_core/u_spec_bands/mux35_syn_515.ce"
+            },
+            "hdmi_5x_clk -> hdmi_5x_clk": {
+              "setup_ns": 6.092,
+              "setup_tns_ns": 0.0,
+              "setup_violations": 0,
+              "hold_ns": 0.23,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_hdmi/u_hdmi_tx_controller_wrapper/u1_hdmi_tmds_encode/add18_syn_74.clk",
+              "worst_end": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_reg_syn_5.c[0]"
+            },
+            "sdr_clk -> sdr_clk_sft": {
+              "setup_ns": -1.524,
+              "setup_tns_ns": -23.05,
+              "setup_violations": 32,
+              "hold_ns": 5.001,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+              "worst_end": "u_core/u_phy/sdram.dq[17]"
+            },
+            "sdr_clk_sft -> sdr_clk": {
+              "setup_ns": -5.565,
+              "setup_tns_ns": -178.08,
+              "setup_violations": 32,
+              "hold_ns": 9.43,
+              "hold_violations": 0,
+              "worst_start": "u_core/u_phy/sdram.dq[0]",
+              "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+            }
+          }
+        },
+        "build_result": {
+          "inputs_unchanged": true,
+          "completed": "2026-11-02T19:39:52.2608976+08:00",
+          "bitstream": {
+            "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade_2\\prj\\td_build\\transitions_r7_seed3_phy\\skeleton.bit",
+            "sha256": "75B6BE3E117F03B497C4C997088C4308830409BD3803AB332B75C9919A55C995",
+            "bytes": 701801
+          },
+          "status": "BUILD_COMPLETE",
+          "stage": "phy"
+        }
+      },
+      {
+        "tag": "transitions_r7_seed2_phy",
+        "source_snapshot": "output/transitions_timing/layer_text_aa_r7.v",
+        "recorded_inputs_verified": true,
+        "status": "FAILED_RESOURCE",
+        "mslice": 4914,
+        "lslice": 4915,
+        "errors": [
+          "PHY-9009 ERROR: Design's mslice number = 4914, exceeds the limit 4900. There are more MSlices exceeding the limit of the device. You can try using 'report_area' in console to check the resource utilization of the device and results of Optimize Gate stage. And you can try modifying the design or changing the strategy of syn and rerunning it."
+        ]
+      },
+      {
+        "tag": "transitions_r8_seed3_phy",
+        "source_snapshot": "output/transitions_timing/layer_text_aa_r8.v",
+        "recorded_inputs_verified": true,
+        "status": "FAILED_RESOURCE",
+        "mslice": 4902,
+        "lslice": 4903,
+        "errors": [
+          "PHY-9009 ERROR: Design's mslice number = 4902, exceeds the limit 4900. There are more MSlices exceeding the limit of the device. You can try using 'report_area' in console to check the resource utilization of the device and results of Optimize Gate stage. And you can try modifying the design or changing the strategy of syn and rerunning it."
+        ]
+      },
+      {
+        "tag": "transitions_r9_seed3_phy",
+        "source_snapshot": "output/transitions_timing/layer_text_aa_r9.v",
+        "recorded_inputs_verified": true,
+        "status": "FAILED_RESOURCE",
+        "mslice": 4956,
+        "lslice": 4956,
+        "errors": [
+          "PHY-9009 ERROR: Design's mslice number = 4956, exceeds the limit 4900. There are more MSlices exceeding the limit of the device. You can try using 'report_area' in console to check the resource utilization of the device and results of Optimize Gate stage. And you can try modifying the design or changing the strategy of syn and rerunning it."
+        ]
+      }
+    ]
+  }
+}

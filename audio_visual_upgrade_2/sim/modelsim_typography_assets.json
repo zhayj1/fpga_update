@@ -1,0 +1,9 @@
+{
+  "dut_top":"work.asset_manager", "tb_top":"work.tb_typography_assets",
+  "libraries":[{"name":"work","sources":[
+    {"path":"rtl/app/asset_manager.v","language":"verilog"},
+    {"path":"sim/vendor/eg4/eg_logic_bram.v","language":"verilog"},
+    {"path":"sim/vendor/eg4/eg_phy_bram.v","language":"verilog"},
+    {"path":"tb/tb_typography_assets.v","language":"verilog"}
+  ]}]
+}

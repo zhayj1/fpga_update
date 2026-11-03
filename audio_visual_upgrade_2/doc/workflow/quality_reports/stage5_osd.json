@@ -1,0 +1,30 @@
+{
+  "status": "board_verified",
+  "date": "2026-10-27",
+  "files_written": [
+    "rtl/gfx/osd_controls.v",
+    "rtl/gfx/osd_layer.v",
+    "rtl/gfx/osd_font_rom.v",
+    "rtl/gfx/osd_font_ch.dath",
+    "rtl/gfx/osd_font_ascii.dath",
+    "rtl/audio/spec_attack18.v",
+    "rtl/audio/spec_bands64.v",
+    "rtl/top/skeleton_core.v",
+    "tb/tb_osd_stage5.v",
+    "tb/tb_osd_core.v",
+    "output/reports/stage5_osd_status.md"
+  ],
+  "local_sim": "sim/stage5_font_split_osd_r1_sim_result.json: PASS, 11 scenarios",
+  "core_sim": "sim/stage5_font_split_core_r1_sim_result.json: PASS, 3 scenarios",
+  "bands_sim": "sim/stage5_bands_ram_multiframe_r2_sim_result.json: PASS, 5 scenarios",
+  "integration_sim": "sim/stage5_font_split_integration_r1_sim_result.json: PASS, 4 scenarios, current input hashes match",
+  "restored_local_sim": "sim/osd_stage5_r20_restore2_sim_result.json: PASS, 11 scenarios",
+  "second_repair_round": "r24 18263 LUT; r25 PHY-9009 4993/4900 M-Slice; r26 PHY-9009 4933/4900 M-Slice; all reverted",
+  "third_repair_round": "r27 PHY-9009 4983/4900 M-Slice; r28 18273 LUT; r29 18409 LUT; all reverted; restored r20 synthesis source hashes match",
+  "legacy_integration": "sim/stage5_integration_r19_sim_result.json: PASS, 4 scenarios, en_osd=0",
+  "synthesis": "prj/td_build/stage5_font_split_r1_syn: BUILD_COMPLETE, inputs unchanged",
+  "physical": "prj/td_build/stage5_font_split_r1_seed3_phy: BUILD_COMPLETE; 9717/9800 Slice; 55 9K RAM; 6 32K RAM; 26 DSP; no new setup or hold violation; legacy SDRAM dq path -5.565/-1.889 ns",
+  "bitstream": "prj/td_build/stage5_font_split_r1_seed3_phy/skeleton.bit; sha256 1888055E210DF5EFF9094E9CD27D3F78A201681D646FD0C4F52722B4A1A205E0",
+  "board_validation": "USER_CONFIRMED_PASS_2026-10-27",
+  "repair_record": "doc/compile/repair_report.md"
+}

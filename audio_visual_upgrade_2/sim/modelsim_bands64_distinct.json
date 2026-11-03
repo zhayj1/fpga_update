@@ -1,0 +1,15 @@
+{
+  "dut_top": "work.spec_bands64",
+  "tb_top": "work.tb_spec_bands64_distinct",
+  "libraries": [
+    {
+      "name": "work",
+      "include_dirs": [],
+      "defines": [],
+      "sources": [
+        {"path": "rtl/audio/spec_bands64.v", "language": "verilog"},
+        {"path": "tb/tb_spec_bands64_distinct.v", "language": "verilog"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "dut_top": "work.layer_bg",
+  "tb_top": "work.tb_cover_scale_rows",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "sim/vendor/eg4/eg_logic_bram.v", "language": "verilog"},
+    {"path": "rtl/gfx/scene_raster.v", "language": "verilog"},
+    {"path": "rtl/gfx/fetch_line_scene.v", "language": "verilog"},
+    {"path": "rtl/gfx/layer_bg.v", "language": "verilog"},
+    {"path": "tb/tb_cover_scale_rows.v", "language": "verilog"}
+  ]}]
+}

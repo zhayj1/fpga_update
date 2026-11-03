@@ -1,0 +1,221 @@
+{
+  "skill": "fpga-workflow",
+  "status": "completed",
+  "verification_level": "routed_bitstream_and_simulation",
+  "files_written": [
+    "rtl/gfx/alpha_blend16.v",
+    "rtl/gfx/text_row_aa.v",
+    "rtl/gfx/layer_text_aa.v",
+    "rtl/gfx/osd_font_youyuan.v",
+    "rtl/gfx/osd_layer_small.v",
+    "rtl/gfx/osd_youyuan_ch.dath",
+    "rtl/gfx/osd_youyuan_ascii.dath",
+    "rtl/top/skeleton_core.v",
+    "rtl/top/skeleton_top.v",
+    "rtl/app/asset_manager.v",
+    "scripts/prepare_typography.py",
+    "scripts/check_typography_assets.py",
+    "scripts/verify_typography.py",
+    "scripts/render_typography_sim.py",
+    "scripts/report_typography.py",
+    "doc/spec/typography_behavior_spec.md",
+    "doc/compile/typography_run_report.md",
+    "doc/workflow/state.json",
+    "output/typography_implementation_20261029/verification_summary.json"
+  ],
+  "missing_files": [],
+  "reason": "综合、布局布线、DRC和bitgen完成；setup时序未收敛，未下载上板。",
+  "sim_result_path": "output/typography_implementation_20261029/verification_summary.json",
+  "stages": {
+    "requirements": {
+      "status": "completed",
+      "missing_files": []
+    },
+    "architecture": {
+      "status": "completed",
+      "missing_files": []
+    },
+    "rtl": {
+      "status": "completed",
+      "missing_files": []
+    },
+    "tb": {
+      "status": "completed",
+      "missing_files": []
+    },
+    "compile": {
+      "status": "completed",
+      "missing_files": []
+    },
+    "simulation": {
+      "status": "completed",
+      "missing_files": []
+    }
+  },
+  "warnings": {
+    "blend": 1,
+    "row": 1,
+    "layer": 1,
+    "osd": 1,
+    "core": 32,
+    "assets": 1,
+    "controls": 1,
+    "legacy_system": 25,
+    "board": 23
+  },
+  "repairs": [
+    {
+      "area": "TB取字变量名",
+      "attempts": 1,
+      "cause": "small是Verilog保留字",
+      "change": "改为small_sel",
+      "status": "verified",
+      "failure": "sim/typography_row_r1_compile_compile.log"
+    },
+    {
+      "area": "TB逐字高亮边界",
+      "attempts": 1,
+      "cause": "独立参考把追梦G的宽度误填为62，真实24+24+17=65",
+      "change": "按真实字宽修正TB边界，RTL未改",
+      "status": "verified",
+      "failure": "sim/typography_layer_r1_sim.log"
+    },
+    {
+      "area": "OSD字模路径配置",
+      "attempts": 1,
+      "cause": "runner读取library级defines，source级OSD_SIM未生效",
+      "change": "将OSD_SIM移到library配置",
+      "status": "verified",
+      "failure": "sim/typography_osd_r1_sim.log"
+    },
+    {
+      "area": "OSD对比基准条末像素",
+      "attempts": 1,
+      "cause": "缩小后的901定点系数在130%时仅175像素",
+      "change": "系数902，极值176像素，保留全部像素断言",
+      "status": "verified",
+      "failure": "sim/typography_osd_r2_sim.log"
+    }
+  ],
+  "limitations": [
+    "尚未执行本次字体版本的综合、布局布线、STA和上板；没有新bit或实际资源占用结论。",
+    "新模式未运行真实SD/FAT到新字库整机fixture；通过真实字库逐行取数/双时钟文字层、字库装载控制、顶层混合专项组合验证。",
+    "整机回归使用TYPOGRAPHY=0旧字库、小尺寸BMP目标和HDMI stub；覆盖原SPI/FAT/SDRAM、切歌、PCM和视频链。",
+    "新模式顶层专项force图层像素及控制参数，验证真实颜色/渐变/文字混色/OSD流水；存储与取字分别由其他专项覆盖。",
+    "新增或修改LRC后须重新生成字库；当前包仅含全部现用字符及验证字符，不是完整GB2312/ASCII字库。",
+    "已ack读事务永久不返回done时，取字引擎停在DRAIN直到系统复位；超时/取消后不复用仍在途事务。",
+    "gap_cnt仅统计HS时mailbox尚未ack次数，不能作为完整缺行计数。"
+  ],
+  "implementation": {
+    "status": "BUILD_COMPLETE",
+    "tool": "Tang Dynasty 6.2.168116",
+    "device": "EG4S20BG256",
+    "synthesis": "prj/td_build/typography_dspall1_syn",
+    "physical": "prj/td_build/typography_dspall1_seed3_phy",
+    "seed": 3,
+    "drc": "PASS",
+    "bitstream": {
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\typography_dspall1_seed3_phy\\skeleton.bit",
+      "bytes": 654077,
+      "sha256": "f6e80a3c53b325ec3cf2954d8a482c1c1870c793508b65837286ac63778cc804"
+    },
+    "resources": {
+      "slices": 9697,
+      "slice_total": 9800,
+      "lut": 18048,
+      "lut_total": 19600,
+      "registers": 11228,
+      "register_total": 19600,
+      "bram9k": 55,
+      "bram9k_total": 64,
+      "bram32k": 7,
+      "bram32k_total": 16,
+      "dsp": 27,
+      "dsp_total": 29,
+      "pll": 2,
+      "pll_total": 4,
+      "gclk": 4,
+      "gclk_total": 16
+    },
+    "timing": {
+      "sta_coverage_percent": 96.57,
+      "setup_wns_ns": -5.565,
+      "setup_tns_ns": -474.167,
+      "setup_violations": 282,
+      "hold_wns_ns": 0.03,
+      "hold_tns_ns": 0.0,
+      "hold_violations": 0,
+      "timing_clean": false,
+      "groups": {
+        "video_clk -> video_clk": {
+          "setup_wns_ns": -4.694,
+          "setup_tns_ns": -126.9,
+          "setup_violations": 49
+        },
+        "clk -> clk": {
+          "setup_wns_ns": -2.039,
+          "setup_tns_ns": -51.887,
+          "setup_violations": 68
+        },
+        "sdr_clk -> sdr_clk": {
+          "setup_wns_ns": -2.141,
+          "setup_tns_ns": -94.466,
+          "setup_violations": 101
+        },
+        "video_clk -> sdr_clk": {
+          "setup_wns_ns": 0.092,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0
+        },
+        "sdr_clk -> video_clk": {
+          "setup_wns_ns": 0.915,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0
+        },
+        "hdmi_5x_clk -> hdmi_5x_clk": {
+          "setup_wns_ns": 5.87,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0
+        },
+        "sdr_clk -> sdr_clk_sft": {
+          "setup_wns_ns": -1.132,
+          "setup_tns_ns": -22.834,
+          "setup_violations": 32
+        },
+        "sdr_clk_sft -> sdr_clk": {
+          "setup_wns_ns": -5.565,
+          "setup_tns_ns": -178.08,
+          "setup_violations": 32
+        }
+      }
+    },
+    "optimization": {
+      "alpha_blend_exact_difference": true,
+      "dsp_mapped_blenders": 2,
+      "functional_checks": [
+        "blend:dspblend1",
+        "osd:dsp_osd_run1",
+        "core:dsp_all_core1",
+        "board:dsp_all_board1"
+      ],
+      "initial_mslice": 5051,
+      "areaopt_mslice": 4938,
+      "final_mslice": null
+    },
+    "validation": {
+      "downloaded": false,
+      "board_validation": "not_run",
+      "simulation_baseline": "29 typography scenarios + 3 asset checks previously PASS",
+      "final_source_inputs_unchanged": true
+    },
+    "reports": {
+      "route_qor": "prj/td_build/typography_dspall1_seed3_phy/route.qor",
+      "timing": "prj/td_build/typography_dspall1_seed3_phy/final_timing.rpt",
+      "area": "prj/td_build/typography_dspall1_seed3_phy/skeleton_phy.area",
+      "build_result": "prj/td_build/typography_dspall1_seed3_phy/build_result.json",
+      "report": "doc/compile/typography_implementation_report.md"
+    }
+  },
+  "coverage_correction": "Original whole-LRC coverage claim invalid: shared parser read 8 instead of 45 lines. See complete TYP2 full_font report.",
+  "superseded_by": "doc/workflow/quality_reports/full_font.json"
+}

@@ -1,0 +1,1 @@
+{"dut_top":"work.alpha_blend16","tb_top":"work.tb_alpha_blend16","libraries":[{"name":"work","sources":[{"path":"rtl/gfx/alpha_blend16.v","language":"verilog"},{"path":"tb/tb_alpha_blend16.v","language":"verilog"}]}]}

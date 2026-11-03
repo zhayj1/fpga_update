@@ -1,0 +1,8 @@
+{
+  "dut_top": "work.scene_fade", "tb_top": "work.tb_scene_transitions",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/gfx/scene_fade.v", "language": "verilog"},
+    {"path": "rtl/gfx/scene_blend.v", "language": "verilog"},
+    {"path": "tb/tb_scene_transitions.v", "language": "verilog"}
+  ]}]
+}

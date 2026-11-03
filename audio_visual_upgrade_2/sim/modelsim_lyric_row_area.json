@@ -1,0 +1,12 @@
+{
+  "dut_top": "work.lyric_row",
+  "tb_top": "work.tb_lyric_row",
+  "data_files": ["../music_screen_area_opt/sim/golden/S01_lrc_tab.mem",
+    "../music_screen_area_opt/sim/golden/FONT_slot.mem",
+    "../music_screen_area_opt/sim/golden/ASC_slot.mem",
+    "../music_screen_area_opt/sim/golden/LR_gold.mem"],
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/gfx/lyric_row.v", "language": "verilog"},
+    {"path": "tb/tb_lyric_row_area.v", "language": "verilog"}
+  ]}]
+}

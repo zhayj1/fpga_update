@@ -1,0 +1,208 @@
+{
+  "task": "r7_spectrum_right_half_fix",
+  "status": "candidate_complete_timing_violations",
+  "baseline": "transitions_r7_seed3_phy",
+  "scope": "Fix mapped horizontal distance without changing visual behavior; verify RTL, mapped coverage, resources and candidate bit",
+  "retry_budget": {
+    "round": 2,
+    "automatic_retries_used": 1,
+    "maximum": 3,
+    "reason": "User explicitly authorized another round: 给我继续跑"
+  },
+  "attempts": [
+    {
+      "tag": "spectrum_dx_r3",
+      "change": "Reuse subtraction borrow bits and limit alpha rounding to ten low bits with exact full range checks",
+      "status": "physical_resource_failure",
+      "build": "spectrum_dx_r3_seed3_route_phy",
+      "synthesis_lut": 17589,
+      "resources": {
+        "mslice": 4913,
+        "lslice": 4913,
+        "limit_each": 4900
+      }
+    },
+    {
+      "tag": "spectrum_dx_r3_seed1_medium_route",
+      "change": "Same r3 source and mapped netlist; seed 1, medium placement timing effort, routability routing",
+      "status": "build_and_functional_checks_complete",
+      "selected_build": "spectrum_dx_r3_seed1_medium_route_phy"
+    }
+  ],
+  "hardware": "not_run",
+  "stages": {
+    "rtl": "completed",
+    "simulation": "completed",
+    "synthesis": "completed",
+    "physical": "completed",
+    "final_sta": "failed",
+    "bitstream": "completed",
+    "hardware": "pending"
+  },
+  "selected_build": "spectrum_dx_r3_seed1_medium_route_phy",
+  "bitstream": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade_2\\prj\\td_build\\spectrum_dx_r3_seed1_medium_route_phy\\skeleton.bit",
+    "sha256": "F747D22118CF701D31C3D6A32820796885C8A5AA2EAC632C392D2F8CBA5E251F",
+    "bytes": 701801
+  },
+  "evidence": "output/spectrum_dx_fix/verification_and_build.json",
+  "remaining_error": "Setup 75 / hold 0 timing violations remain",
+  "next_step": "Board verification of repaired candidate; existing full-design timing closure remains separate",
+  "previous_rounds": [
+    {
+      "round": 1,
+      "retry_budget": {
+        "automatic_retries_used": 3,
+        "maximum": 3,
+        "reason": "New diagnosed synthesis functional inequivalence; user requested repair"
+      },
+      "status": "blocked_implementation_retry_limit",
+      "attempts": [
+        {
+          "tag": "spectrum_dx_r1",
+          "change": "Explicit 11-bit signed subtraction and xor/add absolute value",
+          "status": "synthesis_pass_physical_resource_failure",
+          "resources": {
+            "mslice": 4914,
+            "lslice": 4913,
+            "limit_each": 4900
+          }
+        },
+        {
+          "tag": "spectrum_dx_r1_seed2",
+          "change": "Same verified RTL and netlist, placement seed 2",
+          "status": "physical_resource_failure",
+          "resources": {
+            "mslice": 4929,
+            "lslice": 4929,
+            "limit_each": 4900
+          }
+        },
+        {
+          "tag": "spectrum_dx_r2",
+          "change": "Exact combinational alpha table, preserving all 256 quantized distances",
+          "status": "physical_routing_failure",
+          "build": "spectrum_dx_r2_seed3_phy",
+          "errors": [
+            "PHY-8023 x26y57_local4 SD controller",
+            "PHY-8023 x31y11_w1beg2 OSD/settings"
+          ],
+          "resource_packing": {
+            "mslice": 4880,
+            "lslice": 4879,
+            "limit_each": 4900
+          }
+        },
+        {
+          "tag": "spectrum_dx_r2_seed2_route",
+          "change": "Same verified r2 netlist, seed 2 and routability effort for two local routing conflicts",
+          "status": "physical_resource_failure",
+          "resources": {
+            "mslice": 4929,
+            "lslice": 4929,
+            "limit_each": 4900
+          }
+        }
+      ]
+    }
+  ],
+  "rtl_simulation_evidence": [
+    "sim/spectrum_dx_r3_distance_sim_result.json",
+    "sim/spectrum_dx_r3_alpha_sim_result.json",
+    "sim/spectrum_dx_r3_exhaustive_sim_result.json",
+    "sim/spectrum_dx_r3_split_spectrum_sim_result.json",
+    "sim/spectrum_dx_r3_split_core_sim_result.json"
+  ],
+  "physical": {
+    "resources": {
+      "lut": 18191,
+      "registers": 11790,
+      "bram9k": 64,
+      "bram32k": 16,
+      "dsp": 29,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9775
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -232.71,
+    "setup_violations": 75,
+    "hold_wns_ns": 0.027,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.43,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": 2.56,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.027,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_bars/h_active_reg_syn_16.clk",
+        "worst_end": "u_core/g_circular_spectrum$u_layer_fft/g_product_ram$u_sx_syn_3.addra[7]"
+      },
+      "clk -> clk": {
+        "setup_ns": 1.503,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.086,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_sd/u_mount/root_cluster_reg[12]_syn_4.clk",
+        "worst_end": "u_core/u_sd/u_files/remain_reg[41]_syn_4.ce"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": -0.226,
+        "setup_tns_ns": -0.935,
+        "setup_violations": 11,
+        "hold_ns": 0.095,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/wt_reg[4]_syn_4.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/hold_count_reg[14]_syn_4.ce"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 3.064,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_bg/u_fl/rdy_tag_reg[16]_syn_4.clk",
+        "worst_end": "u_core/u_bg/u_fl/cons_tgl_reg_syn_8.a[0]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": 0.848,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_aa_text$u_lyr/req_toggle_reg_syn_5.clk",
+        "worst_end": "u_core/g_aa_text$u_lyr/c_slot_reg[1]_syn_3.ce"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 6.029,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.23,
+        "hold_violations": 0,
+        "worst_start": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_1d_reg_syn_4.clk",
+        "worst_end": "u_hdmi_phy/u2_lane_lvds_8_1/S_shift_data_reg[1]_syn_4.d[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -1.963,
+        "setup_tns_ns": -53.695,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_11.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[31]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  }
+}

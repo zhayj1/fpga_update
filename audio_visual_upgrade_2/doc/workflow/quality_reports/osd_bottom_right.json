@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "files_written": [
+    "rtl/gfx/osd_layer_small.v",
+    "tb/tb_osd_typography.v",
+    "tb/tb_typography_core.v",
+    "doc/compile/osd_bottom_right_report.md",
+    "output/osd_bottom_right_20261030/audio_visual_osd_bottom_right.bit"
+  ],
+  "missing_files": [],
+  "reason": "OSD translation verified; routed bit generated; timing closure not claimed",
+  "verification_level": "simulation_and_physical_implementation",
+  "timing_clean": false,
+  "evidence": "output/osd_bottom_right_20261030/verification_and_build.json"
+}

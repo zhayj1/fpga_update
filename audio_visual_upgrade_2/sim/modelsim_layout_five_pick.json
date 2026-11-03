@@ -1,0 +1,19 @@
+{
+  "dut_top": "work.lyric_pick",
+  "tb_top": "work.tb_layout_five_pick",
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "rtl/gfx/lyric_pick.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_layout_five_pick.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ]
+}

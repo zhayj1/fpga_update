@@ -1,0 +1,45 @@
+{
+  "status": "candidate_complete_timing_violations",
+  "files_written": [
+    "rtl/gfx/visual_palette.dath",
+    "rtl/gfx/visual_settings.v",
+    "rtl/top/skeleton_core.v",
+    "rtl/gfx/layer_text_aa.v",
+    "rtl/gfx/layer_text.v",
+    "scripts/prepare_visual_controls.py",
+    "tb/tb_circular_text.v",
+    "tb/tb_layer_text_aa.v",
+    "tb/tb_layer_text_colors.v",
+    "tb/tb_layout_five.v",
+    "tb/tb_split_text.v",
+    "tb/tb_upgrade_core.v",
+    "tb/tb_visual_controls.v",
+    "output/visual_controls_aa_20261031/generated.json",
+    "doc/compile/sung_ffe8aa_20261103.md"
+  ],
+  "missing_files": [],
+  "reason": "Updated sung lyric default color; visual controls regression passed and candidate bit generated. Full design has 65 setup timing violations.",
+  "functional_checks": "PASS",
+  "scenarios": [
+    "VIS-AA-four-sizes",
+    "VIS-CDC-colors-effects-transition",
+    "VIS-gradient-and-spikes",
+    "VIS-buttons-six-pages"
+  ],
+  "bitstream": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade_2\\prj\\td_build\\sung_ffe8aa_r6_seed5_high_phy\\skeleton.bit",
+    "sha256": "A96E31569FD483D6D1CA2EF7DF151111E24C5C5C2DBD76BF2FB411EDD9DB7282",
+    "bytes": 701801
+  },
+  "board_validation": "not_run",
+  "evidence": "sim/sung_ffe8aa_visual_controls_final2_sim_result.json",
+  "synthesis": "prj/td_build/sung_ffe8aa_r1_syn",
+  "physical": "prj/td_build/sung_ffe8aa_r6_seed5_high_phy",
+  "timing": {
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -200.938,
+    "setup_violations": 65,
+    "hold_wns_ns": 0.022,
+    "hold_violations": 0
+  }
+}

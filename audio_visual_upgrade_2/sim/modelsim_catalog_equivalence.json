@@ -1,0 +1,23 @@
+{
+  "dut_top": "work.tb_catalog_equivalence",
+  "tb_top": "work.tb_catalog_equivalence",
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "rtl/storage/resource_catalog.v",
+          "language": "verilog"
+        },
+        {
+          "path": "output/transitions_round2/resource_catalog_reference.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_catalog_equivalence.v",
+          "language": "verilog"
+        }
+      ]
+    }
+  ]
+}

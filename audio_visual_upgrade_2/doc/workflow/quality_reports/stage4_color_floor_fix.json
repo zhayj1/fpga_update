@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "files_written": [
+    "rtl/top/skeleton_core.v",
+    "tb/tb_color_wav_probe.v",
+    "sim/generate_color_wav_probe.py",
+    "tb/tb_color_envelope.v",
+    "sim/modelsim_color_envelope.json",
+    "tb/expected_color_envelope.json",
+    "output/reports/stage4_fft_floor_fix.md"
+  ],
+  "missing_files": [],
+  "reason": "当前源码通过实卡FFT探针、包络自检、整机回归及TD构建；本版未上板验证"
+}

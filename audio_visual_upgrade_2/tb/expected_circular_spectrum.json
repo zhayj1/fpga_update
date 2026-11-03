@@ -1,0 +1,10 @@
+[
+  "CIRC-no-uncommitted-spectrum",
+  "CIRC-64-bands-geometry-colors",
+  "CIRC-frame-atomic-update",
+  "CIRC-spike-wrap-and-white-cap",
+  "CIRC-ripple-toggle-independent",
+  "CIRC-palette-and-spike-controls",
+  "CIRC-spectrum-toggle",
+  "CIRC-reset-clears-old-frame"
+]

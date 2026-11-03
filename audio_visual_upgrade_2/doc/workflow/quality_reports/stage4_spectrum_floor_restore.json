@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "files_written": [
+    "rtl/audio/spec_fft.v",
+    "rtl/top/skeleton_core.v",
+    "tb/tb_color_wav_probe.v",
+    "tb/tb_color_envelope.v",
+    "sim/modelsim_floor_restore.json",
+    "output/reports/stage4_spectrum_floor_restore.md"
+  ],
+  "missing_files": [],
+  "reason": "恢复正常版 log_level=78；保留色彩包络等价输入。WAV 探针、包络、完整 core 回归、板级编译和 TD seed4 bit 均通过；用户已下载本版 bit 并确认上板没有问题",
+  "board_validation": "PASS",
+  "board_confirmation": {
+    "reported_on": "2026-10-25",
+    "user_report": "上板没有问题"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "dut_top": "work.lyric_pick",
+  "tb_top": "work.tb_lyric_pick",
+  "data_files": ["../music_screen_area_opt/sim/golden/S01_lrc_tab.mem"],
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/gfx/lyric_pick.v", "language": "verilog"},
+    {"path": "tb/tb_lyric_pick_area.v", "language": "verilog"}
+  ]}]
+}

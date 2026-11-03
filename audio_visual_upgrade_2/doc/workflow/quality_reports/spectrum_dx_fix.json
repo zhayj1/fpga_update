@@ -1,0 +1,19 @@
+{
+  "status": "candidate_complete_timing_violations",
+  "files_written": [
+    "rtl/gfx/layer_spectrum_ring.v",
+    "doc/spec/spectrum_dx_fix.md",
+    "doc/compile/spectrum_dx_fix_20261102.md"
+  ],
+  "missing_files": [],
+  "reason": "Ring coverage fix verified in mapped and routed cones; full-design timing violations remain",
+  "functional_checks": "PASS",
+  "scenario_count": 26,
+  "bitstream": {
+    "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade_2\\prj\\td_build\\spectrum_dx_r3_seed1_medium_route_phy\\skeleton.bit",
+    "sha256": "F747D22118CF701D31C3D6A32820796885C8A5AA2EAC632C392D2F8CBA5E251F",
+    "bytes": 701801
+  },
+  "board_validation": "not_run",
+  "evidence": "output/spectrum_dx_fix/verification_and_build.json"
+}

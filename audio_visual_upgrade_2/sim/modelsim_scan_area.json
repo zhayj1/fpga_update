@@ -1,0 +1,8 @@
+{
+  "dut_top": "work.fat32_scan",
+  "tb_top": "work.tb_fat32_scan",
+  "libraries": [{"name": "work", "sources": [
+    {"path": "rtl/storage/fat32_scan.v", "language": "verilog"},
+    {"path": "../music_screen_area_opt/tb/tb_fat32_scan.v", "language": "verilog"}
+  ]}]
+}

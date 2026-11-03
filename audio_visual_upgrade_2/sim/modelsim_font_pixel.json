@@ -1,0 +1,44 @@
+{
+  "dut_top": "work.tb_font_pixel",
+  "tb_top": "work.tb_font_pixel",
+  "data_files": [
+    "rtl/gfx/osd_youyuan_ch.dath",
+    "rtl/gfx/osd_youyuan_ascii.dath",
+    "rtl/gfx/osd_youyuan_extra.dath",
+    "rtl/gfx/osd_youyuan_pixel.dath"
+  ],
+  "libraries": [
+    {
+      "name": "work",
+      "sources": [
+        {
+          "path": "sim/vendor/eg4/eg_logic_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram.v",
+          "language": "verilog"
+        },
+        {
+          "path": "sim/vendor/eg4/eg_phy_bram32k.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_font_youyuan.v",
+          "language": "verilog"
+        },
+        {
+          "path": "rtl/gfx/osd_font_pixel.v",
+          "language": "verilog"
+        },
+        {
+          "path": "tb/tb_font_pixel.v",
+          "language": "verilog"
+        }
+      ],
+      "defines": [
+        "OSD_SIM"
+      ]
+    }
+  ]
+}

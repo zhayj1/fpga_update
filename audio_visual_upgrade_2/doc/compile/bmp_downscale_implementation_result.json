@@ -1,0 +1,647 @@
+{
+  "generated": "2026-10-29T13:19:28.812170+08:00",
+  "implementation": {
+    "authorization": "用户：继续综合布局布线",
+    "synthesis": "prj/td_build/bmp_downscale_r1_syn",
+    "baseline": "prj/td_build/uartless_r1_seed1_phy",
+    "selected_physical": "prj/td_build/bmp_downscale_r1_seed3_phy",
+    "report": "doc/compile/bmp_downscale_implementation_report.md",
+    "evidence": "doc/compile/bmp_downscale_implementation_result.json",
+    "constraints": {
+      "constraints/skeleton_top.adc": "2ca00ba4e33e5df108bd29bd4d178b26fa0d6a135feff011e556b790187b2291",
+      "constraints/skeleton_top.sdc": "0fe54f2c6242c070286cf409bf059568eeee633ce173bef352ae04a1d11dcd42"
+    },
+    "bitstream": {
+      "sha256": "6D415526C16E01255C466C3C082DE798D37E4867D1CD3560F52B3C36643656A3",
+      "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed3_phy\\skeleton.bit",
+      "bytes": 651749
+    },
+    "resources": {
+      "lut": 17738,
+      "registers": 10858,
+      "bram9k": 55,
+      "bram32k": 6,
+      "dsp": 24,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9420
+    },
+    "timing_clean": false,
+    "setup_wns_ns": -5.565,
+    "setup_violations": 73,
+    "hold_wns_ns": 0.024,
+    "hold_violations": 0,
+    "additional_non_shifted_setup_endpoints": 9,
+    "board_validation": "not_run",
+    "attempts": [
+      {
+        "seed": 1,
+        "directory": "prj/td_build/bmp_downscale_r1_seed1_phy",
+        "status": "BUILD_COMPLETE"
+      },
+      {
+        "seed": 3,
+        "directory": "prj/td_build/bmp_downscale_r1_seed3_phy",
+        "status": "BUILD_COMPLETE"
+      },
+      {
+        "seed": 2,
+        "directory": "prj/td_build/bmp_downscale_r1_seed2_phy",
+        "status": "BUILD_COMPLETE"
+      },
+      {
+        "seed": 4,
+        "directory": "prj/td_build/bmp_downscale_r1_seed4_phy",
+        "status": "BUILD_COMPLETE"
+      }
+    ],
+    "timing_retry": {
+      "initial_seed": 1,
+      "retry_seeds": [
+        3,
+        2,
+        4
+      ],
+      "automatic_retries_used": 3,
+      "outcome": "additional_setup_violations_remain"
+    },
+    "next_step": "依据实际负裕量路径优化结构，重新验证；当前停止继续换种子",
+    "selection_reason": "优先比较非移相路径的最差setup裕量，再比较总负裕量与Slice；未改源码或约束"
+  },
+  "baseline": {
+    "resources": {
+      "lut": 17981,
+      "registers": 11041,
+      "bram9k": 55,
+      "bram32k": 6,
+      "dsp": 26,
+      "pll": 2,
+      "gclk": 4,
+      "slices": 9581
+    },
+    "setup_wns_ns": -5.565,
+    "setup_tns_ns": -204.04,
+    "setup_violations": 64,
+    "hold_wns_ns": 0.03,
+    "hold_violations": 0,
+    "sta_coverage_percent": 96.63,
+    "groups": {
+      "video_clk -> video_clk": {
+        "setup_ns": 0.563,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.03,
+        "hold_violations": 0,
+        "worst_start": "u_core/g_osd_picture$u_osd_layer/ramread0_syn_6.clkb",
+        "worst_end": "u_core/g_osd_picture$u_osd_layer/rgb_b1[17]_syn_444.d[0]"
+      },
+      "clk -> clk": {
+        "setup_ns": 1.284,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.03,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_load/mux196_syn_1290.clk",
+        "worst_end": "u_core/u_load/bi_bpp_i_reg[6]_syn_4.ce"
+      },
+      "sdr_clk -> sdr_clk": {
+        "setup_ns": 0.005,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.037,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_pick/nl_t_reg[1]_syn_4.clk",
+        "worst_end": "u_core/u_pick/sl_3_reg[18]_syn_4.ce"
+      },
+      "sdr_clk -> video_clk": {
+        "setup_ns": 2.757,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_bg/u_fl/rdy_tag_reg[0]_syn_4.clk",
+        "worst_end": "u_core/u_bg/u_fl/rd_buf_reg_syn_154.d[0]"
+      },
+      "video_clk -> sdr_clk": {
+        "setup_ns": 1.083,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.244,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_old_cv/u_img/req_words_reg[2]_syn_4.clk",
+        "worst_end": "u_core/u_old_cv/u_img/u_fl/rdy_tag_reg[21]_syn_4.ce"
+      },
+      "hdmi_5x_clk -> hdmi_5x_clk": {
+        "setup_ns": 6.394,
+        "setup_tns_ns": 0.0,
+        "setup_violations": 0,
+        "hold_ns": 0.214,
+        "hold_violations": 0,
+        "worst_start": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_1d_reg_syn_4.clk",
+        "worst_end": "u_hdmi_phy/u1_lane_lvds_8_1/S_shift_data_reg[4]_syn_4.d[0]"
+      },
+      "sdr_clk -> sdr_clk_sft": {
+        "setup_ns": -1.889,
+        "setup_tns_ns": -25.96,
+        "setup_violations": 32,
+        "hold_ns": 5.001,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/u2_ram/u1_init_ref/sdr_init_cnt_reg[0]_syn_3.clk",
+        "worst_end": "u_core/u_phy/sdram.dq[17]"
+      },
+      "sdr_clk_sft -> sdr_clk": {
+        "setup_ns": -5.565,
+        "setup_tns_ns": -178.08,
+        "setup_violations": 32,
+        "hold_ns": 9.43,
+        "hold_violations": 0,
+        "worst_start": "u_core/u_phy/sdram.dq[0]",
+        "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+      }
+    }
+  },
+  "synthesis_result": {
+    "inputs_unchanged": true,
+    "bitstream": null,
+    "status": "BUILD_COMPLETE",
+    "completed": "2026-10-29T13:00:38.8581004+08:00",
+    "stage": "syn"
+  },
+  "candidates": {
+    "bmp_downscale_r1_seed1_phy": {
+      "resources": {
+        "lut": 17749,
+        "registers": 10854,
+        "bram9k": 55,
+        "bram32k": 6,
+        "dsp": 24,
+        "pll": 2,
+        "gclk": 4,
+        "slices": 9457
+      },
+      "setup_wns_ns": -5.565,
+      "setup_tns_ns": -225.987,
+      "setup_violations": 117,
+      "hold_wns_ns": 0.022,
+      "hold_violations": 0,
+      "sta_coverage_percent": 96.63,
+      "groups": {
+        "video_clk -> video_clk": {
+          "setup_ns": -0.43,
+          "setup_tns_ns": -0.73,
+          "setup_violations": 3,
+          "hold_ns": 0.024,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_blend/rgb_reg[19]_syn_4.clk",
+          "worst_end": "u_core/u_ax/O_video_data_reg[10]_syn_4.d[0]"
+        },
+        "clk -> clk": {
+          "setup_ns": 1.969,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.022,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_assets/pre_step_reg[2]_syn_12.clk",
+          "worst_end": "u_core/u_load/bi_comp_i_reg[0]_syn_4.ce"
+        },
+        "sdr_clk -> sdr_clk": {
+          "setup_ns": -1.489,
+          "setup_tns_ns": -22.328,
+          "setup_violations": 49,
+          "hold_ns": 0.03,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_pick/nl_t_reg[14]_syn_4.clk",
+          "worst_end": "u_core/u_pick/sl_n_reg[29]_syn_4.ce"
+        },
+        "sdr_clk -> video_clk": {
+          "setup_ns": 3.345,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_bg/u_fl/rdy_tag_reg[0]_syn_4.clk",
+          "worst_end": "u_core/u_bg/u_fl/line_ok_reg_syn_28.a[0]"
+        },
+        "video_clk -> sdr_clk": {
+          "setup_ns": -0.174,
+          "setup_tns_ns": -0.174,
+          "setup_violations": 1,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_fade/ack_toggle_reg_syn_474.clk",
+          "worst_end": "u_core/u_bg/u_fl/rdy_tag_reg[14]_syn_4.ce"
+        },
+        "hdmi_5x_clk -> hdmi_5x_clk": {
+          "setup_ns": 5.595,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.23,
+          "hold_violations": 0,
+          "worst_start": "al_1659.clk",
+          "worst_end": "u_hdmi_phy/u3_lane_lvds_8_1/S_shift_data_reg[7]_syn_4.d[0]"
+        },
+        "sdr_clk -> sdr_clk_sft": {
+          "setup_ns": -1.733,
+          "setup_tns_ns": -24.675,
+          "setup_violations": 32,
+          "hold_ns": 5.001,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+          "worst_end": "u_core/u_phy/sdram.dq[17]"
+        },
+        "sdr_clk_sft -> sdr_clk": {
+          "setup_ns": -5.565,
+          "setup_tns_ns": -178.08,
+          "setup_violations": 32,
+          "hold_ns": 9.43,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/sdram.dq[0]",
+          "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+        }
+      },
+      "seed": 1,
+      "build_result": {
+        "completed": "2026-10-29T13:04:42.4162172+08:00",
+        "bitstream": {
+          "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed1_phy\\skeleton.bit",
+          "sha256": "3C93D4A77C03FC9C61A2624E44851E239F343C7DBEDB3B43689052ED83A601B7",
+          "bytes": 651749
+        },
+        "inputs_unchanged": true,
+        "stage": "phy",
+        "status": "BUILD_COMPLETE"
+      },
+      "manifest": "prj/td_build/bmp_downscale_r1_seed1_phy/inputs.json"
+    },
+    "bmp_downscale_r1_seed3_phy": {
+      "resources": {
+        "lut": 17738,
+        "registers": 10858,
+        "bram9k": 55,
+        "bram32k": 6,
+        "dsp": 24,
+        "pll": 2,
+        "gclk": 4,
+        "slices": 9420
+      },
+      "setup_wns_ns": -5.565,
+      "setup_tns_ns": -200.673,
+      "setup_violations": 73,
+      "hold_wns_ns": 0.024,
+      "hold_violations": 0,
+      "sta_coverage_percent": 96.63,
+      "groups": {
+        "video_clk -> video_clk": {
+          "setup_ns": 3.105,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.03,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_blend/rgb_reg[13]_syn_4.clk",
+          "worst_end": "u_core/u_ax/O_video_data_reg[0]_syn_4.d[0]"
+        },
+        "clk -> clk": {
+          "setup_ns": 0.757,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.027,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_load/mux270_syn_2504.clk",
+          "worst_end": "u_core/u_load/x_phase_reg[2]_syn_4.ce"
+        },
+        "sdr_clk -> sdr_clk": {
+          "setup_ns": -0.323,
+          "setup_tns_ns": -1.928,
+          "setup_violations": 9,
+          "hold_ns": 0.024,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_lyr/u_row/wd_reg[26]_syn_4.clk",
+          "worst_end": "u_core/u_lyr/u_row/err_t_reg[1]_syn_17.a[0]"
+        },
+        "sdr_clk -> video_clk": {
+          "setup_ns": 2.675,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_cv/u_img/u_fl/rdy_tag_reg[17]_syn_4.clk",
+          "worst_end": "u_core/u_cv/u_img/u_fl/rd_buf_reg_syn_9.d[1]"
+        },
+        "video_clk -> sdr_clk": {
+          "setup_ns": 0.714,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_old_bg/req_words_reg[3]_syn_4.clk",
+          "worst_end": "u_core/u_image_writer/idx_reg[1]_syn_4.ce"
+        },
+        "hdmi_5x_clk -> hdmi_5x_clk": {
+          "setup_ns": 5.874,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.223,
+          "hold_violations": 0,
+          "worst_start": "u_hdmi_phy/u2_lane_lvds_8_1/S_shift_data_reg[2]_syn_4.clk",
+          "worst_end": "u_hdmi_phy/u2_lane_lvds_8_1/S_shift_data_reg[4]_syn_4.c[0]"
+        },
+        "sdr_clk -> sdr_clk_sft": {
+          "setup_ns": -1.085,
+          "setup_tns_ns": -20.665,
+          "setup_violations": 32,
+          "hold_ns": 5.001,
+          "hold_violations": 0,
+          "worst_start": "u_core/g_osd_picture$u_osd_layer/rgb_b1[17]_syn_450.clk",
+          "worst_end": "u_core/u_phy/sdram.dq[19]"
+        },
+        "sdr_clk_sft -> sdr_clk": {
+          "setup_ns": -5.565,
+          "setup_tns_ns": -178.08,
+          "setup_violations": 32,
+          "hold_ns": 9.43,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/sdram.dq[0]",
+          "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+        }
+      },
+      "seed": 3,
+      "build_result": {
+        "completed": "2026-10-29T13:09:06.9842366+08:00",
+        "stage": "phy",
+        "status": "BUILD_COMPLETE",
+        "inputs_unchanged": true,
+        "bitstream": {
+          "sha256": "6D415526C16E01255C466C3C082DE798D37E4867D1CD3560F52B3C36643656A3",
+          "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed3_phy\\skeleton.bit",
+          "bytes": 651749
+        }
+      },
+      "manifest": "prj/td_build/bmp_downscale_r1_seed3_phy/inputs.json"
+    },
+    "bmp_downscale_r1_seed2_phy": {
+      "resources": {
+        "lut": 17751,
+        "registers": 10859,
+        "bram9k": 55,
+        "bram32k": 6,
+        "dsp": 24,
+        "pll": 2,
+        "gclk": 4,
+        "slices": 9473
+      },
+      "setup_wns_ns": -5.565,
+      "setup_tns_ns": -208.784,
+      "setup_violations": 68,
+      "hold_wns_ns": 0.024,
+      "hold_violations": 0,
+      "sta_coverage_percent": 96.66,
+      "groups": {
+        "video_clk -> video_clk": {
+          "setup_ns": 0.941,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.024,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_blend/rgb_reg[18]_syn_4.clk",
+          "worst_end": "u_core/u_ax/O_video_data_reg[12]_syn_4.d[1]"
+        },
+        "clk -> clk": {
+          "setup_ns": 0.538,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.132,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_sd/u_scan/ft_name_reg[83]_syn_4.clk",
+          "worst_end": "u_core/u_sd/u_ft/ramread0_syn_6.cea"
+        },
+        "sdr_clk -> sdr_clk": {
+          "setup_ns": -0.513,
+          "setup_tns_ns": -1.418,
+          "setup_violations": 4,
+          "hold_ns": 0.024,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_lyr/u_row/code_reg[9]_syn_3.clk",
+          "worst_end": "u_core/u_lyr/u_row/px_addr_reg[18]_syn_4.d[1]"
+        },
+        "sdr_clk -> video_clk": {
+          "setup_ns": 0.777,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_cv/u_img/u_fl/rdy_tag_reg[6]_syn_4.clk",
+          "worst_end": "u_core/u_cv/u_img/u_fl/rd_buf_reg_syn_9.d[1]"
+        },
+        "video_clk -> sdr_clk": {
+          "setup_ns": 2.198,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_old_cv/u_img/req_words_reg[5]_syn_4.clk",
+          "worst_end": "u_core/u_old_bg/u_fl/rdy_tag_reg[1]_syn_4.ce"
+        },
+        "hdmi_5x_clk -> hdmi_5x_clk": {
+          "setup_ns": 4.816,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.23,
+          "hold_violations": 0,
+          "worst_start": "u_hdmi_phy/u0_lane_lvds_8_1/S_load_en_1d_reg_syn_5.clk",
+          "worst_end": "u_hdmi_phy/u2_lane_lvds_8_1/S_shift_data_reg[4]_syn_4.d[0]"
+        },
+        "sdr_clk -> sdr_clk_sft": {
+          "setup_ns": -1.479,
+          "setup_tns_ns": -29.286,
+          "setup_violations": 32,
+          "hold_ns": 5.001,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+          "worst_end": "u_core/u_phy/sdram.dq[17]"
+        },
+        "sdr_clk_sft -> sdr_clk": {
+          "setup_ns": -5.565,
+          "setup_tns_ns": -178.08,
+          "setup_violations": 32,
+          "hold_ns": 9.43,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/sdram.dq[0]",
+          "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+        }
+      },
+      "seed": 2,
+      "build_result": {
+        "stage": "phy",
+        "completed": "2026-10-29T13:13:09.4078193+08:00",
+        "status": "BUILD_COMPLETE",
+        "inputs_unchanged": true,
+        "bitstream": {
+          "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed2_phy\\skeleton.bit",
+          "bytes": 651749,
+          "sha256": "D3221640713ACE6D9388A42A6CDE210C077D91E7433263191890808A9B661123"
+        }
+      },
+      "manifest": "prj/td_build/bmp_downscale_r1_seed2_phy/inputs.json"
+    },
+    "bmp_downscale_r1_seed4_phy": {
+      "resources": {
+        "lut": 17759,
+        "registers": 10855,
+        "bram9k": 55,
+        "bram32k": 6,
+        "dsp": 24,
+        "pll": 2,
+        "gclk": 4,
+        "slices": 9470
+      },
+      "setup_wns_ns": -5.565,
+      "setup_tns_ns": -200.104,
+      "setup_violations": 67,
+      "hold_wns_ns": 0.027,
+      "hold_violations": 0,
+      "sta_coverage_percent": 96.68,
+      "groups": {
+        "video_clk -> video_clk": {
+          "setup_ns": 2.011,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.027,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_blend/rgb_reg[2]_syn_4.clk",
+          "worst_end": "u_core/u_ax/O_video_data_reg[10]_syn_4.d[1]"
+        },
+        "clk -> clk": {
+          "setup_ns": 1.043,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.095,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_sd/u_scan/ft_name_reg[73]_syn_4.clk",
+          "worst_end": "u_core/u_sd/u_ft/too_large_reg[5]_syn_7.a[0]"
+        },
+        "sdr_clk -> sdr_clk": {
+          "setup_ns": -0.658,
+          "setup_tns_ns": -1.113,
+          "setup_violations": 3,
+          "hold_ns": 0.03,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_pick/nl_t_reg[8]_syn_4.clk",
+          "worst_end": "u_core/u_pick/sl_n_reg[6]_syn_4.ce"
+        },
+        "sdr_clk -> video_clk": {
+          "setup_ns": 2.921,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_old_cv/u_img/u_fl/rdy_tag_reg[20]_syn_4.clk",
+          "worst_end": "u_core/u_old_cv/u_img/u_fl/rd_buf_reg_syn_9.d[1]"
+        },
+        "video_clk -> sdr_clk": {
+          "setup_ns": 0.455,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.244,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_old_cv/u_img/req_words_reg[2]_syn_4.clk",
+          "worst_end": "u_core/u_old_bg/u_fl/rdy_tag_reg[15]_syn_4.ce"
+        },
+        "hdmi_5x_clk -> hdmi_5x_clk": {
+          "setup_ns": 5.295,
+          "setup_tns_ns": 0.0,
+          "setup_violations": 0,
+          "hold_ns": 0.23,
+          "hold_violations": 0,
+          "worst_start": "u_hdmi_phy/u1_lane_lvds_8_1/S_shift_data_reg[5]_syn_4.clk",
+          "worst_end": "u_hdmi_phy/u1_lane_lvds_8_1/S_shift_data_reg[6]_syn_4.c[0]"
+        },
+        "sdr_clk -> sdr_clk_sft": {
+          "setup_ns": -1.524,
+          "setup_tns_ns": -20.911,
+          "setup_violations": 32,
+          "hold_ns": 5.001,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/u2_ram/u2_wrrd/sdr_t_reg_syn_17.clk",
+          "worst_end": "u_core/u_phy/sdram.dq[19]"
+        },
+        "sdr_clk_sft -> sdr_clk": {
+          "setup_ns": -5.565,
+          "setup_tns_ns": -178.08,
+          "setup_violations": 32,
+          "hold_ns": 9.43,
+          "hold_violations": 0,
+          "worst_start": "u_core/u_phy/sdram.dq[0]",
+          "worst_end": "u_core/u_phy/sdram_syn_1.bpad"
+        }
+      },
+      "seed": 4,
+      "build_result": {
+        "stage": "phy",
+        "inputs_unchanged": true,
+        "completed": "2026-10-29T13:17:19.4350677+08:00",
+        "status": "BUILD_COMPLETE",
+        "bitstream": {
+          "path": "D:\\Verilog_teacher\\guoyi\\pro\\audio_visual_upgrade\\prj\\td_build\\bmp_downscale_r1_seed4_phy\\skeleton.bit",
+          "sha256": "A589A16BF1B345FEC48D1A2E7C46F3B80B20EFF22E73502FFEF78DF1EE8F47D2",
+          "bytes": 651749
+        }
+      },
+      "manifest": "prj/td_build/bmp_downscale_r1_seed4_phy/inputs.json"
+    }
+  },
+  "source_count": 78,
+  "changed_sources": [
+    "rtl/load/bmp_load.v",
+    "rtl/storage/resource_catalog.v",
+    "rtl/top/skeleton_core.v",
+    "rtl/gfx/layer_fft64.v"
+  ],
+  "all_build_inputs_current": true,
+  "synthesis_warnings_unchanged": true,
+  "warnings": {
+    "uartless_r1_syn": {
+      "HDL-5001": 4,
+      "HDL-5007": 6,
+      "HDL-5314": 1,
+      "HDL-5317": 1,
+      "PRJ-5611": 4,
+      "SYN-5011": 38,
+      "SYN-5013": 2,
+      "SYN-5025": 3,
+      "SYN-6562": 17,
+      "SYN-6577": 1
+    },
+    "bmp_downscale_r1_syn": {
+      "HDL-5001": 4,
+      "HDL-5007": 6,
+      "HDL-5314": 1,
+      "HDL-5317": 1,
+      "PRJ-5611": 4,
+      "SYN-5011": 38,
+      "SYN-5013": 2,
+      "SYN-5025": 3,
+      "SYN-6562": 17,
+      "SYN-6577": 1
+    },
+    "uartless_r1_seed1_phy": {
+      "PHY-7002": 3,
+      "PRJ-5611": 4
+    },
+    "bmp_downscale_r1_seed1_phy": {
+      "PHY-7002": 2,
+      "PRJ-5611": 4
+    },
+    "bmp_downscale_r1_seed3_phy": {
+      "PHY-7002": 2,
+      "PRJ-5611": 4
+    },
+    "bmp_downscale_r1_seed2_phy": {
+      "PHY-7002": 2,
+      "PRJ-5611": 4
+    },
+    "bmp_downscale_r1_seed4_phy": {
+      "PHY-7002": 2,
+      "PRJ-5611": 4
+    }
+  }
+}

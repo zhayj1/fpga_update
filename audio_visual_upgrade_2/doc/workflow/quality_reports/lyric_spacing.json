@@ -1,0 +1,20 @@
+{
+  "skill": "fpga-workflow",
+  "status": "partial",
+  "files_written": [
+    "rtl/gfx/layer_text_aa.v",
+    "rtl/top/skeleton_core.v",
+    "tb/tb_layout_five.v",
+    "tb/tb_layout_five_pick.v",
+    "tb/tb_typography_core.v",
+    "doc/spec/layout_five_behavior_spec.md",
+    "doc\\compile\\lyric_spacing_report.md",
+    "output\\lyric_spacing_20261030\\audio_visual_lyric_spacing.bit"
+  ],
+  "missing_files": [],
+  "verification_level": "functional_simulation_and_routed_bitstream",
+  "timing_clean": false,
+  "board_validated": false,
+  "evidence": "output/lyric_spacing_20261030/verification_and_build.json",
+  "reason": "Spacing regressions and build passed; board validation pending; STA recorded."
+}
